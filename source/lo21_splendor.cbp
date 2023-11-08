@@ -32,7 +32,13 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="CarteRoyale.cpp" />
+		<Unit filename="CarteRoyale.h" />
+		<Unit filename="Effet.cpp" />
+		<Unit filename="Effet.h" />
+		<Unit filename="carte_joaillerie.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="partie.h" />
 		<Unit filename="stockGemmes.cpp" />
 		<Unit filename="stockGemmes.h" />
 		<Unit filename="tools.h" />

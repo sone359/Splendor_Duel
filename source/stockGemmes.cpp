@@ -4,14 +4,14 @@
 //Méthodes publiques de la classe StockGemmes
 
 //Contructeur de recopie
-StockGemmes::StockGemmes(unsigned int bleu, unsigned int vert, unsigned int blanc, unsigned int rouge, unsigned int noir, unsigned int perle)
+StockGemmes::StockGemmes(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0)
 {
     set_Bleu(bleu);
-    set_Vert(bleu);
-    set_Blanc(bleu);
-    set_Rouge(bleu);
-    set_Noir(bleu);
-    set_Perle(bleu);
+    set_Vert(vert);
+    set_Blanc(blanc);
+    set_Rouge(rouge);
+    set_Noir(noir);
+    set_Perle(perle);
 }
 
 //Setters
