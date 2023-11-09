@@ -39,6 +39,8 @@
 		<Unit filename="carte_joaillerie.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="partie.h" />
+		<Unit filename="plateau.cpp" />
+		<Unit filename="plateau.h" />
 		<Unit filename="stockGemmes.cpp" />
 		<Unit filename="stockGemmes.h" />
 		<Unit filename="tools.h" />

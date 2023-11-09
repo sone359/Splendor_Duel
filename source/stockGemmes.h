@@ -11,12 +11,12 @@ class StockGemmes
         StockGemmes(const StockGemmes& autre) = default;
 
         //Getters
-        unsigned int const get_Bleu() {return gemmes[0];};
-        unsigned int const get_Vert() {return gemmes[1];};
-        unsigned int const get_Blanc() {return gemmes[2];};
-        unsigned int const get_Rouge() {return gemmes[3];};
-        unsigned int const get_Noir() {return gemmes[4];};
-        unsigned int const get_Perle() {return gemmes[5];};
+        unsigned int get_Bleu() const {return gemmes[0];};
+        unsigned int get_Vert() const {return gemmes[1];};
+        unsigned int get_Blanc() const {return gemmes[2];};
+        unsigned int get_Rouge() const {return gemmes[3];};
+        unsigned int get_Noir() const {return gemmes[4];};
+        unsigned int get_Perle() const {return gemmes[5];};
 
         //Setters
         void set_Bleu(unsigned int new_value);
@@ -25,6 +25,9 @@ class StockGemmes
         void set_Rouge(unsigned int new_value);
         void set_Noir(unsigned int new_value);
         void set_Perle(unsigned int new_value);
+
+        //Opérateurs surchargés
+        StockGemmes operator+(const StockGemmes& autre_stock) const {return StockGemmes(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle());};
 
         // Destructeur
         ~StockGemmes() = default;

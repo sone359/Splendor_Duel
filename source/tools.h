@@ -7,4 +7,5 @@ enum Jeton
     Noir,
     Perle,
     Or,
+    Nul,
 };
