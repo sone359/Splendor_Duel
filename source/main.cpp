@@ -6,6 +6,7 @@ using namespace std;
 
 int main()
 {
+    cout << "Hello world!" << endl;
     //Tests concernant StockGemmes
     StockGemmes stockTest;
     cout << stockTest.get_Blanc() << endl;

@@ -14,7 +14,7 @@ public :
     //Réflexion possible à l'avenir : En fonction de son utilisation, envisageable de rendre retirerJeton privé
     StockGemmes actionRetirerJetons(unsigned int* coor_jeton1, unsigned int* coor_jeton2=nullptr, unsigned int* coor_jeton3=nullptr);
 
-    Jeton* operator[](unsigned int colonne){return matrice[colonne];};
+    Jeton* operator[](unsigned int colonne){return matrice[colonne];};//Réflexion possible à l'avenir : Est-ce vraiment utile ? Et est-ce que l'avoir en public ne met pas en péril l'encapsulation ?
 
 
 private:
