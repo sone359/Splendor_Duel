@@ -26,6 +26,7 @@ int main()
     cout << Plateau::verifAdjacence({3, 1}, {1, 1}) << endl;
     cout << Plateau::verifAdjacence({2, 2}, {1, 1}) << endl;
     Plateau pl;
+    //cout << pl.ordre_cases[0][0] << endl;
 
     return 0;
 }
