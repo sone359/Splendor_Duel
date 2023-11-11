@@ -1,16 +1,18 @@
 #include "Joueur.h"
 
 // Constructeurs
-Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0), gold(0) {}
+Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0){}
 
-Joueur::Joueur(int nbPrivileges, int nbCouronnes, int orValue)
-    : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gold(orValue) {}
+Joueur::Joueur(int nbPrivileges, int nbCouronnes,StockGemmes & tgemmes,StockBonus & tbonus)
+    : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gemmes(tgemmes),bonus(tbonus) {}
 
 // Constructeur de copie
 Joueur::Joueur(const Joueur& other)
     : nbPrivileges(other.nbPrivileges),
       nbCouronnes(other.nbCouronnes),
-      gold(other.gold)
+      gemmes(other.gemmes),
+      bonus(other.bonus)
+
 {
     delete[] cartesJoailleriesPossedees ;
     cartesJoailleriesPossedees = other.cartesJoailleriesPossedees;
@@ -33,7 +35,7 @@ Joueur& Joueur::operator=(const Joueur& other)
     // Copie des membres simples
     nbPrivileges = other.nbPrivileges;
     nbCouronnes = other.nbCouronnes;
-    gold = other.gold;
+    bonus=other.bonus;
     delete[] cartesJoailleriesPossedees ;
     cartesJoailleriesPossedees = other.cartesJoailleriesPossedees;
     CarteJoaillerie * newTab2 = cartesJoailleriesReservees;
@@ -81,11 +83,8 @@ StockGemmes Joueur::getGemmes() const
 {
     return gemmes;
 }
-int Joueur::getOr() const
-{
-    return gold;
-}
-StockGemmes Joueur::getBonus() const
+
+StockBonus Joueur::getBonus() const
 {
     return bonus;
 }
@@ -127,12 +126,8 @@ void Joueur::setGemmes(const StockGemmes& gemmes)
     this->gemmes = gemmes;
 }
 
-void Joueur::setOr(int orValue)
-{
-    gold = orValue;
-}
 
-void Joueur::setBonus(const StockGemmes& bonus)
+void Joueur::setBonus(const StockBonus& bonus)
 {
     this->bonus = bonus;
 }

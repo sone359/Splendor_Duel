@@ -1,10 +1,8 @@
 source/bin/
 source/obj/
-*.cbp
 *.depend
 *.layout
 *.cscope_file_list
-source/lo21_splendor.cbp
 source/bin/*
 source/obj/*
 source/lo21_splendor.depend
