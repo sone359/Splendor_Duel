@@ -10,7 +10,6 @@ class Pyramide {
     std::stack<CarteJoaillerie*> Niveau1;
     std::stack<CarteJoaillerie*> Niveau2;
     std::stack<CarteJoaillerie*> Niveau3;
-    //voir gestion de mémoire est-ce qu'il faut dealloc?
 
     //3 lignes
     CarteJoaillerie * ligne1[5];
