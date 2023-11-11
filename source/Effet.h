@@ -7,7 +7,8 @@ enum Effet
     privilege,
     couleur,
     gemme,
-    voler
+    voler,
+    sans
 };
 
 class EffetHandler
