@@ -10,6 +10,8 @@ class Plateau
 {
 public :
 
+    static Plateau& get_plateau();
+    static void delete_plateau();
     //Méthodes statiques car n'ayant pas besoin des attributs d'une instance particulière de la classe
     static bool verifAdjacence(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     static bool verifAdjacence(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
@@ -29,6 +31,13 @@ public :
 
     //Opérateurs surchargés
     const std::array<Jeton, 5> operator[](unsigned int colonne){return matrice[colonne];};//Réflexion possible à l'avenir : Est-ce vraiment utile ? Et est-ce que l'avoir en public ne met pas en péril l'encapsulation ?
+
+protected:
+    static Plateau* plateau;
+    Plateau() = default;
+    Plateau(const Plateau&);
+    virtual ~Plateau();
+    void operator=(const Plateau&);
 
 private:
     std::array<std::array<Jeton, 5>, 5> matrice = {Nul};

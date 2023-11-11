@@ -1,5 +1,24 @@
 #include "plateau.h"
 
+Plateau* Plateau::plateau = nullptr;
+
+Plateau& Plateau::get_plateau()
+{
+    if (plateau == nullptr)
+    {
+        plateau = new Plateau;
+    }
+    return *plateau;
+}
+
+void Plateau::delete_plateau()
+{
+    delete plateau;
+    plateau = nullptr;
+}
+
+Plateau::~Plateau(){}
+
 bool Plateau::verifAdjacence(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
 {
     //Vérification de l'adjacence sur une colonne
