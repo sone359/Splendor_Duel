@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1698875173 source:d:\lo21\lo21_splendor-main\source\carteroyale.cpp
+	"CarteRoyale.h"
+
+1698875168 d:\lo21\lo21_splendor-main\source\carteroyale.h
+	<string>
+	"Effet.h"
+
+1699662841 d:\lo21\lo21_splendor-main\source\effet.h
+
+1698874020 source:d:\lo21\lo21_splendor-main\source\effet.cpp
+	"Effet.h"
+
+1699553147 source:d:\lo21\lo21_splendor-main\source\main.cpp
+	<iostream>
+	"stockGemmes.h"
+
+1699553147 d:\lo21\lo21_splendor-main\source\stockgemmes.h
+
+1699553147 source:d:\lo21\lo21_splendor-main\source\pyramide.cpp
+	"pyramide.h"
+
+1698755379 d:\lo21\lo21_splendor-main\source\pyramide.h
+	<stack>
+	"carte_joaillerie.h"
+
+1698755379 d:\lo21\lo21_splendor-main\source\carte_joaillerie.h
+
+1699553147 source:d:\lo21\lo21_splendor-main\source\stockgemmes.cpp
+	"stockGemmes.h"
+	<stdexcept>
+
+1699573716 source:d:\lo21\lo21_splendor-main\source\joueur.cpp
+	"Joueur.h"
+
+1699571833 d:\lo21\lo21_splendor-main\source\joueur.h
+	"carte_joaillerie.h"
+	"CarteRoyale.h"
+	"StockGemmes.h"
+

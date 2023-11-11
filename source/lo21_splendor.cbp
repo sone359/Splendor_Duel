@@ -36,9 +36,13 @@
 		<Unit filename="CarteRoyale.h" />
 		<Unit filename="Effet.cpp" />
 		<Unit filename="Effet.h" />
+		<Unit filename="Joueur.cpp" />
+		<Unit filename="Joueur.h" />
 		<Unit filename="carte_joaillerie.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="partie.h" />
+		<Unit filename="pyramide.cpp" />
+		<Unit filename="pyramide.h" />
 		<Unit filename="stockGemmes.cpp" />
 		<Unit filename="stockGemmes.h" />
 		<Unit filename="tools.h" />

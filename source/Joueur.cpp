@@ -1,7 +1,7 @@
 #include "Joueur.h"
 
 // Constructeurs
-Joueur::Joueur() : nbPrivileges(0), nbCouronnes(0), gold(0) {}
+Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0), gold(0) {}
 
 Joueur::Joueur(int nbPrivileges, int nbCouronnes, int orValue)
     : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gold(orValue) {}
