@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 enum Jeton
 {
     Nul,
