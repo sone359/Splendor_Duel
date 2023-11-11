@@ -13,7 +13,7 @@ class Partie{
         
         void init(){
             Pyramide::initialiser(cartes);
-        }
+        }//<=>constructeur, à compléter
 };
 
 #endif
