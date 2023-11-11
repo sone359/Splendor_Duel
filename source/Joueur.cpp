@@ -85,7 +85,7 @@ int Joueur::getOr() const
 {
     return gold;
 }
-StockGemmes Joueur::getBonus() const
+StockBonus Joueur::getBonus() const
 {
     return bonus;
 }
@@ -132,7 +132,7 @@ void Joueur::setOr(int orValue)
     gold = orValue;
 }
 
-void Joueur::setBonus(const StockGemmes& bonus)
+void Joueur::setBonus(const StockBonus& bonus)
 {
     this->bonus = bonus;
 }

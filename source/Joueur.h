@@ -15,7 +15,7 @@ private:
     int nbCouronnes;
     StockGemmes gemmes;
     int gold;
-    StockGemmes bonus;
+    StockBonus bonus;
 
 public:
     // Constructeurs
@@ -39,7 +39,7 @@ public:
     int getNbCouronnes() const;
     StockGemmes getGemmes() const;
     int getOr() const;
-    StockGemmes getBonus() const;
+    StockBonus getBonus() const;
 
     // Setters
     void setNbPrivileges(int nbPrivileges);
@@ -49,7 +49,7 @@ public:
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmes& gemmes);
     void setOr(int orValue);
-    void setBonus(const StockGemmes& bonus);
+    void setBonus(const StockBonus& bonus);
 };
 
 #endif // JOUEUR_H_INCLUDED

@@ -2,12 +2,13 @@
 
 #include "stockGemmes.h"
 #include "plateau.h"
+#include "interfaceConsole.h"
+
 
 using namespace std;
 
 int main()
 {
-    cout << "Hello world!" << endl;
     //Tests concernant StockGemmes
     StockGemmes stockTest;
     cout << stockTest.get_Blanc() << endl;
@@ -27,6 +28,23 @@ int main()
     cout << verifAdjacence({2, 2}, {1, 1}) << endl;
     Plateau& pl = Plateau::get_plateau();
     cout << pl[0][0] << endl;
+
+    InterfaceConsole ic;
+    ic.afficherPlateau();
+    pl.ajouterJeton(Bleu);
+    ic.afficherPlateau();
+    pl.ajouterJeton(Vert);
+    ic.afficherPlateau();
+    pl.ajouterJeton(Blanc);
+    ic.afficherPlateau();
+    pl.ajouterJeton(Rouge);
+    ic.afficherPlateau();
+    pl.ajouterJeton(Noir);
+    ic.afficherPlateau();
+    pl.retirerJeton({2, 2});
+    ic.afficherPlateau();
+    pl.actionRetirerJetons({1, 1}, {1, 2}, {1, 3});
+    ic.afficherPlateau();
 
     return 0;
 }

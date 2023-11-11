@@ -15,38 +15,6 @@ StockGemmes::StockGemmes(unsigned int bleu, unsigned int vert, unsigned int blan
     set_Perle(perle);
 }
 
-//Setters
-void StockGemmes::set_Bleu(unsigned int new_value)
-{
-    if (new_value <= 4) {gemmes[0] = new_value;}
-    else {throw std::invalid_argument("La valeur d'un stock de jeton bleu ne peut pas être supérieure à 4");}
-}
-void StockGemmes::set_Vert(unsigned int new_value)
-{
-    if (new_value <= 4) {gemmes[1] = new_value;}
-    else {throw std::invalid_argument("La valeur d'un stock de jeton vert ne peut pas être supérieure à 4");}
-}
-void StockGemmes::set_Blanc(unsigned int new_value)
-{
-    if (new_value <= 4) {gemmes[2] = new_value;}
-    else {throw std::invalid_argument("La valeur d'un stock de jeton blanc ne peut pas être supérieure à 4");}
-}
-void StockGemmes::set_Rouge(unsigned int new_value)
-{
-    if (new_value <= 4) {gemmes[3] = new_value;}
-    else {throw std::invalid_argument("La valeur d'un stock de jeton rouge ne peut pas être supérieure à 4");}
-}
-void StockGemmes::set_Noir(unsigned int new_value)
-{
-    if (new_value <= 4) {gemmes[4] = new_value;}
-    else {throw std::invalid_argument("La valeur d'un stock de jeton noir ne peut pas être supérieure à 4");}
-}
-void StockGemmes::set_Perle(unsigned int new_value)
-{
-    if (new_value <= 2) {gemmes[5] = new_value;}
-    else {throw std::invalid_argument("La valeur d'un stock de jeton perle ne peut pas être supérieure à 2");}
-}
-
 StockGemmes StockGemmes::operator-(const StockGemmes& autre_stock) const
 {
     int bleu = get_Bleu() - autre_stock.get_Bleu();
@@ -61,6 +29,17 @@ StockGemmes StockGemmes::operator-(const StockGemmes& autre_stock) const
         throw SplendorException("Votre stock de jetons est insuffisant");
     }
     return StockGemmes(bleu, vert, blanc, rouge, noir, perle);
+}
+
+StockGemmes StockGemmes::operator=(const StockGemmes& autre_stock)
+{
+    set_Bleu(autre_stock.get_Bleu());
+    set_Vert(autre_stock.get_Vert());
+    set_Blanc(autre_stock.get_Blanc());
+    set_Rouge(autre_stock.get_Rouge());
+    set_Noir(autre_stock.get_Noir());
+    set_Perle(autre_stock.get_Perle());
+    return *this;
 }
 
 unsigned int total_stock(const StockGemmes& stock)
@@ -127,4 +106,18 @@ StockBonus StockBonus::operator-(const StockGemmes& autre_stock) const
     }
 
     return StockBonus(bleu, vert, blanc, rouge, noir, perle, jeton_or);
+}
+
+StockBonus StockBonus::operator=(const StockGemmes& autre_stock)
+{
+    *this = autre_stock;
+    set_Or(0);
+    return *this;
+}
+
+StockBonus StockBonus::operator=(const StockBonus& autre_stock)
+{
+    *this = autre_stock;
+    set_Or(autre_stock.get_Or());
+    return *this;
 }
