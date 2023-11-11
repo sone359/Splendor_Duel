@@ -20,9 +20,6 @@ public :
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1);
 
-    //Méthodes utilitaires
-    void addStock(StockGemmes& stock, const std::array<unsigned int, 2>& coor_jeton);
-
     //Opérateurs surchargés
     const std::array<Jeton, 5> operator[](unsigned int colonne){return matrice[colonne];};//Réflexion possible à l'avenir : Est-ce vraiment utile ? Et est-ce que l'avoir en public ne met pas en péril l'encapsulation ?
 
@@ -37,6 +34,8 @@ private:
     std::array<std::array<Jeton, 5>, 5> matrice = {Nul};
     const std::array<std::array<unsigned int, 2>, 25> ordre_cases = {{{2, 2}, {2, 3}, {1, 3}, {1, 2}, {1, 1}, {2, 1}, {3, 1}, {3, 2}, {3, 3}, {3, 4}, {2, 4}, {1, 4}, {0, 4}, {0, 3}, {0, 2}, {0, 1}, {0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}}};
 
+    //Méthodes utilitaires
+    void addStock(StockGemmes& stock, const std::array<unsigned int, 2>& coor_jeton);
 };
 
 //Fonctions utilitaires liées à Plateau

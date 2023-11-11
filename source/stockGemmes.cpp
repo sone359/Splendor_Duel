@@ -45,3 +45,8 @@ void StockGemmes::set_Perle(unsigned int new_value)
     if (new_value <= 2) {gemmes[5] = new_value;}
     else {throw std::invalid_argument("La valeur d'un stock de jeton perle ne peut pas être supérieure à 2");}
 }
+
+unsigned int total_stock(const StockGemmes& stock)
+{
+    return stock.get_Bleu() + stock.get_Vert() + stock.get_Blanc() + stock.get_Rouge() + stock.get_Noir() + stock.get_Perle();
+}

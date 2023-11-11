@@ -33,7 +33,9 @@ class StockGemmes
         ~StockGemmes() = default;
 
     private:
-        int gemmes[6] = {0};
+        unsigned int gemmes[6] = {0};
 };
+
+unsigned int total_stock(const StockGemmes& stock);
 
 #endif
