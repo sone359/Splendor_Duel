@@ -14,12 +14,17 @@ Pyramide* Pyramide::instance = nullptr;
         for (int i = 0; i<40 ; i++){
             Niveau1.push(cartes[i]);
         }
-        for (int i = 40; i<60 ; i++){
+        //std::cout<<"\nnv1 top :"<<Niveau1.top()->getCout();
+        for (int i= 39; i<60 ; i++){
             Niveau2.push(cartes[i]);
         }
-        for (int i = 60; i<7 ; i++){
+        //std::cout<<"\nnv2 top :"<<Niveau2.top()->getCout();
+
+        for (int i = 59; i<67 ; i++){
             Niveau3.push(cartes[i]);
         }
+        //std::cout<<"\nnv3 top :"<<Niveau3.top()->getCout();
+
         for(int i =0; i<5 ;i++){
             piocherCarteJoaillerie(1,i);
         }
@@ -29,6 +34,8 @@ Pyramide* Pyramide::instance = nullptr;
         for(int i =0; i<3 ;i++){
             piocherCarteJoaillerie(3,i);
         }
+
+        
     }
 
     void Pyramide::initialiser(CarteJoaillerie * jeu[67]){
@@ -51,7 +58,7 @@ Pyramide* Pyramide::instance = nullptr;
     CarteJoaillerie* Pyramide::acheterCarteJoaillerie(int numeroLigne, int numeroColonne){
         //on récupère la carte à cette adresse pour la retourner
         CarteJoaillerie* result = recupererCarteJoaillerie(numeroLigne,numeroColonne);//modif ça ça n'a pas de sens
-        //elle est remplacer en piochant
+        //elle est remplacee en piochant
         piocherCarteJoaillerie(numeroLigne,numeroColonne);
         return result;
     }
@@ -94,24 +101,23 @@ Pyramide* Pyramide::instance = nullptr;
     }
 
     void Pyramide::afficherPyramide(){
-        std::cout<<"ligne 3";
+        std::cout<<"    ";
         for (int i = 0; i < 3; i++)
         {
-            std::cout<<" "<<ligne3[i]->getCout()<<" ";
+            std::cout<<" "<<ligne3[i]->afficherCarte()<<" ";
         }
         std::cout<<'\n';
 
-        std::cout<<"ligne 2";
+        std::cout<<"  ";
         for (int i = 0; i < 4; i++)
         {
-            std::cout<<" "<<ligne2[i]->getCout()<<" ";
+            std::cout<<" "<<ligne2[i]->afficherCarte()<<" ";
         }
         std::cout<<'\n';
 
-        std::cout<<"ligne 1";
         for (int i = 0; i < 5; i++)
         {
-            std::cout<<" "<<ligne1[i]->getCout()<<" ";
+            std::cout<<" "<<ligne1[i]->afficherCarte()<<" ";
         }
         std::cout<<'\n';
         

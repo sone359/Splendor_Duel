@@ -8,11 +8,12 @@
 class Partie{
     private :
     
-        CarteJoaillerie * cartes[67];
     public : 
+        CarteJoaillerie * cartes[67];
         
         void init(){
             Pyramide::initialiser(cartes);
+            Pyramide::getInstance()->afficherPyramide();
         }
 };
 
