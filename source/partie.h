@@ -14,6 +14,7 @@ class Partie{
         void init(){
             Pyramide::initialiser(cartes);
             Pyramide::getInstance()->afficherPyramide();
+
         }
 };
 
