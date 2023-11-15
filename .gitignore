@@ -1,0 +1,9 @@
+source/bin/
+source/obj/
+*.depend
+*.layout
+*.cscope_file_list
+source/bin/*
+source/obj/*
+source/lo21_splendor.depend
+source/lo21_splendor.layout

@@ -1,5 +1,5 @@
-#ifndef PYRAMIDE_H
-#define PYRAMIDE_H
+#ifndef PYRAMIDE_CPP
+#define PYRAMIDE_CPP
 
 #include "pyramide.h"
 
