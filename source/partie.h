@@ -3,6 +3,8 @@
 
 #include "pyramide.h"
 #include "carte_joaillerie_test.h"
+#include "plateau.h"
+#include "interfaceConsole.h"
 
 
 class Partie{
@@ -17,12 +19,13 @@ class Partie{
         }
 
         void initPlateau(){
-            
+            Plateau::get_plateau();
         }
 
         Partie(){
-        for (int i=0;i<67;i++){cartes[i]=new CarteJoaillerie(i,i);};
+            for (int i=0;i<67;i++){cartes[i]=new CarteJoaillerie(i,i);};
             initPyramide();
+            initPlateau();
         }
         ~Partie(){
         for (int i=0;i<67;i++){delete cartes[i];}
