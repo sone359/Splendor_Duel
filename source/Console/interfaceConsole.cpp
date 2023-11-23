@@ -1,5 +1,5 @@
 #include "interfaceConsole.h"
-#include "Joueur.h"
+#include "../Back/Joueur.h"
 #include <iostream>
 
 void InterfaceConsole::afficherPlateau()

@@ -1,8 +1,8 @@
 #ifndef INTERFACECONSOLE_H
 #define INTERFACECONSOLE_H
 
-#include "plateau.h"
-#include "Joueur.h"
+#include "../Back/plateau.h"
+#include "../Back/Joueur.h"
 
 class InterfaceConsole
 {

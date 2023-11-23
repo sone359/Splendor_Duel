@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "stockGemmes.h"
-#include "plateau.h"
-#include "interfaceConsole.h"
+#include "Back/stockGemmes.h"
+#include "Back/plateau.h"
+#include "Console/interfaceConsole.h"
 
 
 using namespace std;
