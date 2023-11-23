@@ -1,16 +1,18 @@
 #include "Joueur.h"
 
 // Constructeurs
-Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0), gold(0) {}
+Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0){}
 
-Joueur::Joueur(int nbPrivileges, int nbCouronnes, int orValue)
-    : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gold(orValue) {}
+Joueur::Joueur(int nbPrivileges, int nbCouronnes,StockGemmes & tgemmes,StockBonus & tbonus)
+    : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gemmes(tgemmes),bonus(tbonus) {}
 
 // Constructeur de copie
 Joueur::Joueur(const Joueur& other)
     : nbPrivileges(other.nbPrivileges),
       nbCouronnes(other.nbCouronnes),
-      gold(other.gold)
+      gemmes(other.gemmes),
+      bonus(other.bonus)
+
 {
     delete[] cartesJoailleriesPossedees ;
     cartesJoailleriesPossedees = other.cartesJoailleriesPossedees;
@@ -22,18 +24,18 @@ Joueur::Joueur(const Joueur& other)
     cartesRoyalesPossedees = other.cartesRoyalesPossedees;
 }
 
-// Op�rateur d'affectation
+// Oprateur d'affectation
 Joueur& Joueur::operator=(const Joueur& other)
 {
     if (this == &other)
     {
-        return *this; // �viter l'auto-affectation
+        return *this; // viter l'auto-affectation
     }
 
     // Copie des membres simples
     nbPrivileges = other.nbPrivileges;
     nbCouronnes = other.nbCouronnes;
-    gold = other.gold;
+    bonus=other.bonus;
     delete[] cartesJoailleriesPossedees ;
     cartesJoailleriesPossedees = other.cartesJoailleriesPossedees;
     CarteJoaillerie * newTab2 = cartesJoailleriesReservees;
@@ -43,7 +45,7 @@ Joueur& Joueur::operator=(const Joueur& other)
     delete[] cartesRoyalesPossedees ;
     cartesRoyalesPossedees = other.cartesRoyalesPossedees;
 
-    // Copie des tableaux et des objets complexes (� adapter selon votre impl�mentation r�elle)
+    // Copie des tableaux et des objets complexes ( adapter selon votre implmentation relle)
     // Exemple : delete[] cartesJoailleriesPossedees; cartesJoailleriesPossedees = new CarteJoaillerie[...];
 
     return *this;
@@ -81,10 +83,7 @@ StockGemmes Joueur::getGemmes() const
 {
     return gemmes;
 }
-int Joueur::getOr() const
-{
-    return gold;
-}
+
 StockBonus Joueur::getBonus() const
 {
     return bonus;
@@ -127,13 +126,8 @@ void Joueur::setGemmes(const StockGemmes& gemmes)
     this->gemmes = gemmes;
 }
 
-void Joueur::setOr(int orValue)
-{
-    gold = orValue;
-}
 
 void Joueur::setBonus(const StockBonus& bonus)
 {
     this->bonus = bonus;
 }
-

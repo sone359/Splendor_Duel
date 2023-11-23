@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="lo21_splendor" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/lo21_splendor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/lo21_splendor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="CarteRoyale.cpp" />
+		<Unit filename="CarteRoyale.h" />
+		<Unit filename="Effet.cpp" />
+		<Unit filename="Effet.h" />
+		<Unit filename="Joueur.cpp" />
+		<Unit filename="Joueur.h" />
+		<Unit filename="carte_joaillerie.h" />
+		<Unit filename="interfaceConsole.cpp" />
+		<Unit filename="interfaceConsole.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="partie.h" />
+		<Unit filename="plateau.cpp" />
+		<Unit filename="plateau.h" />
+		<Unit filename="pyramide.cpp" />
+		<Unit filename="pyramide.h" />
+		<Unit filename="stockGemmes.cpp" />
+		<Unit filename="stockGemmes.h" />
+		<Unit filename="tools.h" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
