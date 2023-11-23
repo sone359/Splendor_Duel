@@ -1,9 +1,9 @@
 #ifndef JOUEUR_H_INCLUDED
 #define JOUEUR_H_INCLUDED
 
-#include "carte_joaillerie.h" // Inclure le fichier d'en-tête de CarteJoaillerie
-#include "CarteRoyale.h"      // Inclure le fichier d'en-tête de CarteRoyale
-#include "StockGemmes.h"      // Inclure le fichier d'en-tête de StockGemmes
+#include "carte_joaillerie.h" // Inclure le fichier d'en-tï¿½te de CarteJoaillerie
+#include "CarteRoyale.h"      // Inclure le fichier d'en-tï¿½te de CarteRoyale
+#include "StockGemmes.h"      // Inclure le fichier d'en-tï¿½te de StockGemmes
 
 class Joueur
 {
@@ -15,7 +15,7 @@ private:
     int nbCouronnes;
     StockGemmes gemmes;
     int gold;
-    StockBonus bonus;
+    StockGemmes bonus;
 
 public:
     // Constructeurs
@@ -25,7 +25,7 @@ public:
     // Constructeur de copie
     Joueur(const Joueur& other);
 
-    // Opérateur d'affectation
+    // Opï¿½rateur d'affectation
     Joueur& operator=(const Joueur& other);
 
     // Destructeur
@@ -39,7 +39,7 @@ public:
     int getNbCouronnes() const;
     StockGemmes getGemmes() const;
     int getOr() const;
-    StockBonus getBonus() const;
+    StockGemmes getBonus() const;
 
     // Setters
     void setNbPrivileges(int nbPrivileges);
@@ -49,7 +49,7 @@ public:
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmes& gemmes);
     void setOr(int orValue);
-    void setBonus(const StockBonus& bonus);
+    void setBonus(const StockGemmes& bonus);
 };
 
 #endif // JOUEUR_H_INCLUDED

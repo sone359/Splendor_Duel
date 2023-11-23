@@ -22,12 +22,12 @@ Joueur::Joueur(const Joueur& other)
     cartesRoyalesPossedees = other.cartesRoyalesPossedees;
 }
 
-// Opérateur d'affectation
+// Opï¿½rateur d'affectation
 Joueur& Joueur::operator=(const Joueur& other)
 {
     if (this == &other)
     {
-        return *this; // Éviter l'auto-affectation
+        return *this; // ï¿½viter l'auto-affectation
     }
 
     // Copie des membres simples
@@ -43,7 +43,7 @@ Joueur& Joueur::operator=(const Joueur& other)
     delete[] cartesRoyalesPossedees ;
     cartesRoyalesPossedees = other.cartesRoyalesPossedees;
 
-    // Copie des tableaux et des objets complexes (à adapter selon votre implémentation réelle)
+    // Copie des tableaux et des objets complexes (ï¿½ adapter selon votre implï¿½mentation rï¿½elle)
     // Exemple : delete[] cartesJoailleriesPossedees; cartesJoailleriesPossedees = new CarteJoaillerie[...];
 
     return *this;
@@ -136,3 +136,4 @@ void Joueur::setBonus(const StockBonus& bonus)
 {
     this->bonus = bonus;
 }
+
