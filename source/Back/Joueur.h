@@ -14,12 +14,12 @@ private:
     CarteRoyale* cartesRoyalesPossedees;
     int nbCouronnes;
     StockGemmes gemmes;
-    StockBonus bonus;
+    StockGemmesOr bonus;
 
 public:
     // Constructeurs
     Joueur();
-    Joueur(int nbPrivileges, int nbCouronnes,StockGemmes & tgemmes,StockBonus & tbonus);
+    Joueur(int nbPrivileges, int nbCouronnes,StockGemmes & tgemmes,StockGemmesOr & tbonus);
 
     // Constructeur de copie
     Joueur(const Joueur& other);
@@ -37,7 +37,7 @@ public:
     CarteRoyale* getCartesRoyalesPossedees() const;
     int getNbCouronnes() const;
     StockGemmes getGemmes() const;
-    StockBonus getBonus() const;
+    StockGemmesOr getBonus() const;
 
     // Setters
     void setNbPrivileges(int nbPrivileges);
@@ -46,7 +46,7 @@ public:
     void setCartesRoyalesPossedees(CarteRoyale* cartes);
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmes& gemmes);
-    void setBonus(const StockBonus& bonus);
+    void setBonus(const StockGemmesOr& bonus);
 };
 
 #endif // JOUEUR_H_INCLUDED

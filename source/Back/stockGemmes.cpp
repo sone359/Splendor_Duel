@@ -48,7 +48,7 @@ unsigned int total_stock(const StockGemmes& stock)
 }
 
 //Contructeur
-StockBonus::StockBonus(unsigned int bleu, unsigned int vert, unsigned int blanc, unsigned int rouge, unsigned int noir, unsigned int perle, unsigned int jaune)// : StockGemmes::StockGemmes()
+StockGemmesOr::StockGemmesOr(unsigned int bleu, unsigned int vert, unsigned int blanc, unsigned int rouge, unsigned int noir, unsigned int perle, unsigned int jaune)// : StockGemmes::StockGemmes()
 {
     set_Bleu(bleu);
     set_Vert(vert);
@@ -59,7 +59,7 @@ StockBonus::StockBonus(unsigned int bleu, unsigned int vert, unsigned int blanc,
     set_Or(jaune);
 }
 
-StockBonus StockBonus::operator-(const StockGemmes& autre_stock) const
+StockGemmesOr StockGemmesOr::operator-(const StockGemmes& autre_stock) const
 {
     int bleu = get_Bleu() - autre_stock.get_Bleu();
     int vert = get_Vert() - autre_stock.get_Vert();
@@ -105,17 +105,17 @@ StockBonus StockBonus::operator-(const StockGemmes& autre_stock) const
         throw SplendorException("Votre stock de jetons est insuffisant");
     }
 
-    return StockBonus(bleu, vert, blanc, rouge, noir, perle, jeton_or);
+    return StockGemmesOr(bleu, vert, blanc, rouge, noir, perle, jeton_or);
 }
 
-StockBonus StockBonus::operator=(const StockGemmes& autre_stock)
+StockGemmesOr StockGemmesOr::operator=(const StockGemmes& autre_stock)
 {
     *this = autre_stock;
     set_Or(0);
     return *this;
 }
 
-StockBonus StockBonus::operator=(const StockBonus& autre_stock)
+StockGemmesOr StockGemmesOr::operator=(const StockGemmesOr& autre_stock)
 {
     *this = autre_stock;
     set_Or(autre_stock.get_Or());

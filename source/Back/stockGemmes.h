@@ -25,7 +25,7 @@ class StockGemmes
         void set_Noir(unsigned int new_value){gemmes[4] = new_value;};
         void set_Perle(unsigned int new_value){gemmes[5] = new_value;};
 
-        //Opérateurs surchargés
+        //Opï¿½rateurs surchargï¿½s
         StockGemmes operator+(const StockGemmes& autre_stock) const {return StockGemmes(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle());};
         StockGemmes operator-(const StockGemmes& autre_stock) const;
         StockGemmes operator=(const StockGemmes& autre_stock);
@@ -37,21 +37,21 @@ class StockGemmes
         unsigned int gemmes[6] = {0};
 };
 
-class StockBonus : public StockGemmes
+class StockGemmesOr : public StockGemmes
 {
 public:
-    //Constructeur par défaut
-    StockBonus(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0, unsigned int jaune = 0);
+    //Constructeur par dï¿½faut
+    StockGemmesOr(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0, unsigned int jaune = 0);
     //Getters
     unsigned int get_Or() const {return jeton_or;};
     //Setters
     void set_Or(unsigned int new_value){jeton_or = new_value;};
 
-    //Opérateurs
-    StockBonus operator+(const StockGemmes& autre_stock) const {return StockBonus(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle());};
-    StockBonus operator-(const StockGemmes& autre_stock) const;
-    StockBonus operator=(const StockGemmes& autre_stock);
-    StockBonus operator=(const StockBonus& autre_stock);
+    //Opï¿½rateurs
+    StockGemmesOr operator+(const StockGemmes& autre_stock) const {return StockGemmesOr(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle());};
+    StockGemmesOr operator-(const StockGemmes& autre_stock) const;
+    StockGemmesOr operator=(const StockGemmes& autre_stock);
+    StockGemmesOr operator=(const StockGemmesOr& autre_stock);
 
 protected:
     unsigned int jeton_or = 0;

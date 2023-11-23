@@ -3,7 +3,7 @@
 // Constructeurs
 Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0){}
 
-Joueur::Joueur(int nbPrivileges, int nbCouronnes,StockGemmes & tgemmes,StockBonus & tbonus)
+Joueur::Joueur(int nbPrivileges, int nbCouronnes,StockGemmes & tgemmes,StockGemmesOr & tbonus)
     : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gemmes(tgemmes),bonus(tbonus) {}
 
 // Constructeur de copie
@@ -84,7 +84,7 @@ StockGemmes Joueur::getGemmes() const
     return gemmes;
 }
 
-StockBonus Joueur::getBonus() const
+StockGemmesOr Joueur::getBonus() const
 {
     return bonus;
 }
@@ -127,7 +127,7 @@ void Joueur::setGemmes(const StockGemmes& gemmes)
 }
 
 
-void Joueur::setBonus(const StockBonus& bonus)
+void Joueur::setBonus(const StockGemmesOr& bonus)
 {
     this->bonus = bonus;
 }
