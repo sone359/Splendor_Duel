@@ -3,8 +3,8 @@
 // Constructeurs
 Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0){}
 
-Joueur::Joueur(int nbPrivileges, int nbCouronnes,StockGemmes & tgemmes,StockGemmesOr & tbonus)
-    : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gemmes(tgemmes),bonus(tbonus) {}
+Joueur::Joueur(int nbPrivileges, int nbCouronnes, StockGemmesOr & tgemmes, StockGemmes & tbonus)
+    : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gemmes(tgemmes), bonus(tbonus) {}
 
 // Constructeur de copie
 Joueur::Joueur(const Joueur& other)
@@ -24,12 +24,12 @@ Joueur::Joueur(const Joueur& other)
     cartesRoyalesPossedees = other.cartesRoyalesPossedees;
 }
 
-// Oprateur d'affectation
+// Operateur d'affectation
 Joueur& Joueur::operator=(const Joueur& other)
 {
     if (this == &other)
     {
-        return *this; // viter l'auto-affectation
+        return *this; // Eviter l'auto-affectation
     }
 
     // Copie des membres simples
@@ -45,7 +45,7 @@ Joueur& Joueur::operator=(const Joueur& other)
     delete[] cartesRoyalesPossedees ;
     cartesRoyalesPossedees = other.cartesRoyalesPossedees;
 
-    // Copie des tableaux et des objets complexes ( adapter selon votre implmentation relle)
+    // Copie des tableaux et des objets complexes (a adapter selon votre implementation relle)
     // Exemple : delete[] cartesJoailleriesPossedees; cartesJoailleriesPossedees = new CarteJoaillerie[...];
 
     return *this;
@@ -55,7 +55,8 @@ Joueur& Joueur::operator=(const Joueur& other)
 Joueur::~Joueur()
 {
     delete[] cartesJoailleriesPossedees;
-    delete[] cartesJoailleriesReservees;
+    //Il me semble que vu que le tableau est statique il n'y a pas besoin de le libérer (en plus le compilateur fait la tête, c'est pas bon signe) - Simon
+    //delete[] cartesJoailleriesReservees;
 }
 
 // Getters
@@ -79,12 +80,12 @@ int Joueur::getNbCouronnes() const
 {
     return nbCouronnes;
 }
-StockGemmes Joueur::getGemmes() const
+StockGemmesOr Joueur::getGemmes() const
 {
     return gemmes;
 }
 
-StockGemmesOr Joueur::getBonus() const
+StockGemmes Joueur::getBonus() const
 {
     return bonus;
 }
@@ -121,13 +122,13 @@ void Joueur::setNbCouronnes(int nbCouronnes)
     nbCouronnes = nbCouronnes;
 }
 
-void Joueur::setGemmes(const StockGemmes& gemmes)
+void Joueur::setGemmes(const StockGemmesOr& gemmes)
 {
     this->gemmes = gemmes;
 }
 
 
-void Joueur::setBonus(const StockGemmesOr& bonus)
+void Joueur::setBonus(const StockGemmes& bonus)
 {
     this->bonus = bonus;
 }

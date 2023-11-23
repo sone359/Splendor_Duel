@@ -13,18 +13,18 @@ private:
     CarteJoaillerie cartesJoailleriesReservees[3];
     CarteRoyale* cartesRoyalesPossedees;
     int nbCouronnes;
-    StockGemmes gemmes;
-    StockGemmesOr bonus;
+    StockGemmesOr gemmes;
+    StockGemmes bonus;
 
 public:
     // Constructeurs
     Joueur();
-    Joueur(int nbPrivileges, int nbCouronnes,StockGemmes & tgemmes,StockGemmesOr & tbonus);
+    Joueur(int nbPrivileges, int nbCouronnes, StockGemmesOr & tgemmes, StockGemmes & tbonus);
 
     // Constructeur de copie
     Joueur(const Joueur& other);
 
-    // Oprateur d'affectation
+    // Operateur d'affectation
     Joueur& operator=(const Joueur& other);
 
     // Destructeur
@@ -36,8 +36,8 @@ public:
     CarteJoaillerie* getCartesJoailleriesReservees() ;
     CarteRoyale* getCartesRoyalesPossedees() const;
     int getNbCouronnes() const;
-    StockGemmes getGemmes() const;
-    StockGemmesOr getBonus() const;
+    StockGemmesOr getGemmes() const;
+    StockGemmes getBonus() const;
 
     // Setters
     void setNbPrivileges(int nbPrivileges);
@@ -45,8 +45,8 @@ public:
     void setCartesJoailleriesReservees(const CarteJoaillerie cartes[3]);
     void setCartesRoyalesPossedees(CarteRoyale* cartes);
     void setNbCouronnes(int nbCouronnes);
-    void setGemmes(const StockGemmes& gemmes);
-    void setBonus(const StockGemmesOr& bonus);
+    void setGemmes(const StockGemmesOr& gemmes);
+    void setBonus(const StockGemmes& bonus);
 };
 
 #endif // JOUEUR_H_INCLUDED
