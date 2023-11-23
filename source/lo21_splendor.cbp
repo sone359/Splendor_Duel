@@ -32,23 +32,23 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="CarteRoyale.cpp" />
-		<Unit filename="CarteRoyale.h" />
-		<Unit filename="Effet.cpp" />
-		<Unit filename="Effet.h" />
-		<Unit filename="Joueur.cpp" />
-		<Unit filename="Joueur.h" />
-		<Unit filename="carte_joaillerie.h" />
-		<Unit filename="interfaceConsole.cpp" />
-		<Unit filename="interfaceConsole.h" />
+		<Unit filename="Back/CarteRoyale.cpp" />
+		<Unit filename="Back/CarteRoyale.h" />
+		<Unit filename="Back/Effet.cpp" />
+		<Unit filename="Back/Effet.h" />
+		<Unit filename="Back/Joueur.cpp" />
+		<Unit filename="Back/Joueur.h" />
+		<Unit filename="Back/carte_joaillerie.h" />
+		<Unit filename="Back/partie.h" />
+		<Unit filename="Back/plateau.cpp" />
+		<Unit filename="Back/plateau.h" />
+		<Unit filename="Back/pyramide.cpp" />
+		<Unit filename="Back/pyramide.h" />
+		<Unit filename="Back/stockGemmes.cpp" />
+		<Unit filename="Back/stockGemmes.h" />
+		<Unit filename="Console/interfaceConsole.cpp" />
+		<Unit filename="Console/interfaceConsole.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="partie.h" />
-		<Unit filename="plateau.cpp" />
-		<Unit filename="plateau.h" />
-		<Unit filename="pyramide.cpp" />
-		<Unit filename="pyramide.h" />
-		<Unit filename="stockGemmes.cpp" />
-		<Unit filename="stockGemmes.h" />
 		<Unit filename="tools.h" />
 		<Extensions />
 	</Project>
