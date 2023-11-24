@@ -4,7 +4,7 @@
 
 void InterfaceConsole::afficherPlateau()
 {
-    std::cout << "  1 2 3 4 5 " << std::endl;
+    std::cout << "  0 1 2 3 4 " << std::endl;
     for (int i = 0 ; i < 5 ; i++)
     {
         std::cout << i << " ";
