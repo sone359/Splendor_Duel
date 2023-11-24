@@ -1,9 +1,14 @@
 #ifndef STOCKGEMMES_H
 #define STOCKGEMMES_H
 
+#include "../tools.h"
+
 class StockGemmes
 {
     public:
+
+        void ajouter_jeton(Jeton jeton);
+
         // Constructeurs
         StockGemmes(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0);
         // Constructeur de recopie
@@ -25,12 +30,13 @@ class StockGemmes
         void set_Noir(unsigned int new_value){gemmes[4] = new_value;};
         void set_Perle(unsigned int new_value){gemmes[5] = new_value;};
 
-        //Op�rateurs surcharg�s
+        //Operateurs surcharges
         StockGemmes operator+(const StockGemmes& autre_stock) const {return StockGemmes(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle());};
         StockGemmes operator-(const StockGemmes& autre_stock) const;
         StockGemmes operator=(const StockGemmes& autre_stock);
 
         // Destructeur
+        virtual
         ~StockGemmes() = default;
 
     protected:
@@ -40,14 +46,16 @@ class StockGemmes
 class StockGemmesOr : public StockGemmes
 {
 public:
-    //Constructeur par d�faut
+    void ajouter_jeton(Jeton jeton);
+
+    //Constructeur par defaut
     StockGemmesOr(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0, unsigned int jaune = 0);
     //Getters
     unsigned int get_Or() const {return jeton_or;};
     //Setters
     void set_Or(unsigned int new_value){jeton_or = new_value;};
 
-    //Op�rateurs
+    //Operateurs
     StockGemmesOr operator+(const StockGemmes& autre_stock) const {return StockGemmesOr(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle());};
     StockGemmesOr operator-(const StockGemmes& autre_stock) const;
     StockGemmesOr operator=(const StockGemmes& autre_stock);
@@ -58,5 +66,6 @@ protected:
 };
 
 unsigned int total_stock(const StockGemmes& stock);
+unsigned int total_stock(const StockGemmesOr& stock);
 
 #endif

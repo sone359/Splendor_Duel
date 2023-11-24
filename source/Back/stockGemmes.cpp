@@ -4,6 +4,33 @@
 
 //Méthodes publiques de la classe StockGemmes
 
+void StockGemmes::ajouter_jeton(Jeton jeton)
+{
+    switch (jeton)
+    {
+    case Nul:
+        throw SplendorException("Impossible d'ajouter un jeton Nul (correspond à une valeur inexistante)");
+    case Bleu:
+        set_Bleu(get_Bleu() + 1);
+        break;
+    case Vert:
+        set_Vert(get_Vert() + 1);
+        break;
+    case Blanc:
+        set_Blanc(get_Blanc() + 1);
+        break;
+    case Rouge:
+        set_Rouge(get_Rouge() + 1);
+        break;
+    case Noir:
+        set_Noir(get_Noir() + 1);
+        break;
+    case Perle:
+        set_Perle(get_Perle() + 1);
+        break;
+    }
+}
+
 //Contructeur
 StockGemmes::StockGemmes(unsigned int bleu, unsigned int vert, unsigned int blanc, unsigned int rouge, unsigned int noir, unsigned int perle)
 {
@@ -45,6 +72,36 @@ StockGemmes StockGemmes::operator=(const StockGemmes& autre_stock)
 unsigned int total_stock(const StockGemmes& stock)
 {
     return stock.get_Bleu() + stock.get_Vert() + stock.get_Blanc() + stock.get_Rouge() + stock.get_Noir() + stock.get_Perle();
+}
+
+void StockGemmesOr::ajouter_jeton(Jeton jeton)
+{
+    switch (jeton)
+    {
+    case Nul:
+        throw SplendorException("Impossible d'ajouter un jeton Nul (correspond à une valeur inexistante)");
+    case Bleu:
+        set_Bleu(get_Bleu() + 1);
+        break;
+    case Vert:
+        set_Vert(get_Vert() + 1);
+        break;
+    case Blanc:
+        set_Blanc(get_Blanc() + 1);
+        break;
+    case Rouge:
+        set_Rouge(get_Rouge() + 1);
+        break;
+    case Noir:
+        set_Noir(get_Noir() + 1);
+        break;
+    case Perle:
+        set_Perle(get_Perle() + 1);
+        break;
+    case Or:
+        set_Or(get_Or() + 1);
+        break;
+    }
 }
 
 //Contructeur
@@ -120,4 +177,9 @@ StockGemmesOr StockGemmesOr::operator=(const StockGemmesOr& autre_stock)
     *this = autre_stock;
     set_Or(autre_stock.get_Or());
     return *this;
+}
+
+unsigned int total_stock(const StockGemmesOr& stock)
+{
+    return stock.get_Bleu() + stock.get_Vert() + stock.get_Blanc() + stock.get_Rouge() + stock.get_Noir() + stock.get_Perle() + stock.get_Or();
 }

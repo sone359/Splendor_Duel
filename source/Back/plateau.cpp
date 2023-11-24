@@ -189,25 +189,5 @@ void Plateau::addStock(StockGemmes& stock, const std::array<unsigned int, 2>& co
     }
     Jeton jeton_retire = retirerJeton(coor_jeton);
     //La valeur Nul est testée et déclare une erreur dans retirerJeton
-    switch (jeton_retire)
-    {
-    case Bleu:
-        stock.set_Bleu(stock.get_Bleu() + 1);
-        break;
-    case Vert:
-        stock.set_Vert(stock.get_Vert() + 1);
-        break;
-    case Blanc:
-        stock.set_Blanc(stock.get_Blanc() + 1);
-        break;
-    case Rouge:
-        stock.set_Rouge(stock.get_Rouge() + 1);
-        break;
-    case Noir:
-        stock.set_Noir(stock.get_Noir() + 1);
-        break;
-    case Perle:
-        stock.set_Perle(stock.get_Perle() + 1);
-        break;
-    }
+    stock.ajouter_jeton(jeton_retire);
 }

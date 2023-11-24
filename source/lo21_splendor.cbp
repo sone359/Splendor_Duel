@@ -44,6 +44,8 @@
 		<Unit filename="Back/plateau.h" />
 		<Unit filename="Back/pyramide.cpp" />
 		<Unit filename="Back/pyramide.h" />
+		<Unit filename="Back/sac.cpp" />
+		<Unit filename="Back/sac.h" />
 		<Unit filename="Back/stockGemmes.cpp" />
 		<Unit filename="Back/stockGemmes.h" />
 		<Unit filename="Console/interfaceConsole.cpp" />

@@ -19,7 +19,7 @@ public :
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1);
-    unsigned int getNbCasesVides(){return nbCasesVides;};
+    unsigned int get_nbCasesVides(){return nbCasesVides;};
 
     //Opérateurs surchargés
     const std::array<Jeton, 5> operator[](unsigned int colonne){return matrice[colonne];};//Réflexion possible à l'avenir : Est-ce vraiment utile ? Et est-ce que l'avoir en public ne met pas en péril l'encapsulation ?

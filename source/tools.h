@@ -1,3 +1,6 @@
+#ifndef TOOLS_H
+#define TOOLS_H
+
 #include <stdexcept>
 
 enum Jeton
@@ -25,3 +28,5 @@ public:
 private:
     std::string message;
 };
+
+#endif
