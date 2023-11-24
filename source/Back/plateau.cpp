@@ -84,8 +84,10 @@ bool verifAdjacence(const std::array<unsigned int, 2>& coor_jeton1, const std::a
     return false;
 }
 
-void Plateau::ajouterJeton(Jeton jeton)
+std::array<unsigned int, 2> Plateau::ajouterJeton(Jeton jeton)
 {
+    if (nbCasesVides==0){throw SplendorException("Le plateau est déjà plein");}
+
     size_t i;
 
     for (i = 0 ; i < 25 ; i++)
@@ -94,26 +96,32 @@ void Plateau::ajouterJeton(Jeton jeton)
         if (matrice[ordre_cases[i][0]][ordre_cases[i][1]] == Nul)
         {
             matrice[ordre_cases[i][0]][ordre_cases[i][1]] = jeton;
+            nbCasesVides--;
             break;
         }
     }
-    if (i==25){throw SplendorException("Le plateau est déjà plein");}
+    return ordre_cases[i];
 }
 
 Jeton Plateau::retirerJeton(const std::array<unsigned int, 2>& coor_jeton)
 {
+     if ((coor_jeton[0] > 25) || (coor_jeton[1] >25))
+     {
+         //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+         //throw SplendorException(std::format("La case ({}, {}) n'existe pas, impossible d'y retirer un jeton", coor_jeton[0], coor_jeton[1]));
+         throw SplendorException("La case (" + std::to_string(coor_jeton[0]) + ", "  + std::to_string(coor_jeton[1]) + ") n'existe pas, impossible d'y retirer un jeton");
+     }
      if (matrice[coor_jeton[0]][coor_jeton[1]] == Nul)
      {
          //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
          //throw SplendorException(std::format("La case ({}, {}) est vide, impossible d'y retirer un jeton", coor_jeton[0], coor_jeton[1]));
          throw SplendorException("La case (" + std::to_string(coor_jeton[0]) + ", "  + std::to_string(coor_jeton[1]) + ") est vide, impossible d'y retirer un jeton");
      }
-     else
-     {
-         Jeton temp = matrice[coor_jeton[0]][coor_jeton[1]];
-         matrice[coor_jeton[0]][coor_jeton[1]] = Nul;
-         return temp;
-     }
+
+     Jeton temp = matrice[coor_jeton[0]][coor_jeton[1]];
+     matrice[coor_jeton[0]][coor_jeton[1]] = Nul;
+     nbCasesVides++;
+     return temp;
 }
 
 StockGemmes Plateau::actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
