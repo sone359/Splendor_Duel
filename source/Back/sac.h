@@ -15,6 +15,9 @@ public :
     void ajouter_jeton(Jeton jeton);
     Jeton retirer_jeton();
 
+    //Getter const
+    const StockGemmesOr& get_gemmes() const{return gemmes;}
+
 protected:
     static Sac* sac;
     Sac() = default;
@@ -24,6 +27,7 @@ protected:
 
 private:
     StockGemmesOr gemmes;
+    std::random_device random_seed; //Attribut car en raison du caractère pseudo-aléatoire, il y a nécessité d'unicité pour ne pas obtenir la même séquence de nombre à chaque appel
 };
 
 #endif
