@@ -9,7 +9,9 @@ void StockGemmes::ajouter_jeton(Jeton jeton)
     switch (jeton)
     {
     case Nul:
-        throw SplendorException("Impossible d'ajouter un jeton Nul (correspond à une valeur inexistante)");
+        throw std::invalid_argument("Impossible d'ajouter un jeton Nul (correspond à une valeur inexistante)");
+    case Or:
+        throw std::invalid_argument("Impossible d'ajouter un jeton Or (inexistant dans ce type de stock, préférez un StockGemmesOr)");
     case Bleu:
         set_Bleu(get_Bleu() + 1);
         break;
@@ -167,14 +169,24 @@ StockGemmesOr StockGemmesOr::operator-(const StockGemmes& autre_stock) const
 
 StockGemmesOr StockGemmesOr::operator=(const StockGemmes& autre_stock)
 {
-    *this = autre_stock;
+    set_Bleu(autre_stock.get_Bleu());
+    set_Vert(autre_stock.get_Vert());
+    set_Blanc(autre_stock.get_Blanc());
+    set_Rouge(autre_stock.get_Rouge());
+    set_Noir(autre_stock.get_Noir());
+    set_Perle(autre_stock.get_Perle());
     set_Or(0);
     return *this;
 }
 
 StockGemmesOr StockGemmesOr::operator=(const StockGemmesOr& autre_stock)
 {
-    *this = autre_stock;
+    set_Bleu(autre_stock.get_Bleu());
+    set_Vert(autre_stock.get_Vert());
+    set_Blanc(autre_stock.get_Blanc());
+    set_Rouge(autre_stock.get_Rouge());
+    set_Noir(autre_stock.get_Noir());
+    set_Perle(autre_stock.get_Perle());
     set_Or(autre_stock.get_Or());
     return *this;
 }

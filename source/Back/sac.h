@@ -15,6 +15,9 @@ public :
     void ajouter_jeton(Jeton jeton);
     Jeton retirer_jeton();
 
+    //Getter const
+    const StockGemmesOr& get_gemmes() const{return gemmes;}
+
 protected:
     static Sac* sac;
     Sac() = default;
