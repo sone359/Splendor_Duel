@@ -34,8 +34,9 @@ Jeton Sac::retirer_jeton()
     std::vector<double> poids = {gemmes.get_Bleu()/nb_gemmes, gemmes.get_Vert()/nb_gemmes, gemmes.get_Blanc()/nb_gemmes, gemmes.get_Rouge()/nb_gemmes, gemmes.get_Noir()/nb_gemmes, gemmes.get_Perle()/nb_gemmes, gemmes.get_Or()/nb_gemmes};
 
     //Génération d'un nombre aléatoire
-    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //Seed triviale basée sur l'heure donnée comme exemple par cplusplus.com
+    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //Seed triviale base sur l'heure donne comme exemple par cplusplus.com
     std::discrete_distribution<int> distribution(poids.begin(), poids.end());
+
 
     switch (distribution(generator))
     {
