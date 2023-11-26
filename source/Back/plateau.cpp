@@ -17,7 +17,7 @@ void Plateau::delete_plateau()
     plateau = nullptr;
 }
 
-Plateau::~Plateau(){}
+//Plateau::~Plateau(){}
 
 bool verifAdjacence(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
 {
