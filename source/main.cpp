@@ -15,6 +15,7 @@ int main()
     InterfaceConsole ic;
 
     ic.afficherPlateau();
+
     /*pl.ajouterJeton(sac.retirer_jeton());
     ic.afficherPlateau();
     pl.ajouterJeton(sac.retirer_jeton());
