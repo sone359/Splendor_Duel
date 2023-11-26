@@ -92,20 +92,36 @@ void BoutonManager::onPrendreJetonsClicked() {
 
 
    if(jetons.size()==1)
-    {
+   {       try {
             StockGemmes stock;
             stock=plateau.actionRetirerJetons(positionArrayVector[0]);
+            }
+            catch (const SplendorException& ex) {
+            // Exception caught, display a QMessageBox with the exception message
+            QMessageBox::information(parentWidget, "Exception", ex.what());
+            }
     }
     if(jetons.size()==2)
     {
+            try {
          StockGemmes stock;
          stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1]);
+            }
+            catch (const SplendorException& ex) {
+         // Exception caught, display a QMessageBox with the exception message
+         QMessageBox::information(parentWidget, "Exception", ex.what());
+            }
     }
     if(jetons.size()==3)
     {
+            try {
          StockGemmes stock;
          stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
-
+            }
+            catch (const SplendorException& ex) {
+         // Exception caught, display a QMessageBox with the exception message
+         QMessageBox::information(parentWidget, "Exception", ex.what());
+            }
     }
 
 
