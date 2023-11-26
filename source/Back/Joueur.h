@@ -19,6 +19,7 @@ private:
 public:
     // Constructeurs
     Joueur();
+    Joueur(int privileges);
     Joueur(int nbPrivileges, int nbCouronnes, StockGemmesOr & tgemmes, StockGemmes & tbonus);
 
     // Constructeur de copie

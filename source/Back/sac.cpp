@@ -37,7 +37,6 @@ Jeton Sac::retirer_jeton()
     std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //Seed triviale base sur l'heure donne comme exemple par cplusplus.com
     std::discrete_distribution<int> distribution(poids.begin(), poids.end());
 
-
     switch (distribution(generator))
     {
     case 0:

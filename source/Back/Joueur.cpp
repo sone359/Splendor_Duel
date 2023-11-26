@@ -3,6 +3,8 @@
 // Constructeurs
 Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0){}
 
+Joueur::Joueur(int privileges) : nbPrivileges(privileges), nbCouronnes(0){}
+
 Joueur::Joueur(int nbPrivileges, int nbCouronnes, StockGemmesOr & tgemmes, StockGemmes & tbonus)
     : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gemmes(tgemmes), bonus(tbonus) {}
 

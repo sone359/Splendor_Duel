@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "pyramide.h"
-#include "carte_joaillerie_test.h"
+#include "carte_joaillerie.h"
 
 Pyramide* Pyramide::instance = nullptr;
 
@@ -35,7 +35,7 @@ Pyramide* Pyramide::instance = nullptr;
             piocherCarteJoaillerie(3,i);
         }
 
-        
+
     }
 
     void Pyramide::initialiser(CarteJoaillerie * jeu[67]){
@@ -46,7 +46,7 @@ Pyramide* Pyramide::instance = nullptr;
     Pyramide* Pyramide::getInstance(){
         if(instance==nullptr)//l'instance n'existe pas
             std::cerr<<"La pyramide doit d'abord être initialisee.\n"<<std::endl;
-        
+
         return instance;//renvoit l'instance
     }
 
@@ -100,7 +100,7 @@ Pyramide* Pyramide::instance = nullptr;
         }
     }
 
-    void Pyramide::afficherPyramide(){
+    /*void Pyramide::afficherPyramide(){
         std::cout<<"    ";
         for (int i = 0; i < 3; i++)
         {
@@ -120,8 +120,8 @@ Pyramide* Pyramide::instance = nullptr;
             std::cout<<" "<<ligne1[i]->afficherCarte()<<" ";
         }
         std::cout<<'\n';
-        
-    }
+
+    }*/
 
 
 

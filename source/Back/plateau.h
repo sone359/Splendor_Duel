@@ -10,16 +10,18 @@ class Plateau
 {
 public :
 
+    //Méthodes statiques suivant le design pattern Singleton
     static Plateau& get_plateau();
     static void delete_plateau();
 
     std::array<unsigned int, 2> ajouterJeton(Jeton jeton);
     Jeton retirerJeton(const std::array<unsigned int, 2>& coor_jeton); //Peut renvoyer de l'or et est ainsi utilisé dans la prise de gemmes comme dans la réservation.
-    //Réflexion possible à l'avenir : En fonction de son utilisation, envisageable de rendre retirerJeton privé
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1);
-    unsigned int get_nbCasesVides(){return nbCasesVides;};
+
+    //Getter
+    unsigned int get_nbCasesVides() const {return nbCasesVides;};
 
     //Opérateurs surchargés
     const std::array<Jeton, 5> operator[](unsigned int colonne){return matrice[colonne];};//Réflexion possible à l'avenir : Est-ce vraiment utile ? Et est-ce que l'avoir en public ne met pas en péril l'encapsulation ?
