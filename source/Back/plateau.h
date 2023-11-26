@@ -12,7 +12,7 @@ public :
 
     static Plateau& get_plateau();
     static void delete_plateau();
-    static Plateau* plateau;
+
     std::array<unsigned int, 2> ajouterJeton(Jeton jeton);
     Jeton retirerJeton(const std::array<unsigned int, 2>& coor_jeton); //Peut renvoyer de l'or et est ainsi utilisé dans la prise de gemmes comme dans la réservation.
     //Réflexion possible à l'avenir : En fonction de son utilisation, envisageable de rendre retirerJeton privé
@@ -25,10 +25,10 @@ public :
     const std::array<Jeton, 5> operator[](unsigned int colonne){return matrice[colonne];};//Réflexion possible à l'avenir : Est-ce vraiment utile ? Et est-ce que l'avoir en public ne met pas en péril l'encapsulation ?
 
 protected:
-
+    static Plateau* plateau;
     Plateau() = default;
-    //Plateau(const Plateau&);
-    //virtual ~Plateau();
+    Plateau(const Plateau&);
+    virtual ~Plateau();
     void operator=(const Plateau&);
 
 private:
