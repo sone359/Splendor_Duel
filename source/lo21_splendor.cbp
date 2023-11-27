@@ -39,6 +39,7 @@
 		<Unit filename="Back/Joueur.cpp" />
 		<Unit filename="Back/Joueur.h" />
 		<Unit filename="Back/carte_joaillerie.h" />
+		<Unit filename="Back/partie.cpp" />
 		<Unit filename="Back/partie.h" />
 		<Unit filename="Back/plateau.cpp" />
 		<Unit filename="Back/plateau.h" />
