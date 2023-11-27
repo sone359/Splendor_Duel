@@ -23,8 +23,7 @@ int main()
     ic.afficherJetonsPossedes(game.get_joueur(2));
     game.remplir_plateau(game.get_joueur(1));
     ic.afficherPlateau();
-    printf("\n%d",game.get_joueur(1).getNbPrivileges());
-    printf("\n%d",game.get_joueur(2).getNbPrivileges());
+
 
     /*pl.ajouterJeton(sac.retirer_jeton());
     ic.afficherPlateau();
