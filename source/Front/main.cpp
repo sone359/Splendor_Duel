@@ -12,6 +12,7 @@
 #include "PlateauWidget.h"
 #include "BoutonManager.h"
 #include "PartieWidget.h"
+#include "../Back/partie.h"
 
 #include "../Back/plateau.h"
 #include "../Back/sac.h"
@@ -155,6 +156,7 @@ int main(int argc, char *argv[]) {
 //        qWarning("Le layout du widget n'est pas QVBoxLayout.");
 //    }
 
+    Partie& game = Partie::get_partie();
 
     // Create and add the PlateauWidget to the layout
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
@@ -171,7 +173,7 @@ int main(int argc, char *argv[]) {
     //partie->displayRoyalImages(imagePaths);
     partie->afficherPlateau(plateauWidget);
 
-
+    partie->setPlateauWidget(NULL);
 
     // Show the widget
     partie->show();

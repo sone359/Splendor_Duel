@@ -8,6 +8,8 @@
 #include <QAction>
 #include "../Back/plateau.h"
 #include "PlateauWidget.h"
+#include "../Back/partie.h"
+#include "../Back/Joueur.h"
 
 class BoutonManager : public QObject {
 
@@ -30,7 +32,7 @@ private slots:
 
 private:
     QWidget *parentWidget;
-    QVBoxLayout *buttonsLayout;
+    QGridLayout *buttonsLayout ;
     QMenu *menu;
     QPushButton *acheterCarteButton = new QPushButton("Acheter une carte", parentWidget);
     QPushButton *reserverCarteButton = new QPushButton("Réserver une carte", parentWidget);

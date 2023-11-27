@@ -131,31 +131,31 @@ PlateauWidget* PlateauWidget::creerPlateau() {
                 plateauWidget->displayCase("", {j, i});
                 break;
             case Bleu:
-                plateauWidget->displayCase("D:/Qt_project/sans_titre/Images/Jetons/jeton_bleu.png", {j, i});
+                plateauWidget->displayCase(":/Images/Jetons/jeton_bleu.png", {j, i});
                 std::cout << "Bleu ";
                 break;
             case Vert:
-                plateauWidget->displayCase("D:/Qt_project/sans_titre/Images/Jetons/jeton_vert.png", {j, i});
+                plateauWidget->displayCase(":/Images/Jetons/jeton_vert.png", {j, i});
                 std::cout << "Vert ";
                 break;
             case Blanc:
-                plateauWidget->displayCase("C:/Users/ISMAIL/Downloads/jeton_blanc.png", {j, i});
+                plateauWidget->displayCase(":/Images/Jetons/jeton_blanc.png", {j, i});
                 std::cout << "Blanc ";
                 break;
             case Rouge:
-                plateauWidget->displayCase("D:/Qt_project/sans_titre/Images/Jetons/jeton_rouge.png", {j, i});
+                plateauWidget->displayCase(":/Images/Jetons/jeton_rouge.png", {j, i});
                 std::cout << "Rouge ";
                 break;
             case Noir:
-                plateauWidget->displayCase("D:/Qt_project/sans_titre/Images/Jetons/jeton_noir.png", {j, i});
+                plateauWidget->displayCase(":/Images/noir.png", {j, i});
                 std::cout << "Noir ";
                 break;
             case Perle:
-                plateauWidget->displayCase("D:/Qt_project/sans_titre/Images/Jetons/jeton_perle.png", {j, i});
+                plateauWidget->displayCase(":/Images/Jetons/jeton_perle.png", {j, i});
                 std::cout << "Perle ";
                 break;
             case Or:
-                plateauWidget->displayCase("D:/Qt_project/sans_titre/Images/Jetons/jeton_or.png", {j, i});
+                plateauWidget->displayCase(":/Images/Jetons/jeton_or.png", {j, i});
                 std::cout << "Or ";
                 break;
             }

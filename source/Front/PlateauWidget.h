@@ -37,6 +37,7 @@ public:
     static PlateauWidget * instance;
     void emptyJetons();
 
+
     void handleButtonClick(const Case &position, const std::string &imageName);
 
 private:

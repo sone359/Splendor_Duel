@@ -3,7 +3,7 @@
 #include "PartieWidget.h"
 BoutonManager::BoutonManager(QWidget *parent)
     : parentWidget(parent),
-      buttonsLayout(new QVBoxLayout(parent)),
+      buttonsLayout(new QGridLayout(parent)),
       menu(new QMenu(parent))
 
 {
@@ -19,12 +19,14 @@ BoutonManager::~BoutonManager() {
 void BoutonManager::createButtons() {
 
     volerButton->setDisabled(true);
-    buttonsLayout->addWidget(acheterCarteButton);
-    buttonsLayout->addWidget(reserverCarteButton);
-    buttonsLayout->addWidget(utiliserPrivilegeButton);
-    buttonsLayout->addWidget(volerButton);
-    buttonsLayout->addWidget(prendreJetonsButton);
-    buttonsLayout->addWidget(remplirPlateauButton);
+
+
+    buttonsLayout->addWidget(acheterCarteButton, 0, 0);
+    buttonsLayout->addWidget(reserverCarteButton, 0, 1);
+    buttonsLayout->addWidget(utiliserPrivilegeButton, 0, 2);
+    buttonsLayout->addWidget(volerButton, 0, 3);
+    buttonsLayout->addWidget(prendreJetonsButton, 0, 4);
+    buttonsLayout->addWidget(remplirPlateauButton, 0, 5);
 
     // Associer chaque bouton à son action respective
     connect(acheterCarteButton, &QPushButton::clicked, this, &BoutonManager::onAcheterCarteClicked);
@@ -89,12 +91,18 @@ void BoutonManager::onPrendreJetonsClicked() {
             positionArrayVector.push_back(tposition);
    }
 
-
+   Partie& game = Partie::get_partie();
 
    if(jetons.size()==1)
    {       try {
             StockGemmes stock;
-            stock=plateau.actionRetirerJetons(positionArrayVector[0]);
+            //stock=plateau.actionRetirerJetons(positionArrayVector[0]);
+            if(joueur1 == 1)
+
+            game.retirer_jetons(game.get_joueur(1),positionArrayVector[0]);
+
+            else
+                game.retirer_jetons(game.get_joueur(2),positionArrayVector[0]);
             }
             catch (const SplendorException& ex) {
             // Exception caught, display a QMessageBox with the exception message
@@ -105,7 +113,14 @@ void BoutonManager::onPrendreJetonsClicked() {
     {
             try {
          StockGemmes stock;
-         stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1]);
+         //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1]);
+         if(joueur1 == 1)
+
+             game.retirer_jetons(game.get_joueur(1),positionArrayVector[0],positionArrayVector[1]);
+
+         else
+             game.retirer_jetons(game.get_joueur(2),positionArrayVector[0],positionArrayVector[1]);
+
             }
             catch (const SplendorException& ex) {
          // Exception caught, display a QMessageBox with the exception message
@@ -116,7 +131,13 @@ void BoutonManager::onPrendreJetonsClicked() {
     {
             try {
          StockGemmes stock;
-         stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
+         //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
+         if(joueur1 == 1)
+
+         game.retirer_jetons(game.get_joueur(1),positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
+
+         else
+             game.retirer_jetons(game.get_joueur(2),positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
             }
             catch (const SplendorException& ex) {
          // Exception caught, display a QMessageBox with the exception message
@@ -139,28 +160,49 @@ void BoutonManager::onPrendreJetonsClicked() {
     //partie->remove(plateauWidget);
     PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
     partie->afficherPlateau(plateauWidgetInstance);
+    partie->updatePlayerPrivilege("Joueur 1",game.get_joueur(1).getNbPrivileges());
+    partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
+
 
     plateauWidget->emptyJetons();
 
-
-
-
-
-
-
-
-
-    if(joueur1 == 1)    {
+   if(joueur1 == 1)    {
             QMessageBox::information(parentWidget, "Action", "Joueur 1");
+            partie->updatePlayerInfo("Joueur 1", game.get_joueur(1).getGemmes().get_Rouge() , game.get_joueur(1).getGemmes().get_Vert(), game.get_joueur(1).getGemmes().get_Bleu(), game.get_joueur(1).getGemmes().get_Blanc(), game.get_joueur(1).getGemmes().get_Perle(), game.get_joueur(1).getGemmes().get_Noir(),game.get_joueur(1).getGemmes().get_Or());
+
             joueur1=0;}
     else { QMessageBox::information(parentWidget, "Action", "Joueur 2");
+            partie->updatePlayerInfo("Joueur 2", game.get_joueur(2).getGemmes().get_Rouge() , game.get_joueur(2).getGemmes().get_Vert(), game.get_joueur(2).getGemmes().get_Bleu(), game.get_joueur(2).getGemmes().get_Blanc(), game.get_joueur(2).getGemmes().get_Perle(), game.get_joueur(2).getGemmes().get_Noir(),game.get_joueur(2).getGemmes().get_Or());
+
             joueur1=1;
     }
-    QMessageBox::information(parentWidget, "Action", "Prendre des Jetons sélectionné");
-    acheterCarteButton->setDisabled(true);
-    reserverCarteButton->setDisabled(true);
+
+//    acheterCarteButton->setDisabled(true);
+//    reserverCarteButton->setDisabled(true);
 }
 
 void BoutonManager::onRemplirPlateauClicked() {
+    Partie& game = Partie::get_partie();
+
+    PartieWidget * partie = PartieWidget::getInstance();
+    if(joueur1 == 1)
+    {
+            game.remplir_plateau(game.get_joueur(1));
+
+            joueur1=0;
+
+    }
+    else  {
+            game.remplir_plateau(game.get_joueur(2));
+            joueur1=1;
+    }
+    partie->updatePlayerPrivilege("Joueur 1",game.get_joueur(1).getNbPrivileges());
+    partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
+
+
+    PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
+    partie->afficherPlateau(plateauWidgetInstance);
+
+
     QMessageBox::information(parentWidget, "Action", "Remplir le plateau sélectionné");
 }
