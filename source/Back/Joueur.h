@@ -3,7 +3,7 @@
 
 #include "carte_joaillerie.h" // Inclure le fichier d'en-tte de CarteJoaillerie
 #include "CarteRoyale.h"      // Inclure le fichier d'en-tte de CarteRoyale
-#include "StockGemmes.h"      // Inclure le fichier d'en-tte de StockGemmes
+#include "stockGemmes.h"      // Inclure le fichier d'en-tte de StockGemmes
 
 class Joueur
 {

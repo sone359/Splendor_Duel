@@ -2,7 +2,7 @@
 #define CARTE_JOAILLERIE_H
 
 #include <string>
-#include "StockGemmes.h"
+#include "stockGemmes.h"
 #include "Effet.h"
 
 

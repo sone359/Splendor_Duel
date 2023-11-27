@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include "plateau.h"
 #include "sac.h"
-#include "joueur.h"
+#include "Joueur.h"
 #include "CarteRoyale.h"
 #include "pyramide.h"
 #include "carte_joaillerie.h"
@@ -16,7 +16,7 @@ class Partie
 {
 public :
 
-    //Méthodes statiques suivant le design pattern Singleton
+    //Mï¿½thodes statiques suivant le design pattern Singleton
     static Partie& get_partie();
     static void delete_partie();
 
