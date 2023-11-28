@@ -4,6 +4,7 @@
 #include <vector>
 #include <array>
 #include <stdexcept>
+#include <iostream>
 #include "plateau.h"
 #include "sac.h"
 #include "Joueur.h"
@@ -20,12 +21,10 @@ public :
     static Partie& get_partie();
     static void delete_partie();
 
-    CarteJoaillerie * cartes[67];
+    std::vector<CarteJoaillerie> cartes;
 
-    void initPyramide(){
-        Pyramide::initialiser(cartes);
-        //Pyramide::getInstance()->afficherPyramide();
-    }
+
+    void initCartes();
 
     unsigned int joueur_actif() {return (tour%2)+1;};
     void prend_privilege(Joueur& joueur);

@@ -9,21 +9,14 @@
 Pyramide* Pyramide::instance = nullptr;
 
 
-    Pyramide::Pyramide(CarteJoaillerie * cartes[67]){
+    Pyramide::Pyramide(std::vector<CarteJoaillerie> cartes){
+        //std::cout<<"hello constr pyr"<<std::endl;
         //créer les pioches
-        for (int i = 0; i<40 ; i++){
-            Niveau1.push(cartes[i]);
+        for(CarteJoaillerie  carte : cartes){
+            if (carte.get_niveau() == 1) Niveau1.push(carte);
+            if (carte.get_niveau() == 2) Niveau2.push(carte);
+            if (carte.get_niveau() == 3) Niveau3.push(carte);
         }
-        //std::cout<<"\nnv1 top :"<<Niveau1.top()->getCout();
-        for (int i= 39; i<60 ; i++){
-            Niveau2.push(cartes[i]);
-        }
-        //std::cout<<"\nnv2 top :"<<Niveau2.top()->getCout();
-
-        for (int i = 59; i<67 ; i++){
-            Niveau3.push(cartes[i]);
-        }
-        //std::cout<<"\nnv3 top :"<<Niveau3.top()->getCout();
 
         for(int i =0; i<5 ;i++){
             piocherCarteJoaillerie(1,i);
@@ -38,8 +31,12 @@ Pyramide* Pyramide::instance = nullptr;
 
     }
 
-    void Pyramide::initialiser(CarteJoaillerie * jeu[67]){
-        instance = new Pyramide(jeu);
+    void Pyramide::initialiser(std::vector<CarteJoaillerie> cartes){
+        if (instance == nullptr) {
+            instance = new Pyramide(cartes);
+        } else {
+            std::cerr << "La pyramide a déjà été initialisée.\n" << std::endl;
+        }
     }
 
 
@@ -50,14 +47,14 @@ Pyramide* Pyramide::instance = nullptr;
         return instance;//renvoit l'instance
     }
 
-    CarteJoaillerie* Pyramide::reserverCarteJoaillerie(int numeroLigne, int numeroColonne){
+    CarteJoaillerie Pyramide::reserverCarteJoaillerie(int numeroLigne, int numeroColonne){
         //meme fonction que acheter du point de vue de pyramide mais pour joueur ce sera plus clair
         return acheterCarteJoaillerie(numeroLigne,numeroColonne);
     }
 
-    CarteJoaillerie* Pyramide::acheterCarteJoaillerie(int numeroLigne, int numeroColonne){
+    CarteJoaillerie Pyramide::acheterCarteJoaillerie(int numeroLigne, int numeroColonne){
         //on récupère la carte à cette adresse pour la retourner
-        CarteJoaillerie* result = recupererCarteJoaillerie(numeroLigne,numeroColonne);//modif ça ça n'a pas de sens
+        CarteJoaillerie result = recupererCarteJoaillerie(numeroLigne,numeroColonne);//modif ça ça n'a pas de sens
         //elle est remplacee en piochant
         piocherCarteJoaillerie(numeroLigne,numeroColonne);
         return result;
@@ -81,7 +78,7 @@ Pyramide* Pyramide::instance = nullptr;
         }
     }
 
-    CarteJoaillerie* Pyramide::recupererCarteJoaillerie(int numeroLigne, int numeroColonne){
+    CarteJoaillerie Pyramide::recupererCarteJoaillerie(int numeroLigne, int numeroColonne){
         switch (numeroLigne)
         {
         case 1:
@@ -94,34 +91,34 @@ Pyramide* Pyramide::instance = nullptr;
             return ligne3[numeroColonne];
             break;
         default:
-            std::cerr<<"Erreur : numero de ligne invalide.\n"<<std::endl;
-            return nullptr;
-
+            throw SplendorException("Erreur : numero de ligne invalide.\n");
         }
     }
 
-    /*void Pyramide::afficherPyramide(){
+    void Pyramide::afficherPyramide(){
+        std::cout<<"AFFICHAGE PYRAMIDE\n";
+
         std::cout<<"    ";
         for (int i = 0; i < 3; i++)
         {
-            std::cout<<" "<<ligne3[i]->afficherCarte()<<" ";
+            std::cout<<" "<<ligne3[i]<<" ";
         }
         std::cout<<'\n';
 
         std::cout<<"  ";
         for (int i = 0; i < 4; i++)
         {
-            std::cout<<" "<<ligne2[i]->afficherCarte()<<" ";
+            std::cout<<" "<<ligne2[i]<<" ";
         }
         std::cout<<'\n';
 
         for (int i = 0; i < 5; i++)
         {
-            std::cout<<" "<<ligne1[i]->afficherCarte()<<" ";
+            std::cout<<" "<<ligne1[i]<<" ";
         }
         std::cout<<'\n';
 
-    }*/
+    }
 
 
 

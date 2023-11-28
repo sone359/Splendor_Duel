@@ -1,6 +1,6 @@
 #include "partie.h"
 
-//Méthodes suivant le design pattern Singleton
+//Mï¿½thodes suivant le design pattern Singleton
 Partie* Partie::partie = nullptr;
 
 Partie& Partie::get_partie()
@@ -18,13 +18,17 @@ void Partie::delete_partie()
     partie = nullptr;
 }
 
-Partie::~Partie(){for (int i=0;i<67;i++){delete cartes[i];}}
+Partie::~Partie(){//for (int i=0;i<67;i++){delete cartes[i];}
+}
 
 
 //Constucteur
 Partie::Partie()
 {
-    //Remplissage du sac. Il est effectué ici plutôt que directement dans Sac dans le cas où une extension ajouterait des jetons différents
+    //pour des questions de dÃ©pendances entre les objets statiques il faut initialiser cartes dÃ¨s le constructeur
+    std::vector<CarteJoaillerie> c(67,CarteJoaillerie());
+    cartes=c;
+    //Remplissage du sac. Il est effectuï¿½ ici plutï¿½t que directement dans Sac dans le cas oï¿½ une extension ajouterait des jetons diffï¿½rents
     for(unsigned int i = 0 ; i < 4 ; i++){
         sac.ajouter_jeton(Bleu);
         sac.ajouter_jeton(Vert);
@@ -38,16 +42,57 @@ Partie::Partie()
         sac.ajouter_jeton(Or);
     }
     remplir_plateau(joueur1);
+    initCartes();
+    Pyramide::initialiser(cartes);
+}
 
-    //for (int i=0;i<67;i++){cartes[i]=new CarteJoaillerie(i,i);};
-    initPyramide();
+void Partie::initCartes(){
+    //lit depuis le fichier
+    //version test :
+    //for (int i = 0; i < 67; i++)
+    //{
+    //    cartes[i]=new CarteJoaillerie;
+    //}
+    std::cout<<"TOUTES LES CARTES\n";
+
+    
+    for (int i = 0; i<67 ; i++){
+        if (i%3==0){
+            cartes[i].setNiveau(1);
+            cartes[i].setCout(StockGemmes());//coute 0
+            cartes[i].setPointsPrestige(0);
+            cartes[i].setNombreBonus(1);//donne 1 bonus
+            cartes[i].setTypeBonus(StockGemmes(1));//bleu
+            cartes[i].setEffet("none");
+
+        }
+        if (i%3==1){
+            cartes[i].setNiveau(2);
+            cartes[i].setCout(StockGemmes(2));//coute 2 bleu
+            cartes[i].setPointsPrestige(1);//donne 1 pp
+            cartes[i].setNombreBonus(2);//donne 2 bonus
+            cartes[i].setTypeBonus(StockGemmes(0,1));//vert
+            cartes[i].setEffet("none");
+        }
+        if (i%3==2){
+            cartes[i].setNiveau(3);
+            cartes[i].setCout(StockGemmes(2,2));//coute 2 bleu 2 vert
+            cartes[i].setPointsPrestige(2);//donne 2 pp
+            cartes[i].setNombreBonus(2);//donne 2 bonus
+            cartes[i].setTypeBonus(StockGemmes(0,1));//vert
+            cartes[i].setEffet("none");
+        }
+        std::cout<<cartes[i];
+    }
+    std::cout<<std::endl;
+
 }
 
 Joueur& Partie::get_joueur(unsigned int num_joueur)
 {
     if(num_joueur == 1) {return joueur1;}
     if(num_joueur == 2) {return joueur2;}
-    throw std::invalid_argument("La valeur du paramètre num_joueur dela méthode get_joueur doit être 1 ou 2");
+    throw std::invalid_argument("La valeur du paramï¿½tre num_joueur dela mï¿½thode get_joueur doit ï¿½tre 1 ou 2");
 }
 
 void Partie::prend_privilege(Joueur& joueur)
@@ -63,10 +108,10 @@ void Partie::prend_privilege(Joueur& joueur)
 
 std::vector<std::array<unsigned int, 2>> Partie::remplir_plateau(Joueur& joueur)
 {
-    //Vérification que le plateau n'est pas vide
-    if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est déjà plein, impossible de le remplir");}
+    //Vï¿½rification que le plateau n'est pas vide
+    if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est dï¿½jï¿½ plein, impossible de le remplir");}
 
-    //Initialisation de la liste des coordonnées des cases modifiées à renvoyer
+    //Initialisation de la liste des coordonnï¿½es des cases modifiï¿½es ï¿½ renvoyer
     std::vector<std::array<unsigned int, 2>> coordonnees_modif;
 
     while ((plateau.get_nbCasesVides() > 0) && (total_stock(sac.get_gemmes())))

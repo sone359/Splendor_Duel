@@ -4,14 +4,15 @@
 #include "carte_joaillerie.h" // Inclure le fichier d'en-tte de CarteJoaillerie
 #include "CarteRoyale.h"      // Inclure le fichier d'en-tte de CarteRoyale
 #include "stockGemmes.h"      // Inclure le fichier d'en-tte de StockGemmes
+#include <vector>
 
 class Joueur
 {
 private:
     int nbPrivileges;
-    CarteJoaillerie* cartesJoailleriesPossedees;
-    CarteJoaillerie cartesJoailleriesReservees[3];
-    CarteRoyale* cartesRoyalesPossedees;
+    std::vector<CarteJoaillerie> cartesJoailleriesPossedees;
+    std::vector<CarteJoaillerie> cartesJoailleriesReservees;
+    std::vector<CarteRoyale> cartesRoyalesPossedees;
     int nbCouronnes;
     StockGemmesOr gemmes;
     StockGemmes bonus;
@@ -22,28 +23,34 @@ public:
     Joueur(int nbPrivileges, int nbCouronnes, StockGemmesOr & tgemmes, StockGemmes & tbonus);
 
     // Constructeur de copie
-    Joueur(const Joueur& other);
+    Joueur(const Joueur& other)=delete;
 
     // Operateur d'affectation
-    Joueur& operator=(const Joueur& other);
+    Joueur& operator=(const Joueur& other)=delete;
 
     // Destructeur
-    ~Joueur();
+    ~Joueur(){};
 
     // Getters
     int getNbPrivileges() const;
-    CarteJoaillerie* getCartesJoailleriesPossedees() const;
-    CarteJoaillerie* getCartesJoailleriesReservees() ;
-    CarteRoyale* getCartesRoyalesPossedees() const;
+    std::vector<CarteJoaillerie>  getCartesJoailleriesPossedees() const;
+    std::vector<CarteJoaillerie>  getCartesJoailleriesReservees() const;
+    std::vector<CarteRoyale>  getCartesRoyalesPossedees() const;
     int getNbCouronnes() const;
     StockGemmesOr getGemmes() const;
     StockGemmes getBonus() const;
+    StockGemmesOr getRessources() const;
 
     // Setters
     void setNbPrivileges(int nbPrivileges);
-    void setCartesJoailleriesPossedees(CarteJoaillerie* cartes);
-    void setCartesJoailleriesReservees(const CarteJoaillerie cartes[3]);
-    void setCartesRoyalesPossedees(CarteRoyale* cartes);
+    //pour initialiser les tableaux à partir d'une sauvegarde par exemple
+    void setCartesJoailleriesPossedees(std::vector<CarteJoaillerie> cartes);
+    void setCartesJoailleriesReservees(std::vector<CarteJoaillerie> cartes);
+    void setCartesRoyalesPossedees(std::vector<CarteRoyale> cartes);
+    //pour les modifier element par element
+    void addCartesJoailleriesPossedees(CarteJoaillerie & carte);
+    void addCartesJoailleriesReservees(CarteJoaillerie & carte);
+    void addCartesRoyalesPossedees(CarteRoyale & carte);
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);
