@@ -160,6 +160,8 @@ void PartieWidget::displayRoyalImages(const QStringList &imagePaths) {
 }
 
 
+
+
 void PartieWidget::afficherPlateau(PlateauWidget * pl) {
 
 //    if(getPlateauWidget())
@@ -167,7 +169,7 @@ void PartieWidget::afficherPlateau(PlateauWidget * pl) {
 
 
 
-//    mainLayout->addWidget(pl);
+mainLayout->addWidget(pl);
 
 //    setPlateauWidget(pl);
     // Delete existing widget if it exists
@@ -187,26 +189,26 @@ void PartieWidget::afficherPlateau(PlateauWidget * pl) {
     // Delete the existing widget if it exists
 
     // Create a new widget
-    QWidget * plateauWidget = new QWidget;
-    // Create a new layout for the widget
-    QVBoxLayout *plateauLayout = new QVBoxLayout(plateauWidget);
-    plateauLayout->addWidget(pl);
+//    QWidget * plateauWidget = new QWidget;
+//    // Create a new layout for the widget
+//    QVBoxLayout *plateauLayout = new QVBoxLayout(plateauWidget);
+//    plateauLayout->addWidget(pl);
 
-    // Create a new mainLayout for PartieWidget
-    mainLayout = new QVBoxLayout(this);
-    // Add the new widget to the new mainLayout
-    mainLayout->addWidget(plateauWidget);
+//    // Create a new mainLayout for PartieWidget
+//    mainLayout = new QVBoxLayout(this);
+//    // Add the new widget to the new mainLayout
+//    mainLayout->addWidget(plateauWidget);
 
-    QWidget * ancien = getPlateauWidget();
-    if (ancien) {
-        std::cout << "Widget found. Deleting..." << std::endl;
-        delete ancien;
-    } else {
-        std::cout << "Widget not found." << std::endl;
-    }
+////    QWidget * ancien = getPlateauWidget();
+////    if (ancien) {
+////        std::cout << "Widget found. Deleting..." << std::endl;
+////        delete ancien;
+////    } else {
+////        std::cout << "Widget not found." << std::endl;
+////    }
 
-    setPlateauWidget(plateauWidget);
-    plateauWidget->show();
+////    setPlateauWidget(plateauWidget);
+//    plateauWidget->show();
 
 
 
@@ -225,8 +227,17 @@ void PartieWidget::updatePlayerPrivilege(const QString& playerName,int privilege
 
 
 }
-void PartieWidget::remove(PlateauWidget * pl)
+void PartieWidget::removePlateau(PlateauWidget * pl)
 {
-    //PlateauWidget * plateauWidget = PlateauWidget::getInstance();
+   if(pl)
+{
     mainLayout->removeWidget(pl);
+        std::cout<<"PlateauTrouve";
+
+    // Remove the widget from the layout, but don't delete it yet
+    pl->setParent(nullptr);
+
+    // Delete the widget
+
+   }
 }

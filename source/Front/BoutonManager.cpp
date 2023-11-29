@@ -158,8 +158,10 @@ void BoutonManager::onPrendreJetonsClicked() {
 
 //    widget->show();
     //partie->remove(plateauWidget);
+    partie->removePlateau(partie->getPlateauWidget());
     PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
     partie->afficherPlateau(plateauWidgetInstance);
+    partie->setPlateauWidget(plateauWidgetInstance);
     partie->updatePlayerPrivilege("Joueur 1",game.get_joueur(1).getNbPrivileges());
     partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
 
@@ -200,9 +202,10 @@ void BoutonManager::onRemplirPlateauClicked() {
     partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
 
 
+    partie->removePlateau(partie->getPlateauWidget());
     PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
     partie->afficherPlateau(plateauWidgetInstance);
-
+    partie->setPlateauWidget(plateauWidgetInstance);
 
     QMessageBox::information(parentWidget, "Action", "Remplir le plateau sélectionné");
 }

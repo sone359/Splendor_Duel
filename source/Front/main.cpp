@@ -173,7 +173,7 @@ int main(int argc, char *argv[]) {
     //partie->displayRoyalImages(imagePaths);
     partie->afficherPlateau(plateauWidget);
 
-    partie->setPlateauWidget(NULL);
+    partie->setPlateauWidget(plateauWidget);
 
     // Show the widget
     partie->show();

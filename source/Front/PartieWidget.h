@@ -14,7 +14,7 @@ class PartieWidget : public QWidget {
 public:
     static PartieWidget *getInstance();
     void displayRoyalImages(const QStringList &imagePaths);
-    void remove(PlateauWidget * pl);
+    void removePlateau(PlateauWidget * pl=nullptr);
     void afficherPlateau(PlateauWidget * pl);
     void setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, QLineEdit*& greenLineEdit,
                                           QLineEdit*& blueLineEdit, QLineEdit*& whiteLineEdit,
@@ -24,19 +24,19 @@ public:
 
     void updatePlayerPrivilege(const QString& playerName,int privilegeValue);
 
-    QWidget * getPlateauWidget() const {
+    PlateauWidget * getPlateauWidget() const {
         return pl;
     }
 
     // Setter for PlateauWidget
-    void setPlateauWidget(QWidget * plateauWidget) {
+    void setPlateauWidget(PlateauWidget * plateauWidget) {
         pl = plateauWidget;
     }
 
 private:
     explicit PartieWidget(QWidget *parent = nullptr);
     static PartieWidget *instance;
-    QWidget * pl;
+    PlateauWidget * pl;
     BoutonManager boutonManager;
     QVBoxLayout *mainLayout;
     // Player 1 Labels and LineEdits
