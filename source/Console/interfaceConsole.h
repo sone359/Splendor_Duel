@@ -10,6 +10,7 @@ class InterfaceConsole
 {
 public:
     void deroulement_tour();
+
     //Affichages publics pour les tests mais destinés à devenir private
     void afficher_plateau();
     void afficher_jetons_possedes(unsigned int num_joueur);

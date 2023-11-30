@@ -46,7 +46,7 @@ void InterfaceConsole::afficher_plateau()
 void InterfaceConsole::afficher_jetons_possedes(unsigned int num_joueur)
 {
     Joueur& joueur = partie.get_joueur(num_joueur);
-    std::cout << "Jetons possedes par le joueur " << num_joueur <<" : " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
+    std::cout << "\nJetons possedes par le joueur " << num_joueur <<" : " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
 }
 
 void InterfaceConsole::afficher_pyramide()
@@ -65,26 +65,31 @@ void InterfaceConsole::deroulement_tour()
 
     Joueur& joueur = partie.get_joueur(partie.joueur_actif());
 
+    //Actions optionnelles
+
+    //Utilisation de privilege, possiblement plusieurs
     while(joueur.getNbPrivileges() > 0)
     {
-        std::cout << "Souhaitez-vous utiliser un privilège ? (oui/non)" << std::endl;
+        std::cout << "Souhaitez-vous utiliser un privilege ? (oui/non)" << std::endl;
         std::string reponse;
         std::cin >> reponse;
         if(reponse == "non"){break;}
         if(reponse != "oui")
         {
-            std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur la touche Entrée de votre clavier" << std::endl;
+            std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur la touche Entree de votre clavier" << std::endl;
         }
         else
         {
+            afficher_plateau(); //Nouvel affichage du plateau à chaque privilege utilise, pour voir les changements
             unsigned int colonne = 0, ligne = 0;
-            std::cout << "Quelle est la colonne du jeton à retirer ?";
+            std::cout << "Quelle est la colonne du jeton a retirer ?";
             std::cin >> colonne;
-            std::cout << "Quelle est la ligne du jeton à retirer ?";
+            std::cout << "Quelle est la ligne du jeton a retirer ?";
             std::cin >> ligne;
             try
             {
-                partie.utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned int ligne);
+                partie.utilise_privilege(joueur, colonne, ligne);
+                afficher_jetons_possedes(partie.joueur_actif());
             }
             catch (const SplendorException& except) //Si une erreur liee aux regles du jeu (et non au programme directement) est interceptée, on l'affiche et on propose à nouveau au joueur d'utiliser un privilege
             {
@@ -92,4 +97,7 @@ void InterfaceConsole::deroulement_tour()
             }
         }
     }
+
+    //Passage au tour suivant, sauf en cas d'effet rejouer
+    partie.fin_tour();
 }

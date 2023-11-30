@@ -4,7 +4,7 @@
 
 //Méthodes publiques de la classe StockGemmes
 
-void StockGemmes::ajouter_jeton(Jeton jeton)
+StockGemmes& StockGemmes::ajouter_jeton(Jeton jeton)
 {
     switch (jeton)
     {
@@ -31,6 +31,8 @@ void StockGemmes::ajouter_jeton(Jeton jeton)
         set_Perle(get_Perle() + 1);
         break;
     }
+
+    return *this;
 }
 
 //Contructeur
@@ -76,7 +78,7 @@ unsigned int total_stock(const StockGemmes& stock)
     return stock.get_Bleu() + stock.get_Vert() + stock.get_Blanc() + stock.get_Rouge() + stock.get_Noir() + stock.get_Perle();
 }
 
-void StockGemmesOr::ajouter_jeton(Jeton jeton)
+StockGemmesOr& StockGemmesOr::ajouter_jeton(Jeton jeton)
 {
     switch (jeton)
     {
@@ -104,6 +106,8 @@ void StockGemmesOr::ajouter_jeton(Jeton jeton)
         set_Or(get_Or() + 1);
         break;
     }
+
+    return *this;
 }
 
 //Contructeur

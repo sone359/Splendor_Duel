@@ -1,9 +1,9 @@
 #ifndef JOUEUR_H_INCLUDED
 #define JOUEUR_H_INCLUDED
 
-#include "carte_joaillerie.h" // Inclure le fichier d'en-tte de CarteJoaillerie
-#include "CarteRoyale.h"      // Inclure le fichier d'en-tte de CarteRoyale
-#include "stockGemmes.h"      // Inclure le fichier d'en-tte de StockGemmes
+#include "carte_joaillerie.h" // Inclure le fichier d'en-tete de CarteJoaillerie
+#include "CarteRoyale.h"      // Inclure le fichier d'en-tete de CarteRoyale
+#include "stockGemmes.h"      // Inclure le fichier d'en-tete de StockGemmes
 #include <vector>
 
 class Joueur

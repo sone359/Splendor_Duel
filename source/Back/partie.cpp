@@ -109,12 +109,43 @@ void Partie::prend_privilege(Joueur& joueur)
     }
 }
 
+void Partie::utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned int ligne)
+{
+    //Vérification de la validité des arguments passés en paramètre
+    if(joueur.getNbPrivileges() == 0)
+    {
+        throw SplendorException("Ce joueur n'a pas de privilege a utiliser");
+    }
+    if ((colonne > 25) || (ligne > 25))
+    {
+        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+        //throw SplendorException(std::format("La case ({}, {}) n'existe pas, impossible d'y retirer un jeton", coor_jeton[0], coor_jeton[1]));
+        throw SplendorException("La case (" + std::to_string(colonne) + ", "  + std::to_string(ligne) + ") n'existe pas, impossible d'y retirer un jeton\n");
+    }
+    if (plateau[colonne][ligne] == Nul)
+    {
+        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+        //throw SplendorException(std::format("La case ({}, {}) est vide, impossible d'y retirer un jeton", coor_jeton[0], coor_jeton[1]));
+        throw SplendorException("La case (" + std::to_string(colonne) + ", "  + std::to_string(ligne) + ") est vide, impossible d'y retirer un jeton\n");
+    }
+    if (plateau[colonne][ligne] == Or)
+    {
+        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+        //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
+        throw SplendorException("Case (" + std::to_string(colonne) + ", "  + std::to_string(ligne) + ") invalide : L'or ne peut pas etre retire avec cette action\n");
+    }
+
+    joueur.setGemmes(joueur.getGemmes().ajouter_jeton(plateau.retirerJeton({colonne, ligne})));
+
+    joueur.setNbPrivileges(joueur.getNbPrivileges() - 1);
+}
+
 std::vector<std::array<unsigned int, 2>> Partie::remplir_plateau(Joueur& joueur)
 {
-    //V�rification que le plateau n'est pas vide
-    if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est d�j� plein, impossible de le remplir");}
+    //Verification que le plateau n'est pas vide
+    if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est deja plein, impossible de le remplir");}
 
-    //Initialisation de la liste des coordonn�es des cases modifi�es � renvoyer
+    //Initialisation de la liste des coordonnees des cases modifiees a renvoyer
     std::vector<std::array<unsigned int, 2>> coordonnees_modif;
 
     while ((plateau.get_nbCasesVides() > 0) && (total_stock(sac.get_gemmes())))
@@ -147,4 +178,9 @@ void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& c
 void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton)
 {
     joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton));
+}
+
+void Partie::fin_tour()
+{
+    tour++;
 }

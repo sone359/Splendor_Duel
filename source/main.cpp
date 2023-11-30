@@ -26,8 +26,11 @@ int main()
 
     InterfaceConsole ic;
     ic.deroulement_tour();
-    //ic.afficher_pyramide();
+    ic.deroulement_tour();
     ic.afficher_plateau();
+    ic.afficher_jetons_possedes(2);
+    //ic.afficher_pyramide();
+    /*ic.afficher_plateau();
     game.retirer_jetons(game.get_joueur(1), {1, 1}, {1, 2}, {1, 3});
     ic.afficher_plateau();
     ic.afficher_jetons_possedes(1);
@@ -35,7 +38,7 @@ int main()
     ic.afficher_plateau();
     ic.afficher_jetons_possedes(2);
     game.remplir_plateau(game.get_joueur(1));
-    ic.afficher_plateau();
+    ic.afficher_plateau();*/
 
 
     /*pl.ajouterJeton(sac.retirer_jeton());

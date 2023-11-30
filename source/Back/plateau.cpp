@@ -185,7 +185,7 @@ void Plateau::addStock(StockGemmes& stock, const std::array<unsigned int, 2>& co
     {
         //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
         //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
-        throw SplendorException("Case (" + std::to_string(coor_jeton[0]) + ", "  + std::to_string(coor_jeton[1]) + ") invalide : L'or ne peut pas être retire avec cette action");
+        throw SplendorException("Case (" + std::to_string(coor_jeton[0]) + ", "  + std::to_string(coor_jeton[1]) + ") invalide : L'or ne peut pas etre retire avec cette action");
     }
     Jeton jeton_retire = retirerJeton(coor_jeton);
     //La valeur Nul est testée et déclare une erreur dans retirerJeton
