@@ -17,7 +17,7 @@ class Partie
 {
 public :
 
-    //M�thodes statiques suivant le design pattern Singleton
+    //Methodes statiques suivant le design pattern Singleton
     static Partie& get_partie();
     static void delete_partie();
 
@@ -27,6 +27,7 @@ public :
     void initCartes();
 
     unsigned int joueur_actif() {return (tour%2)+1;};
+    unsigned int joueur_adverse() {return ((tour+1)%2)+1;};
     void prend_privilege(Joueur& joueur);
     std::vector<std::array<unsigned int, 2>> remplir_plateau(Joueur& joueur);
     std::array<unsigned int, 2> remplir_case();
@@ -37,6 +38,7 @@ public :
     //Getters
     Plateau& get_plateau() const {return plateau;};
     Sac& get_sac() const {return sac;};
+    Pyramide& get_pyramide() const {return pyramide;};
     Joueur& get_joueur(unsigned int num_joueur);
     unsigned int get_tour() const {return tour;};
     unsigned int get_privileges_disponibles() const {return privileges_disponibles;};
@@ -53,6 +55,7 @@ protected:
 private:
     Plateau& plateau = Plateau::get_plateau();
     Sac& sac = Sac::get_sac();
+    Pyramide& pyramide = *Pyramide::getInstance();
     Joueur joueur1;
     Joueur joueur2;
     unsigned int tour = 0;

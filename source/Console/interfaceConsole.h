@@ -3,15 +3,20 @@
 
 #include "../Back/plateau.h"
 #include "../Back/Joueur.h"
+#include "../Back/partie.h"
+#include <iostream>
 
 class InterfaceConsole
 {
 public:
-    void afficherPlateau();
-    void afficherJetonsPossedes(Joueur& joueur);
+    void deroulement_tour();
+    //Affichages publics pour les tests mais destinés à devenir private
+    void afficher_plateau();
+    void afficher_jetons_possedes(unsigned int num_joueur);
+    void afficher_pyramide();
 
 private:
-    Plateau& plateau = Plateau::get_plateau();
+    Partie& partie = Partie::get_partie();
 
 };
 

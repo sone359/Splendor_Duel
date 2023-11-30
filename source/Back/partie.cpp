@@ -28,7 +28,7 @@ Partie::Partie()
     //pour des questions de dépendances entre les objets statiques il faut initialiser cartes dès le constructeur
     std::vector<CarteJoaillerie> c(67,CarteJoaillerie());
     cartes=c;
-    //Remplissage du sac. Il est effectu� ici plut�t que directement dans Sac dans le cas o� une extension ajouterait des jetons diff�rents
+    //Remplissage du sac. Il est effectue ici plutot que directement dans Sac dans le cas o� une extension ajouterait des jetons diff�rents
     for(unsigned int i = 0 ; i < 4 ; i++){
         sac.ajouter_jeton(Bleu);
         sac.ajouter_jeton(Vert);
@@ -55,7 +55,7 @@ void Partie::initCartes(){
     //}
     std::cout<<"TOUTES LES CARTES\n";
 
-    
+
     for (int i = 0; i<67 ; i++){
         if (i%3==0){
             cartes[i].setNiveau(1);
@@ -97,13 +97,16 @@ Joueur& Partie::get_joueur(unsigned int num_joueur)
 
 void Partie::prend_privilege(Joueur& joueur)
 {
-    if (privileges_disponibles > 0) {privileges_disponibles -= 1;}
-    else
+    if(joueur.getNbPrivileges() < 3)
     {
-        if ((&joueur == &joueur1) && (joueur2.getNbPrivileges() > 0)) {joueur2.setNbPrivileges(joueur2.getNbPrivileges() - 1);}
-        else if (joueur1.getNbPrivileges() > 0){joueur1.setNbPrivileges(joueur1.getNbPrivileges() - 1);}
+        if (privileges_disponibles > 0) {privileges_disponibles -= 1;}
+        else
+        {
+            if (&joueur == &joueur1) {joueur2.setNbPrivileges(joueur2.getNbPrivileges() - 1);}
+            else {joueur1.setNbPrivileges(joueur1.getNbPrivileges() - 1);}
+        }
+        joueur.setNbPrivileges(joueur.getNbPrivileges()+1);
     }
-    joueur.setNbPrivileges(joueur.getNbPrivileges()+1);
 }
 
 std::vector<std::array<unsigned int, 2>> Partie::remplir_plateau(Joueur& joueur)
