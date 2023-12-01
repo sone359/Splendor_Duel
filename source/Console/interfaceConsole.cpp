@@ -98,6 +98,34 @@ void InterfaceConsole::deroulement_tour()
         }
     }
 
+    //Remplissage optionnel du plateau
+    bool finRemplissage = (partie.get_plateau().get_nbCasesVides() == 0);
+    while(!finRemplissage)
+    {
+        std::cout << "Souhaitez-vous remplir le plateau (cela donnera un privilege a votre adversaire) ? (oui/non)" << std::endl;
+        std::string reponse;
+        std::cin >> reponse;
+        if(reponse == "non"){break;}
+        if(reponse != "oui")
+        {
+            std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+        }
+        else
+        {
+            afficher_plateau(); //Nouvel affichage du plateau à chaque privilege utilise, pour voir les changements
+            try
+            {
+                partie.remplir_plateau(joueur);
+                finRemplissage = true;
+            }
+            catch (const SplendorException& except) //Si une erreur liee aux regles du jeu (et non au programme directement) est interceptée, on l'affiche et on propose à nouveau au joueur d'utiliser un privilege
+            {
+                std::cout << except.what();
+            }
+            afficher_plateau(); //Affichage du plateau pour visualiser les changements apportés par le remplissage
+        }
+    }
+
     //Passage au tour suivant, sauf en cas d'effet rejouer
     partie.fin_tour();
 }
