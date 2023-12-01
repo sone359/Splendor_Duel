@@ -9,6 +9,7 @@
 #include <QStringList>
 #include "PlateauWidget.h"
 #include "BoutonManager.h"
+#include "../Back/CarteRoyale.h"
 
 class PartieWidget : public QWidget {
 public:
@@ -32,6 +33,11 @@ public:
     void setPlateauWidget(PlateauWidget * plateauWidget) {
         pl = plateauWidget;
     }
+
+    void removeRoyalButton(int buttonIndex);
+
+public slots:
+    void handleRoyalButtonClick(const QString &imagePath);
 
 private:
     explicit PartieWidget(QWidget *parent = nullptr);
@@ -60,5 +66,8 @@ private:
     QLineEdit *player2BlackLineEdit;
     QLineEdit *player2PrivilegeLineEdit;
     QLineEdit * player2GoldLineEdit;
+
+    std::vector<CarteRoyale> cartesRoyales;
+    QVector<QPushButton*> royalButtons;
 };
 #endif // PARTIEWIDGET_H

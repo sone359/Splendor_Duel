@@ -78,6 +78,19 @@ PartieWidget::PartieWidget(QWidget *parent) : QWidget(parent) {
                        player2BlueLineEdit, player2WhiteLineEdit, player2PearlLineEdit,
                        player2BlackLineEdit, player2PrivilegeLineEdit,player2GoldLineEdit);
 
+    CarteRoyale carte1(2, Effet::voler, ":/Images/Cartes_royales/CartesRoyales_voler.png");
+    CarteRoyale carte2(2, Effet::rejouer, ":/Images/Cartes_royales/CartesRoyales_rejouer.png");
+    CarteRoyale carte3(3, Effet::sans, ":/Images/Cartes_royales/CartesRoyales_sans.png");
+    CarteRoyale carte4(2, Effet::privilege, ":/Images/Cartes_royales/CartesRoyales_privilege.png");
+
+
+
+    // Add the CarteRoyale objects to the cartesRoyales attribute
+    cartesRoyales.push_back(carte1);
+    cartesRoyales.push_back(carte2);
+    cartesRoyales.push_back(carte3);
+    cartesRoyales.push_back(carte4);
+
 
 }
 
@@ -143,21 +156,69 @@ PartieWidget *PartieWidget::getInstance() {
 void PartieWidget::displayRoyalImages(const QStringList &imagePaths) {
     QHBoxLayout *imageRowLayout = new QHBoxLayout;
 
-    for (const QString &imagePath : imagePaths) {
-        // Load and display each image
-        QLabel *label = new QLabel;
-        QPixmap pixmap(imagePath);
+    for (int i = 0; i < imagePaths.size(); ++i) {
+        // Create a QPushButton with the image as its background
+        QPushButton *button = new QPushButton;
+        QPixmap pixmap(imagePaths[i]);
         pixmap = pixmap.scaled(100, 100, Qt::KeepAspectRatio);
-        label->setPixmap(pixmap);
-        imageRowLayout->addWidget(label);
+        button->setIcon(QIcon(pixmap));
+        button->setIconSize(pixmap.size());
+        button->setFixedSize(69, 100); // Set the size of the button
 
-        // Add a spacing of 3 pixels after each image
-        imageRowLayout->addSpacing(3); // Vous avez probablement voulu utiliser 3 pixels ici
+        // Add a spacing of 3 pixels after each button
+        if (i > 0) {
+            imageRowLayout->addSpacing(3);
+        }
+
+        // Add the button to the layout
+        imageRowLayout->addWidget(button);
+        royalButtons.append(button);
+
+        // Connect the button click event to a slot that handles the click
+        connect(button, &QPushButton::clicked, [this, i, imagePaths]() {
+            handleRoyalButtonClick(imagePaths[i]);
+        });
     }
 
     // Add the QHBoxLayout to the QVBoxLayout (mainLayout)
     mainLayout->addLayout(imageRowLayout);
 }
+
+void PartieWidget::removeRoyalButton(int buttonIndex) {
+    if (buttonIndex >= 0 && buttonIndex < royalButtons.size()) {
+        // Remove the button from layout and delete it
+        mainLayout->removeWidget(royalButtons[buttonIndex]);
+        delete royalButtons[buttonIndex];
+
+    } else {
+        qDebug() << "Invalid button index";
+    }
+}
+
+void PartieWidget::handleRoyalButtonClick(const QString &imagePath) {
+    // Check if the buttonIndex is within the valid range
+
+    for (int i = 0; i < cartesRoyales.size(); ++i) {
+        if (QString::fromStdString(cartesRoyales[i].getCheminImage()) == imagePath)
+         {
+
+            CarteRoyale clickedCarte = cartesRoyales[i];
+            // You can use the information as needed
+            int pointsPrestige = clickedCarte.getPointsPrestige();
+            Effet effet = clickedCarte.getCapacite();
+
+            // Example: Display information in a message box
+            QString message = QString("Carte %1 - Points Prestige: %2, Capacite: %3")
+                                  .arg(i + 1).arg(pointsPrestige).arg(static_cast<int>(effet));
+
+            QMessageBox::information(this, "Carte Royale Clicked", message);
+            removeRoyalButton(i);
+
+        }
+    }
+
+}
+
 
 
 

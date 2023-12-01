@@ -18,7 +18,7 @@ BoutonManager::~BoutonManager() {
 
 void BoutonManager::createButtons() {
 
-    volerButton->setDisabled(true);
+    //volerButton->setDisabled(true);
 
 
     buttonsLayout->addWidget(acheterCarteButton, 0, 0);
@@ -70,11 +70,38 @@ void BoutonManager::onReserverCarteClicked() {
 }
 
 void BoutonManager::onUtiliserPrivilegeClicked() {
+
+    QString message = "Quelle couleur de jeton souhaitez-vous utiliser pour remplacer votre privilège";
+    QString colorChoice = QInputDialog::getText(nullptr, "Choix de couleur", message);
+
+
+    if (!colorChoice.isEmpty()) {
+            // Process the color choice (you can store it in a variable, etc.)
+            // For now, we'll just display it in a message box
+            QString resultMessage = "Vous avez choisi de voler le jeton de couleur : " + colorChoice;
+            QMessageBox::information(nullptr, "Choix enregistré", resultMessage);
+    } else {
+            // User canceled the input
+            qDebug() << "L'utilisateur a annulé le choix de couleur.";
+    }
     QMessageBox::information(parentWidget, "Action", "Utiliser un privilège sélectionné");
 }
 
 void BoutonManager::onVolerDisabledClicked() {
-    // Cette action est désactivée, donc cette partie du code ne sera pas atteinte
+
+    QString message = "Le jeton de quelle couleur voulez-vous voler ?";
+    QString colorChoice = QInputDialog::getText(nullptr, "Choix de couleur", message);
+
+
+    if (!colorChoice.isEmpty()) {
+            // Process the color choice (you can store it in a variable, etc.)
+            // For now, we'll just display it in a message box
+            QString resultMessage = "Vous avez choisi de voler le jeton de couleur : " + colorChoice;
+            QMessageBox::information(nullptr, "Choix enregistré", resultMessage);
+    } else {
+            // User canceled the input
+            qDebug() << "L'utilisateur a annulé le choix de couleur.";
+    }
 }
 
 void BoutonManager::onPrendreJetonsClicked() {
