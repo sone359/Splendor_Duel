@@ -54,12 +54,33 @@ void InterfaceConsole::afficher_pyramide()
     partie.get_pyramide().afficherPyramide();
 }
 
+void InterfaceConsole::main()
+{
+    int fin_partie = 0;
+    while(fin_partie == 0)
+    {
+        fin_partie = deroulement_tour();
+    }
+    if(fin_partie == 1)
+    {
+        std::cout << "Le joueur " << partie.joueur_actif() << " a plus de 20 points de prestige en tout et remporte la partie ! Felicitations !" << std::endl;
+    }
+    else if(fin_partie == 2)
+    {
+        std::cout << "Le joueur " << partie.joueur_actif() << " a plus de 10 couronnes et remporte la partie ! Felicitations !" << std::endl;
+    }
+    else if(fin_partie == 3)
+    {
+        std::cout << "Le joueur " << partie.joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
+    }
+}
+
 int InterfaceConsole::deroulement_tour()
 {
     //Initialisation de la possession de l'effet rejouer, qui peut etre obtenu par l'achat d'une carte et qu'il est necessaire de verifier a la fin du tour
     bool effet_rejouer = false;
     //Affichage de l'état de la partie
-    std::cout << "Tour " << partie.get_tour() << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
+    std::cout << "\nTour " << partie.get_tour() << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
     //afficher_pyramide();
     afficher_jetons_possedes(partie.joueur_adverse());
     afficher_plateau();
@@ -131,7 +152,7 @@ int InterfaceConsole::deroulement_tour()
     bool fin_actions_obligatoires = false;
     while(!fin_actions_obligatoires)
     {
-        std::cout << "Quelle action obligatoire souhaitez-vous effectuer ?\n1 - Prendre jusqu'a 3 jetons Gemme et/ou Perle\n2 - Prendre 1 jeton Or pour reserver 1 carte Joaillerie\n3 - Acheter 1 carte Joaillerie" << std::endl;
+        std::cout << "Quelle action obligatoire souhaitez-vous effectuer ?\n1 - Prendre jusqu'a 3 jetons Gemme et/ou Perle\n2 - Prendre 1 jeton Or pour reserver 1 carte Joaillerie\n3 - Acheter 1 carte Joaillerie\n4 - Quitter la partie" << std::endl;
         std::string reponse;
         std::cin >> reponse;
         try
@@ -148,9 +169,13 @@ int InterfaceConsole::deroulement_tour()
             {
                 fin_actions_obligatoires = action_acheter(joueur);
             }
+            else if(reponse == "4")
+            {
+                return -1;
+            }
             else
             {
-                std::cout << "Saisie invalide, merci de rentrer 1, 2 ou 3 et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+                std::cout << "Saisie invalide, merci de rentrer 1, 2, 3 ou 4 et d'appuyer sur la touche Entree de votre clavier" << std::endl;
             }
         }
         catch (const SplendorException& except) //Si une erreur previsible liee aux regles du jeu (et non au programme directement) est interceptée, on l'affiche et on propose à nouveau au joueur d'utiliser un privilege

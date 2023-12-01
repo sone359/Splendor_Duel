@@ -25,10 +25,11 @@ int main()
     Pyramide::getInstance()->afficherPyramide();
 
     InterfaceConsole ic;
-    ic.deroulement_tour();
-    ic.deroulement_tour();
-    ic.afficher_plateau();
-    ic.afficher_jetons_possedes(2);
+    ic.main();
+    //ic.deroulement_tour();
+    //ic.deroulement_tour();
+    //ic.afficher_plateau();
+    //ic.afficher_jetons_possedes(2);
     //ic.afficher_pyramide();
     /*ic.afficher_plateau();
     game.retirer_jetons(game.get_joueur(1), {1, 1}, {1, 2}, {1, 3});

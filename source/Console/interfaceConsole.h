@@ -9,6 +9,7 @@
 class InterfaceConsole
 {
 public:
+    void main();
     int deroulement_tour();
     bool action_prendre_jetons(Joueur& joueur);
     bool action_reserver(Joueur& joueur);
