@@ -10,6 +10,9 @@ class InterfaceConsole
 {
 public:
     void deroulement_tour();
+    bool action_prendre_jetons(Joueur& joueur);
+    bool action_reserver(Joueur& joueur);
+    bool action_acheter(Joueur& joueur);
 
     //Affichages publics pour les tests mais destinés à devenir private
     void afficher_plateau();
