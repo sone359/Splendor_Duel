@@ -182,40 +182,40 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
     //Saisie des coordonnées du jeton 1
     afficher_plateau(); //Nouvel affichage du plateau à chaque privilege utilise, pour voir les changements
     unsigned int colonne1 = 0, ligne1 = 0;
-    std::cout << "Quelle est la colonne du premier jeton a retirer ?";
+    std::cout << "Entrez la colonne du premier jeton a retirer : ";
     std::cin >> colonne1;
-    std::cout << "Quelle est la ligne du premier jeton a retirer ?";
+    std::cout << "Entrez la ligne du premier jeton a retirer : ";
     std::cin >> ligne1;
 
     if(nb_jetons == "1")
     {
-        partie.retirer_jetons(joueur, {colonne1, ligne1});
+        partie.retirer_jetons({colonne1, ligne1});
         return true;
     }
     else
     {
         //Saisie des coordonnées du jeton 2
         unsigned int colonne2 = 0, ligne2 = 0;
-        std::cout << "Quelle est la colonne du deuxième jeton a retirer ?";
+        std::cout << "Entrez la colonne du deuxième jeton a retirer : ";
         std::cin >> colonne2;
-        std::cout << "Quelle est la ligne du deuxième jeton a retirer ?";
+        std::cout << "Entrez la ligne du deuxième jeton a retirer : ";
         std::cin >> ligne2;
 
         if(nb_jetons == "2")
         {
-            partie.retirer_jetons(joueur, {colonne1, ligne1}, {colonne2, ligne2});
+            partie.retirer_jetons({colonne1, ligne1}, {colonne2, ligne2});
             return true;
         }
         else
         {
             //Saisie des coordonnées du jeton 3
             unsigned int colonne3 = 0, ligne3 = 0;
-            std::cout << "Quelle est la colonne du troisième jeton a retirer ?";
+            std::cout << "Entrez la colonne du troisième jeton a retirer : ";
             std::cin >> colonne3;
-            std::cout << "Quelle est la ligne du troisième jeton a retirer ?";
+            std::cout << "Entrez la ligne du troisième jeton a retirer : ";
             std::cin >> ligne3;
 
-            partie.retirer_jetons(joueur, {colonne1, ligne1}, {colonne2, ligne2}, {colonne3, ligne3});
+            partie.retirer_jetons({colonne1, ligne1}, {colonne2, ligne2}, {colonne3, ligne3});
             return true;
         }
     }

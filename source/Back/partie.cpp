@@ -165,18 +165,31 @@ std::array<unsigned int, 2> Partie::remplir_case()
     return plateau.ajouterJeton(sac.retirer_jeton());
 }
 
-void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
+void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
 {
-    joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton1, coor_jeton2, coor_jeton3));
+    Joueur& joueur = get_joueur(joueur_actif());
+    StockGemmes stock = plateau.actionRetirerJetons(coor_jeton1, coor_jeton2, coor_jeton3);
+    if(stock.get_Bleu() == 3 || stock.get_Vert() == 3 || stock.get_Blanc() == 3 || stock.get_Rouge() == 3 || stock.get_Noir() == 3 || stock.get_Perle() == 2)
+    {
+        prend_privilege(get_joueur(joueur_adverse()));
+    }
+    joueur.setGemmes(joueur.getGemmes() + stock);
 }
 
-void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2)
+void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2)
 {
-    joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton1, coor_jeton2));
+    Joueur& joueur = get_joueur(joueur_actif());
+    StockGemmes stock = plateau.actionRetirerJetons(coor_jeton1, coor_jeton2);
+    if(stock.get_Perle() == 2)
+    {
+        prend_privilege(get_joueur(joueur_adverse()));
+    }
+    joueur.setGemmes(joueur.getGemmes() + stock);
 }
 
-void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton)
+void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton)
 {
+    Joueur& joueur = get_joueur(joueur_actif());
     joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton));
 }
 

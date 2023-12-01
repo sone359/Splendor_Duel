@@ -32,9 +32,9 @@ public :
     void utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned int ligne);
     std::vector<std::array<unsigned int, 2>> remplir_plateau(Joueur& joueur);
     std::array<unsigned int, 2> remplir_case();
-    void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
-    void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
-    void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton);
+    void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
+    void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
+    void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton);
     void fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant à l'effet rejouer ou l'effet lui-meme
 
     //Getters
