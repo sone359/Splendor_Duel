@@ -54,8 +54,10 @@ void InterfaceConsole::afficher_pyramide()
     partie.get_pyramide().afficherPyramide();
 }
 
-void InterfaceConsole::deroulement_tour()
+int InterfaceConsole::deroulement_tour()
 {
+    //Initialisation de la possession de l'effet rejouer, qui peut etre obtenu par l'achat d'une carte et qu'il est necessaire de verifier a la fin du tour
+    bool effet_rejouer = false;
     //Affichage de l'état de la partie
     std::cout << "Tour " << partie.get_tour() << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
     //afficher_pyramide();
@@ -157,8 +159,14 @@ void InterfaceConsole::deroulement_tour()
         }
     }
 
+    //Verification des conditions de victoire pour le joueur actif
+    int victoire = joueur.verifVictoire();
     //Passage au tour suivant, sauf en cas d'effet rejouer
-    partie.fin_tour();
+    if(victoire == 0 && !effet_rejouer)
+    {
+        partie.fin_tour();
+    }
+    return victoire;
 }
 
 bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
@@ -172,7 +180,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
     {
         return false;
     }
-    //Verification de la validite du choix entre
+    //Verification de la validite du choix du nombre de jetons
     if(nb_jetons != "1" && nb_jetons != "2" && nb_jetons != "3")
     {
         std::cout << "Saisie invalide, merci de rentrer 1, 2 ou 3 et d'appuyer sur la touche Entree de votre clavier" << std::endl;
@@ -223,10 +231,30 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
 
 bool InterfaceConsole::action_reserver(Joueur& joueur)
 {
-    std::cout << "Cette option n'est pas encore implementee" << std::endl;
+    afficher_plateau(); //Nouvel affichage du plateau a chaque privilege utilise, pour voir les changements
+    unsigned int colonne_jeton = 0, ligne_jeton = 0, niveau_carte = 0, num_carte = 0;
+
+    //Saisie des coordonnées du jeton Or a retirer
+    std::cout << "Entrez la colonne du jeton Or a retirer : ";
+    std::cin >> colonne_jeton;
+    std::cout << "Entrez la ligne du jeton Or a retirer : ";
+    std::cin >> ligne_jeton;
+
+    //Saisie des coordonnées de la carte a reserver
+    std::cout << "Entrez le niveau de la carte que vous souhaitez reserver : ";
+    std::cin >> niveau_carte;
+    std::cout << "Entrez le numero de la carte que vous souhaitez reserver (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3) ou bien 0 si vous souhaitez reserver la carte non visible sur le dessus de la pioche du niveau choisi : ";
+    std::cin >> num_carte;
+
+    //partie.reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
+
+    std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
+
+    return true;
 }
 
 bool InterfaceConsole::action_acheter(Joueur& joueur)
 {
     std::cout << "Cette option n'est pas encore implementee" << std::endl;
+    //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achetée ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
 }
