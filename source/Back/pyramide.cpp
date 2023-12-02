@@ -10,6 +10,9 @@ Pyramide* Pyramide::instance = nullptr;
 
 
     Pyramide::Pyramide(std::vector<CarteJoaillerie> cartes){
+        ligne1.resize(5);  
+        ligne2.resize(4);
+        ligne3.resize(3);
         //std::cout<<"hello constr pyr"<<std::endl;
         //créer les pioches
         for(CarteJoaillerie  carte : cartes){
@@ -54,7 +57,7 @@ Pyramide* Pyramide::instance = nullptr;
 
     CarteJoaillerie Pyramide::acheterCarteJoaillerie(int numeroLigne, int numeroColonne){
         //on récupère la carte à cette adresse pour la retourner
-        CarteJoaillerie result = recupererCarteJoaillerie(numeroLigne,numeroColonne);//modif ça ça n'a pas de sens
+        CarteJoaillerie result = recupererCarteJoaillerie(numeroLigne,numeroColonne);
         //elle est remplacee en piochant
         piocherCarteJoaillerie(numeroLigne,numeroColonne);
         return result;
@@ -64,15 +67,15 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
-            ligne1[numeroColonne]=Niveau1.top();
+            ligne1.insert(ligne1.begin() + numeroColonne, Niveau1.top());
             Niveau1.pop();
             break;
         case 2:
-            ligne2[numeroColonne]=Niveau2.top();
+            ligne2.insert(ligne2.begin() + numeroColonne, Niveau2.top());
             Niveau2.pop();
             break;
         case 3:
-            ligne3[numeroColonne]=Niveau3.top();
+            ligne3.insert(ligne3.begin() + numeroColonne, Niveau3.top());
             Niveau3.pop();
             break;
         }
@@ -82,14 +85,26 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
-            return ligne1[numeroColonne];
-            break;
+            if (numeroColonne >= 0 && numeroColonne < ligne1.size()) {
+                CarteJoaillerie carte = ligne1[numeroColonne];
+                return carte;
+            } else {
+                throw SplendorException("Erreur : numero de colonne invalide.\n");
+            }
         case 2:
-            return ligne2[numeroColonne];
-            break;
+            if (numeroColonne >= 0 && numeroColonne < ligne2.size()) {
+                CarteJoaillerie carte = ligne2[numeroColonne];
+                return carte;
+            } else {
+                throw SplendorException("Erreur : numero de colonne invalide.\n");
+            }
         case 3:
-            return ligne3[numeroColonne];
-            break;
+            if (numeroColonne >= 0 && numeroColonne < ligne3.size()) {
+                CarteJoaillerie carte = ligne3[numeroColonne];
+                return carte;
+            } else {
+                throw SplendorException("Erreur : numero de colonne invalide.\n");
+            }
         default:
             throw SplendorException("Erreur : numero de ligne invalide.\n");
         }

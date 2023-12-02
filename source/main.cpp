@@ -23,6 +23,15 @@ int main()
     //std::cout<<"youhou";
     Partie& game = Partie::get_partie();
     Pyramide::getInstance()->afficherPyramide();
+    CarteJoaillerie c=game.get_pyramide().acheterCarteJoaillerie(1,1);
+    game.get_pyramide().afficherPyramide();
+    std::cout<<"carte piochée : "<<c<<std::endl;
+    c=game.get_pyramide().reserverCarteJoaillerie(2,1);
+    game.get_pyramide().afficherPyramide();
+    std::cout<<"carte piochée : "<<c<<std::endl;
+
+    //game.get_joueur(1).addCartesJoailleriesPossedees(c);
+    //std::cout<<"j1 a mtn\n"<<game.get_joueur(1).getCartesJoailleriesPossedees()[0];
     //InterfaceConsole ic;
 
     //ic.afficherPlateau();

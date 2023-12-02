@@ -13,9 +13,9 @@ class Pyramide {
     std::stack<CarteJoaillerie> Niveau3;
 
     //3 lignes
-    CarteJoaillerie ligne1[5];
-    CarteJoaillerie ligne2[4];
-    CarteJoaillerie ligne3[3];//tableaux de pointeurs pcq les cartes peuvent pas être dupliquées
+    std::vector<CarteJoaillerie> ligne1;
+    std::vector<CarteJoaillerie> ligne2;
+    std::vector<CarteJoaillerie> ligne3;
     //singleton dc constructeur
     Pyramide(std::vector<CarteJoaillerie > jeu);
     //constructeur de recop, assignment op

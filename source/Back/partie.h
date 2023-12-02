@@ -35,6 +35,7 @@ public :
     void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton);
 
     //Getters
+    Pyramide& get_pyramide()const{return *pyramide;}
     Plateau& get_plateau() const {return plateau;};
     Sac& get_sac() const {return sac;};
     Joueur& get_joueur(unsigned int num_joueur);
@@ -52,6 +53,7 @@ protected:
 
 private:
     Plateau& plateau = Plateau::get_plateau();
+    Pyramide* pyramide;
     Sac& sac = Sac::get_sac();
     Joueur joueur1;
     Joueur joueur2;
