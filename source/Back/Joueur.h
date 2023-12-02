@@ -6,6 +6,7 @@
 #include "stockGemmes.h"      // Inclure le fichier d'en-tete de StockGemmes
 #include <vector>
 #include <array>
+#include <algorithm>
 
 class Joueur
 {

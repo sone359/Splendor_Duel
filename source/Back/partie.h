@@ -35,6 +35,7 @@ public :
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton);
+    void remettre_jeton(Jeton jeton);
     void fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant à l'effet rejouer ou l'effet lui-meme
 
     //Getters

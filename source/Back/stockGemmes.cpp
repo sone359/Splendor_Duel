@@ -1,6 +1,4 @@
 #include "stockGemmes.h"
-#include "../tools.h"
-#include <stdexcept>
 
 //Méthodes publiques de la classe StockGemmes
 
@@ -29,6 +27,43 @@ StockGemmes& StockGemmes::ajouter_jeton(Jeton jeton)
         break;
     case Perle:
         set_Perle(get_Perle() + 1);
+        break;
+    }
+
+    return *this;
+}
+
+StockGemmes& StockGemmes::retirer_jeton(Jeton jeton)
+{
+    switch (jeton)
+    {
+    case Nul:
+        throw std::invalid_argument("Impossible de retirer un jeton Nul (correspond à une valeur inexistante)");
+    case Or:
+        throw std::invalid_argument("Impossible de retirer un jeton Or (inexistant dans ce type de stock, préférez un StockGemmesOr)");
+    case Bleu:
+        if(get_Bleu() == 0){throw SplendorException("Impossible de retirer un jeton Bleu (stock vide)");}
+        set_Bleu(get_Bleu() - 1);
+        break;
+    case Vert:
+        if(get_Vert() == 0){throw SplendorException("Impossible de retirer un jeton Vert (stock vide)");}
+        set_Vert(get_Vert()  - 1);
+        break;
+    case Blanc:
+        if(get_Blanc() == 0){throw SplendorException("Impossible de retirer un jeton Blanc (stock vide)");}
+        set_Blanc(get_Blanc()  - 1);
+        break;
+    case Rouge:
+        if(get_Rouge() == 0){throw SplendorException("Impossible de retirer un jeton Rouge (stock vide)");}
+        set_Rouge(get_Rouge()  - 1);
+        break;
+    case Noir:
+        if(get_Noir() == 0){throw SplendorException("Impossible de retirer un jeton Noir (stock vide)");}
+        set_Noir(get_Noir()  - 1);
+        break;
+    case Perle:
+        if(get_Perle() == 0){throw SplendorException("Impossible de retirer un jeton Perle (stock vide)");}
+        set_Perle(get_Perle()  - 1);
         break;
     }
 
@@ -104,6 +139,45 @@ StockGemmesOr& StockGemmesOr::ajouter_jeton(Jeton jeton)
         break;
     case Or:
         set_Or(get_Or() + 1);
+        break;
+    }
+
+    return *this;
+}
+
+StockGemmesOr& StockGemmesOr::retirer_jeton(Jeton jeton)
+{
+    switch (jeton)
+    {
+    case Nul:
+        throw std::invalid_argument("Impossible de retirer un jeton Nul (correspond à une valeur inexistante)");
+    case Or:
+        if(get_Or() == 0){throw SplendorException("Impossible de retirer un jeton Or (stock vide)");}
+        set_Or(get_Or() - 1);
+        break;
+    case Bleu:
+        if(get_Bleu() == 0){throw SplendorException("Impossible de retirer un jeton Bleu (stock vide)");}
+        set_Bleu(get_Bleu() - 1);
+        break;
+    case Vert:
+        if(get_Vert() == 0){throw SplendorException("Impossible de retirer un jeton Vert (stock vide)");}
+        set_Vert(get_Vert()  - 1);
+        break;
+    case Blanc:
+        if(get_Blanc() == 0){throw SplendorException("Impossible de retirer un jeton Blanc (stock vide)");}
+        set_Blanc(get_Blanc()  - 1);
+        break;
+    case Rouge:
+        if(get_Rouge() == 0){throw SplendorException("Impossible de retirer un jeton Rouge (stock vide)");}
+        set_Rouge(get_Rouge()  - 1);
+        break;
+    case Noir:
+        if(get_Noir() == 0){throw SplendorException("Impossible de retirer un jeton Noir (stock vide)");}
+        set_Noir(get_Noir()  - 1);
+        break;
+    case Perle:
+        if(get_Perle() == 0){throw SplendorException("Impossible de retirer un jeton Perle (stock vide)");}
+        set_Perle(get_Perle()  - 1);
         break;
     }
 

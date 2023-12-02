@@ -1,6 +1,4 @@
 #include "Joueur.h"
-#include <vector>
-#include <algorithm>
 
 // Constructeurs
 Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0){}

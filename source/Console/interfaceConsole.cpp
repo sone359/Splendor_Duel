@@ -1,5 +1,4 @@
 #include "interfaceConsole.h"
-#include "../Back/Joueur.h"
 
 void InterfaceConsole::afficher_plateau()
 {
@@ -184,8 +183,41 @@ int InterfaceConsole::deroulement_tour()
         }
     }
 
+    //Verification du nombre de jetons possédés par le joueur actif
+    while (total_stock(joueur.getGemmes()) > 10)
+    {
+        afficher_jetons_possedes(partie.joueur_actif());
+        std::cout << "\nVous avez trop de jetons ! Entrez le type de jeton a remettre dans le sac (B, V, W, R, N, P ou O) : " << std::endl;
+        std::string jeton_retire;
+        std::cin >> jeton_retire;
+        try
+        {
+            if(jeton_retire == "B" || jeton_retire == "b")
+                partie.remettre_jeton(Bleu);
+            else if(jeton_retire == "V" || jeton_retire == "v")
+                partie.remettre_jeton(Vert);
+            else if(jeton_retire == "W" || jeton_retire == "w")
+                partie.remettre_jeton(Blanc);
+            else if(jeton_retire == "R" || jeton_retire == "r")
+                partie.remettre_jeton(Rouge);
+            else if(jeton_retire == "N" || jeton_retire == "n")
+                partie.remettre_jeton(Noir);
+            else if(jeton_retire == "P" || jeton_retire == "p")
+                partie.remettre_jeton(Perle);
+            else if(jeton_retire == "O" || jeton_retire == "o")
+                partie.remettre_jeton(Or);
+            else
+                std::cout << "Saisie invalide, merci de rentrer B, V, W, R, N, P ou O et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+        }
+        catch (const SplendorException& except) //Si une erreur previsible liee aux regles du jeu (et non au programme directement) est interceptée, on l'affiche et on propose à nouveau au joueur d'utiliser un privilege
+        {
+            std::cout << except.what() << std::endl;
+        }
+    }
+
     //Verification des conditions de victoire pour le joueur actif
     int victoire = joueur.verifVictoire();
+
     //Passage au tour suivant, sauf en cas d'effet rejouer
     if(victoire == 0 && !effet_rejouer)
     {
@@ -229,9 +261,9 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
     {
         //Saisie des coordonnées du jeton 2
         unsigned int colonne2 = 0, ligne2 = 0;
-        std::cout << "Entrez la colonne du deuxième jeton a retirer : ";
+        std::cout << "Entrez la colonne du deuxieme jeton a retirer : ";
         std::cin >> colonne2;
-        std::cout << "Entrez la ligne du deuxième jeton a retirer : ";
+        std::cout << "Entrez la ligne du deuxieme jeton a retirer : ";
         std::cin >> ligne2;
 
         if(nb_jetons == "2")
@@ -243,9 +275,9 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
         {
             //Saisie des coordonnées du jeton 3
             unsigned int colonne3 = 0, ligne3 = 0;
-            std::cout << "Entrez la colonne du troisième jeton a retirer : ";
+            std::cout << "Entrez la colonne du troisieme jeton a retirer : ";
             std::cin >> colonne3;
-            std::cout << "Entrez la ligne du troisième jeton a retirer : ";
+            std::cout << "Entrez la ligne du troisieme jeton a retirer : ";
             std::cin >> ligne3;
 
             partie.retirer_jetons({colonne1, ligne1}, {colonne2, ligne2}, {colonne3, ligne3});

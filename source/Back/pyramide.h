@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <stack>
+#include <iostream>
+
+#include "pyramide.h"
 #include "carte_joaillerie.h"
 
 class Pyramide {
@@ -26,7 +29,7 @@ class Pyramide {
     //pour pouvoir separer le constructeur de getInstance pcq il prend des arguments un bool permet de verif l'init
     bool init=false;
 
-    public : 
+    public :
     //appelee au debut du jeu pour init l'instance
     static void initialiser(std::vector<CarteJoaillerie > jeu);
     //instance accessible par Partie

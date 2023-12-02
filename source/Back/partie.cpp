@@ -194,6 +194,13 @@ void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton)
     joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton));
 }
 
+void Partie::remettre_jeton(Jeton jeton)
+{
+    Joueur& joueur = get_joueur(joueur_actif());
+    joueur.setGemmes(joueur.getGemmes().retirer_jeton(jeton));
+    sac.ajouter_jeton(jeton);
+}
+
 void Partie::fin_tour()
 {
     tour++;

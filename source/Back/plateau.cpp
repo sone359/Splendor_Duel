@@ -61,6 +61,7 @@ Jeton Plateau::retirerJeton(const std::array<unsigned int, 2>& coor_jeton)
 
 StockGemmes Plateau::actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
 {
+    //Verification de l'adjacence des cases
     if (!(verifAdjacence(coor_jeton1, coor_jeton2, coor_jeton3)))
     {
         //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
@@ -68,6 +69,25 @@ StockGemmes Plateau::actionRetirerJetons(const std::array<unsigned int, 2>& coor
         throw SplendorException("Selection invalide : Les cases (" + std::to_string(coor_jeton1[0]) + ", "  + std::to_string(coor_jeton1[1]) + "), (" + std::to_string(coor_jeton2[0]) + ", "  + std::to_string(coor_jeton2[1]) + ") et (" + std::to_string(coor_jeton3[0]) + ", "  + std::to_string(coor_jeton3[1]) + ") ne sont pas adjacentes verticalement, horizontalement ou diagonalement.");
     }
 
+    //Verification que les cases ne sorrespondent à pas à un jeton Or (La valeur Nul est testée et déclare une erreur dans retirerJeton)
+    if (matrice[coor_jeton1[0]][coor_jeton1[1]] == Or)
+    {
+        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+        //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
+        throw SplendorException("Case (" + std::to_string(coor_jeton1[0]) + ", "  + std::to_string(coor_jeton1[1]) + ") invalide : L'or ne peut pas etre retire avec cette action");
+    }
+    if (matrice[coor_jeton2[0]][coor_jeton2[1]] == Or)
+    {
+        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+        //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
+        throw SplendorException("Case (" + std::to_string(coor_jeton2[0]) + ", "  + std::to_string(coor_jeton2[1]) + ") invalide : L'or ne peut pas etre retire avec cette action");
+    }
+    if (matrice[coor_jeton3[0]][coor_jeton3[1]] == Or)
+    {
+        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+        //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
+        throw SplendorException("Case (" + std::to_string(coor_jeton3[0]) + ", "  + std::to_string(coor_jeton3[1]) + ") invalide : L'or ne peut pas etre retire avec cette action");
+    }
     StockGemmes stock;
     addStock(stock, coor_jeton1);
     addStock(stock, coor_jeton2);
@@ -83,6 +103,20 @@ StockGemmes Plateau::actionRetirerJetons(const std::array<unsigned int, 2>& coor
         //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
         //throw SplendorException(std::format("Sélection invalide : Les cases {} et {} ne sont pas adjacentes verticalement, horizontalement ou diagonalement.", coor_jeton1, coor_jeton2));
         throw SplendorException("Selection invalide : Les cases (" + std::to_string(coor_jeton1[0]) + ", "  + std::to_string(coor_jeton1[1]) + ") et (" + std::to_string(coor_jeton2[0]) + ", "  + std::to_string(coor_jeton2[1]) + ")) ne sont pas adjacentes verticalement, horizontalement ou diagonalement.");
+    }
+
+    //Verification que les cases ne sorrespondent à pas à un jeton Or (La valeur Nul est testée et déclare une erreur dans retirerJeton)
+    if (matrice[coor_jeton1[0]][coor_jeton1[1]] == Or)
+    {
+        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+        //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
+        throw SplendorException("Case (" + std::to_string(coor_jeton1[0]) + ", "  + std::to_string(coor_jeton1[1]) + ") invalide : L'or ne peut pas etre retire avec cette action");
+    }
+    if (matrice[coor_jeton2[0]][coor_jeton2[1]] == Or)
+    {
+        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
+        //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
+        throw SplendorException("Case (" + std::to_string(coor_jeton2[0]) + ", "  + std::to_string(coor_jeton2[1]) + ") invalide : L'or ne peut pas etre retire avec cette action");
     }
 
     StockGemmes stock;
@@ -181,13 +215,6 @@ std::array<unsigned int, 2> minLigne(const std::array<unsigned int, 2>& coor_jet
 
 void Plateau::addStock(StockGemmes& stock, const std::array<unsigned int, 2>& coor_jeton)
 {
-    if (matrice[coor_jeton[0]][coor_jeton[1]] == Or)
-    {
-        //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
-        //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
-        throw SplendorException("Case (" + std::to_string(coor_jeton[0]) + ", "  + std::to_string(coor_jeton[1]) + ") invalide : L'or ne peut pas etre retire avec cette action");
-    }
     Jeton jeton_retire = retirerJeton(coor_jeton);
-    //La valeur Nul est testée et déclare une erreur dans retirerJeton
     stock.ajouter_jeton(jeton_retire);
 }
