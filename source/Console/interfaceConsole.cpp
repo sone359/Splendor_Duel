@@ -81,7 +81,7 @@ int InterfaceConsole::deroulement_tour()
     bool effet_rejouer = false;
     //Affichage de l'état de la partie
     std::cout << "\nTour " << partie.get_tour() << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
-    //afficher_pyramide();
+    afficher_pyramide();
     afficher_jetons_possedes(partie.joueur_adverse());
     afficher_plateau();
     afficher_jetons_possedes(partie.joueur_actif());

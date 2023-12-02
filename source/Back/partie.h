@@ -40,7 +40,7 @@ public :
     //Getters
     Plateau& get_plateau() const {return plateau;};
     Sac& get_sac() const {return sac;};
-    Pyramide& get_pyramide() const {return pyramide;};
+    Pyramide& get_pyramide() const {return *pyramide;};
     Joueur& get_joueur(unsigned int num_joueur);
     unsigned int get_tour() const {return tour;};
     unsigned int get_privileges_disponibles() const {return privileges_disponibles;};
@@ -57,7 +57,7 @@ protected:
 private:
     Plateau& plateau = Plateau::get_plateau();
     Sac& sac = Sac::get_sac();
-    Pyramide& pyramide = *Pyramide::getInstance();
+    Pyramide* pyramide;// = Pyramide::getInstance();
     Joueur joueur1;
     Joueur joueur2;
     unsigned int tour = 0;

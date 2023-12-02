@@ -44,6 +44,7 @@ Partie::Partie()
     remplir_plateau(joueur1);
     initCartes();
     Pyramide::initialiser(cartes);
+    pyramide = Pyramide::getInstance();
 }
 
 void Partie::initCartes(){
