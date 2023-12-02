@@ -1,10 +1,7 @@
 #ifndef PYRAMIDE_CPP
 #define PYRAMIDE_CPP
 
-#include <iostream>
-
 #include "pyramide.h"
-#include "carte_joaillerie.h"
 
 Pyramide* Pyramide::instance = nullptr;
 

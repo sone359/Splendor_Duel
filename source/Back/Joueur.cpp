@@ -1,6 +1,4 @@
 #include "Joueur.h"
-#include <vector>
-#include <algorithm>
 
 // Constructeurs
 Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0){}
@@ -44,6 +42,33 @@ StockGemmes Joueur::getBonus() const
 StockGemmesOr Joueur::getRessources() const {
     return gemmes+bonus;
 }
+
+unsigned int Joueur::getNbPointsPrestige() const
+{
+    return nbPointsPrestige;
+}
+unsigned int Joueur::getNbPointsPrestigeBleu() const
+{
+    return nbPointsPrestigeCouleurs[0];
+}
+unsigned int Joueur::getNbPointsPrestigeVert() const
+{
+    return nbPointsPrestigeCouleurs[1];
+}
+unsigned int Joueur::getNbPointsPrestigeBlanc() const
+{
+    return nbPointsPrestigeCouleurs[2];
+}
+unsigned int Joueur::getNbPointsPrestigeRouge() const
+{
+    return nbPointsPrestigeCouleurs[3];
+}
+unsigned int Joueur::getNbPointsPrestigeNoir() const
+{
+    return nbPointsPrestigeCouleurs[4];
+}
+
+
 // Setters
 void Joueur::setNbPrivileges(int nbPrivileges)
 {
@@ -95,4 +120,22 @@ void Joueur::setGemmes(const StockGemmesOr& g)
 void Joueur::setBonus(const StockGemmes& b)
 {
     this->bonus = b;
+}
+
+int Joueur::verifVictoire()
+//Renvoie 0 si le joueur n'a pas atteint les conditions de victoire, 1 s'il a plus de 20 points de prestige, 2 s'il a plus de 10 couronnes ou 3 s'il a plus de 10 points de prestige dans une des couleurs de gemmes
+{
+    if(nbPointsPrestige >= 20)
+    {
+        return 1;
+    }
+    if(nbCouronnes >= 10)
+    {
+        return 2;
+    }
+    if(getNbPointsPrestigeBleu() >= 10 || getNbPointsPrestigeVert() >= 10 || getNbPointsPrestigeBlanc() >= 10 || getNbPointsPrestigeRouge() >= 10 || getNbPointsPrestigeNoir() >= 10)
+    {
+        return 3;
+    }
+    return 0;
 }

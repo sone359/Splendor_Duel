@@ -1,10 +1,12 @@
 #ifndef JOUEUR_H_INCLUDED
 #define JOUEUR_H_INCLUDED
 
-#include "carte_joaillerie.h" // Inclure le fichier d'en-tte de CarteJoaillerie
-#include "CarteRoyale.h"      // Inclure le fichier d'en-tte de CarteRoyale
-#include "stockGemmes.h"      // Inclure le fichier d'en-tte de StockGemmes
+#include "carte_joaillerie.h" // Inclure le fichier d'en-tete de CarteJoaillerie
+#include "CarteRoyale.h"      // Inclure le fichier d'en-tete de CarteRoyale
+#include "stockGemmes.h"      // Inclure le fichier d'en-tete de StockGemmes
 #include <vector>
+#include <array>
+#include <algorithm>
 
 class Joueur
 {
@@ -16,6 +18,8 @@ private:
     int nbCouronnes;
     StockGemmesOr gemmes;
     StockGemmes bonus;
+    unsigned int nbPointsPrestige = 0;
+    std::array<unsigned int, 5> nbPointsPrestigeCouleurs = {0, 0, 0, 0, 0};
 
 public:
     // Constructeurs
@@ -40,6 +44,12 @@ public:
     StockGemmesOr getGemmes() const;
     StockGemmes getBonus() const;
     StockGemmesOr getRessources() const;
+    unsigned int getNbPointsPrestige() const;
+    unsigned int getNbPointsPrestigeBleu() const;
+    unsigned int getNbPointsPrestigeVert() const;
+    unsigned int getNbPointsPrestigeBlanc() const;
+    unsigned int getNbPointsPrestigeRouge() const;
+    unsigned int getNbPointsPrestigeNoir() const;
 
     // Setters
     void setNbPrivileges(int nbPrivileges);
@@ -54,6 +64,8 @@ public:
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);
+
+    int verifVictoire();
 };
 
 #endif // JOUEUR_H_INCLUDED

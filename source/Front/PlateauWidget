@@ -1,0 +1,24 @@
+#include "PlateauWidget"
+#include <QGraphicsRectItem>
+
+PlateauWidget::PlateauWidget(QWidget *parent) : QGraphicsView(parent)
+{
+    QGraphicsScene *scene = new QGraphicsScene(this);
+
+    // Ajoutez ici les éléments graphiques représentant le plateau
+    // par exemple, utilisez QGraphicsRectItem pour chaque case
+
+    // Exemple simple avec des rectangles pour représenter les cases
+    const int tailleCase = 50;
+    for (int i = 0; i < 5; ++i)
+    {
+        for (int j = 0; j < 5; ++j)
+        {
+            QGraphicsRectItem *caseItem = scene->addRect(i * tailleCase, j * tailleCase, tailleCase, tailleCase);
+            // Configurez le rectangle en fonction du contenu de votre plateau
+            // par exemple, la couleur, le contenu, etc.
+        }
+    }
+
+    setScene(scene);
+}

@@ -17,7 +17,7 @@ class Partie
 {
 public :
 
-    //Mï¿½thodes statiques suivant le design pattern Singleton
+    //Methodes statiques suivant le design pattern Singleton
     static Partie& get_partie();
     static void delete_partie();
 
@@ -27,17 +27,22 @@ public :
     void initCartes();
 
     unsigned int joueur_actif() {return (tour%2)+1;};
+    unsigned int joueur_adverse() {return ((tour+1)%2)+1;};
     void prend_privilege(Joueur& joueur);
+    void utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned int ligne);
     std::vector<std::array<unsigned int, 2>> remplir_plateau(Joueur& joueur);
     std::array<unsigned int, 2> remplir_case();
-    void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
-    void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
-    void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton);
+    void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
+    void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
+    void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton);
+    void remettre_jeton(Jeton jeton);
+    void fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant à l'effet rejouer ou l'effet lui-meme
 
     //Getters
     Pyramide& get_pyramide()const{return *pyramide;}
     Plateau& get_plateau() const {return plateau;};
     Sac& get_sac() const {return sac;};
+    Pyramide& get_pyramide() const {return *pyramide;};
     Joueur& get_joueur(unsigned int num_joueur);
     unsigned int get_tour() const {return tour;};
     unsigned int get_privileges_disponibles() const {return privileges_disponibles;};
@@ -55,6 +60,7 @@ private:
     Plateau& plateau = Plateau::get_plateau();
     Pyramide* pyramide;
     Sac& sac = Sac::get_sac();
+    Pyramide* pyramide;// = Pyramide::getInstance();
     Joueur joueur1;
     Joueur joueur2;
     unsigned int tour = 0;

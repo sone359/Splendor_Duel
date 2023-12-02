@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/Jetons/jeton_blanc.png</file>
+        <file>Images/Jetons/jeton_bleu.png</file>
+        <file>Images/Jetons/jeton_or.png</file>
+        <file>Images/Jetons/jeton_perle.png</file>
+        <file>Images/Jetons/jeton_rouge.png</file>
+        <file>Images/Jetons/jeton_vert.png</file>
+        <file>Images/Cartes_royales/CartesRoyales_privilege.png</file>
+        <file>Images/Cartes_royales/CartesRoyales_rejouer.png</file>
+        <file>Images/Cartes_royales/CartesRoyales_sans.png</file>
+        <file>Images/Cartes_royales/CartesRoyales_voler.png</file>
+        <file>Images/noir.png</file>
+    </qresource>
+</RCC>
