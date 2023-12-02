@@ -3,12 +3,12 @@
 
 enum Effet
 {
-    rejouer,
-    privilege,
-    couleur,
-    gemme,
-    voler,
-    sans
+    rejouer,//second_turn
+    privilege,//privilege_scroll
+    couleur,//multi_gem
+    gemme,//token
+    voler,//steal
+    sans//none
 };
 
 class EffetHandler

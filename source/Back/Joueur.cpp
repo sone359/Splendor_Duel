@@ -6,73 +6,22 @@ Joueur::Joueur() :  nbPrivileges(0), nbCouronnes(0){}
 Joueur::Joueur(int nbPrivileges, int nbCouronnes, StockGemmesOr & tgemmes, StockGemmes & tbonus)
     : nbPrivileges(nbPrivileges), nbCouronnes(nbCouronnes), gemmes(tgemmes), bonus(tbonus) {}
 
-// Constructeur de copie
-Joueur::Joueur(const Joueur& other)
-    : nbPrivileges(other.nbPrivileges),
-      nbCouronnes(other.nbCouronnes),
-      gemmes(other.gemmes),
-      bonus(other.bonus)
 
-{
-    delete[] cartesJoailleriesPossedees ;
-    cartesJoailleriesPossedees = other.cartesJoailleriesPossedees;
-    CarteJoaillerie * newTab2 = cartesJoailleriesReservees;
-    int taille = sizeof(other.cartesJoailleriesReservees) / sizeof(other.cartesJoailleriesReservees);
-    for(int i=0;i<taille;i++) cartesJoailleriesReservees[i]= other.cartesJoailleriesReservees[i];
-    delete[] newTab2 ;
-    delete[] cartesRoyalesPossedees ;
-    cartesRoyalesPossedees = other.cartesRoyalesPossedees;
-}
-
-// Operateur d'affectation
-Joueur& Joueur::operator=(const Joueur& other)
-{
-    if (this == &other)
-    {
-        return *this; // Eviter l'auto-affectation
-    }
-
-    // Copie des membres simples
-    nbPrivileges = other.nbPrivileges;
-    nbCouronnes = other.nbCouronnes;
-    bonus=other.bonus;
-    delete[] cartesJoailleriesPossedees ;
-    cartesJoailleriesPossedees = other.cartesJoailleriesPossedees;
-    CarteJoaillerie * newTab2 = cartesJoailleriesReservees;
-    int taille = sizeof(other.cartesJoailleriesReservees) / sizeof(other.cartesJoailleriesReservees);
-    for(int i=0;i<taille;i++) cartesJoailleriesReservees[i]= other.cartesJoailleriesReservees[i];
-    delete[] newTab2 ;
-    delete[] cartesRoyalesPossedees ;
-    cartesRoyalesPossedees = other.cartesRoyalesPossedees;
-
-    // Copie des tableaux et des objets complexes (a adapter selon votre implementation relle)
-    // Exemple : delete[] cartesJoailleriesPossedees; cartesJoailleriesPossedees = new CarteJoaillerie[...];
-
-    return *this;
-}
-
-// Destructeur
-Joueur::~Joueur()
-{
-    delete[] cartesJoailleriesPossedees;
-    //Il me semble que vu que le tableau est statique il n'y a pas besoin de le libérer (en plus le compilateur fait la tête, c'est pas bon signe) - Simon
-    //delete[] cartesJoailleriesReservees;
-}
 
 // Getters
 int Joueur::getNbPrivileges() const
 {
     return nbPrivileges;
 }
-CarteJoaillerie* Joueur::getCartesJoailleriesPossedees() const
+std::vector<CarteJoaillerie> Joueur::getCartesJoailleriesPossedees() const
 {
     return cartesJoailleriesPossedees;
 }
-CarteJoaillerie* Joueur::getCartesJoailleriesReservees()
+std::vector<CarteJoaillerie> Joueur::getCartesJoailleriesReservees() const
 {
     return cartesJoailleriesReservees;
 }
-CarteRoyale* Joueur::getCartesRoyalesPossedees() const
+std::vector<CarteRoyale> Joueur::getCartesRoyalesPossedees() const
 {
     return cartesRoyalesPossedees;
 }
@@ -89,46 +38,104 @@ StockGemmes Joueur::getBonus() const
 {
     return bonus;
 }
+
+StockGemmesOr Joueur::getRessources() const {
+    return gemmes+bonus;
+}
+
+unsigned int Joueur::getNbPointsPrestige() const
+{
+    return nbPointsPrestige;
+}
+unsigned int Joueur::getNbPointsPrestigeBleu() const
+{
+    return nbPointsPrestigeCouleurs[0];
+}
+unsigned int Joueur::getNbPointsPrestigeVert() const
+{
+    return nbPointsPrestigeCouleurs[1];
+}
+unsigned int Joueur::getNbPointsPrestigeBlanc() const
+{
+    return nbPointsPrestigeCouleurs[2];
+}
+unsigned int Joueur::getNbPointsPrestigeRouge() const
+{
+    return nbPointsPrestigeCouleurs[3];
+}
+unsigned int Joueur::getNbPointsPrestigeNoir() const
+{
+    return nbPointsPrestigeCouleurs[4];
+}
+
+
 // Setters
 void Joueur::setNbPrivileges(int nbPrivileges)
 {
     this->nbPrivileges = nbPrivileges;
 }
 
-void Joueur::setCartesJoailleriesPossedees(CarteJoaillerie* cartes)
-{
-    delete[] cartesJoailleriesPossedees ;
-    cartesJoailleriesPossedees = cartes;
-
+void Joueur::setCartesJoailleriesPossedees(std::vector<CarteJoaillerie> cartes){
+    cartesJoailleriesPossedees=cartes;
 }
 
-void Joueur::setCartesJoailleriesReservees(const CarteJoaillerie cartes[3])
+void Joueur::addCartesJoailleriesPossedees(CarteJoaillerie& carte)
 {
-    CarteJoaillerie * newTab2 = cartesJoailleriesReservees;
-    int taille = sizeof(cartes) / sizeof(cartes);
-    for(int i=0;i<taille;i++) cartesJoailleriesReservees[i]= cartes[i];
-    delete[] newTab2 ;
+    cartesJoailleriesPossedees.push_back(carte);
 }
 
-void Joueur::setCartesRoyalesPossedees(CarteRoyale* cartes)
+void Joueur::setCartesJoailleriesReservees(std::vector<CarteJoaillerie> cartes)
 {
-delete[] cartesRoyalesPossedees ;
-cartesRoyalesPossedees = cartes;
-
+    cartesJoailleriesReservees=cartes;
 }
 
-void Joueur::setNbCouronnes(int nbCouronnes)
+void Joueur::addCartesJoailleriesReservees(CarteJoaillerie& carte)
 {
-    nbCouronnes = nbCouronnes;
-}
-
-void Joueur::setGemmes(const StockGemmesOr& gemmes)
-{
-    this->gemmes = gemmes;
+    if (cartesJoailleriesReservees.size()>3) throw SplendorException("Impossible de reserver plus de 3 cartes.");
+    else cartesJoailleriesReservees.push_back(carte);
 }
 
 
-void Joueur::setBonus(const StockGemmes& bonus)
+void Joueur::setCartesRoyalesPossedees(std::vector<CarteRoyale> cartes)
 {
-    this->bonus = bonus;
+    cartesRoyalesPossedees=cartes;
+}
+
+void Joueur::addCartesRoyalesPossedees(CarteRoyale& carte)
+{
+    cartesRoyalesPossedees.push_back(carte);
+}
+
+void Joueur::setNbCouronnes(int nc)
+{
+    nbCouronnes = nc;
+}
+
+void Joueur::setGemmes(const StockGemmesOr& g)
+{
+    this->gemmes = g;
+}
+
+
+void Joueur::setBonus(const StockGemmes& b)
+{
+    this->bonus = b;
+}
+
+int Joueur::verifVictoire()
+//Renvoie 0 si le joueur n'a pas atteint les conditions de victoire, 1 s'il a plus de 20 points de prestige, 2 s'il a plus de 10 couronnes ou 3 s'il a plus de 10 points de prestige dans une des couleurs de gemmes
+{
+    if(nbPointsPrestige >= 20)
+    {
+        return 1;
+    }
+    if(nbCouronnes >= 10)
+    {
+        return 2;
+    }
+    if(getNbPointsPrestigeBleu() >= 10 || getNbPointsPrestigeVert() >= 10 || getNbPointsPrestigeBlanc() >= 10 || getNbPointsPrestigeRouge() >= 10 || getNbPointsPrestigeNoir() >= 10)
+    {
+        return 3;
+    }
+    return 0;
 }
