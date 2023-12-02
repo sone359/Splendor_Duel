@@ -39,7 +39,6 @@ public :
     void fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant à l'effet rejouer ou l'effet lui-meme
 
     //Getters
-    Pyramide& get_pyramide()const{return *pyramide;}
     Plateau& get_plateau() const {return plateau;};
     Sac& get_sac() const {return sac;};
     Pyramide& get_pyramide() const {return *pyramide;};
@@ -58,7 +57,6 @@ protected:
 
 private:
     Plateau& plateau = Plateau::get_plateau();
-    Pyramide* pyramide;
     Sac& sac = Sac::get_sac();
     Pyramide* pyramide;// = Pyramide::getInstance();
     Joueur joueur1;
