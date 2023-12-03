@@ -26,7 +26,7 @@ public :
 
     void initCartes();
 
-    unsigned int joueur_actif() {return (tour%2)+1;};//obsolete avec effets
+    unsigned int joueur_actif() {return (tour%2)+1;};
     void prend_privilege(Joueur& joueur);
     std::vector<std::array<unsigned int, 2>> remplir_plateau(Joueur& joueur);
     std::array<unsigned int, 2> remplir_case();
