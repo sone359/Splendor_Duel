@@ -40,7 +40,8 @@ DISTFILES += \
     Images/Jetons/jeton_perle.png \
     Images/Jetons/jeton_rouge.png \
     Images/Jetons/jeton_vert.png \
-    Images/noir.png
+    Images/noir.png \
+    Images/privilege.png
 
 RESOURCES += \
     resources.qrc

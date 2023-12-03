@@ -11,5 +11,6 @@
         <file>Images/Cartes_royales/CartesRoyales_sans.png</file>
         <file>Images/Cartes_royales/CartesRoyales_voler.png</file>
         <file>Images/noir.png</file>
+        <file>Images/privilege.png</file>
     </qresource>
 </RCC>

@@ -36,6 +36,8 @@ public:
 
     void removeRoyalButton(int buttonIndex);
 
+    void joueurActif(const QString& playerName) ;
+
 public slots:
     void handleRoyalButtonClick(const QString &imagePath);
 

@@ -19,8 +19,8 @@ void PlateauWidget::displayCase(const std::string &imageName, const Case &positi
         // If imageName is empty, just draw the border without creating a button
         QFrame* borderFrame = new QFrame;
         borderFrame->setFrameShape(QFrame::Box);
-        borderFrame->setFixedSize(50, 50);
-        borderFrame->setStyleSheet("border: 1px solid brown;");
+        borderFrame->setFixedSize(60, 60);
+        borderFrame->setStyleSheet("border: 1px solid brown; background-color: #C4A484;");
         gridLayout->addWidget(borderFrame, position.row, position.col);
     } else {
         // If imageName is not empty, create a button with the image
@@ -35,8 +35,9 @@ void PlateauWidget::displayCase(const std::string &imageName, const Case &positi
         button->setIconSize(pixmap.size());
 
         // Set the size and border of the button
-        button->setFixedSize(50, 50);
-        button->setStyleSheet("border: 1px solid brown;");
+        button->setFixedSize(60, 60);
+        button->setStyleSheet("border: 1px solid brown; background-color: #C4A484; ");
+
 
         // Set the text of the button to be the position and the name of the image
         // Add the button to the grid layout

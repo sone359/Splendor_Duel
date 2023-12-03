@@ -20,6 +20,38 @@ void BoutonManager::createButtons() {
 
     //volerButton->setDisabled(true);
 
+    // Définir le style pour les boutons
+    QString buttonStyle = "QPushButton {"
+                          "    display: inline-block;"
+                          "    background-color: green;"
+                          "    border-radius: 10px;"
+                          "    border: 4px double #cccccc;"
+                          "    color: #eeeeee;"
+                          "    text-align: center;"
+                          "    font-size: 12px;"
+                          "    padding: 10px;"
+                          "    width: 10px;"
+                          "    transition: all 0.5s;"
+                          "    cursor: pointer;"
+                          "    margin: 5px;"
+                          "}"
+                          "QPushButton:hover {"
+                          "    background-color: gray;"
+                          "}"
+                          "QPushButton:hover span {"
+                          "    padding-right: 25px;"
+                          "}"
+                          "QPushButton:hover span:after {"
+                          "    opacity: 1;"
+                          "    right: 0;"
+                          "}";
+
+    acheterCarteButton->setStyleSheet(buttonStyle);
+    reserverCarteButton->setStyleSheet(buttonStyle);
+    utiliserPrivilegeButton->setStyleSheet(buttonStyle);
+    volerButton->setStyleSheet(buttonStyle);
+    prendreJetonsButton->setStyleSheet(buttonStyle);
+    remplirPlateauButton->setStyleSheet(buttonStyle);
 
     buttonsLayout->addWidget(acheterCarteButton, 0, 0);
     buttonsLayout->addWidget(reserverCarteButton, 0, 1);
@@ -128,27 +160,6 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
 
     }
 
-
-    //else     QMessageBox::information(parentWidget, "Action", "Choisis un seul jeton");
-
-
-
-
-
-//    QString message = "Quelle couleur de jeton souhaitez-vous utiliser pour remplacer votre privilège";
-//    QString colorChoice = QInputDialog::getText(nullptr, "Choix de couleur", message);
-
-
-//    if (!colorChoice.isEmpty()) {
-//            // Process the color choice (you can store it in a variable, etc.)
-//            // For now, we'll just display it in a message box
-//            QString resultMessage = "Vous avez choisi de voler le jeton de couleur : " + colorChoice;
-//            QMessageBox::information(nullptr, "Choix enregistré", resultMessage);
-//    } else {
-//            // User canceled the input
-//            qDebug() << "L'utilisateur a annulé le choix de couleur.";
-//    }
-//    QMessageBox::information(parentWidget, "Action", "Utiliser un privilège sélectionné");
 }
 
 void BoutonManager::onVolerDisabledClicked() {
@@ -256,13 +267,18 @@ void BoutonManager::onPrendreJetonsClicked() {
             QMessageBox::information(parentWidget, "Action", "Joueur 1");
             partie->updatePlayerInfo("Joueur 1", game.get_joueur(1).getGemmes().get_Rouge() , game.get_joueur(1).getGemmes().get_Vert(), game.get_joueur(1).getGemmes().get_Bleu(), game.get_joueur(1).getGemmes().get_Blanc(), game.get_joueur(1).getGemmes().get_Perle(), game.get_joueur(1).getGemmes().get_Noir(),game.get_joueur(1).getGemmes().get_Or());
 
-            joueur1=0;}
+            joueur1=0;
+            partie->joueurActif("Joueur 2");
+   }
     else { QMessageBox::information(parentWidget, "Action", "Joueur 2");
             Joueur& joueur = game.get_joueur(2);
             std::cout << "\nJetons possedes par le joueur 2 "  <<" : " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
             partie->updatePlayerInfo("Joueur 2", game.get_joueur(2).getGemmes().get_Rouge() , game.get_joueur(2).getGemmes().get_Vert(), game.get_joueur(2).getGemmes().get_Bleu(), game.get_joueur(2).getGemmes().get_Blanc(), game.get_joueur(2).getGemmes().get_Perle(), game.get_joueur(2).getGemmes().get_Noir(),game.get_joueur(2).getGemmes().get_Or());
 
             joueur1=1;
+            partie->joueurActif("Joueur 1");
+
+
     }
    game.fin_tour();
 
@@ -278,12 +294,12 @@ void BoutonManager::onRemplirPlateauClicked() {
     {
             game.remplir_plateau(game.get_joueur(1));
 
-            joueur1=0;
+
 
     }
     else  {
             game.remplir_plateau(game.get_joueur(2));
-            joueur1=1;
+
     }
     partie->updatePlayerPrivilege("Joueur 1",game.get_joueur(1).getNbPrivileges());
     partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
