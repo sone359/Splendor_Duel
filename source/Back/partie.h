@@ -26,13 +26,15 @@ public :
 
     void initCartes();
 
-    unsigned int joueur_actif() {return (tour%2)+1;};
+    unsigned int joueur_actif() {return (tour%2)+1;};//obsolete avec effets
     void prend_privilege(Joueur& joueur);
     std::vector<std::array<unsigned int, 2>> remplir_plateau(Joueur& joueur);
     std::array<unsigned int, 2> remplir_case();
     void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     void retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton);
+    void acheter_carte(int numjoueur, int niv, int colonne);//colonne correspond à la position de la carte de gauche à droite 1-3,1,4 ou 1-5 en fct du niveau
+    void reserver_carte(int numjoueur, int niv, int colonne);//colonne correspond à la position de la carte de gauche à droite 1-3,1,4 ou 1-5 en fct du niveau OU 0 POUR LA PIOCHE
 
     //Getters
     Pyramide& get_pyramide()const{return *pyramide;}

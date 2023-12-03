@@ -5,6 +5,7 @@
 #include "Back/plateau.h"
 #include "Back/sac.h"
 #include "Back/partie.h"
+#include "Back/Joueur.h"
 #include "Console/interfaceConsole.h"
 
 
@@ -29,7 +30,15 @@ int main()
     c=game.get_pyramide().reserverCarteJoaillerie(2,1);
     game.get_pyramide().afficherPyramide();
     std::cout<<"carte piochée : "<<c<<std::endl;
-
+    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
+    game.acheter_carte(1,1,1);
+    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
+    game.reserver_carte(1,1,1);
+    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
+    game.reserver_carte(1,1,0);
+    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
+    game.acheter_carte(1,1,0);
+    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
     //game.get_joueur(1).addCartesJoailleriesPossedees(c);
     //std::cout<<"j1 a mtn\n"<<game.get_joueur(1).getCartesJoailleriesPossedees()[0];
     //InterfaceConsole ic;

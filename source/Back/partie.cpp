@@ -146,3 +146,40 @@ void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& c
 {
     joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton));
 }
+
+void Partie::acheter_carte(int numjoueur, int niv, int colonne){
+    try{
+        if (colonne == 0){
+            throw SplendorException("Impossible d'acheter une carte de la pioche.\n"); 
+            return;
+        }
+        CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
+        switch (numjoueur)
+        {
+        case 1:
+            joueur1.addCartesJoailleriesPossedees(piochee);
+            break;
+        case 2:
+            joueur2.addCartesJoailleriesPossedees(piochee);
+        default:
+            throw SplendorException("Erreur numero joueur actif");
+        }
+    }catch (const SplendorException& e) {
+        //oh mon dieu ca marche quelle emotion
+        std::cerr << "Exception caught: " << e.what() << std::endl;
+    }
+}
+
+void Partie::reserver_carte(int numjoueur, int niv, int colonne){
+    CarteJoaillerie piochee = pyramide->reserverCarteJoaillerie(niv,colonne);
+    switch (numjoueur)
+    {
+    case 1:
+        joueur1.addCartesJoailleriesReservees(piochee);
+        break;
+    case 2:
+        joueur2.addCartesJoailleriesReservees(piochee);
+    default:
+        throw SplendorException("Erreur numero joueur actif");
+    }
+}

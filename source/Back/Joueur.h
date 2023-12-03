@@ -5,6 +5,7 @@
 #include "CarteRoyale.h"      // Inclure le fichier d'en-tte de CarteRoyale
 #include "stockGemmes.h"      // Inclure le fichier d'en-tte de StockGemmes
 #include <vector>
+#include <iostream>
 
 class Joueur
 {
@@ -55,5 +56,18 @@ public:
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);
 };
+
+inline std::ostream& operator<<(std::ostream& os, const Joueur& j) {
+        os <<"\nPrivileges : "<< j.getNbPrivileges() << "\nCouronnes : " << j.getNbCouronnes()<<'\n';
+        os << "  Cartes Joailleries Possedees:\n";
+        for (const auto& carte : j.getCartesJoailleriesPossedees()) {
+            os << "    " << carte << "\n";
+        }
+        os << "  Cartes Joailleries Reservees:\n";
+        for (const auto& carte : j.getCartesJoailleriesReservees()) {
+            os << "    " << carte << "\n";
+        }
+        return os;
+    } 
 
 #endif // JOUEUR_H_INCLUDED

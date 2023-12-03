@@ -51,7 +51,26 @@ Pyramide* Pyramide::instance = nullptr;
     }
 
     CarteJoaillerie Pyramide::reserverCarteJoaillerie(int numeroLigne, int numeroColonne){
-        //meme fonction que acheter du point de vue de pyramide mais pour joueur ce sera plus clair
+        //meme fonction que acheter + on peut reserver dans la pioche
+        if (numeroColonne==0) {
+            CarteJoaillerie res;
+            switch (numeroLigne)
+            {
+            case 1:
+                res = Niveau1.top();
+                Niveau1.pop();
+                break;
+            case 2:
+                res = Niveau2.top();
+                Niveau2.pop();
+                break;
+            case 3:
+                res = Niveau3.top();
+                Niveau3.pop();
+                break;
+            }
+            return res;
+        }
         return acheterCarteJoaillerie(numeroLigne,numeroColonne);
     }
 
@@ -85,21 +104,21 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
-            if (numeroColonne >= 0 && numeroColonne < ligne1.size()) {
+            if (numeroColonne > 0 && numeroColonne < ligne1.size()) {
                 CarteJoaillerie carte = ligne1[numeroColonne];
                 return carte;
             } else {
                 throw SplendorException("Erreur : numero de colonne invalide.\n");
             }
         case 2:
-            if (numeroColonne >= 0 && numeroColonne < ligne2.size()) {
+            if (numeroColonne > 0 && numeroColonne < ligne2.size()) {
                 CarteJoaillerie carte = ligne2[numeroColonne];
                 return carte;
             } else {
                 throw SplendorException("Erreur : numero de colonne invalide.\n");
             }
         case 3:
-            if (numeroColonne >= 0 && numeroColonne < ligne3.size()) {
+            if (numeroColonne > 0 && numeroColonne < ligne3.size()) {
                 CarteJoaillerie carte = ligne3[numeroColonne];
                 return carte;
             } else {
