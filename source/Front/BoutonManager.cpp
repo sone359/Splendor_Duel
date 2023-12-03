@@ -70,21 +70,85 @@ void BoutonManager::onReserverCarteClicked() {
 }
 
 void BoutonManager::onUtiliserPrivilegeClicked() {
+    PlateauWidget * plateauWidget = PlateauWidget::getInstance();
+    Plateau& plateau = Plateau::get_plateau();
+    PartieWidget * partie = PartieWidget::getInstance();
+    Partie& game = Partie::get_partie();
+    plateauWidget->emptyJetons();
+    QMessageBox::information(parentWidget, "Action", "Le plateau est de cette forme [0:4,0:4] du gauche à droite");
 
-    QString message = "Quelle couleur de jeton souhaitez-vous utiliser pour remplacer votre privilège";
-    QString colorChoice = QInputDialog::getText(nullptr, "Choix de couleur", message);
+        unsigned int row = QInputDialog::getInt(nullptr, "Entrer la ligne", "Entrez le numéro de ligne du jeton que vous souhaitez avoir :", 0, 0, 4, 1);
+        unsigned int col = QInputDialog::getInt(nullptr, "Entrer la colonne", "Entrez le numéro de colonne jeton que vous souhaitez avoir :", 0, 0, 4, 1);
 
 
-    if (!colorChoice.isEmpty()) {
-            // Process the color choice (you can store it in a variable, etc.)
-            // For now, we'll just display it in a message box
-            QString resultMessage = "Vous avez choisi de voler le jeton de couleur : " + colorChoice;
-            QMessageBox::information(nullptr, "Choix enregistré", resultMessage);
-    } else {
-            // User canceled the input
-            qDebug() << "L'utilisateur a annulé le choix de couleur.";
+        // Vérifiez si l'utilisateur a appuyé sur OK
+
+            // Utilisez les valeurs de row et col comme nécessaire
+            if(joueur1==1)
+                try{
+                    game.utilise_privilege(game.get_joueur(1),row,col);
+                    QMessageBox::information(parentWidget, "Action", "Hi");
+
+                }
+                catch (const SplendorException& ex) {
+                    // Exception caught, display a QMessageBox with the exception message
+                    QMessageBox::information(parentWidget, "Exception", ex.what());
+                }
+            else
+                try{
+                    game.utilise_privilege(game.get_joueur(2),row,col);
+                }
+                catch (const SplendorException& ex) {
+                    // Exception caught, display a QMessageBox with the exception message
+                    QMessageBox::information(parentWidget, "Exception", ex.what());
+                }
+
+
+
+
+
+    partie->removePlateau(partie->getPlateauWidget());
+    PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
+    partie->afficherPlateau(plateauWidgetInstance);
+    partie->setPlateauWidget(plateauWidgetInstance);
+    partie->updatePlayerPrivilege("Joueur 1",game.get_joueur(1).getNbPrivileges());
+    partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
+
+    plateauWidget->emptyJetons();
+
+    if(joueur1 == 1)    {
+    QMessageBox::information(parentWidget, "Action", "Joueur 1");
+    partie->updatePlayerInfo("Joueur 1", game.get_joueur(1).getGemmes().get_Rouge() , game.get_joueur(1).getGemmes().get_Vert(), game.get_joueur(1).getGemmes().get_Bleu(), game.get_joueur(1).getGemmes().get_Blanc(), game.get_joueur(1).getGemmes().get_Perle(), game.get_joueur(1).getGemmes().get_Noir(),game.get_joueur(1).getGemmes().get_Or());
+
+   }
+    else { QMessageBox::information(parentWidget, "Action", "Joueur 2");
+    Joueur& joueur = game.get_joueur(2);
+    std::cout << "\nJetons possedes par le joueur 2 "  <<" : " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
+    partie->updatePlayerInfo("Joueur 2", game.get_joueur(2).getGemmes().get_Rouge() , game.get_joueur(2).getGemmes().get_Vert(), game.get_joueur(2).getGemmes().get_Bleu(), game.get_joueur(2).getGemmes().get_Blanc(), game.get_joueur(2).getGemmes().get_Perle(), game.get_joueur(2).getGemmes().get_Noir(),game.get_joueur(2).getGemmes().get_Or());
+
     }
-    QMessageBox::information(parentWidget, "Action", "Utiliser un privilège sélectionné");
+
+
+    //else     QMessageBox::information(parentWidget, "Action", "Choisis un seul jeton");
+
+
+
+
+
+//    QString message = "Quelle couleur de jeton souhaitez-vous utiliser pour remplacer votre privilège";
+//    QString colorChoice = QInputDialog::getText(nullptr, "Choix de couleur", message);
+
+
+//    if (!colorChoice.isEmpty()) {
+//            // Process the color choice (you can store it in a variable, etc.)
+//            // For now, we'll just display it in a message box
+//            QString resultMessage = "Vous avez choisi de voler le jeton de couleur : " + colorChoice;
+//            QMessageBox::information(nullptr, "Choix enregistré", resultMessage);
+//    } else {
+//            // User canceled the input
+//            qDebug() << "L'utilisateur a annulé le choix de couleur.";
+//    }
+//    QMessageBox::information(parentWidget, "Action", "Utiliser un privilège sélectionné");
 }
 
 void BoutonManager::onVolerDisabledClicked() {
@@ -124,12 +188,10 @@ void BoutonManager::onPrendreJetonsClicked() {
    {       try {
             StockGemmes stock;
             //stock=plateau.actionRetirerJetons(positionArrayVector[0]);
-            if(joueur1 == 1)
 
-            game.retirer_jetons(game.get_joueur(1),positionArrayVector[0]);
 
-            else
-                game.retirer_jetons(game.get_joueur(2),positionArrayVector[0]);
+            game.retirer_jetons(positionArrayVector[0]);
+
             }
             catch (const SplendorException& ex) {
             // Exception caught, display a QMessageBox with the exception message
@@ -141,12 +203,10 @@ void BoutonManager::onPrendreJetonsClicked() {
             try {
          StockGemmes stock;
          //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1]);
-         if(joueur1 == 1)
 
-             game.retirer_jetons(game.get_joueur(1),positionArrayVector[0],positionArrayVector[1]);
 
-         else
-             game.retirer_jetons(game.get_joueur(2),positionArrayVector[0],positionArrayVector[1]);
+             game.retirer_jetons(positionArrayVector[0],positionArrayVector[1]);
+
 
             }
             catch (const SplendorException& ex) {
@@ -158,13 +218,10 @@ void BoutonManager::onPrendreJetonsClicked() {
     {
             try {
          StockGemmes stock;
-         //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
-         if(joueur1 == 1)
 
-         game.retirer_jetons(game.get_joueur(1),positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
 
-         else
-             game.retirer_jetons(game.get_joueur(2),positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
+         game.retirer_jetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
+
             }
             catch (const SplendorException& ex) {
          // Exception caught, display a QMessageBox with the exception message
@@ -201,10 +258,13 @@ void BoutonManager::onPrendreJetonsClicked() {
 
             joueur1=0;}
     else { QMessageBox::information(parentWidget, "Action", "Joueur 2");
+            Joueur& joueur = game.get_joueur(2);
+            std::cout << "\nJetons possedes par le joueur 2 "  <<" : " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
             partie->updatePlayerInfo("Joueur 2", game.get_joueur(2).getGemmes().get_Rouge() , game.get_joueur(2).getGemmes().get_Vert(), game.get_joueur(2).getGemmes().get_Bleu(), game.get_joueur(2).getGemmes().get_Blanc(), game.get_joueur(2).getGemmes().get_Perle(), game.get_joueur(2).getGemmes().get_Noir(),game.get_joueur(2).getGemmes().get_Or());
 
             joueur1=1;
     }
+   game.fin_tour();
 
 //    acheterCarteButton->setDisabled(true);
 //    reserverCarteButton->setDisabled(true);
