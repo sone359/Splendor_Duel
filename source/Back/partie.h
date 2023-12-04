@@ -22,7 +22,7 @@ public :
     static void delete_partie();
 
     std::vector<CarteJoaillerie> cartes;
-
+    int lire_fichier(const char* fichier);
 
     void initCartes();
 

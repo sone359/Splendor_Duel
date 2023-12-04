@@ -2,6 +2,7 @@
 #define STOCKGEMMES_H
 
 #include "../tools.h"
+#include <iostream>
 
 class StockGemmes
 {
@@ -67,5 +68,15 @@ protected:
 
 unsigned int total_stock(const StockGemmes& stock);
 unsigned int total_stock(const StockGemmesOr& stock);
+
+inline std::ostream& operator<<(std::ostream& os, const StockGemmes& g) {
+        os << g.get_Blanc() << ", " ;
+        os << g.get_Bleu() << ", " ;
+        os << g.get_Vert() << ", " ;
+        os << g.get_Rouge() << ", " ;
+        os << g.get_Noir() << ", " ;
+        os << g.get_Perle() ;
+        return os;
+    } 
 
 #endif
