@@ -39,7 +39,7 @@ int main()
     //std::cout<<"JOUEUR 1"<<game.get_joueur(1);
     //game.acheter_carte(1,1,0);
     //std::cout<<"JOUEUR 1"<<game.get_joueur(1);
-    game.lire_fichier("../data/info_cartejoaillerie");
+    //game.lire_fichier("../data/info_cartejoaillerie");
     //game.get_joueur(1).addCartesJoailleriesPossedees(c);
     //std::cout<<"j1 a mtn\n"<<game.get_joueur(1).getCartesJoailleriesPossedees()[0];
     //InterfaceConsole ic;

@@ -46,7 +46,7 @@ Partie::Partie()
         sac.ajouter_jeton(Or);
     }
     remplir_plateau(joueur1);
-    initCartes();
+    lire_fichier("../data/info_cartejoaillerie");
     Pyramide::initialiser(cartes);
     pyramide = Pyramide::getInstance();
 }
