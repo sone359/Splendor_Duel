@@ -86,15 +86,15 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
-            ligne1.insert(ligne1.begin() + numeroColonne, Niveau1.top());
+            ligne1[numeroColonne]=Niveau1.top();
             Niveau1.pop();
             break;
         case 2:
-            ligne2.insert(ligne2.begin() + numeroColonne, Niveau2.top());
+            ligne2[numeroColonne]=Niveau2.top();
             Niveau2.pop();
             break;
         case 3:
-            ligne3.insert(ligne3.begin() + numeroColonne, Niveau3.top());
+            ligne3[numeroColonne]=Niveau3.top();
             Niveau3.pop();
             break;
         }
