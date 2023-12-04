@@ -52,12 +52,8 @@ Partie::Partie()
 }
 
 void Partie::initCartes(){
-    //lit depuis le fichier
     //version test :
-    //for (int i = 0; i < 67; i++)
-    //{
-    //    cartes[i]=new CarteJoaillerie;
-    //}
+    
     std::cout<<"TOUTES LES CARTES\n";
     std::vector<Effet> e1,e2,e3;
     Effet e= Effet(5);
