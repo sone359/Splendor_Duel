@@ -71,6 +71,16 @@ StockGemmes StockGemmes::operator=(const StockGemmes& autre_stock)
     return *this;
 }
 
+StockGemmes StockGemmes::operator+=(const StockGemmes& autre_stock){
+    set_Bleu(this->get_Bleu()+autre_stock.get_Bleu());
+    set_Vert(this->get_Bleu()+autre_stock.get_Vert());
+    set_Blanc(this->get_Bleu()+autre_stock.get_Blanc());
+    set_Rouge(this->get_Bleu()+autre_stock.get_Rouge());
+    set_Noir(this->get_Bleu()+autre_stock.get_Noir());
+    set_Perle(this->get_Bleu()+autre_stock.get_Perle());
+    return *this;
+}
+
 unsigned int total_stock(const StockGemmes& stock)
 {
     return stock.get_Bleu() + stock.get_Vert() + stock.get_Blanc() + stock.get_Rouge() + stock.get_Noir() + stock.get_Perle();

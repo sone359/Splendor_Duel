@@ -35,6 +35,9 @@ class StockGemmes
         StockGemmes operator+(const StockGemmes& autre_stock) const {return StockGemmes(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle());};
         StockGemmes operator-(const StockGemmes& autre_stock) const;
         StockGemmes operator=(const StockGemmes& autre_stock);
+        StockGemmes operator*(const unsigned int i){return StockGemmes(i*this->get_Bleu(), i*this->get_Vert(), i*this->get_Blanc(), i*this->get_Rouge(), i*this->get_Noir(), i*this->get_Perle());};
+        StockGemmes operator+=(const StockGemmes& autre_stock);
+
 
         // Destructeur
         virtual
@@ -62,6 +65,7 @@ public:
     StockGemmesOr operator=(const StockGemmes& autre_stock);
     StockGemmesOr operator=(const StockGemmesOr& autre_stock);
 
+
 protected:
     unsigned int jeton_or = 0;
 };
@@ -70,12 +74,13 @@ unsigned int total_stock(const StockGemmes& stock);
 unsigned int total_stock(const StockGemmesOr& stock);
 
 inline std::ostream& operator<<(std::ostream& os, const StockGemmes& g) {
-        os << g.get_Blanc() << ", " ;
-        os << g.get_Bleu() << ", " ;
-        os << g.get_Vert() << ", " ;
-        os << g.get_Rouge() << ", " ;
-        os << g.get_Noir() << ", " ;
-        os << g.get_Perle() ;
+        os<<"|"<<g.get_Bleu()<<g.get_Blanc()<<g.get_Vert()<<g.get_Rouge()<<g.get_Noir()<<g.get_Perle()<<"|";
+        return os;
+    } 
+
+inline std::ostream& operator<<(std::ostream& os, const StockGemmesOr& g) {
+        os<<g;
+        os<<"OR:"<<g.get_Or();
         return os;
     } 
 

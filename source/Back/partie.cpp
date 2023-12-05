@@ -156,25 +156,32 @@ void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& c
 }
 
 void Partie::acheter_carte(int numjoueur, int niv, int colonne){
+    Joueur * joueur;
+    switch (numjoueur)
+        {
+        case 1:
+            joueur = &joueur1;
+            break;
+        case 2:
+            joueur = &joueur2;
+        default:
+            throw SplendorException("Erreur numero joueur actif");
+        }
+    if (joueur->peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
     try{
         if (colonne == 0){
             throw SplendorException("Impossible d'acheter une carte de la pioche.\n"); 
             return;
         }
         CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
-        switch (numjoueur)
-        {
-        case 1:
-            joueur1.addCartesJoailleriesPossedees(piochee);
-            break;
-        case 2:
-            joueur2.addCartesJoailleriesPossedees(piochee);
-        default:
-            throw SplendorException("Erreur numero joueur actif");
-        }
+
+        joueur->addCartesJoailleriesPossedees(piochee);
+        joueur->addBonus(piochee);
+        
     }catch (const SplendorException& e) {
         //oh mon dieu ca marche quelle emotion
         std::cerr << "Exception caught: " << e.what() << std::endl;
+    }
     }
 }
 
@@ -217,23 +224,23 @@ int Partie::lire_fichier(const char* fichier){
         while (!inputFile.eof()) {
             if (cartes_lues==67) break;
             std::getline(inputFile, line);
-            std::cout<<"--------------CARTE "<<cartes_lues<<"---------------\n";
-            std::cout<<line<<std::endl;
+            //std::cout<<"--------------CARTE "<<cartes_lues<<"---------------\n";
+            //std::cout<<line<<std::endl;
 
             std::istringstream iss(line);
             std::string token,token1;
 
             if (std::getline(iss, token, ';')) {
                 tempniveau=stoi(token);
-                std::cout<<tempniveau<<"  ";
+                //std::cout<<tempniveau<<"  ";
             }
             if (std::getline(iss, token, ';')) {
                 temppointsPrestige=stoi(token);
-                std::cout<<temppointsPrestige<<"  ";
+                //std::cout<<temppointsPrestige<<"  ";
             }
             if (std::getline(iss, token, ';')) {
                 tempnombreBonus=stoi(token);
-                std::cout<<tempnombreBonus<<"\n";
+                //std::cout<<tempnombreBonus<<"\n";
             }
             if (std::getline(iss, token, ';')) {
                 if(token=="blanc") temptype.set_Blanc(1);
@@ -242,15 +249,15 @@ int Partie::lire_fichier(const char* fichier){
                 if(token=="rouge") temptype.set_Rouge(1);
                 if(token=="noir") {temptype.set_Noir(1);}
                 if(token=="perle") temptype.set_Perle(1);
-                std::cout<<"       type :"<<temptype<<std::endl;
+                //std::cout<<"       type :"<<temptype<<std::endl;
             }
             if (std::getline(iss, token, ';')) {
                 tempcouronnes=stoi(token);
-                std::cout<<tempcouronnes<<"\n";
+                //std::cout<<tempcouronnes<<"\n";
             }
             if (std::getline(iss, token, ';')) {
                 std::istringstream iss1(token);
-                std::cout<<"\n->"<<token<<"<-\n";
+                //std::cout<<"\n->"<<token<<"<-\n";
                 if (std::getline(iss1, token1, ',')) {
                     tempcout.set_Blanc(stoi(token1));
                     //std::cout<<"\n->"<<token1<<"<-\n";
@@ -270,10 +277,10 @@ int Partie::lire_fichier(const char* fichier){
                 if (std::getline(iss1, token1, ',')) {
                     tempcout.set_Perle(stoi(token1));
                 }
-                std::cout<<"       cout :"<<tempcout<<std::endl;
+                //std::cout<<"       cout :"<<tempcout<<std::endl;
             }
             if (std::getline(iss, token, '\n')) {
-            std::cout<<"    capacite :";
+            //std::cout<<"    capacite :";
             std::istringstream iss1(token);
     
                 if (std::getline(iss1, token1, ',')) {
@@ -283,7 +290,7 @@ int Partie::lire_fichier(const char* fichier){
                     if(token1=="couleur") tempeffet=Effet(2);
                     if(token1=="gemme") tempeffet=Effet(3);
                     if(token1=="none") tempeffet=Effet(5);
-                    std::cout<<tempeffet<<"\n";
+                    //std::cout<<tempeffet<<"\n";
                 }
                     tempcapacite.push_back(tempeffet);
                 if (std::getline(iss1, token1, ',')) {
@@ -293,7 +300,7 @@ int Partie::lire_fichier(const char* fichier){
                     if(token1=="couleur") tempeffet=Effet(2);
                     if(token1=="gemme") tempeffet=Effet(3);
                     if(token1=="none") tempeffet=Effet(5);
-                    std::cout<<tempeffet<<"\n";
+                    //std::cout<<tempeffet<<"\n";
                     tempcapacite.push_back(tempeffet);
                 }
             }

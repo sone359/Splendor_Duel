@@ -4,7 +4,7 @@ CC = g++
 test : $(OBJS)
 	$(CC) -o $@ $(OBJS)
 
-main.o : main.cpp Back/stockGemmes.h Back/plateau.h Back/sac.h Back/partie.h Back/Joueur.h Console/interfaceConsole.h
+main.o : main.cpp Back/stockGemmes.h Back/plateau.h Back/sac.h Back/partie.h Back/Joueur.h Console/interfaceConsole.h Back/carte_joaillerie.h
 	$(CC) -c $*.cpp
 
 stockGemmes.o : Back/stockGemmes.cpp Back/stockGemmes.h tools.h

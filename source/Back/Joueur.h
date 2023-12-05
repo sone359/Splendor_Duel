@@ -52,9 +52,23 @@ public:
     void addCartesJoailleriesPossedees(CarteJoaillerie & carte);
     void addCartesJoailleriesReservees(CarteJoaillerie & carte);
     void addCartesRoyalesPossedees(CarteRoyale & carte);
+    void addBonus(const CarteJoaillerie& carte);
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);
+
+    int peutAcheter(const CarteJoaillerie& carte){
+        StockGemmes temp = gemmes + bonus;
+        temp = carte.get_cout()-temp;
+        std::cout<<"\n--------------------------------------\n";
+        std::cout<<"   "<<carte.get_cout();
+        std::cout<<"\n";
+        std::cout<<"   "<<gemmes;
+        std::cout<<"\n";
+        std::cout<<"--------------------------------------\n";
+        std::cout<<"prix avec gemmes+bonus"<<temp<<"\n\n";
+        return 0;
+    }
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Joueur& j) {

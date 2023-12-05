@@ -7,7 +7,7 @@
 #include "Back/partie.h"
 #include "Back/Joueur.h"
 #include "Console/interfaceConsole.h"
-
+#include "Back/carte_joaillerie.h"
 
 using namespace std;
 
@@ -22,31 +22,45 @@ int main()
     //std::cout<<"youhou";
     //Pyramide::getInstance();
     //std::cout<<"youhou";
+    
     Partie& game = Partie::get_partie();
-    Pyramide::getInstance()->afficherPyramide();
+    InterfaceConsole ic;
+
+    ic.afficherPlateau();
+    ic.afficherPyramide();
+
+    //ic.afficherPyramide();
+    //game.retirer_jetons(game.get_joueur(1), {1, 1}, {1, 2}, {1, 3});
+    //ic.afficherPlateau();
+    ////game.retirer_jetons(game.get_joueur(1), {0, 1}, {1, 1}, {2, 1});
+    ////ic.afficherJetonsPossedes(game.get_joueur(1));
+    ////ic.afficherPlateau();
     //CarteJoaillerie c=game.get_pyramide().acheterCarteJoaillerie(1,1);
     //game.get_pyramide().afficherPyramide();
     //std::cout<<"carte piochée : "<<c<<std::endl;
     //c=game.get_pyramide().reserverCarteJoaillerie(2,1);
     //game.get_pyramide().afficherPyramide();
     //std::cout<<"carte piochée : "<<c<<std::endl;
-    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
-    game.acheter_carte(1,1,1);
-    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
-    Pyramide::getInstance()->afficherPyramide();
-    game.reserver_carte(1,1,1);
-    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
-    Pyramide::getInstance()->afficherPyramide();
-    game.reserver_carte(1,1,0);
-    std::cout<<"JOUEUR 1"<<game.get_joueur(1);
-    Pyramide::getInstance()->afficherPyramide();
+    ////Pyramide::getInstance()->afficherPyramide();
+    ////ic.afficherPyramide();
+////
+    ////std::cout<<"JOUEUR 1"<<game.get_joueur(1);
+    ////game.acheter_carte(1,1,1);
+    ////std::cout<<"JOUEUR 1"<<game.get_joueur(1);
+    ////Pyramide::getInstance()->afficherPyramide();
+    ////game.reserver_carte(1,1,1);
+    ////std::cout<<"JOUEUR 1"<<game.get_joueur(1);
+    ////Pyramide::getInstance()->afficherPyramide();
+    ////game.reserver_carte(1,1,0);
+    ////std::cout<<"JOUEUR 1"<<game.get_joueur(1);
+    ////Pyramide::getInstance()->afficherPyramide();
     //std::cout<<"JOUEUR 1"<<game.get_joueur(1);
     //game.acheter_carte(1,1,0);
     //game.lire_fichier("../data/info_cartejoaillerie");
     //game.get_joueur(1).addCartesJoailleriesPossedees(c);
     //std::cout<<"j1 a mtn\n"<<game.get_joueur(1).getCartesJoailleriesPossedees()[0];
     //InterfaceConsole ic;
-
+//
     //ic.afficherPlateau();
     //game.retirer_jetons(game.get_joueur(1), {1, 1}, {1, 2}, {1, 3});
     //ic.afficherPlateau();

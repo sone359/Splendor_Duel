@@ -22,38 +22,37 @@ private:
 public:
     CarteJoaillerie(){};
     CarteJoaillerie(int n,int p,int d,StockGemmes color, int cr, StockGemmes prix, std::vector<Effet> e) : 
-    cout(prix), niveau(n), pointsPrestige(p), nombreBonus(d), typeBonus(color),couronnes(cr), capacite(e){
-        //cout.set_Bleu(ps);
-        //cout.set_Blanc(pd);
-        //cout.set_Vert(pe);
-        //cout.set_Rouge(pr);
-        //cout.set_Noir(po);
-        //cout.set_Perle(pp);
-
-        //equivalences data-Effet :
-            //rejouer,//second_turn
-            //privilege,//privilege_scroll
-            //couleur,//multi_gem
-            //gemme,//token
-            //voler,//steal
-            //sans//none
-
-        //if (e=="Token") capacite=gemme;
-        //else if (e =="Multi_gem") capacite = couleur;
-        //else if (e =="Steal") capacite = voler;
-        //else if (e =="Privilege_scroll") capacite = privilege;
-        //else if (e =="Second_turn") capacite = rejouer;
-        //else if (e =="none") capacite = sans;
-        
-    };
+    cout(prix), niveau(n), pointsPrestige(p), nombreBonus(d), typeBonus(color),couronnes(cr), capacite(e){};
     int get_niveau() const{
-        //if (niveau < 1) {
-        //    niveau = 1;
-        //}
-        //else if (niveau > 3) {
-        //    niveau = 3;
-        //} pourquoi ça arriverait?
         return niveau;
+    }
+
+    void afficher_Couleur(std::ostream & os) const {
+        if (get_typeBonus().get_Blanc()) {
+            os<<"W";
+            return;
+            } 
+        if (get_typeBonus().get_Bleu()) {
+            os<<"B";
+            return;
+            } 
+        if (get_typeBonus().get_Noir()) {
+            os<<"N";
+            return;
+            } 
+        if (get_typeBonus().get_Perle()) {
+            os<<"P";
+            return;
+            } 
+        if (get_typeBonus().get_Rouge()) {
+            os<<"R";
+            return;
+            } 
+        if (get_typeBonus().get_Vert()) {
+            os<<"V";
+            return;
+            }
+        os<<"-";
     }
 
     int get_pointsPrestige() const {
@@ -64,12 +63,20 @@ public:
         return typeBonus;
     }
 
+    int get_nbBonus()const{
+        return nombreBonus;
+    }
+
     std::vector<Effet> get_capacite()const {
         return capacite;
     }
 
     int get_couronnes() const{
         return couronnes;
+    }
+
+    StockGemmes get_cout() const{
+        return cout;
     }
 
     //setters
@@ -82,11 +89,17 @@ public:
 };
 
 inline std::ostream& operator<<(std::ostream& os, const CarteJoaillerie& c) {
-        os << "(" << c.get_niveau() << ", " ;
+        os <<"----";
+        c.afficher_Couleur(os);
+        os<<"---\n";
+        os << "|   "<<c.get_nbBonus()<<"  |\n" ;
+        os <<"|   "<< c.get_pointsPrestige() << "  |\n";
         for(Effet  effet : c.get_capacite()){
-            os<< effet<<" ";
+            os<<"|   "<< effet<<"  |\n";
          }
-        os <<", "<< c.get_pointsPrestige() << ")";
+        os<<"|BWVRNP|\n";
+        os <<c.get_cout();
+        os << "\n--------\n" ;
         return os;
     } 
 

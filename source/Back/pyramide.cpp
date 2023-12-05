@@ -104,22 +104,22 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
-            if (numeroColonne > 0 && numeroColonne < ligne1.size()) {
-                CarteJoaillerie carte = ligne1[numeroColonne];
+            if (numeroColonne > 0 && numeroColonne <= ligne1.size()) {
+                CarteJoaillerie carte = ligne1[numeroColonne-1];
                 return carte;
             } else {
                 throw SplendorException("Erreur : numero de colonne invalide.\n");
             }
         case 2:
-            if (numeroColonne > 0 && numeroColonne < ligne2.size()) {
-                CarteJoaillerie carte = ligne2[numeroColonne];
+            if (numeroColonne > 0 && numeroColonne <= ligne2.size()) {
+                CarteJoaillerie carte = ligne2[numeroColonne-1];
                 return carte;
             } else {
                 throw SplendorException("Erreur : numero de colonne invalide.\n");
             }
         case 3:
-            if (numeroColonne > 0 && numeroColonne < ligne3.size()) {
-                CarteJoaillerie carte = ligne3[numeroColonne];
+            if (numeroColonne > 0 && numeroColonne <= ligne3.size()) {
+                CarteJoaillerie carte = ligne3[numeroColonne-1];
                 return carte;
             } else {
                 throw SplendorException("Erreur : numero de colonne invalide.\n");
@@ -132,20 +132,21 @@ Pyramide* Pyramide::instance = nullptr;
     void Pyramide::afficherPyramide(){
         std::cout<<"AFFICHAGE PYRAMIDE\n";
 
-        std::cout<<"    ";
+        std::cout<<"LIGNE3\n";
         for (int i = 0; i < 3; i++)
         {
             std::cout<<" "<<ligne3[i]<<" ";
         }
         std::cout<<'\n';
 
-        std::cout<<"  ";
+        std::cout<<"LIGNE2\n";
         for (int i = 0; i < 4; i++)
         {
             std::cout<<" "<<ligne2[i]<<" ";
         }
         std::cout<<'\n';
 
+        std::cout<<"LIGNE1\n";
         for (int i = 0; i < 5; i++)
         {
             std::cout<<" "<<ligne1[i]<<" ";
