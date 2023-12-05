@@ -1,5 +1,4 @@
 Model : level;prestige;réduction;couleur;couronnes;prix_blanc, prix_bleu,prix_vert,prix_rouge,prix_noir,prix_perle;capacite
-
 1;0;1;bleu;0;0,0,2,2,0,1;rejouer
 1;0;1;bleu;0;1,0,1,1,1,0;none
 1;0;1;noir;0;0,0,2,2,0,0;gemme
@@ -31,39 +30,40 @@ Model : level;prestige;réduction;couleur;couronnes;prix_blanc, prix_bleu,prix_v
 1;0;1;vert;0;0,0,0,2,2,1;rejouer
 1;0;1;vert;0;2,2,0,0,0,0;gemme
 2;1;2;blanc;0;0,5,2,0,0,0;none
-2;0;1;none;2;0,6,0,0,0,1;couleur
-2;0;1;none;2;0,0,6,0,0,1;couleur
-2;1;2;rouge;0;2,0,0,0,5,0;none
-2;1;2;noir;0;5,2,0,0,0,0;none
-2;2;1;noir;0;0,0,0,2,4,1;privilege
-2;5;0;none;0;0,5,0,0,0,1;none
-2;1;1;blanc;0;0,4,0,3,0,0;voler
-2;2;1;bleu;1;2,0,0,2,2,1;none
-2;1;2;vert;0;0,0,0,5,2,0;none
-2;2;1;noir;1;0,2,2,2,0,1;none
-2;1;1;noir;0;4,0,3,0,0,0;voler
-2;2;1;none;0;0,0,6,0,0,1;couleur
-2;2;1;vert;1;2,2,0,0,2,1;none
-2;2;1;bleu;0;2,4,0,0,0,1;privilege
-2;2;1;vert;0;0,2,4,0,0,1;privilege
-2;1;1;bleu;0;0,0,4,0,3,0;voler
-2;2;1;blanc;0;4,0,0,0,2,1;privilege
-2;1;1;rouge;0;0,3,0,0,4,0;voler
-2;2;1;rouge;1;2,2,2,0,0,1;none
-2;1;2;bleu;0;0,0,5,2,0,0;none
-2;1;1;vert;0;3,0,0,4,0,0;voler
-2;2;1;rouge;0;0,0,2,4,0,1;privilege
-2;2;1;blanc;1;0,0,2,2,2,1;none
-3;0;1;none;3;0,0,0,0,8,0;couleur
-3;4;1;bleu;0;2,6,2,0,0,0;none
-3;3;1;rouge;1;0,5,3,0,3,1;none
-3;4;1;rouge;0;0,0,2,6,2,0;none
-3;3;1;noir;2;3,0,5,3,0,1;none
-3;3;1;blanc;2;0,3,0,5,3,1;none
-3;3;1;bleu;2;3,0,3,0,5,1;none
-3;6;0;none;0;8,0,0,0,0,0;none
-3;4;1;vert;0;0,2,6,2,0,0;none
-3;4;1;noir;0;2,0,0,2,6,0;none
-3;4;1;blanc;0;6,2,0,0,2,0;none
-3;3;1;vert;2;5,3,0,3,0,1;none
-3;3;1;none;0;0,0,0,1,0,0;couleur,rejouer
+2;0;1;none;2;0,6,0,0,0,1;couleur;niveau2 (14)
+2;0;1;none;2;0,0,6,0,0,1;couleur;niveau2 (12)
+2;1;2;rouge;0;2,0,0,0,5,0;none;niveau2 (11)
+2;1;2;noir;0;5,2,0,0,0,0;none;niveau2 (20)
+2;2;1;noir;0;0,0,0,2,4,1;privilege;niveau2 (10)
+2;5;0;none;0;0,6,0,0,0,1;none;niveau2 (18)
+2;1;1;blanc;0;0,4,0,3,0,0;voler;niveau2 (24)
+2;2;1;bleu;1;2,0,0,2,2,1;none;niveau2 (23)
+2;1;2;vert;0;0,0,0,5,2,0;none;niveau2 (22)
+2;2;1;noir;1;0,2,2,2,0,1;none;niveau2 (21)
+2;1;1;noir;0;4,0,3,0,0,0;voler;niveau2 (9)
+2;2;1;none;0;0,0,6,0,0,1;couleur;niveau2 (8)
+2;2;1;vert;1;2,2,0,0,2,1;none;niveau2 (7)
+2;2;1;bleu;0;2,4,0,0,0,1;privilege;niveau2 (6)
+2;2;1;vert;0;0,2,4,0,0,1;privilege;niveau2 (4)
+2;1;1;bleu;0;0,0,4,0,3,0;voler;niveau2 (3)
+2;2;1;blanc;0;4,0,0,0,2,1;privilege;niveau2 (16)
+2;1;1;rouge;0;0,3,0,0,4,0;voler;niveau2 (5)
+2;2;1;rouge;1;2,2,2,0,0,1;none;niveau2 (19)
+2;1;2;bleu;0;0,0,5,2,0,0;none;niveau2 (17)
+2;1;1;vert;0;3,0,0,4,0,0;voler;niveau2 (2)
+2;2;1;rouge;0;0,0,2,4,0,1;privilege;niveau2 (1)
+2;2;1;blanc;1;0,0,2,2,2,1;none;niveau2 (15)
+2;1;2;blanc;0;0,5,2,0,0,0;none;niveau2 (13)
+3;0;1;none;3;0,0,0,0,8,0;couleur;niveau3 (4)
+3;4;1;bleu;0;2,6,2,0,0,0;none;niveau3 (1)
+3;3;1;rouge;1;0,5,3,0,3,1;none;niveau3 (5)
+3;4;1;rouge;0;0,0,2,6,2,0;none;niveau3 (11)
+3;3;1;noir;2;3,0,5,3,0,1;none;niveau3 (13)
+3;3;1;blanc;2;0,3,0,5,3,1;none;niveau3 (12)
+3;3;1;bleu;2;3,0,3,0,5,1;none;niveau3 (6)
+3;4;1;vert;0;0,2,6,2,0,0;none;niveau3 (2)
+3;4;1;noir;0;2,0,0,2,6,0;none;niveau3 (8)
+3;4;1;blanc;0;6,2,0,0,2,0;none;niveau3 (7)
+3;3;1;vert;2;5,3,0,3,0,1;none;niveau3 (9)
+3;3;1;none;0;0,0,0,8,0,0;couleur,rejouer;niveau3 (3)
+3;6;0;none;0;8;0;0;0;0;0;none;niveau3 (10)
