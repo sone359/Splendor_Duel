@@ -101,7 +101,7 @@ Joueur& Partie::get_joueur(unsigned int num_joueur)
 {
     if(num_joueur == 1) {return joueur1;}
     if(num_joueur == 2) {return joueur2;}
-    throw std::invalid_argument("La valeur du param�tre num_joueur dela m�thode get_joueur doit �tre 1 ou 2");
+    throw std::invalid_argument("La valeur du parametre num_joueur dela m�thode get_joueur doit �tre 1 ou 2");
 }
 
 void Partie::prend_privilege(Joueur& joueur)
@@ -117,22 +117,22 @@ void Partie::prend_privilege(Joueur& joueur)
 
 std::vector<std::array<unsigned int, 2>> Partie::remplir_plateau(Joueur& joueur)
 {
-    //V�rification que le plateau n'est pas vide
-    if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est d�j� plein, impossible de le remplir");}
+        //Verification que le plateau n'est pas vide
+        if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est deja plein, impossible de le remplir");}
 
-    //Initialisation de la liste des coordonn�es des cases modifi�es � renvoyer
-    std::vector<std::array<unsigned int, 2>> coordonnees_modif;
+        //Initialisation de la liste des coordonnees des cases modifiees a renvoyer
+        std::vector<std::array<unsigned int, 2>> coordonnees_modif;
 
-    while ((plateau.get_nbCasesVides() > 0) && (total_stock(sac.get_gemmes())))
-    {
-        coordonnees_modif.push_back(remplir_case());
-    }
+        while ((plateau.get_nbCasesVides() > 0) && (total_stock(sac.get_gemmes())))
+        {
+            coordonnees_modif.push_back(remplir_case());
+        }
 
-    //Obtention d'un Privilege par l'adversaire
-    if (&joueur == &joueur1) {prend_privilege(joueur2);}
-    else {prend_privilege(joueur1);}
+        //Obtention d'un Privilege par l'adversaire
+        if (&joueur == &joueur1) {prend_privilege(joueur2);}
+        else {prend_privilege(joueur1);}
 
-    return coordonnees_modif;
+        return coordonnees_modif;
 }
 
 std::array<unsigned int, 2> Partie::remplir_case()
@@ -142,7 +142,11 @@ std::array<unsigned int, 2> Partie::remplir_case()
 
 void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
 {
-    joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton1, coor_jeton2, coor_jeton3));
+    try{
+        joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton1, coor_jeton2, coor_jeton3));
+    }catch (const SplendorException& e) {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+    }
 }
 
 void Partie::retirer_jetons(Joueur& joueur, const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2)
@@ -165,10 +169,11 @@ void Partie::acheter_carte(int numjoueur, int niv, int colonne){
         case 2:
             joueur = &joueur2;
         default:
-            throw SplendorException("Erreur numero joueur actif");
+            throw SplendorException("Erreur numero joueur actif.\n");
         }
-    if (joueur->peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
     try{
+    if (joueur->peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
+        std::cout<<"pass\n";
         if (colonne == 0){
             throw SplendorException("Impossible d'acheter une carte de la pioche.\n"); 
             return;
@@ -177,12 +182,14 @@ void Partie::acheter_carte(int numjoueur, int niv, int colonne){
 
         joueur->addCartesJoailleriesPossedees(piochee);
         joueur->addBonus(piochee);
+    }
+    else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
         
     }catch (const SplendorException& e) {
         //oh mon dieu ca marche quelle emotion
-        std::cerr << "Exception caught: " << e.what() << std::endl;
+        std::cerr << "Erreur : " << e.what() << std::endl;
     }
-    }
+
 }
 
 void Partie::reserver_carte(int numjoueur, int niv, int colonne){
@@ -314,10 +321,10 @@ int Partie::lire_fichier(const char* fichier){
         }
         // fermeture du fichier
         inputFile.close();
-        //verif
-        for(CarteJoaillerie  carte : cartes){        
-            std::cout<<carte<<std::endl;
-        }
+        ////verif
+        //for(CarteJoaillerie  carte : cartes){        
+        //    std::cout<<carte<<std::endl;
+        //}
         return 0;
     }
 //}

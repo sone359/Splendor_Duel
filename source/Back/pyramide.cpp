@@ -21,13 +21,13 @@ Pyramide* Pyramide::instance = nullptr;
             if (carte.get_niveau() == 3) Niveau3.push(carte);
         }
 
-        for(int i =0; i<5 ;i++){
+        for(int i =1; i<6 ;i++){
             piocherCarteJoaillerie(1,i);
         }
-        for(int i =0; i<4 ;i++){
+        for(int i =1; i<5 ;i++){
             piocherCarteJoaillerie(2,i);
         }
-        for(int i =0; i<3 ;i++){
+        for(int i =1; i<4 ;i++){
             piocherCarteJoaillerie(3,i);
         }
 
@@ -86,15 +86,15 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
-            ligne1[numeroColonne]=Niveau1.top();
+            ligne1[numeroColonne-1]=Niveau1.top();
             Niveau1.pop();
             break;
         case 2:
-            ligne2[numeroColonne]=Niveau2.top();
+            ligne2[numeroColonne-1]=Niveau2.top();
             Niveau2.pop();
             break;
         case 3:
-            ligne3[numeroColonne]=Niveau3.top();
+            ligne3[numeroColonne-1]=Niveau3.top();
             Niveau3.pop();
             break;
         }

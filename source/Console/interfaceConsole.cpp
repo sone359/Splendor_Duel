@@ -53,10 +53,10 @@ void InterfaceConsole::afficherJetonsPossedes(Joueur& joueur) const
 }
 
 void InterfaceConsole::afficherPyramide() const{
-    std::cout<<"AFFICHAGE PYRAMIDE CONSOLE\n";
+    std::cout<<"-------------------------PYRAMIDE--------------------------\n";
     for(int j=3;j>=1;j--){
         for(int l=1;l<8;l++){
-            for(int p=0;p<j*3;p++)std::cout<<" ";
+            for(int p=0;p<j*4;p++)std::cout<<" ";
             for (int i = 1; i <= 6-j; i++)
             {
                 afficherCarteparligne(partie.get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
@@ -88,16 +88,16 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,
                 os<<"REJ";
                 break;
             case 1:
-                os<<"REJ";
+                os<<"PRV";
                 break;
             case 2:
-                os<<"REJ";
+                os<<"CLR";
                 break;
             case 3:
-                os<<"REJ";
+                os<<"GEM";
                 break;
             case 4:
-                os<<"REJ";
+                os<<"VOL";
                 break;
             case 5:
                 os<<"   ";
@@ -119,3 +119,56 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,
         return;
     }
 }
+
+void InterfaceConsole::afficherJoueur(int joueur) const{
+    size_t nbresa=partie.get_joueur(joueur).getCartesJoailleriesReservees().size();
+    size_t nbposs=partie.get_joueur(joueur).getCartesJoailleriesPossedees().size();
+    std::cout<<"------Joueur "<<joueur<<"---------------------------------------------------\n";
+    std::cout<<"    Cartes Reservees \n";
+    for(CarteJoaillerie carte : partie.get_joueur(joueur).getCartesJoailleriesReservees()){
+        for(int l=1;l<8;l++){
+            for (int i = 1; i <= nbresa; i++)
+            {
+                afficherCarteparligne(carte,l,std::cout);
+                std::cout<<' ';
+            }
+        std::cout<<'\n';
+        }
+    }
+    std::cout<<"    Cartes Possedees \n";
+    for(CarteJoaillerie carte : partie.get_joueur(joueur).getCartesJoailleriesPossedees()){
+        for(int l=1;l<8;l++){
+            for (int i = 1; i <= nbposs; i++)
+            {
+                afficherCarteparligne(carte,l,std::cout);
+                std::cout<<' ';
+            }
+        std::cout<<'\n';
+        }
+    }
+    std::cout<<"\n    Jetons Possedes \n";
+    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Bleu();i++) std::cout<<'B';
+    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Blanc();i++) std::cout<<'W';
+    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Vert();i++) std::cout<<'V';
+    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Rouge();i++) std::cout<<'R';
+    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Noir();i++) std::cout<<'N';
+    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Perle();i++) std::cout<<'P';
+    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Or();i++) std::cout<<'O';
+    std::cout<<"\n"<<partie.get_joueur(joueur).getNbPrivileges()<<" privileges, ";
+    std::cout<<partie.get_joueur(joueur).getNbCouronnes()<<" couronnes\n";
+
+
+
+
+    //std::cout <<"\nPrivileges : "<< j.getNbPrivileges() << "\nCouronnes : " << j.getNbCouronnes()<<'\n';
+    //    os << "  Cartes Joailleries Possedees:\n";
+    //    for (const auto& carte : j.getCartesJoailleriesPossedees()) {
+    //        os << "    " << carte << "\n";
+    //    }
+    //    os << "  Cartes Joailleries Reservees:\n";
+    //    for (const auto& carte : j.getCartesJoailleriesReservees()) {
+    //        os << "    " << carte << "\n";
+    //    }
+    //    return os;
+}
+

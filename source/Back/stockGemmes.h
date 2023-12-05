@@ -36,7 +36,16 @@ class StockGemmes
         StockGemmes operator-(const StockGemmes& autre_stock) const;
         StockGemmes operator=(const StockGemmes& autre_stock);
         StockGemmes operator*(const unsigned int i){return StockGemmes(i*this->get_Bleu(), i*this->get_Vert(), i*this->get_Blanc(), i*this->get_Rouge(), i*this->get_Noir(), i*this->get_Perle());};
-        StockGemmes operator+=(const StockGemmes& autre_stock);
+        void operator+=(const StockGemmes& autre_stock);
+        StockGemmes operator/(const StockGemmes& autre_stock);
+        int operator<(const StockGemmes& s)const;
+
+        unsigned int total_gemmes()const{
+            unsigned int sum=0;
+            for(int i=0;i<6;i++){
+                sum+=gemmes[i];
+            }
+            return sum;}
 
 
         // Destructeur
@@ -79,7 +88,7 @@ inline std::ostream& operator<<(std::ostream& os, const StockGemmes& g) {
     } 
 
 inline std::ostream& operator<<(std::ostream& os, const StockGemmesOr& g) {
-        os<<g;
+        os<<"|"<<g.get_Bleu()<<g.get_Blanc()<<g.get_Vert()<<g.get_Rouge()<<g.get_Noir()<<g.get_Perle()<<"|";
         os<<"OR:"<<g.get_Or();
         return os;
     } 

@@ -19,6 +19,7 @@ public:
     //pour afficher la pyramide dans le terminal aka afficher les cartes
     //les unes à coté des autres on doit les afficher ligne par ligne
     void afficherCarteparligne(const CarteJoaillerie& j,int ligne,std::ostream& os)const;
+    void afficherJoueur(int joueur) const;
     void afficherPlateau() const;
     void afficherJetonsPossedes(Joueur& joueur)const;
 
