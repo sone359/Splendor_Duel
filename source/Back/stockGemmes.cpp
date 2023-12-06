@@ -99,14 +99,49 @@ StockGemmes StockGemmes::operator-(const StockGemmes& autre_stock) const
 
 StockGemmes StockGemmes::operator=(const StockGemmes& autre_stock)
 {
-    set_Bleu(autre_stock.get_Bleu());
-    set_Vert(autre_stock.get_Vert());
-    set_Blanc(autre_stock.get_Blanc());
-    set_Rouge(autre_stock.get_Rouge());
-    set_Noir(autre_stock.get_Noir());
-    set_Perle(autre_stock.get_Perle());
+    this->set_Bleu(autre_stock.get_Bleu());
+    this->set_Vert(autre_stock.get_Vert());
+    this->set_Blanc(autre_stock.get_Blanc());
+    this->set_Rouge(autre_stock.get_Rouge());
+    this->set_Noir(autre_stock.get_Noir());
+    this->set_Perle(autre_stock.get_Perle());
     return *this;
 }
+
+void StockGemmes::operator+=(const StockGemmes& autre_stock){
+    set_Bleu(this->get_Bleu()+autre_stock.get_Bleu());
+    set_Vert(this->get_Vert()+autre_stock.get_Vert());
+    set_Blanc(this->get_Blanc()+autre_stock.get_Blanc());
+    set_Rouge(this->get_Rouge()+autre_stock.get_Rouge());
+    set_Noir(this->get_Noir()+autre_stock.get_Noir());
+    set_Perle(this->get_Perle()+autre_stock.get_Perle());
+}
+
+int StockGemmes::operator<(const StockGemmes& s)const{
+    if(this->get_Bleu()<s.get_Bleu()||
+        this->get_Vert()<s.get_Vert()||
+        this->get_Blanc()<s.get_Blanc()||
+        this->get_Rouge()<s.get_Rouge()||
+        this->get_Noir()<s.get_Noir()||
+        this->get_Perle()<s.get_Perle()) return 1;
+    else{return 0;}
+}
+
+//renvoit la difference en valeurs absolues des stockgemmes (pour peut_acheter)
+StockGemmes StockGemmes::operator/(const StockGemmes& autre_stock){
+    StockGemmes result;
+    for(int i=0;i<6;i++){
+        if(gemmes[i]<autre_stock.gemmes[i]) result.gemmes[i]=abs(gemmes[i]-autre_stock.gemmes[i]);
+    }
+    //result.set_Bleu(abs(this->get_Bleu()-autre_stock.get_Bleu()));
+    //result.set_Vert(abs(this->get_Vert()-autre_stock.get_Vert()));
+    //result.set_Blanc(abs(this->get_Blanc()-autre_stock.get_Blanc()));
+    //result.set_Rouge(abs(this->get_Rouge()-autre_stock.get_Rouge()));
+    //result.set_Noir(abs(this->get_Noir()-autre_stock.get_Noir()));
+    //result.set_Perle(abs(this->get_Perle()-autre_stock.get_Perle()));
+    return result;
+}
+
 
 unsigned int total_stock(const StockGemmes& stock)
 {
@@ -239,7 +274,7 @@ StockGemmesOr StockGemmesOr::operator-(const StockGemmes& autre_stock) const
 
     if ((bleu < 0) || (vert < 0) || (blanc < 0) || (rouge < 0) || (noir < 0) || (perle < 0))
     {
-        throw SplendorException("Votre stock de jetons est insuffisant");
+        throw SplendorException("La soustraction des stockGemmes donne un résultat négatif.");
     }
 
     return StockGemmesOr(bleu, vert, blanc, rouge, noir, perle, jeton_or);

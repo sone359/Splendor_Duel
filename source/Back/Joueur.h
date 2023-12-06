@@ -5,6 +5,7 @@
 #include "CarteRoyale.h"      // Inclure le fichier d'en-tete de CarteRoyale
 #include "stockGemmes.h"      // Inclure le fichier d'en-tete de StockGemmes
 #include <vector>
+#include <iostream>
 #include <array>
 #include <algorithm>
 
@@ -61,11 +62,55 @@ public:
     void addCartesJoailleriesPossedees(CarteJoaillerie & carte);
     void addCartesJoailleriesReservees(CarteJoaillerie & carte);
     void addCartesRoyalesPossedees(CarteRoyale & carte);
+    void addBonus(const CarteJoaillerie& carte);
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);
 
     int verifVictoire();
 };
+
+    bool peutAcheter(const CarteJoaillerie& carte){
+        StockGemmes temp = gemmes + bonus;
+        if (temp<carte.get_cout()){
+            temp=temp/carte.get_cout();
+            if(temp.total_gemmes()>gemmes.get_Or()){
+                std::cout<<"avec or il reste encore "<<temp.total_gemmes()-gemmes.get_Or()<<"\n";
+                return false;  
+            }
+            else{
+                std::cout<<"acheté avec jetons or.\n";
+                return true; 
+            }
+        }
+        else{
+            std::cout<<"ca marche :"<<temp-carte.get_cout()<<"\n"; 
+            return true;  
+
+        }
+        //temp = carte.get_cout()-temp;
+        //std::cout<<"\n--------------------------------------\n";
+        //std::cout<<"   "<<carte.get_cout();
+        //std::cout<<"\n";
+        //std::cout<<"   "<<gemmes;
+        //std::cout<<"\n";
+        //std::cout<<"--------------------------------------\n";
+        //std::cout<<"prix avec gemmes+bonus"<<temp<<"\n\n";
+        return false;
+    }
+};
+
+inline std::ostream& operator<<(std::ostream& os, const Joueur& j) {
+        os <<"\nPrivileges : "<< j.getNbPrivileges() << "\nCouronnes : " << j.getNbCouronnes()<<'\n';
+        os << "  Cartes Joailleries Possedees:\n";
+        for (const auto& carte : j.getCartesJoailleriesPossedees()) {
+            os << "    " << carte << "\n";
+        }
+        os << "  Cartes Joailleries Reservees:\n";
+        for (const auto& carte : j.getCartesJoailleriesReservees()) {
+            os << "    " << carte << "\n";
+        }
+        return os;
+    } 
 
 #endif // JOUEUR_H_INCLUDED

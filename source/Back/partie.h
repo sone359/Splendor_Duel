@@ -22,7 +22,7 @@ public :
     static void delete_partie();
 
     std::vector<CarteJoaillerie> cartes;
-
+    int lire_fichier(const char* fichier);
 
     void initCartes();
 
@@ -32,11 +32,13 @@ public :
     void utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned int ligne);
     std::vector<std::array<unsigned int, 2>> remplir_plateau(Joueur& joueur);
     std::array<unsigned int, 2> remplir_case();
+    void acheter_carte(int numjoueur, int niv, int colonne);//colonne correspond à la position de la carte de gauche à droite 1-3,1,4 ou 1-5 en fct du niveau
+    void reserver_carte(int numjoueur, int niv, int colonne);//colonne correspond à la position de la carte de gauche à droite 1-3,1,4 ou 1-5 en fct du niveau OU 0 POUR LA PIOCHE
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton);
     void remettre_jeton(Jeton jeton);
-    void fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant � l'effet rejouer ou l'effet lui-meme
+    void fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant � l'effet rejouer ou l'effet lui-meme
 
     //Getters
     Plateau& get_plateau() const {return plateau;};
