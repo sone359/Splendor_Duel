@@ -48,10 +48,6 @@ void InterfaceConsole::afficher_jetons_possedes(unsigned int num_joueur)
     std::cout << "\nJetons possedes par le joueur " << num_joueur <<" : " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
 }
 
-void InterfaceConsole::afficher_pyramide()
-{
-    partie.get_pyramide().afficherPyramide();
-}
 
 void InterfaceConsole::main()
 {
@@ -80,7 +76,7 @@ int InterfaceConsole::deroulement_tour()
     bool effet_rejouer = false;
     //Affichage de l'�tat de la partie
     std::cout << "\nTour " << partie.get_tour() << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
-    afficher_pyramide();
+    afficherPyramide();
     afficher_jetons_possedes(partie.joueur_adverse());
     afficher_plateau();
     afficher_jetons_possedes(partie.joueur_actif());

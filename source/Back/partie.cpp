@@ -53,7 +53,7 @@ Partie::Partie()
 
 void Partie::initCartes(){
     //version test :
-    
+
     std::cout<<"TOUTES LES CARTES\n";
     std::vector<Effet> e1,e2,e3;
     Effet e= Effet(5);
@@ -214,18 +214,6 @@ void Partie::fin_tour()
     tour++;
 }
 
-void Partie::remettre_jeton(Jeton jeton)
-{
-    Joueur& joueur = get_joueur(joueur_actif());
-    joueur.setGemmes(joueur.getGemmes().retirer_jeton(jeton));
-    sac.ajouter_jeton(jeton);
-}
-
-void Partie::fin_tour()
-{
-    tour++;
-}
-
 void Partie::acheter_carte(int numjoueur, int niv, int colonne){
     Joueur * joueur;
     switch (numjoueur)
@@ -242,7 +230,7 @@ void Partie::acheter_carte(int numjoueur, int niv, int colonne){
     if (joueur->peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
         std::cout<<"pass\n";
         if (colonne == 0){
-            throw SplendorException("Impossible d'acheter une carte de la pioche.\n"); 
+            throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
             return;
         }
         CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
@@ -251,7 +239,7 @@ void Partie::acheter_carte(int numjoueur, int niv, int colonne){
         joueur->addBonus(piochee);
     }
     else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
-        
+
     }catch (const SplendorException& e) {
         //oh mon dieu ca marche quelle emotion
         std::cerr << "Erreur : " << e.what() << std::endl;
@@ -356,7 +344,7 @@ int Partie::lire_fichier(const char* fichier){
             if (std::getline(iss, token, '\n')) {
             //std::cout<<"    capacite :";
             std::istringstream iss1(token);
-    
+
                 if (std::getline(iss1, token1, ',')) {
                     if(token1=="rejouer") tempeffet=Effet(0);
                     if(token1=="voler") tempeffet=Effet(4);
@@ -389,7 +377,7 @@ int Partie::lire_fichier(const char* fichier){
         // fermeture du fichier
         inputFile.close();
         ////verif
-        //for(CarteJoaillerie  carte : cartes){        
+        //for(CarteJoaillerie  carte : cartes){
         //    std::cout<<carte<<std::endl;
         //}
         return 0;

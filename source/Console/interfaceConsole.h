@@ -24,7 +24,7 @@ public:
     //Affichages publics pour les tests mais destin�s � devenir private
     void afficher_plateau();
     void afficher_jetons_possedes(unsigned int num_joueur);
-    void afficher_pyramide();
+    void afficherPyramide() const;
      //pour afficher la pyramide dans le terminal aka afficher les cartes
     //les unes à coté des autres on doit les afficher ligne par ligne
     void afficherCarteparligne(const CarteJoaillerie& j,int ligne,std::ostream& os)const;
