@@ -46,9 +46,7 @@ Partie::Partie()
         sac.ajouter_jeton(Or);
     }
     remplir_plateau(joueur1);
-    std::cout << "ici";
     lire_fichier("../data/info_cartejoaillerie");
-    std::cout << "ici2";
     Pyramide::initialiser(cartes);
     pyramide = Pyramide::getInstance();
 }
@@ -264,9 +262,8 @@ void Partie::reserver_carte(int numjoueur, int niv, int colonne){
 }
 
 int Partie::lire_fichier(const char* fichier){
-    // Rcupration du fichier ou les cartes ton stock
+    // Recupration du fichier ou les cartes ton stock
     std::ifstream inputFile(fichier);
-    std::cout << "lecture1" <<std::endl;
     if (!inputFile.is_open()) {
         std::cerr << "Error opening the file!" << std::endl;
         return 1;
@@ -288,7 +285,6 @@ int Partie::lire_fichier(const char* fichier){
         //tant qu'on est pas a la fin du fichier
         std::cout << "lecture2" <<std::endl;
         while (!inputFile.eof()) {
-                std::cout << "lecture3" <<std::endl;
             if (cartes_lues==67) break;
             std::getline(inputFile, line);
             //std::cout<<"--------------CARTE "<<cartes_lues<<"---------------\n";
@@ -382,8 +378,8 @@ int Partie::lire_fichier(const char* fichier){
         // fermeture du fichier
         inputFile.close();
         ////verif
-        //for(CarteJoaillerie  carte : cartes){
-        //    std::cout<<carte<<std::endl;
-        //}
+        /*for(CarteJoaillerie  carte : cartes){
+            std::cout<<carte<<std::endl;
+        }*/
         return 0;
     }

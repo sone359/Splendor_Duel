@@ -384,7 +384,7 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,
     }
 }
 
-void InterfaceConsole::afficherJoueur(int joueur) const{
+void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     size_t nbresa=partie.get_joueur(joueur).getCartesJoailleriesReservees().size();
     size_t nbposs=partie.get_joueur(joueur).getCartesJoailleriesPossedees().size();
     std::cout<<"------Joueur "<<joueur<<"---------------------------------------------------\n";
@@ -411,6 +411,8 @@ void InterfaceConsole::afficherJoueur(int joueur) const{
         }
     }
     std::cout<<"\n    Jetons Possedes \n";
+    afficherJetonsPossedes(joueur);
+    /*
     for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Bleu();i++) std::cout<<'B';
     for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Blanc();i++) std::cout<<'W';
     for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Vert();i++) std::cout<<'V';
@@ -419,7 +421,7 @@ void InterfaceConsole::afficherJoueur(int joueur) const{
     for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Perle();i++) std::cout<<'P';
     for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Or();i++) std::cout<<'O';
     std::cout<<"\n"<<partie.get_joueur(joueur).getNbPrivileges()<<" privileges, ";
-    std::cout<<partie.get_joueur(joueur).getNbCouronnes()<<" couronnes\n";
+    std::cout<<partie.get_joueur(joueur).getNbCouronnes()<<" couronnes\n";*/
 
 
 
