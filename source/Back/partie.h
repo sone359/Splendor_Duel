@@ -41,7 +41,6 @@ public :
     void reserver_carte(int numjoueur, int niv, int colonne);//colonne correspond à la position de la carte de gauche à droite 1-3,1,4 ou 1-5 en fct du niveau OU 0 POUR LA PIOCHE
 
     //Getters
-    Pyramide& get_pyramide()const{return *pyramide;}
     Plateau& get_plateau() const {return plateau;};
     Sac& get_sac() const {return sac;};
     Pyramide& get_pyramide() const {return *pyramide;};
@@ -60,7 +59,6 @@ protected:
 
 private:
     Plateau& plateau = Plateau::get_plateau();
-    Pyramide* pyramide;
     Sac& sac = Sac::get_sac();
     Pyramide* pyramide;// = Pyramide::getInstance();
     Joueur joueur1;
