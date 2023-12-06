@@ -60,8 +60,15 @@ public:
     int peutAcheter(const CarteJoaillerie& carte){
         StockGemmes temp = gemmes + bonus;
         if (temp<carte.get_cout()){
-            std::cout<<"difference :"<<temp/carte.get_cout()<<"\n";  
-            return 0;  
+            temp=temp/carte.get_cout();
+            if(temp.total_gemmes()>gemmes.get_Or()){
+                std::cout<<"avec or il reste encore "<<temp.total_gemmes()-gemmes.get_Or()<<"\n";
+                return 0;  
+            }
+            else{
+                std::cout<<"acheté avec jetons or.\n";
+                return 1;  
+            }
         }
         else{
             std::cout<<"ca marche :"<<temp-carte.get_cout()<<"\n"; 
