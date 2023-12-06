@@ -221,20 +221,9 @@ int Partie::fin_tour()
     return fin_partie;
 }
 
-void Partie::acheter_carte(int numjoueur, int niv, int colonne){
-    Joueur * joueur;
-    switch (numjoueur)
-        {
-        case 1:
-            joueur = &joueur1;
-            break;
-        case 2:
-            joueur = &joueur2;
-        default:
-            throw SplendorException("Erreur numero joueur actif.\n");
-        }
+void Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
     try{
-    if (joueur->peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
+    if (joueur.peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
         std::cout<<"pass\n";
         if (colonne == 0){
             throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
@@ -242,8 +231,8 @@ void Partie::acheter_carte(int numjoueur, int niv, int colonne){
         }
         CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
 
-        joueur->addCartesJoailleriesPossedees(piochee);
-        joueur->addBonus(piochee);
+        joueur.addCartesJoailleriesPossedees(piochee);
+        joueur.addBonus(piochee);
     }
     else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
 
@@ -254,18 +243,9 @@ void Partie::acheter_carte(int numjoueur, int niv, int colonne){
 
 }
 
-void Partie::reserver_carte(int numjoueur, int niv, int colonne){
+void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
     CarteJoaillerie piochee = pyramide->reserverCarteJoaillerie(niv,colonne);
-    switch (numjoueur)
-    {
-    case 1:
-        joueur1.addCartesJoailleriesReservees(piochee);
-        break;
-    case 2:
-        joueur2.addCartesJoailleriesReservees(piochee);
-    default:
-        throw SplendorException("Erreur numero joueur actif");
-    }
+    joueur.addCartesJoailleriesReservees(piochee);
 }
 
 int Partie::lire_fichier(const char* fichier){

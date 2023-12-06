@@ -236,7 +236,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
         return false;
     }
 
-    //Saisie des coordonn�es du jeton 1
+    //Saisie des coordonnees du jeton 1
     afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
     unsigned int colonne1 = 0, ligne1 = 0;
     std::cout << "Entrez la colonne du premier jeton a retirer : ";
@@ -280,24 +280,26 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
 
 bool InterfaceConsole::action_reserver(Joueur& joueur)
 {
-    afficherPlateau(); //Nouvel affichage du plateau a chaque privilege utilise, pour voir les changements
     unsigned int colonne_jeton = 0, ligne_jeton = 0, niveau_carte = 0, num_carte = 0;
 
-    //Saisie des coordonn�es du jeton Or a retirer
+    //Saisie des coordonnees du jeton Or a retirer
+    afficherPlateau(); //Nouvel affichage du plateau pour permettre au joueur de plus facilement choisir son jeton Or
     std::cout << "Entrez la colonne du jeton Or a retirer : ";
     std::cin >> colonne_jeton;
     std::cout << "Entrez la ligne du jeton Or a retirer : ";
     std::cin >> ligne_jeton;
 
-    //Saisie des coordonn�es de la carte a reserver
+    //Saisie des coordonnees de la carte a reserver
+    afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
     std::cout << "Entrez le niveau de la carte que vous souhaitez reserver : ";
     std::cin >> niveau_carte;
     std::cout << "Entrez le numero de la carte que vous souhaitez reserver (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3) ou bien 0 si vous souhaitez reserver la carte non visible sur le dessus de la pioche du niveau choisi : ";
     std::cin >> num_carte;
 
     //partie.reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
+    partie.reserver_carte(joueur, niveau_carte, num_carte);
 
-    std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
+    //std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
 
     return true;
 }
