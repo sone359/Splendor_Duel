@@ -18,13 +18,13 @@ Pyramide* Pyramide::instance = nullptr;
             if (carte.get_niveau() == 3) Niveau3.push(carte);
         }
 
-        for(int i =0; i<5 ;i++){
+        for(int i =1; i<6 ;i++){
             piocherCarteJoaillerie(1,i);
         }
-        for(int i =0; i<4 ;i++){
+        for(int i =1; i<5 ;i++){
             piocherCarteJoaillerie(2,i);
         }
-        for(int i =0; i<3 ;i++){
+        for(int i =1; i<4 ;i++){
             piocherCarteJoaillerie(3,i);
         }
 
@@ -48,7 +48,26 @@ Pyramide* Pyramide::instance = nullptr;
     }
 
     CarteJoaillerie Pyramide::reserverCarteJoaillerie(int numeroLigne, int numeroColonne){
-        //meme fonction que acheter du point de vue de pyramide mais pour joueur ce sera plus clair
+        //meme fonction que acheter + on peut reserver dans la pioche
+        if (numeroColonne==0) {
+            CarteJoaillerie res;
+            switch (numeroLigne)
+            {
+            case 1:
+                res = Niveau1.top();
+                Niveau1.pop();
+                break;
+            case 2:
+                res = Niveau2.top();
+                Niveau2.pop();
+                break;
+            case 3:
+                res = Niveau3.top();
+                Niveau3.pop();
+                break;
+            }
+            return res;
+        }
         return acheterCarteJoaillerie(numeroLigne,numeroColonne);
     }
 
@@ -64,15 +83,15 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
-            ligne1.insert(ligne1.begin() + numeroColonne, Niveau1.top());
+            ligne1[numeroColonne-1]=Niveau1.top();
             Niveau1.pop();
             break;
         case 2:
-            ligne2.insert(ligne2.begin() + numeroColonne, Niveau2.top());
+            ligne2[numeroColonne-1]=Niveau2.top();
             Niveau2.pop();
             break;
         case 3:
-            ligne3.insert(ligne3.begin() + numeroColonne, Niveau3.top());
+            ligne3[numeroColonne-1]=Niveau3.top();
             Niveau3.pop();
             break;
         }
@@ -82,22 +101,22 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
-            if (numeroColonne >= 0 && numeroColonne < ligne1.size()) {
-                CarteJoaillerie carte = ligne1[numeroColonne];
+            if (numeroColonne > 0 && numeroColonne <= ligne1.size()) {
+                CarteJoaillerie carte = ligne1[numeroColonne-1];
                 return carte;
             } else {
                 throw SplendorException("Erreur : numero de colonne invalide.\n");
             }
         case 2:
-            if (numeroColonne >= 0 && numeroColonne < ligne2.size()) {
-                CarteJoaillerie carte = ligne2[numeroColonne];
+            if (numeroColonne > 0 && numeroColonne <= ligne2.size()) {
+                CarteJoaillerie carte = ligne2[numeroColonne-1];
                 return carte;
             } else {
                 throw SplendorException("Erreur : numero de colonne invalide.\n");
             }
         case 3:
-            if (numeroColonne >= 0 && numeroColonne < ligne3.size()) {
-                CarteJoaillerie carte = ligne3[numeroColonne];
+            if (numeroColonne > 0 && numeroColonne <= ligne3.size()) {
+                CarteJoaillerie carte = ligne3[numeroColonne-1];
                 return carte;
             } else {
                 throw SplendorException("Erreur : numero de colonne invalide.\n");
@@ -110,20 +129,21 @@ Pyramide* Pyramide::instance = nullptr;
     void Pyramide::afficherPyramide(){
         std::cout<<"AFFICHAGE PYRAMIDE\n";
 
-        std::cout<<"    ";
+        std::cout<<"LIGNE3\n";
         for (int i = 0; i < 3; i++)
         {
             std::cout<<" "<<ligne3[i]<<" ";
         }
         std::cout<<'\n';
 
-        std::cout<<"  ";
+        std::cout<<"LIGNE2\n";
         for (int i = 0; i < 4; i++)
         {
             std::cout<<" "<<ligne2[i]<<" ";
         }
         std::cout<<'\n';
 
+        std::cout<<"LIGNE1\n";
         for (int i = 0; i < 5; i++)
         {
             std::cout<<" "<<ligne1[i]<<" ";

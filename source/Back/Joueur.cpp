@@ -84,6 +84,10 @@ void Joueur::addCartesJoailleriesPossedees(CarteJoaillerie& carte)
     cartesJoailleriesPossedees.push_back(carte);
 }
 
+void Joueur::addBonus(const CarteJoaillerie& carte){
+    bonus+=carte.get_typeBonus()*carte.get_nbBonus();
+}
+
 void Joueur::setCartesJoailleriesReservees(std::vector<CarteJoaillerie> cartes)
 {
     cartesJoailleriesReservees=cartes;

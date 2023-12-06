@@ -1,10 +1,16 @@
 #ifndef INTERFACECONSOLE_H
 #define INTERFACECONSOLE_H
 
+#include <vector>
+#include <array>
+#include <stdexcept>
+#include <iostream>
 #include "../Back/plateau.h"
 #include "../Back/Joueur.h"
 #include "../Back/partie.h"
-#include <iostream>
+#include "../Back/CarteRoyale.h"
+#include "../Back/pyramide.h"
+#include "../Back/carte_joaillerie.h"
 
 class InterfaceConsole
 {
@@ -15,10 +21,14 @@ public:
     bool action_reserver(Joueur& joueur);
     bool action_acheter(Joueur& joueur);
 
-    //Affichages publics pour les tests mais destinés à devenir private
+    //Affichages publics pour les tests mais destinï¿½s ï¿½ devenir private
     void afficher_plateau();
     void afficher_jetons_possedes(unsigned int num_joueur);
     void afficher_pyramide();
+     //pour afficher la pyramide dans le terminal aka afficher les cartes
+    //les unes Ã  cotÃ© des autres on doit les afficher ligne par ligne
+    void afficherCarteparligne(const CarteJoaillerie& j,int ligne,std::ostream& os)const;
+    void afficherJoueur(int joueur) const;
 
 private:
     Partie& partie = Partie::get_partie();
