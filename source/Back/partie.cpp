@@ -283,7 +283,6 @@ int Partie::lire_fichier(const char* fichier){
         //pour ignorer la premiere ligne
         bool isFirstLine = true;
         //tant qu'on est pas a la fin du fichier
-        std::cout << "lecture2" <<std::endl;
         while (!inputFile.eof()) {
             if (cartes_lues==67) break;
             std::getline(inputFile, line);

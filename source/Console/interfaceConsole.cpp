@@ -5,54 +5,6 @@
 #include <array>
 #include <stdexcept>
 
-void InterfaceConsole::afficherPlateau() const
-{
-    std::cout << "    0 1 2 3 4 " << std::endl;
-    std::cout << "    _ _ _ _ _ " << std::endl;
-    for (int i = 0 ; i < 5 ; i++)
-    {
-        std::cout << i << " | ";
-        for (int j = 0 ; j < 5 ; j++)
-        {
-            switch (partie.get_plateau()[j][i])
-            {
-            case Nul:
-                std::cout << "- ";
-                break;
-            case Bleu:
-                std::cout << "B ";
-                break;
-            case Vert:
-                std::cout << "V ";
-                break;
-            case Blanc:
-                std::cout << "W ";
-                break;
-            case Rouge:
-                std::cout << "R ";
-                break;
-            case Noir:
-                std::cout << "N ";
-                break;
-            case Perle:
-                std::cout << "P ";
-                break;
-            case Or:
-                std::cout << "O ";
-                break;
-            }
-        }
-        std::cout << "|" << std::endl;
-    }
-    std::cout << "    _ _ _ _ _ " << std::endl << std::endl;
-}
-
-void InterfaceConsole::afficherJetonsPossedes(unsigned int num_joueur) const
-{
-    Joueur& joueur = partie.get_joueur(num_joueur);
-    std::cout << "\nJetons possedes par le joueur " << num_joueur <<" : " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
-}
-
 void InterfaceConsole::main()
 {
     int fin_partie = 0;
@@ -79,13 +31,14 @@ int InterfaceConsole::deroulement_tour()
     //Initialisation de la possession de l'effet rejouer, qui peut etre obtenu par l'achat d'une carte et qu'il est necessaire de verifier a la fin du tour
     bool effet_rejouer = false;
     //Affichage de l'�tat de la partie
-    std::cout << "\nTour " << partie.get_tour() << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
+    afficherJoueur(partie.joueur_adverse());
     afficherPyramide();
-    afficherJetonsPossedes(partie.joueur_adverse());
     afficherPlateau();
-    afficherJetonsPossedes(partie.joueur_actif());
+    afficherJoueur(partie.joueur_actif());
 
     Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+
+    std::cout << "\nTour " << partie.get_tour() << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
 
     //Actions optionnelles
 
@@ -224,6 +177,55 @@ int InterfaceConsole::deroulement_tour()
         partie.fin_tour();
     }
     return victoire;
+}
+
+void InterfaceConsole::afficherJetonsPossedes(unsigned int num_joueur) const
+{
+    Joueur& joueur = partie.get_joueur(num_joueur);
+    std::cout << "    " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
+}
+
+void InterfaceConsole::afficherPlateau() const
+{
+    std::cout<<"-------------------------PLATEAU--------------------------\n";
+    std::cout << "        0 1 2 3 4 " << std::endl;
+    std::cout << "        _ _ _ _ _ " << std::endl;
+    for (int i = 0 ; i < 5 ; i++)
+    {
+        std::cout << "    " << i << " | ";
+        for (int j = 0 ; j < 5 ; j++)
+        {
+            switch (partie.get_plateau()[j][i])
+            {
+            case Nul:
+                std::cout << "- ";
+                break;
+            case Bleu:
+                std::cout << "B ";
+                break;
+            case Vert:
+                std::cout << "V ";
+                break;
+            case Blanc:
+                std::cout << "W ";
+                break;
+            case Rouge:
+                std::cout << "R ";
+                break;
+            case Noir:
+                std::cout << "N ";
+                break;
+            case Perle:
+                std::cout << "P ";
+                break;
+            case Or:
+                std::cout << "O ";
+                break;
+            }
+        }
+        std::cout << "|" << std::endl;
+    }
+    std::cout << "        _ _ _ _ _ " << std::endl << std::endl;
 }
 
 bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
