@@ -8,9 +8,9 @@
 void InterfaceConsole::main()
 {
     int fin_partie = 0;
-    while(fin_partie == 0)
+    while(deroulement_tour() == true && fin_partie == 0)
     {
-        fin_partie = deroulement_tour();
+        fin_partie = partie.fin_tour();
     }
     if(fin_partie == 1)
     {
@@ -26,11 +26,11 @@ void InterfaceConsole::main()
     }
 }
 
-int InterfaceConsole::deroulement_tour()
+bool InterfaceConsole::deroulement_tour()
 {
     //Initialisation de la possession de l'effet rejouer, qui peut etre obtenu par l'achat d'une carte et qu'il est necessaire de verifier a la fin du tour
     bool effet_rejouer = false;
-    //Affichage de l'�tat de la partie
+    //Affichage de l'etat de la partie
     afficherJoueur(partie.joueur_adverse());
     afficherPyramide();
     afficherPlateau();
@@ -123,7 +123,7 @@ int InterfaceConsole::deroulement_tour()
             }
             else if(reponse == "4")
             {
-                return -1;
+                return false;
             }
             else
             {
@@ -167,16 +167,6 @@ int InterfaceConsole::deroulement_tour()
             std::cout << except.what() << std::endl;
         }
     }
-
-    //Verification des conditions de victoire pour le joueur actif
-    int victoire = joueur.verifVictoire();
-
-    //Passage au tour suivant, sauf en cas d'effet rejouer
-    if(victoire == 0 && !effet_rejouer)
-    {
-        partie.fin_tour();
-    }
-    return victoire;
 }
 
 void InterfaceConsole::afficherJetonsPossedes(unsigned int num_joueur) const

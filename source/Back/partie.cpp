@@ -209,9 +209,16 @@ void Partie::remettre_jeton(Jeton jeton)
     sac.ajouter_jeton(jeton);
 }
 
-void Partie::fin_tour()
+int Partie::fin_tour()
 {
-    tour++;
+    //Verification des conditions de victoire pour le joueur actif
+    int fin_partie = get_joueur(joueur_actif()).verifVictoire();
+
+    //Passage au tour suivant
+    if(fin_partie == 0 && !effet_rejouer)
+        tour++;
+
+    return fin_partie;
 }
 
 void Partie::acheter_carte(int numjoueur, int niv, int colonne){

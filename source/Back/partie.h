@@ -38,7 +38,7 @@ public :
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton);
     void remettre_jeton(Jeton jeton);
-    void fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant � l'effet rejouer ou l'effet lui-meme
+    int fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant � l'effet rejouer ou l'effet lui-meme
 
     //Getters
     Plateau& get_plateau() const {return plateau;};
@@ -66,6 +66,7 @@ private:
     unsigned int tour = 0;
     std::vector<CarteRoyale> cartesRoyales;
     unsigned int privileges_disponibles = 3;
+    unsigned int effet_rejouer = 0;
 };
 
 #endif

@@ -16,12 +16,12 @@ class InterfaceConsole
 {
 public:
     void main();
-    int deroulement_tour();
+    bool deroulement_tour();
     bool action_prendre_jetons(Joueur& joueur);
     bool action_reserver(Joueur& joueur);
     bool action_acheter(Joueur& joueur);
 
-    //Affichages publics pour les tests mais destin�s � devenir private
+    //Affichages publics pour les tests mais destines a devenir private
     void afficherPyramide() const;
     //pour afficher la pyramide dans le terminal aka afficher les cartes
     //les unes à coté des autres on doit les afficher ligne par ligne
