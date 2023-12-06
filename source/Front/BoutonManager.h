@@ -10,6 +10,8 @@
 #include "PlateauWidget.h"
 #include "../Back/partie.h"
 #include "../Back/Joueur.h"
+#include "QInputDialog"
+#include "../Console/interfaceConsole.h"
 
 class BoutonManager : public QObject {
 

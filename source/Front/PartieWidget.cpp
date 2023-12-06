@@ -78,6 +78,19 @@ PartieWidget::PartieWidget(QWidget *parent) : QWidget(parent) {
                        player2BlueLineEdit, player2WhiteLineEdit, player2PearlLineEdit,
                        player2BlackLineEdit, player2PrivilegeLineEdit,player2GoldLineEdit);
 
+    CarteRoyale carte1(2, Effet::voler, ":/Images/Cartes_royales/CartesRoyales_voler.png");
+    CarteRoyale carte2(2, Effet::rejouer, ":/Images/Cartes_royales/CartesRoyales_rejouer.png");
+    CarteRoyale carte3(3, Effet::sans, ":/Images/Cartes_royales/CartesRoyales_sans.png");
+    CarteRoyale carte4(2, Effet::privilege, ":/Images/Cartes_royales/CartesRoyales_privilege.png");
+
+
+
+    // Add the CarteRoyale objects to the cartesRoyales attribute
+    cartesRoyales.push_back(carte1);
+    cartesRoyales.push_back(carte2);
+    cartesRoyales.push_back(carte3);
+    cartesRoyales.push_back(carte4);
+
 
 }
 
@@ -101,31 +114,97 @@ void PartieWidget::updatePlayerInfo(const QString& playerName, int redValue, int
     }
 }
 
-// PartieWidget.cpp
+void setSmallImageBackground(QLabel* label, const QString& imagePath) {
+    QPixmap pixmap(imagePath);
 
+    pixmap = pixmap.scaled(QSize(20, 20),Qt::IgnoreAspectRatio);
+
+    label->setPixmap(pixmap);
+    label->setFixedSize(pixmap.size());
+    QPalette palette;
+    palette.setBrush(QPalette::Window, QBrush(pixmap));
+    label->setAutoFillBackground(true);
+    label->setPalette(palette);
+}
+
+
+// PartieWidget.cpp
+void decorateLineEdits(QLabel*& label,QLineEdit* redLineEdit, QLineEdit* greenLineEdit,
+                       QLineEdit* blueLineEdit, QLineEdit* whiteLineEdit,
+                       QLineEdit* pearlLineEdit, QLineEdit* blackLineEdit,
+                       QLineEdit* privilegeLineEdit, QLineEdit* goldLineEdit) {
+    QString styleSheet = "QLineEdit {"
+                         "   border: 2px solid #cccccc;"
+                         "   border-radius: 5px;"
+                         "   background-color: #f2f2f2;"
+                         "   padding: 3px;"
+                         "}";
+
+    QString labelStyleSheet = "QLabel {"
+                              "   border: 2px solid #cccccc;"
+                              "   border-radius: 5px;"
+                              "   background-color: #f2f2f2;"
+                              "   padding: 3px;"
+                              "}";
+
+    label->setStyleSheet(labelStyleSheet);
+
+
+    redLineEdit->setStyleSheet(styleSheet);
+    greenLineEdit->setStyleSheet(styleSheet);
+    blueLineEdit->setStyleSheet(styleSheet);
+    whiteLineEdit->setStyleSheet(styleSheet);
+    pearlLineEdit->setStyleSheet(styleSheet);
+    blackLineEdit->setStyleSheet(styleSheet);
+    privilegeLineEdit->setStyleSheet(styleSheet);
+    goldLineEdit->setStyleSheet(styleSheet);
+}
 void PartieWidget::setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, QLineEdit*& greenLineEdit,
                                       QLineEdit*& blueLineEdit, QLineEdit*& whiteLineEdit,
                                       QLineEdit*& pearlLineEdit, QLineEdit*& blackLineEdit,
                                       QLineEdit*& privilegeLineEdit,QLineEdit *& GoldLineEdit) {
     QGridLayout *playerLayout = new QGridLayout;
 
+    decorateLineEdits(label, redLineEdit,  greenLineEdit,
+                       blueLineEdit,  whiteLineEdit,
+                       pearlLineEdit,  blackLineEdit,
+                       privilegeLineEdit, GoldLineEdit);
+
     // Add widgets to the layout
     playerLayout->addWidget(label, 0, 0, 1, 1);
-    playerLayout->addWidget(new QLabel("Rouge:"), 0, 1);
+    QLabel* smallImageLabel = new QLabel;
+
+    setSmallImageBackground(smallImageLabel, ":/Images/Jetons/jeton_rouge.png");
+
+    playerLayout->addWidget(smallImageLabel, 0, 1);
     playerLayout->addWidget(redLineEdit, 0, 2);
-    playerLayout->addWidget(new QLabel("Vert:"), 0, 3);
+    QLabel* smallImageLabel1 = new QLabel;
+    setSmallImageBackground(smallImageLabel1, ":/Images/Jetons/jeton_vert.png");
+    playerLayout->addWidget(smallImageLabel1, 0, 3);
     playerLayout->addWidget(greenLineEdit, 0, 4);
-    playerLayout->addWidget(new QLabel("Bleu:"), 0, 5);
+    QLabel* smallImageLabel2 = new QLabel;
+    setSmallImageBackground(smallImageLabel2, ":/Images/Jetons/jeton_bleu.png");
+    playerLayout->addWidget(smallImageLabel2, 0, 5);
     playerLayout->addWidget(blueLineEdit, 0, 6);
-    playerLayout->addWidget(new QLabel("Blanc:"), 0, 7);
+    QLabel* smallImageLabel3 = new QLabel;
+    setSmallImageBackground(smallImageLabel3, ":/Images/Jetons/jeton_blanc.png");
+    playerLayout->addWidget(smallImageLabel3, 0, 7);
     playerLayout->addWidget(whiteLineEdit, 0, 8);
-    playerLayout->addWidget(new QLabel("Perle:"), 0, 9);
+    QLabel* smallImageLabel4 = new QLabel;
+    setSmallImageBackground(smallImageLabel4, ":/Images/Jetons/jeton_perle.png");
+    playerLayout->addWidget(smallImageLabel4, 0, 9);
     playerLayout->addWidget(pearlLineEdit, 0, 10);
-    playerLayout->addWidget(new QLabel("Noir:"), 0, 11);
+    QLabel* smallImageLabel5 = new QLabel;
+    setSmallImageBackground(smallImageLabel5, ":/Images/noir.png");
+    playerLayout->addWidget(smallImageLabel5, 0, 11);
     playerLayout->addWidget(blackLineEdit, 0, 12);
-    playerLayout->addWidget(new QLabel("Privilège:"), 0, 13);
+    QLabel* smallImageLabel7 = new QLabel;
+    setSmallImageBackground(smallImageLabel7, ":/Images/privilege.png");
+    playerLayout->addWidget(smallImageLabel7, 0, 13);
     playerLayout->addWidget(privilegeLineEdit, 0, 14);
-    playerLayout->addWidget(new QLabel("Gold:"), 0, 15);
+    QLabel* smallImageLabel6 = new QLabel;
+    setSmallImageBackground(smallImageLabel6, ":/Images/Jetons/jeton_or.png");
+    playerLayout->addWidget(smallImageLabel6, 0, 15);
     playerLayout->addWidget(GoldLineEdit, 0, 16);
 
     // Add the player layout to the main layout
@@ -143,23 +222,92 @@ PartieWidget *PartieWidget::getInstance() {
 void PartieWidget::displayRoyalImages(const QStringList &imagePaths) {
     QHBoxLayout *imageRowLayout = new QHBoxLayout;
 
-    for (const QString &imagePath : imagePaths) {
-        // Load and display each image
-        QLabel *label = new QLabel;
-        QPixmap pixmap(imagePath);
+    for (int i = 0; i < imagePaths.size(); ++i) {
+        // Create a QPushButton with the image as its background
+        QPushButton *button = new QPushButton;
+        QPixmap pixmap(imagePaths[i]);
         pixmap = pixmap.scaled(100, 100, Qt::KeepAspectRatio);
-        label->setPixmap(pixmap);
-        imageRowLayout->addWidget(label);
+        button->setIcon(QIcon(pixmap));
+        button->setIconSize(pixmap.size());
+        button->setFixedSize(69, 100); // Set the size of the button
 
-        // Add a spacing of 3 pixels after each image
-        imageRowLayout->addSpacing(3); // Vous avez probablement voulu utiliser 3 pixels ici
+        // Add a spacing of 3 pixels after each button
+        if (i > 0) {
+            imageRowLayout->addSpacing(3);
+        }
+
+        // Add the button to the layout
+        imageRowLayout->addWidget(button);
+        royalButtons.append(button);
+
+        // Connect the button click event to a slot that handles the click
+        connect(button, &QPushButton::clicked, [this, i, imagePaths]() {
+            handleRoyalButtonClick(imagePaths[i]);
+        });
     }
 
     // Add the QHBoxLayout to the QVBoxLayout (mainLayout)
     mainLayout->addLayout(imageRowLayout);
 }
 
+void PartieWidget::removeRoyalButton(int buttonIndex) {
+    if (buttonIndex >= 0 && buttonIndex < royalButtons.size()) {
+        // Remove the button from layout and delete it
+        mainLayout->removeWidget(royalButtons[buttonIndex]);
+        delete royalButtons[buttonIndex];
 
+    } else {
+        qDebug() << "Invalid button index";
+    }
+}
+
+void PartieWidget::handleRoyalButtonClick(const QString &imagePath) {
+    // Check if the buttonIndex is within the valid range
+
+    for (int i = 0; i < cartesRoyales.size(); ++i) {
+        if (QString::fromStdString(cartesRoyales[i].getCheminImage()) == imagePath)
+         {
+
+            CarteRoyale clickedCarte = cartesRoyales[i];
+            // You can use the information as needed
+            int pointsPrestige = clickedCarte.getPointsPrestige();
+            Effet effet = clickedCarte.getCapacite();
+
+            // Example: Display information in a message box
+            QString message = QString("Carte %1 - Points Prestige: %2, Capacite: %3")
+                                  .arg(i + 1).arg(pointsPrestige).arg(static_cast<int>(effet));
+
+            QMessageBox::information(this, "Carte Royale Clicked", message);
+            removeRoyalButton(i);
+
+        }
+    }
+
+}
+
+void colorerLabel(QLabel* label, const QString& couleur) {
+
+    QString labelStyleSheet = "QLabel {"
+                              "   border: 2px solid #cccccc;"
+                              "   border-radius: 5px;"
+                              "   background-color:"+ couleur+ " ;"
+                              "   padding: 3px;"
+                              "}";
+
+    label->setStyleSheet(labelStyleSheet);
+
+}
+
+void PartieWidget::joueurActif(const QString& playerName) {
+    if (playerName == "Joueur 1") {
+        colorerLabel(player1Label, "green");
+        colorerLabel(player2Label, "");  // Réinitialiser le fond de l'autre label
+    } else if (playerName == "Joueur 2") {
+        colorerLabel(player1Label, "");  // Réinitialiser le fond de l'autre label
+        colorerLabel(player2Label, "green");
+    }
+    // Ajoutez d'autres conditions au besoin
+}
 
 
 void PartieWidget::afficherPlateau(PlateauWidget * pl) {

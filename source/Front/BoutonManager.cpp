@@ -1,4 +1,5 @@
 #include "BoutonManager.h"
+#include <QRadioButton>
 #include <QMessageBox>
 #include "PartieWidget.h"
 BoutonManager::BoutonManager(QWidget *parent)
@@ -18,8 +19,40 @@ BoutonManager::~BoutonManager() {
 
 void BoutonManager::createButtons() {
 
-    volerButton->setDisabled(true);
+    //volerButton->setDisabled(true);
 
+    // Définir le style pour les boutons
+    QString buttonStyle = "QPushButton {"
+                          "    display: inline-block;"
+                          "    background-color: green;"
+                          "    border-radius: 10px;"
+                          "    border: 4px double #cccccc;"
+                          "    color: #eeeeee;"
+                          "    text-align: center;"
+                          "    font-size: 12px;"
+                          "    padding: 10px;"
+                          "    width: 10px;"
+                          "    transition: all 0.5s;"
+                          "    cursor: pointer;"
+                          "    margin: 5px;"
+                          "}"
+                          "QPushButton:hover {"
+                          "    background-color: gray;"
+                          "}"
+                          "QPushButton:hover span {"
+                          "    padding-right: 25px;"
+                          "}"
+                          "QPushButton:hover span:after {"
+                          "    opacity: 1;"
+                          "    right: 0;"
+                          "}";
+
+    acheterCarteButton->setStyleSheet(buttonStyle);
+    reserverCarteButton->setStyleSheet(buttonStyle);
+    utiliserPrivilegeButton->setStyleSheet(buttonStyle);
+    volerButton->setStyleSheet(buttonStyle);
+    prendreJetonsButton->setStyleSheet(buttonStyle);
+    remplirPlateauButton->setStyleSheet(buttonStyle);
 
     buttonsLayout->addWidget(acheterCarteButton, 0, 0);
     buttonsLayout->addWidget(reserverCarteButton, 0, 1);
@@ -35,6 +68,58 @@ void BoutonManager::createButtons() {
     connect(volerButton, &QPushButton::clicked, this, &BoutonManager::onVolerDisabledClicked);
     connect(prendreJetonsButton, &QPushButton::clicked, this, &BoutonManager::onPrendreJetonsClicked);
     connect(remplirPlateauButton, &QPushButton::clicked, this, &BoutonManager::onRemplirPlateauClicked);
+
+}
+
+void demanderCouleurJeton(int occ) {
+    QStringList couleursChoisies;
+
+    //if(total_stock(joueur.getGemmes())> 10)
+        QMessageBox msgBox;
+    msgBox.setText(QString("T'as beaucoup de jetons, tu dois rendre %1 jetons").arg(occ));
+    msgBox.setWindowTitle("Rendre des Jetons");
+
+    // Créer des boutons radio
+    QRadioButton *rougeButton = new QRadioButton("Rouge");
+    QRadioButton *blancButton = new QRadioButton("Blanc");
+    QRadioButton *noirButton = new QRadioButton("Noir");
+    QRadioButton *orButton = new QRadioButton("Or");
+    QRadioButton *perleButton = new QRadioButton("Perle");
+    QRadioButton *vertButton = new QRadioButton("Vert");
+    QRadioButton *bleuButton = new QRadioButton("Bleu");
+
+    // Ajouter les boutons radio à la boîte de message
+    msgBox.addButton(rougeButton, QMessageBox::ActionRole);
+    msgBox.addButton(blancButton, QMessageBox::ActionRole);
+    msgBox.addButton(noirButton, QMessageBox::ActionRole);
+    msgBox.addButton(orButton, QMessageBox::ActionRole);
+    msgBox.addButton(perleButton, QMessageBox::ActionRole);
+    msgBox.addButton(vertButton, QMessageBox::ActionRole);
+    msgBox.addButton(bleuButton, QMessageBox::ActionRole);
+
+    // Afficher la boîte de message et attendre la réponse de l'utilisateur
+    msgBox.exec();
+    Partie& partie = Partie::get_partie();
+    // Retourner la couleur sélectionnée
+    if (rougeButton->isChecked()) {
+        partie.remettre_jeton(Rouge);
+    } else if (blancButton->isChecked()) {
+        partie.remettre_jeton(Blanc);
+    } else if (noirButton->isChecked()) {
+        partie.remettre_jeton(Noir);
+    } else if (orButton->isChecked()) {
+        partie.remettre_jeton(Or);
+    } else if (perleButton->isChecked()) {
+        partie.remettre_jeton(Perle);
+    } else if (vertButton->isChecked()) {
+        partie.remettre_jeton(Vert);
+    } else if (bleuButton->isChecked()) {
+        partie.remettre_jeton(Bleu);
+    }
+
+
+
+
 
 }
 
@@ -70,11 +155,81 @@ void BoutonManager::onReserverCarteClicked() {
 }
 
 void BoutonManager::onUtiliserPrivilegeClicked() {
-    QMessageBox::information(parentWidget, "Action", "Utiliser un privilège sélectionné");
+    PlateauWidget * plateauWidget = PlateauWidget::getInstance();
+    Plateau& plateau = Plateau::get_plateau();
+    PartieWidget * partie = PartieWidget::getInstance();
+    Partie& game = Partie::get_partie();
+    plateauWidget->emptyJetons();
+    QMessageBox::information(parentWidget, "Action", "Le plateau est de cette forme [0:4,0:4] du gauche à droite");
+
+        unsigned int row = QInputDialog::getInt(nullptr, "Entrer la ligne", "Entrez le numéro de ligne du jeton que vous souhaitez avoir :", 0, 0, 4, 1);
+        unsigned int col = QInputDialog::getInt(nullptr, "Entrer la colonne", "Entrez le numéro de colonne jeton que vous souhaitez avoir :", 0, 0, 4, 1);
+
+
+        // Vérifiez si l'utilisateur a appuyé sur OK
+
+            // Utilisez les valeurs de row et col comme nécessaire
+            if(joueur1==1)
+                try{
+                    game.utilise_privilege(game.get_joueur(1),row,col);
+                    QMessageBox::information(parentWidget, "Action", "Hi");
+
+                }
+                catch (const SplendorException& ex) {
+                    // Exception caught, display a QMessageBox with the exception message
+                    QMessageBox::information(parentWidget, "Exception", ex.what());
+                }
+            else
+                try{
+                    game.utilise_privilege(game.get_joueur(2),row,col);
+                }
+                catch (const SplendorException& ex) {
+                    // Exception caught, display a QMessageBox with the exception message
+                    QMessageBox::information(parentWidget, "Exception", ex.what());
+                }
+
+
+
+
+
+    partie->removePlateau(partie->getPlateauWidget());
+    PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
+    partie->afficherPlateau(plateauWidgetInstance);
+    partie->setPlateauWidget(plateauWidgetInstance);
+    partie->updatePlayerPrivilege("Joueur 1",game.get_joueur(1).getNbPrivileges());
+    partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
+
+    plateauWidget->emptyJetons();
+
+    if(joueur1 == 1)    {
+    QMessageBox::information(parentWidget, "Action", "Joueur 1");
+    partie->updatePlayerInfo("Joueur 1", game.get_joueur(1).getGemmes().get_Rouge() , game.get_joueur(1).getGemmes().get_Vert(), game.get_joueur(1).getGemmes().get_Bleu(), game.get_joueur(1).getGemmes().get_Blanc(), game.get_joueur(1).getGemmes().get_Perle(), game.get_joueur(1).getGemmes().get_Noir(),game.get_joueur(1).getGemmes().get_Or());
+
+   }
+    else { QMessageBox::information(parentWidget, "Action", "Joueur 2");
+    Joueur& joueur = game.get_joueur(2);
+    std::cout << "\nJetons possedes par le joueur 2 "  <<" : " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
+    partie->updatePlayerInfo("Joueur 2", game.get_joueur(2).getGemmes().get_Rouge() , game.get_joueur(2).getGemmes().get_Vert(), game.get_joueur(2).getGemmes().get_Bleu(), game.get_joueur(2).getGemmes().get_Blanc(), game.get_joueur(2).getGemmes().get_Perle(), game.get_joueur(2).getGemmes().get_Noir(),game.get_joueur(2).getGemmes().get_Or());
+
+    }
+
 }
 
 void BoutonManager::onVolerDisabledClicked() {
-    // Cette action est désactivée, donc cette partie du code ne sera pas atteinte
+
+    QString message = "Le jeton de quelle couleur voulez-vous voler ?";
+    QString colorChoice = QInputDialog::getText(nullptr, "Choix de couleur", message);
+
+
+    if (!colorChoice.isEmpty()) {
+            // Process the color choice (you can store it in a variable, etc.)
+            // For now, we'll just display it in a message box
+            QString resultMessage = "Vous avez choisi de voler le jeton de couleur : " + colorChoice;
+            QMessageBox::information(nullptr, "Choix enregistré", resultMessage);
+    } else {
+            // User canceled the input
+            qDebug() << "L'utilisateur a annulé le choix de couleur.";
+    }
 }
 
 void BoutonManager::onPrendreJetonsClicked() {
@@ -97,12 +252,10 @@ void BoutonManager::onPrendreJetonsClicked() {
    {       try {
             StockGemmes stock;
             //stock=plateau.actionRetirerJetons(positionArrayVector[0]);
-            if(joueur1 == 1)
 
-            game.retirer_jetons(game.get_joueur(1),positionArrayVector[0]);
 
-            else
-                game.retirer_jetons(game.get_joueur(2),positionArrayVector[0]);
+            game.retirer_jetons(positionArrayVector[0]);
+
             }
             catch (const SplendorException& ex) {
             // Exception caught, display a QMessageBox with the exception message
@@ -114,12 +267,10 @@ void BoutonManager::onPrendreJetonsClicked() {
             try {
          StockGemmes stock;
          //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1]);
-         if(joueur1 == 1)
 
-             game.retirer_jetons(game.get_joueur(1),positionArrayVector[0],positionArrayVector[1]);
 
-         else
-             game.retirer_jetons(game.get_joueur(2),positionArrayVector[0],positionArrayVector[1]);
+             game.retirer_jetons(positionArrayVector[0],positionArrayVector[1]);
+
 
             }
             catch (const SplendorException& ex) {
@@ -131,13 +282,10 @@ void BoutonManager::onPrendreJetonsClicked() {
     {
             try {
          StockGemmes stock;
-         //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
-         if(joueur1 == 1)
 
-         game.retirer_jetons(game.get_joueur(1),positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
 
-         else
-             game.retirer_jetons(game.get_joueur(2),positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
+         game.retirer_jetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
+
             }
             catch (const SplendorException& ex) {
          // Exception caught, display a QMessageBox with the exception message
@@ -169,18 +317,33 @@ void BoutonManager::onPrendreJetonsClicked() {
     plateauWidget->emptyJetons();
 
    if(joueur1 == 1)    {
-            QMessageBox::information(parentWidget, "Action", "Joueur 1");
-            partie->updatePlayerInfo("Joueur 1", game.get_joueur(1).getGemmes().get_Rouge() , game.get_joueur(1).getGemmes().get_Vert(), game.get_joueur(1).getGemmes().get_Bleu(), game.get_joueur(1).getGemmes().get_Blanc(), game.get_joueur(1).getGemmes().get_Perle(), game.get_joueur(1).getGemmes().get_Noir(),game.get_joueur(1).getGemmes().get_Or());
 
-            joueur1=0;}
+            joueur1=0;
+            partie->joueurActif("Joueur 2");
+   }
     else { QMessageBox::information(parentWidget, "Action", "Joueur 2");
-            partie->updatePlayerInfo("Joueur 2", game.get_joueur(2).getGemmes().get_Rouge() , game.get_joueur(2).getGemmes().get_Vert(), game.get_joueur(2).getGemmes().get_Bleu(), game.get_joueur(2).getGemmes().get_Blanc(), game.get_joueur(2).getGemmes().get_Perle(), game.get_joueur(2).getGemmes().get_Noir(),game.get_joueur(2).getGemmes().get_Or());
 
             joueur1=1;
-    }
+            partie->joueurActif("Joueur 1");
 
-//    acheterCarteButton->setDisabled(true);
-//    reserverCarteButton->setDisabled(true);
+    }
+   Joueur & joueur = game.get_joueur(game.joueur_actif());
+    while (total_stock(joueur.getGemmes()) > 10)
+            try{
+            demanderCouleurJeton(total_stock(joueur.getGemmes())-10);
+            }
+            catch (const SplendorException& ex) {
+            // Exception caught, display a QMessageBox with the exception message
+            QMessageBox::information(parentWidget, "Exception", ex.what());
+            }
+
+    partie->updatePlayerInfo("Joueur 1", game.get_joueur(1).getGemmes().get_Rouge() , game.get_joueur(1).getGemmes().get_Vert(), game.get_joueur(1).getGemmes().get_Bleu(), game.get_joueur(1).getGemmes().get_Blanc(), game.get_joueur(1).getGemmes().get_Perle(), game.get_joueur(1).getGemmes().get_Noir(),game.get_joueur(1).getGemmes().get_Or());
+    partie->updatePlayerInfo("Joueur 2", game.get_joueur(2).getGemmes().get_Rouge() , game.get_joueur(2).getGemmes().get_Vert(), game.get_joueur(2).getGemmes().get_Bleu(), game.get_joueur(2).getGemmes().get_Blanc(), game.get_joueur(2).getGemmes().get_Perle(), game.get_joueur(2).getGemmes().get_Noir(),game.get_joueur(2).getGemmes().get_Or());
+
+
+   game.fin_tour();
+
+
 }
 
 void BoutonManager::onRemplirPlateauClicked() {
@@ -191,12 +354,12 @@ void BoutonManager::onRemplirPlateauClicked() {
     {
             game.remplir_plateau(game.get_joueur(1));
 
-            joueur1=0;
+
 
     }
     else  {
             game.remplir_plateau(game.get_joueur(2));
-            joueur1=1;
+
     }
     partie->updatePlayerPrivilege("Joueur 1",game.get_joueur(1).getNbPrivileges());
     partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
