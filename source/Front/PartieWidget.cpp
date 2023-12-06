@@ -304,7 +304,7 @@ void PartieWidget::joueurActif(const QString& playerName) {
         colorerLabel(player2Label, "");  // Réinitialiser le fond de l'autre label
     } else if (playerName == "Joueur 2") {
         colorerLabel(player1Label, "");  // Réinitialiser le fond de l'autre label
-        colorerLabel(player2Label, "light green");
+        colorerLabel(player2Label, "green");
     }
     // Ajoutez d'autres conditions au besoin
 }
