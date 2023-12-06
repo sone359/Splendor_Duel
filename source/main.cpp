@@ -22,8 +22,10 @@ int main()
     //std::cout<<"youhou";
     //Pyramide::getInstance();
     //std::cout<<"youhou";
-    
+
+    std::cout << "salut1";
     Partie& game = Partie::get_partie();
+    std::cout << "salut";
     InterfaceConsole ic;
     ic.main();
 //
@@ -120,7 +122,7 @@ int main()
     //ic.afficherJetonsPossedes(game.get_joueur(2));
     //game.remplir_plateau(game.get_joueur(1));
     //ic.afficherPlateau();
-    
+
     /*pl.ajouterJeton(sac.retirer_jeton());
     ic.afficherPlateau();
     pl.ajouterJeton(sac.retirer_jeton());

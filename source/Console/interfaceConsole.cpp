@@ -186,7 +186,7 @@ int InterfaceConsole::deroulement_tour()
     //Verification du nombre de jetons poss�d�s par le joueur actif
     while (total_stock(joueur.getGemmes()) > 10)
     {
-        afficher_jetons_possedes(partie.joueur_actif());
+        afficherJetonsPossedes(partie.joueur_actif());
         std::cout << "\nVous avez trop de jetons ! Entrez le type de jeton a remettre dans le sac (B, V, W, R, N, P ou O) : " << std::endl;
         std::string jeton_retire;
         std::cin >> jeton_retire;
@@ -245,7 +245,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
     }
 
     //Saisie des coordonn�es du jeton 1
-    afficher_plateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
+    afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
     unsigned int colonne1 = 0, ligne1 = 0;
     std::cout << "Entrez la colonne du premier jeton a retirer : ";
     std::cin >> colonne1;
@@ -288,7 +288,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
 
 bool InterfaceConsole::action_reserver(Joueur& joueur)
 {
-    afficher_plateau(); //Nouvel affichage du plateau a chaque privilege utilise, pour voir les changements
+    afficherPlateau(); //Nouvel affichage du plateau a chaque privilege utilise, pour voir les changements
     unsigned int colonne_jeton = 0, ligne_jeton = 0, niveau_carte = 0, num_carte = 0;
 
     //Saisie des coordonn�es du jeton Or a retirer

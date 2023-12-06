@@ -46,14 +46,16 @@ Partie::Partie()
         sac.ajouter_jeton(Or);
     }
     remplir_plateau(joueur1);
+    std::cout << "ici";
     lire_fichier("../data/info_cartejoaillerie");
+    std::cout << "ici2";
     Pyramide::initialiser(cartes);
     pyramide = Pyramide::getInstance();
 }
 
 void Partie::initCartes(){
     //version test :
-    
+
     std::cout<<"TOUTES LES CARTES\n";
     std::vector<Effet> e1,e2,e3;
     Effet e= Effet(5);
@@ -230,7 +232,7 @@ void Partie::acheter_carte(int numjoueur, int niv, int colonne){
     if (joueur->peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
         std::cout<<"pass\n";
         if (colonne == 0){
-            throw SplendorException("Impossible d'acheter une carte de la pioche.\n"); 
+            throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
             return;
         }
         CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
@@ -239,7 +241,7 @@ void Partie::acheter_carte(int numjoueur, int niv, int colonne){
         joueur->addBonus(piochee);
     }
     else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
-        
+
     }catch (const SplendorException& e) {
         //oh mon dieu ca marche quelle emotion
         std::cerr << "Erreur : " << e.what() << std::endl;
@@ -264,6 +266,7 @@ void Partie::reserver_carte(int numjoueur, int niv, int colonne){
 int Partie::lire_fichier(const char* fichier){
     // Rcupration du fichier ou les cartes ton stock
     std::ifstream inputFile(fichier);
+    std::cout << "lecture1" <<std::endl;
     if (!inputFile.is_open()) {
         std::cerr << "Error opening the file!" << std::endl;
         return 1;
@@ -283,7 +286,9 @@ int Partie::lire_fichier(const char* fichier){
         //pour ignorer la premiere ligne
         bool isFirstLine = true;
         //tant qu'on est pas a la fin du fichier
+        std::cout << "lecture2" <<std::endl;
         while (!inputFile.eof()) {
+                std::cout << "lecture3" <<std::endl;
             if (cartes_lues==67) break;
             std::getline(inputFile, line);
             //std::cout<<"--------------CARTE "<<cartes_lues<<"---------------\n";
@@ -344,7 +349,7 @@ int Partie::lire_fichier(const char* fichier){
             if (std::getline(iss, token, '\n')) {
             //std::cout<<"    capacite :";
             std::istringstream iss1(token);
-    
+
                 if (std::getline(iss1, token1, ',')) {
                     if(token1=="rejouer") tempeffet=Effet(0);
                     if(token1=="voler") tempeffet=Effet(4);
@@ -377,7 +382,7 @@ int Partie::lire_fichier(const char* fichier){
         // fermeture du fichier
         inputFile.close();
         ////verif
-        //for(CarteJoaillerie  carte : cartes){        
+        //for(CarteJoaillerie  carte : cartes){
         //    std::cout<<carte<<std::endl;
         //}
         return 0;

@@ -68,7 +68,6 @@ public:
     void setBonus(const StockGemmes& bonus);
 
     int verifVictoire();
-};
 
     bool peutAcheter(const CarteJoaillerie& carte){
         StockGemmes temp = gemmes + bonus;
@@ -76,16 +75,16 @@ public:
             temp=temp/carte.get_cout();
             if(temp.total_gemmes()>gemmes.get_Or()){
                 std::cout<<"avec or il reste encore "<<temp.total_gemmes()-gemmes.get_Or()<<"\n";
-                return false;  
+                return false;
             }
             else{
                 std::cout<<"acheté avec jetons or.\n";
-                return true; 
+                return true;
             }
         }
         else{
-            std::cout<<"ca marche :"<<temp-carte.get_cout()<<"\n"; 
-            return true;  
+            std::cout<<"ca marche :"<<temp-carte.get_cout()<<"\n";
+            return true;
 
         }
         //temp = carte.get_cout()-temp;
@@ -111,6 +110,6 @@ inline std::ostream& operator<<(std::ostream& os, const Joueur& j) {
             os << "    " << carte << "\n";
         }
         return os;
-    } 
+    }
 
 #endif // JOUEUR_H_INCLUDED
