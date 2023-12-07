@@ -1,0 +1,13 @@
+debug/CarteRoyale.o
+debug/Effet.o
+debug/Joueur.o
+debug/partie.o
+debug/plateau.o
+debug/pyramide.o
+debug/sac.o
+debug/stockGemmes.o
+debug/BoutonManager.o
+debug/PartieWidget.o
+debug/PlateauWidget.o
+debug/main.o
+debug/qrc_resources.o

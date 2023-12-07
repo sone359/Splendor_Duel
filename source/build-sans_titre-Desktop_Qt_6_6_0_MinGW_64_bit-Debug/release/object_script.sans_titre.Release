@@ -1,0 +1,13 @@
+release/CarteRoyale.o
+release/Effet.o
+release/Joueur.o
+release/partie.o
+release/plateau.o
+release/pyramide.o
+release/sac.o
+release/stockGemmes.o
+release/BoutonManager.o
+release/PartieWidget.o
+release/PlateauWidget.o
+release/main.o
+release/qrc_resources.o
