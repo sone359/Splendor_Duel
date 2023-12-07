@@ -16,6 +16,7 @@
 
 #include "../Back/plateau.h"
 #include "../Back/sac.h"
+#include "../Back/pyramide.h"
 
 void displayRoyalImages(QWidget *widget, const QStringList &imagePaths) {
     QVBoxLayout *mainLayout = new QVBoxLayout(widget);
@@ -50,6 +51,11 @@ int main(int argc, char *argv[]) {
 
 
     Partie& game = Partie::get_partie();
+
+//    game.lire_fichier(":/../../data/info_cartejoaillerie");
+
+//    Pyramide::initialiser(cartes);
+//    pyramide = Pyramide::getInstance();
 
     // Create and add the PlateauWidget to the layout
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();

@@ -27,6 +27,8 @@ HEADERS += \
     PlateauWidget.h
 
 DISTFILES += \
+    ../../data/info_cartejoaillerie \
+    ../../data/info_cartejoaillerie_1 \
     C:/Users/ISMAIL/Downloads/Jeton_noir.png \
     C:/Users/ISMAIL/Downloads/jeton_blanc.png \
     Images/Cartes_royales/CartesRoyales_privilege.png \
@@ -41,7 +43,8 @@ DISTFILES += \
     Images/Jetons/jeton_rouge.png \
     Images/Jetons/jeton_vert.png \
     Images/noir.png \
-    Images/privilege.png
+    Images/privilege.png \
+    info_cartejoaillerie
 
 RESOURCES += \
     resources.qrc

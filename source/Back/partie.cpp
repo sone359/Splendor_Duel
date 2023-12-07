@@ -3,8 +3,9 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <cstring>
 
-//M�thodes suivant le design pattern Singleton
+//Methodes suivant le design pattern Singleton
 Partie* Partie::partie = nullptr;
 
 Partie& Partie::get_partie()
@@ -46,7 +47,26 @@ Partie::Partie()
         sac.ajouter_jeton(Or);
     }
     remplir_plateau(joueur1);
-    lire_fichier("../data/info_cartejoaillerie");
+
+
+try {
+        lire_fichier("../data/info_cartejoaillerie");
+        //std::cout<<"../data/info_cartejoaillerie";
+    } catch (const std::exception& e) {
+
+    try{
+            // Chemin de Ismail
+  lire_fichier("D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie");
+            //std::cout<<"D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie";
+        } catch (const std::exception& e) {
+            const char* cheminSubstitut2="";
+            //chemin de Ahmed
+                lire_fichier(cheminSubstitut2);
+        }
+    }
+
+
+
     Pyramide::initialiser(cartes);
     pyramide = Pyramide::getInstance();
 }
@@ -252,7 +272,7 @@ int Partie::lire_fichier(const char* fichier){
     // Recupration du fichier ou les cartes ton stock
     std::ifstream inputFile(fichier);
     if (!inputFile.is_open()) {
-        std::cerr << "Error opening the file!" << std::endl;
+        throw std::runtime_error("Error opening the file: " + std::string(strerror(errno)));
         return 1;
     }
         std::string line;
