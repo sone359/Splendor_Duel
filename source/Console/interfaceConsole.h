@@ -11,6 +11,7 @@
 #include "../Back/CarteRoyale.h"
 #include "../Back/pyramide.h"
 #include "../Back/carte_joaillerie.h"
+#include "../Back/Effet.h"
 
 class InterfaceConsole
 {
@@ -20,6 +21,7 @@ public:
     bool action_prendre_jetons(Joueur& joueur);
     bool action_reserver(Joueur& joueur);
     bool action_acheter(Joueur& joueur);
+    void gestion_effets(Joueur& joueur, CarteJoaillerie& carte);
 
     //Affichages publics pour les tests mais destines a devenir private
     void afficherPyramide() const;

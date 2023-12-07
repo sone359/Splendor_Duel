@@ -121,7 +121,7 @@ Joueur& Partie::get_joueur(unsigned int num_joueur)
 {
     if(num_joueur == 1) {return joueur1;}
     if(num_joueur == 2) {return joueur2;}
-    throw std::invalid_argument("La valeur du parametre num_joueur dela m�thode get_joueur doit �tre 1 ou 2");
+    throw std::invalid_argument("La valeur du parametre num_joueur dela methode get_joueur doit etre 1 ou 2");
 }
 
 void Partie::prend_privilege(Joueur& joueur)
@@ -239,6 +239,12 @@ int Partie::fin_tour()
         tour++;
 
     return fin_partie;
+}
+
+void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
+{
+    joueur2.getGemmes().retirer_jeton(jeton);
+    joueur1.getGemmes().ajouter_jeton(jeton);
 }
 
 void Partie::acheter_carte(Joueur& joueur, int niv, int colonne){

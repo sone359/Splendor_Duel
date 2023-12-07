@@ -28,8 +28,6 @@ void InterfaceConsole::main()
 
 bool InterfaceConsole::deroulement_tour()
 {
-    //Initialisation de la possession de l'effet rejouer, qui peut etre obtenu par l'achat d'une carte et qu'il est necessaire de verifier a la fin du tour
-    bool effet_rejouer = false;
     //Affichage de l'etat de la partie
     afficherJoueur(partie.joueur_adverse());
     afficherPyramide();
@@ -251,7 +249,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
     }
     else
     {
-        //Saisie des coordonn�es du jeton 2
+        //Saisie des coordonnees du jeton 2
         unsigned int colonne2 = 0, ligne2 = 0;
         std::cout << "Entrez la colonne du deuxieme jeton a retirer : ";
         std::cin >> colonne2;
@@ -306,8 +304,123 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
 
 bool InterfaceConsole::action_acheter(Joueur& joueur)
 {
+    //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
     std::cout << "Cette option n'est pas encore implementee" << std::endl;
     //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achet�e ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
+}
+
+void InterfaceConsole::gestion_effets(Joueur& joueur, CarteJoaillerie& carte)
+{
+    for (auto effet = carte.get_capacite().begin() ; effet != carte.get_capacite().end() ; ++effet)
+    {
+        switch (*effet)
+        {
+        case rejouer:
+            std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
+            partie.ajouter_rejouer();
+            break;
+
+        case gemme:
+            {
+                Jeton type_carte = Nul;
+                StockGemmes stockBonus = carte.get_typeBonus();
+                if (stockBonus.get_Bleu() > 0) {type_carte = Bleu;}
+                else if (stockBonus.get_Vert() > 0) {type_carte = Vert;}
+                else if (stockBonus.get_Blanc() > 0) {type_carte = Blanc;}
+                else if (stockBonus.get_Rouge() > 0) {type_carte = Rouge;}
+                else if (stockBonus.get_Noir() > 0) {type_carte = Noir;}
+                else {throw std::logic_error("La carte passee en parametre possède un type de bonus incorrect (Or ou Perle) ou nul ce qui empeche le traitement de l'effet gemme et traduit sans doute une erreur de conception des cartes. Peut-etre l'erreur vient-elle d'un effet gemme place avant un effet couleur.");}
+                //Verification de la presence d'un jeton correspondant sur le plateau
+                bool present = false;
+                for (int i = 0 ; i < 5 ; i++)
+                {
+                    for (int j = 0 ; j < 5 ; j++)
+                    {
+                        if (partie.get_plateau()[j][i] == type_carte)
+                        {
+                            present = true;
+                            break;
+                        }
+                    }
+                    if (present == true)
+                    {
+                        break;
+                    }
+                }
+                if(present)
+                {
+                    std::cout << "Activation de l'effet Gemme de la carte !" << std::endl;
+                    unsigned int colonne = 0, ligne = 0;
+                    do
+                    {
+                        //Saisie des coordonnees du jeton à récupérer
+                        afficherPlateau(); //Nouvel affichage du plateau pour faciliter le choix de jeton du joueur
+                        std::cout << "Entrez la colonne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ";
+                        std::cin >> colonne;
+                        std::cout << "Entrez la ligne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ";
+                        std::cin >> ligne;
+                        if(partie.get_plateau()[ligne][colonne] != type_carte) throw SplendorException("Ce jeton n'est pas de la même couleur que la carte que vous avez achetee !\n");
+                    } while (partie.get_plateau()[ligne][colonne] == type_carte);
+                    partie.retirer_jetons({ligne, colonne});
+                }
+                else{std::cout << "Aucun jeton du plateau ne correspond a la couleur de la carte que vous avez achetee, l'effet Gemme de la carte n'a pas pu etre active" << std::endl;}
+            }
+            break;
+
+        case privilege:
+            std::cout << "Activation de l'effet Privilege de la carte !" << std::endl;
+            partie.prend_privilege(joueur);
+            break;
+
+        case voler:
+            bool continuer = true;
+            while (continuer == true)
+            {
+                afficherJetonsPossedes(partie.joueur_adverse());
+                std::cout << "Activation de l'effet Voler de la carte ! Entrez le type de jeton a prendre a votre adversaire (B, V, W, R, N ou P) : " << std::endl;
+                std::string jeton_retire;
+                std::cin >> jeton_retire;
+                try{
+                    if(jeton_retire == "B" || jeton_retire == "b")
+                    {
+                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Bleu);
+                        continuer = false;
+                    }
+                    else if(jeton_retire == "V" || jeton_retire == "v")
+                    {
+                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Vert);
+                        continuer = false;
+                    }
+                    else if(jeton_retire == "W" || jeton_retire == "w")
+                    {
+                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Blanc);
+                        continuer = false;
+                    }
+                    else if(jeton_retire == "R" || jeton_retire == "r")
+                    {
+                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Rouge);
+                        continuer = false;
+                    }
+                    else if(jeton_retire == "N" || jeton_retire == "n")
+                    {
+                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Noir);
+                        continuer = false;
+                    }
+                    else if(jeton_retire == "P" || jeton_retire == "p")
+                    {
+                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Perle);
+                        continuer = false;
+                    }
+                    else
+                        std::cout << "Saisie invalide, merci de rentrer B, V, W, R, N ou P et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+                }
+                catch (const SplendorException& except) //Si le jeton demande n'est pas possede par le joueur adverse, il faut l'intercepter des maintenant pour rester dans la boucle
+                {
+                    std::cout << except.what() << std::endl;
+                }
+            }
+        }
+    }
 }
 
 void InterfaceConsole::afficherPyramide() const{

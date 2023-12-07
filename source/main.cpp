@@ -121,7 +121,7 @@ int main()
     //game.remplir_plateau(game.get_joueur(1));
     //ic.afficherPlateau();
 
-    /*pl.ajouterJeton(sac.retirer_jeton());
+    pl.ajouterJeton(sac.retirer_jeton());
     ic.afficherPlateau();
     pl.ajouterJeton(sac.retirer_jeton());
     ic.afficherPlateau();

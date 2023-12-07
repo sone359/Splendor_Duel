@@ -38,7 +38,9 @@ public :
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton);
     void remettre_jeton(Jeton jeton);
-    int fin_tour(); //Doit in fine pouvoir prendre un boolean correspondant � l'effet rejouer ou l'effet lui-meme
+    void ajouter_rejouer(){effet_rejouer++;};
+    void voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton);
+    int fin_tour();
 
     //Getters
     Plateau& get_plateau() const {return plateau;};
