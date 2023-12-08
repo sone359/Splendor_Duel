@@ -8,12 +8,8 @@
 void InterfaceConsole::main()
 {
     int fin_partie = 0;
-    //while(deroulement_tour() == true && fin_partie == 0)
-    //{
-    //    fin_partie = partie.fin_tour();
-    //}
-    while(fin_partie==0){
-        deroulement_tour();
+    while(deroulement_tour() == true && fin_partie == 0)
+    {
         fin_partie = partie.fin_tour();
     }
     if(fin_partie == 1)
