@@ -297,7 +297,7 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     //partie.reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
     partie.reserver_carte(joueur, niveau_carte, num_carte);
 
-    //std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
+    std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
 
     return true;
 }
@@ -305,7 +305,12 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
 bool InterfaceConsole::action_acheter(Joueur& joueur)
 {
     //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
-    std::cout << "Cette option n'est pas encore implementee" << std::endl;
+
+    StockGemmes stock_test = StockGemmes(1);
+    StockGemmes stock_test2 = StockGemmes(1, 1, 1, 1);
+    CarteJoaillerie carte_test = CarteJoaillerie(1, 1, 1, stock_test, 1, stock_test2, {rejouer});
+    gestion_effets(carte_test);
+    std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
     //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achet�e ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
 }
 
@@ -313,13 +318,15 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 {
     Joueur& joueur = partie.get_joueur(partie.joueur_actif());
 
-    for (auto effet = carte.get_capacite().begin() ; effet != carte.get_capacite().end() ; ++effet)
+    for(unsigned int pos = 0 ; pos < carte.get_capacite().size() ; pos++)
     {
-        switch (*effet)
+        switch (carte.get_capacite()[pos])
         {
         case rejouer:
-            std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
-            partie.ajouter_rejouer();
+            {
+                std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
+                partie.ajouter_rejouer();
+            }
             break;
 
         case couleur:
@@ -328,7 +335,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                 while (continuer == true)
                 {
                     afficherJoueur(partie.joueur_actif());
-                    std::cout << "Activation de l'effet Couleur de la carte ! Entrez le type de bonus que la carte achetee doit prendre (B, V, W, R ou N) (il doit correspondre à l'une de vos cartes) : " << std::endl;
+                    std::cout << "Activation de l'effet Couleur de la carte ! Entrez le type de bonus que la carte achetee doit prendre (B, V, W, R ou N) (il doit correspondre a l'une de vos cartes) : " << std::endl;
                     std::string type_bonus;
                     std::cin >> type_bonus;
                     if(type_bonus == "B" || type_bonus == "b")

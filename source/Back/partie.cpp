@@ -237,6 +237,8 @@ int Partie::fin_tour()
     //Passage au tour suivant
     if(fin_partie == 0 && !effet_rejouer)
         tour++;
+    else
+        effet_rejouer--;
 
     return fin_partie;
 }
