@@ -309,8 +309,10 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
     //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achet�e ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
 }
 
-void InterfaceConsole::gestion_effets(Joueur& joueur, CarteJoaillerie& carte)
+void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 {
+    Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+
     for (auto effet = carte.get_capacite().begin() ; effet != carte.get_capacite().end() ; ++effet)
     {
         switch (*effet)
@@ -318,6 +320,91 @@ void InterfaceConsole::gestion_effets(Joueur& joueur, CarteJoaillerie& carte)
         case rejouer:
             std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
             partie.ajouter_rejouer();
+            break;
+
+        case couleur:
+            {
+                bool continuer = true;
+                while (continuer == true)
+                {
+                    afficherJoueur(partie.joueur_actif());
+                    std::cout << "Activation de l'effet Couleur de la carte ! Entrez le type de bonus que la carte achetee doit prendre (B, V, W, R ou N) (il doit correspondre à l'une de vos cartes) : " << std::endl;
+                    std::string type_bonus;
+                    std::cin >> type_bonus;
+                    if(type_bonus == "B" || type_bonus == "b")
+                    {
+                        if(joueur.getBonus().get_Bleu() == 0)
+                        {
+                            std::cout << "Vous n'avez pas de carte bleue ! Veuillez choisir un type de bonus que vous possedez." << std::endl;
+                        }
+                        else
+                        {
+                            StockGemmes nouveau_bonus = StockGemmes(carte.get_nbBonus());
+                            carte.setTypeBonus(nouveau_bonus);
+                            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+                            continuer = false;
+                        }
+                    }
+                    else if(type_bonus == "V" || type_bonus == "v")
+                    {
+                        if(joueur.getBonus().get_Vert() == 0)
+                        {
+                            std::cout << "Vous n'avez pas de carte verte ! Veuillez choisir un type de bonus que vous possedez." << std::endl;
+                        }
+                        else
+                        {
+                            StockGemmes nouveau_bonus = StockGemmes(0, carte.get_nbBonus());
+                            carte.setTypeBonus(nouveau_bonus);
+                            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+                            continuer = false;
+                        }
+                    }
+                    else if(type_bonus == "W" || type_bonus == "w")
+                    {
+                        if(joueur.getBonus().get_Blanc() == 0)
+                        {
+                            std::cout << "Vous n'avez pas de carte blanche ! Veuillez choisir un type de bonus que vous possedez." << std::endl;
+                        }
+                        else
+                        {
+                            StockGemmes nouveau_bonus = StockGemmes(0, 0, carte.get_nbBonus());
+                            carte.setTypeBonus(nouveau_bonus);
+                            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+                            continuer = false;
+                        }
+                    }
+                    else if(type_bonus == "R" || type_bonus == "r")
+                    {
+                        if(joueur.getBonus().get_Rouge() == 0)
+                        {
+                            std::cout << "Vous n'avez pas de carte rouge ! Veuillez choisir un type de bonus que vous possedez." << std::endl;
+                        }
+                        else
+                        {
+                            StockGemmes nouveau_bonus = StockGemmes(0, 0, 0, carte.get_nbBonus());
+                            carte.setTypeBonus(nouveau_bonus);
+                            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+                            continuer = false;
+                        }
+                    }
+                    else if(type_bonus == "N" || type_bonus == "n")
+                    {
+                        if(joueur.getBonus().get_Noir() == 0)
+                        {
+                            std::cout << "Vous n'avez pas de carte noire ! Veuillez choisir un type de bonus que vous possedez." << std::endl;
+                        }
+                        else
+                        {
+                            StockGemmes nouveau_bonus = StockGemmes(0, 0, 0, 0, carte.get_nbBonus());
+                            carte.setTypeBonus(nouveau_bonus);
+                            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+                            continuer = false;
+                        }
+                    }
+                    else
+                        std::cout << "Saisie invalide, merci de rentrer B, V, W, R ou N et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+                }
+            }
             break;
 
         case gemme:
@@ -449,7 +536,7 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,
             os <<"|  +"<< c.get_nbBonus() << "  |";
             return;
         case 3:
-            os << "| PP"<<c.get_pointsPrestige()<<"  |" ;
+            os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
             return;
         case 4:
             os<<"| ";
