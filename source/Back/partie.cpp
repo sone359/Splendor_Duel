@@ -74,6 +74,7 @@ try {
 void Partie::initCartes(){
     //version test :
 
+
     std::cout<<"TOUTES LES CARTES\n";
     std::vector<Effet> e1,e2,e3;
     Effet e= Effet(5);
@@ -264,6 +265,7 @@ CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
     }
     else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
 
+
     }catch (const SplendorException& e) {
         //oh mon dieu ca marche quelle emotion
         std::cerr << "Erreur : " << e.what() << std::endl;
@@ -359,6 +361,7 @@ int Partie::lire_fichier(const char* fichier){
             if (std::getline(iss, token, '\n')) {
             //std::cout<<"    capacite :";
             std::istringstream iss1(token);
+
 
                 if (std::getline(iss1, token1, ',')) {
                     if(token1=="rejouer") tempeffet=Effet(0);
