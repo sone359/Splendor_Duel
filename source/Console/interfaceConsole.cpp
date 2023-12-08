@@ -515,6 +515,74 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
     }
 }
 
+void InterfaceConsole::gestion_effets(CarteRoyale& carte)
+{
+    Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+
+    switch (carte.getCapacite())
+    {
+    case rejouer:
+        {
+            std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
+            partie.ajouter_rejouer();
+        }
+        break;
+
+    case privilege:
+        std::cout << "Activation de l'effet Privilege de la carte !" << std::endl;
+        partie.prend_privilege(joueur);
+        break;
+
+    case voler:
+        bool continuer = true;
+        while (continuer == true)
+        {
+            afficherJetonsPossedes(partie.joueur_adverse());
+            std::cout << "Activation de l'effet Voler de la carte ! Entrez le type de jeton a prendre a votre adversaire (B, V, W, R, N ou P) : " << std::endl;
+            std::string jeton_retire;
+            std::cin >> jeton_retire;
+            try{
+                if(jeton_retire == "B" || jeton_retire == "b")
+                {
+                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Bleu);
+                    continuer = false;
+                }
+                else if(jeton_retire == "V" || jeton_retire == "v")
+                {
+                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Vert);
+                    continuer = false;
+                }
+                else if(jeton_retire == "W" || jeton_retire == "w")
+                {
+                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Blanc);
+                    continuer = false;
+                }
+                else if(jeton_retire == "R" || jeton_retire == "r")
+                {
+                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Rouge);
+                    continuer = false;
+                }
+                else if(jeton_retire == "N" || jeton_retire == "n")
+                {
+                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Noir);
+                    continuer = false;
+                }
+                else if(jeton_retire == "P" || jeton_retire == "p")
+                {
+                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Perle);
+                    continuer = false;
+                }
+                else
+                    std::cout << "Saisie invalide, merci de rentrer B, V, W, R, N ou P et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+            }
+            catch (const SplendorException& except) //Si le jeton demande n'est pas possede par le joueur adverse, il faut l'intercepter des maintenant pour rester dans la boucle
+            {
+                std::cout << except.what() << std::endl;
+            }
+        }
+    }
+}
+
 void InterfaceConsole::afficherPyramide() const{
     std::cout<<"-------------------------PYRAMIDE--------------------------\n";
     for(int j=3;j>=1;j--){

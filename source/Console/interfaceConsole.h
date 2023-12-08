@@ -22,6 +22,7 @@ public:
     bool action_reserver(Joueur& joueur);
     bool action_acheter(Joueur& joueur);
     void gestion_effets(CarteJoaillerie& carte);
+    void gestion_effets(CarteRoyale& carte);
 
     //Affichages publics pour les tests mais destines a devenir private
     void afficherPyramide() const;
