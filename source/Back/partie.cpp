@@ -249,18 +249,18 @@ void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
     joueur1.setGemmes(joueur1.getGemmes().ajouter_jeton(jeton));
 }
 
-void Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
+CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
     try{
     if (joueur.peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
         std::cout<<"pass\n";
         if (colonne == 0){
             throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
-            return;
         }
         CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
 
         joueur.addCartesJoailleriesPossedees(piochee);
         joueur.addBonus(piochee);
+        return piochee;
     }
     else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
 

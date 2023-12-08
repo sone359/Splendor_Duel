@@ -305,12 +305,9 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
 bool InterfaceConsole::action_acheter(Joueur& joueur)
 {
     //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
-
-    StockGemmes stock_test = StockGemmes(1);
-    StockGemmes stock_test2 = StockGemmes(1, 1, 1, 1);
-    CarteJoaillerie carte_test = CarteJoaillerie(1, 1, 1, stock_test, 1, stock_test2, {voler});
-    gestion_effets(carte_test);
+    //gestion_effets(partie.acheter_carte(joueur, niveau, numero));
     std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
+    return true;
     //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achetee ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
 }
 
