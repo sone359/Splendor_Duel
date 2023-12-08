@@ -308,10 +308,10 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
 
     StockGemmes stock_test = StockGemmes(1);
     StockGemmes stock_test2 = StockGemmes(1, 1, 1, 1);
-    CarteJoaillerie carte_test = CarteJoaillerie(1, 1, 1, stock_test, 1, stock_test2, {gemme});
+    CarteJoaillerie carte_test = CarteJoaillerie(1, 1, 1, stock_test, 1, stock_test2, {voler});
     gestion_effets(carte_test);
     std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
-    //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achet�e ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
+    //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achetee ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
 }
 
 void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)

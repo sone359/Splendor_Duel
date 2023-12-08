@@ -245,8 +245,8 @@ int Partie::fin_tour()
 
 void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
 {
-    joueur2.getGemmes().retirer_jeton(jeton);
-    joueur1.getGemmes().ajouter_jeton(jeton);
+    joueur2.setGemmes(joueur2.getGemmes().retirer_jeton(jeton));
+    joueur1.setGemmes(joueur1.getGemmes().ajouter_jeton(jeton));
 }
 
 void Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
