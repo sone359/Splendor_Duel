@@ -308,7 +308,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
 
     StockGemmes stock_test = StockGemmes(1);
     StockGemmes stock_test2 = StockGemmes(1, 1, 1, 1);
-    CarteJoaillerie carte_test = CarteJoaillerie(1, 1, 1, stock_test, 1, stock_test2, {rejouer});
+    CarteJoaillerie carte_test = CarteJoaillerie(1, 1, 1, stock_test, 1, stock_test2, {gemme});
     gestion_effets(carte_test);
     std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
     //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achet�e ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
@@ -453,9 +453,10 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                         std::cin >> colonne;
                         std::cout << "Entrez la ligne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ";
                         std::cin >> ligne;
-                        if(partie.get_plateau()[ligne][colonne] != type_carte) throw SplendorException("Ce jeton n'est pas de la même couleur que la carte que vous avez achetee !\n");
-                    } while (partie.get_plateau()[ligne][colonne] == type_carte);
-                    partie.retirer_jetons({ligne, colonne});
+                        if(partie.get_plateau()[colonne][ligne] != type_carte)
+                            std::cout << "Ce jeton n'est pas de la meme couleur que la carte que vous avez achetee !\n" << std::endl;
+                    } while (partie.get_plateau()[colonne][ligne] != type_carte);
+                    partie.retirer_jetons({colonne, ligne});
                 }
                 else{std::cout << "Aucun jeton du plateau ne correspond a la couleur de la carte que vous avez achetee, l'effet Gemme de la carte n'a pas pu etre active" << std::endl;}
             }
