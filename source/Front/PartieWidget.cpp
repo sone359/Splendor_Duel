@@ -42,10 +42,13 @@ PartieWidget::PartieWidget(QWidget *parent) : QWidget(parent) {
     player1GoldLineEdit = new QLineEdit(this);
     player1GoldLineEdit->setText("0");
     player1GoldLineEdit->setReadOnly(true);
+    player1CoronneLineEdit = new QLineEdit(this);
+    player1CoronneLineEdit->setText("0");
+    player1CoronneLineEdit->setReadOnly(true);
 
     setupPlayerWidgets(player1Label, player1RedLineEdit, player1GreenLineEdit,
                        player1BlueLineEdit, player1WhiteLineEdit, player1PearlLineEdit,
-                       player1BlackLineEdit, player1PrivilegeLineEdit,player1GoldLineEdit);
+                       player1BlackLineEdit, player1PrivilegeLineEdit,player1GoldLineEdit,player1CoronneLineEdit);
 
     // Player 2
     player2Label = new QLabel("Joueur 2", this);
@@ -73,10 +76,13 @@ PartieWidget::PartieWidget(QWidget *parent) : QWidget(parent) {
     player2GoldLineEdit = new QLineEdit(this);
     player2GoldLineEdit->setText("0");
     player2GoldLineEdit->setReadOnly(true);
+    player2CoronneLineEdit = new QLineEdit(this);
+    player2CoronneLineEdit->setText("0");
+    player2CoronneLineEdit->setReadOnly(true);
 
     setupPlayerWidgets(player2Label, player2RedLineEdit, player2GreenLineEdit,
                        player2BlueLineEdit, player2WhiteLineEdit, player2PearlLineEdit,
-                       player2BlackLineEdit, player2PrivilegeLineEdit,player2GoldLineEdit);
+                       player2BlackLineEdit, player2PrivilegeLineEdit,player2GoldLineEdit,player2CoronneLineEdit);
 
     CarteRoyale carte1(2, Effet::voler, ":/Images/Cartes_royales/CartesRoyales_voler.png");
     CarteRoyale carte2(2, Effet::rejouer, ":/Images/Cartes_royales/CartesRoyales_rejouer.png");
@@ -132,12 +138,12 @@ void setSmallImageBackground(QLabel* label, const QString& imagePath) {
 void decorateLineEdits(QLabel*& label,QLineEdit* redLineEdit, QLineEdit* greenLineEdit,
                        QLineEdit* blueLineEdit, QLineEdit* whiteLineEdit,
                        QLineEdit* pearlLineEdit, QLineEdit* blackLineEdit,
-                       QLineEdit* privilegeLineEdit, QLineEdit* goldLineEdit) {
+                       QLineEdit* privilegeLineEdit, QLineEdit* goldLineEdit , QLineEdit  * CoronneLineEdit) {
     QString styleSheet = "QLineEdit {"
                          "   border: 2px solid #cccccc;"
                          "   border-radius: 5px;"
                          "   background-color: #f2f2f2;"
-                         "   padding: 3px;"
+                         "   padding: 1px;"
                          "}";
 
     QString labelStyleSheet = "QLabel {"
@@ -157,18 +163,20 @@ void decorateLineEdits(QLabel*& label,QLineEdit* redLineEdit, QLineEdit* greenLi
     pearlLineEdit->setStyleSheet(styleSheet);
     blackLineEdit->setStyleSheet(styleSheet);
     privilegeLineEdit->setStyleSheet(styleSheet);
+    CoronneLineEdit->setStyleSheet(styleSheet);
     goldLineEdit->setStyleSheet(styleSheet);
+
 }
 void PartieWidget::setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, QLineEdit*& greenLineEdit,
                                       QLineEdit*& blueLineEdit, QLineEdit*& whiteLineEdit,
                                       QLineEdit*& pearlLineEdit, QLineEdit*& blackLineEdit,
-                                      QLineEdit*& privilegeLineEdit,QLineEdit *& GoldLineEdit) {
+                                      QLineEdit*& privilegeLineEdit,QLineEdit *& GoldLineEdit,QLineEdit *& CoronneLineEdit) {
     QGridLayout *playerLayout = new QGridLayout;
 
     decorateLineEdits(label, redLineEdit,  greenLineEdit,
                        blueLineEdit,  whiteLineEdit,
                        pearlLineEdit,  blackLineEdit,
-                       privilegeLineEdit, GoldLineEdit);
+                       privilegeLineEdit, GoldLineEdit,CoronneLineEdit);
 
     // Add widgets to the layout
     playerLayout->addWidget(label, 0, 0, 1, 1);
@@ -206,6 +214,10 @@ void PartieWidget::setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, Q
     setSmallImageBackground(smallImageLabel6, ":/Images/Jetons/jeton_or.png");
     playerLayout->addWidget(smallImageLabel6, 0, 15);
     playerLayout->addWidget(GoldLineEdit, 0, 16);
+    QLabel* smallImageLabel8 = new QLabel;
+    setSmallImageBackground(smallImageLabel8, ":/Images/coronne.png");
+    playerLayout->addWidget(smallImageLabel8, 0, 17);
+    playerLayout->addWidget(CoronneLineEdit, 0, 18);
 
     // Add the player layout to the main layout
     mainLayout->addLayout(playerLayout);
@@ -312,53 +324,7 @@ void PartieWidget::joueurActif(const QString& playerName) {
 
 void PartieWidget::afficherPlateau(PlateauWidget * pl) {
 
-//    if(getPlateauWidget())
-//    mainLayout->removeWidget(getPlateauWidget());
-
-
-
 mainLayout->addWidget(pl);
-
-//    setPlateauWidget(pl);
-    // Delete existing widget if it exists
-//    PlateauWidget * to_remove = getPlateauWidget();
-//    if(to_remove)
-//    {
-//        std::cout<<"plateau non vide";
-
-//        mainLayout->removeWidget(to_remove);
-//        to_remove = nullptr;
-//    }
-//    else         std::cout<<"plateau vide";
-
-//    mainLayout->addWidget(pl);
-//    setPlateauWidget(pl);
-
-    // Delete the existing widget if it exists
-
-    // Create a new widget
-//    QWidget * plateauWidget = new QWidget;
-//    // Create a new layout for the widget
-//    QVBoxLayout *plateauLayout = new QVBoxLayout(plateauWidget);
-//    plateauLayout->addWidget(pl);
-
-//    // Create a new mainLayout for PartieWidget
-//    mainLayout = new QVBoxLayout(this);
-//    // Add the new widget to the new mainLayout
-//    mainLayout->addWidget(plateauWidget);
-
-////    QWidget * ancien = getPlateauWidget();
-////    if (ancien) {
-////        std::cout << "Widget found. Deleting..." << std::endl;
-////        delete ancien;
-////    } else {
-////        std::cout << "Widget not found." << std::endl;
-////    }
-
-////    setPlateauWidget(plateauWidget);
-//    plateauWidget->show();
-
-
 
 }
 
@@ -372,9 +338,20 @@ void PartieWidget::updatePlayerPrivilege(const QString& playerName,int privilege
 
 }
 
+}
 
+void PartieWidget::updatePlayerCoronne(const QString& playerName,int coronneValue)
+{
+if (playerName == "Joueur 1") {
+        player1CoronneLineEdit->setText(QString::number(coronneValue));
+}
+else if(playerName == "Joueur 2")
+{
+        player2CoronneLineEdit->setText(QString::number(coronneValue));
 
 }
+}
+
 void PartieWidget::removePlateau(PlateauWidget * pl)
 {
    if(pl)

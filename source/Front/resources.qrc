@@ -13,5 +13,6 @@
         <file>Images/noir.png</file>
         <file>Images/privilege.png</file>
         <file>info_cartejoaillerie</file>
+        <file>Images/coronne.png</file>
     </qresource>
 </RCC>

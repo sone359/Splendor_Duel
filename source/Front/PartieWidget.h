@@ -20,10 +20,11 @@ public:
     void setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, QLineEdit*& greenLineEdit,
                                           QLineEdit*& blueLineEdit, QLineEdit*& whiteLineEdit,
                                           QLineEdit*& pearlLineEdit, QLineEdit*& blackLineEdit,
-                            QLineEdit*& privilegeLineEdit,QLineEdit *& GoldLineEdit);
+                            QLineEdit*& privilegeLineEdit,QLineEdit *& GoldLineEdit,QLineEdit *& CoronneLineEdit);
     void updatePlayerInfo(const QString& playerName, int redValue, int greenValue, int blueValue, int whiteValue, int pearlValue, int blackValue ,int goldvalue);
 
     void updatePlayerPrivilege(const QString& playerName,int privilegeValue);
+    void updatePlayerCoronne(const QString& playerName,int coronneValue);
 
     PlateauWidget * getPlateauWidget() const {
         return pl;
@@ -57,6 +58,7 @@ private:
     QLineEdit *player1BlackLineEdit;
     QLineEdit *player1PrivilegeLineEdit;
     QLineEdit * player1GoldLineEdit;
+    QLineEdit *player1CoronneLineEdit;
 
     // Player 2 Labels and LineEdits
     QLabel *player2Label;
@@ -68,6 +70,7 @@ private:
     QLineEdit *player2BlackLineEdit;
     QLineEdit *player2PrivilegeLineEdit;
     QLineEdit * player2GoldLineEdit;
+    QLineEdit *player2CoronneLineEdit;
 
     std::vector<CarteRoyale> cartesRoyales;
     QVector<QPushButton*> royalButtons;
