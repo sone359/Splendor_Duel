@@ -8,8 +8,12 @@
 void InterfaceConsole::main()
 {
     int fin_partie = 0;
-    while(deroulement_tour() == true && fin_partie == 0)
-    {
+    //while(deroulement_tour() == true && fin_partie == 0)
+    //{
+    //    fin_partie = partie.fin_tour();
+    //}
+    while(fin_partie==0){
+        deroulement_tour();
         fin_partie = partie.fin_tour();
     }
     if(fin_partie == 1)
@@ -36,7 +40,7 @@ bool InterfaceConsole::deroulement_tour()
 
     Joueur& joueur = partie.get_joueur(partie.joueur_actif());
 
-    std::cout << "\nTour " << partie.get_tour() << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
+    std::cout << "\nTour " << partie.get_tour()+1 << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
 
     //Actions optionnelles
 
