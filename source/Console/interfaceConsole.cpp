@@ -295,9 +295,12 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     std::cin >> num_carte;
 
     //partie.reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
+    partie.retirer_jetons_or({colonne_jeton,ligne_jeton});
     partie.reserver_carte(joueur, niveau_carte, num_carte);
+    afficherPlateau();
+    afficherJoueur(partie.joueur_actif());
 
-    std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
+    //std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
 
     return true;
 }

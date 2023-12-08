@@ -117,7 +117,7 @@ void Joueur::setNbCouronnes(int nc)
 
 void Joueur::setGemmes(const StockGemmesOr& g)
 {
-    this->gemmes = g;
+    gemmes = g;
 }
 
 

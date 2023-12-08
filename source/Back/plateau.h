@@ -10,21 +10,22 @@ class Plateau
 {
 public :
 
-    //Méthodes statiques suivant le design pattern Singleton
+    //Mï¿½thodes statiques suivant le design pattern Singleton
     static Plateau& get_plateau();
     static void delete_plateau();
 
     std::array<unsigned int, 2> ajouterJeton(Jeton jeton);
-    Jeton retirerJeton(const std::array<unsigned int, 2>& coor_jeton); //Peut renvoyer de l'or et est ainsi utilisé dans la prise de gemmes comme dans la réservation.
+    Jeton retirerJeton(const std::array<unsigned int, 2>& coor_jeton); //Peut renvoyer de l'or et est ainsi utilisï¿½ dans la prise de gemmes comme dans la rï¿½servation.
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1);
+    StockGemmesOr actionRetirerJetonsOr(const std::array<unsigned int, 2>& coor_jeton1);
 
     //Getter
     unsigned int get_nbCasesVides() const {return nbCasesVides;};
 
-    //Opérateurs surchargés
-    const std::array<Jeton, 5> operator[](unsigned int colonne){return matrice[colonne];};//Réflexion possible à l'avenir : Est-ce vraiment utile ? Et est-ce que l'avoir en public ne met pas en péril l'encapsulation ?
+    //Opï¿½rateurs surchargï¿½s
+    const std::array<Jeton, 5> operator[](unsigned int colonne){return matrice[colonne];};//Rï¿½flexion possible ï¿½ l'avenir : Est-ce vraiment utile ? Et est-ce que l'avoir en public ne met pas en pï¿½ril l'encapsulation ?
 
 protected:
     static Plateau* plateau;
@@ -38,11 +39,11 @@ private:
     const std::array<std::array<unsigned int, 2>, 25> ordre_cases = {{{2, 2}, {2, 3}, {1, 3}, {1, 2}, {1, 1}, {2, 1}, {3, 1}, {3, 2}, {3, 3}, {3, 4}, {2, 4}, {1, 4}, {0, 4}, {0, 3}, {0, 2}, {0, 1}, {0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}}};
     unsigned int nbCasesVides = 25;
 
-    //Méthodes utilitaires
+    //Mï¿½thodes utilitaires
     void addStock(StockGemmes& stock, const std::array<unsigned int, 2>& coor_jeton);
 };
 
-//Fonctions utilitaires liées à Plateau
+//Fonctions utilitaires liï¿½es ï¿½ Plateau
 bool verifAdjacence(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
 bool verifAdjacence(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
 std::array<unsigned int, 2> minColonne(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
