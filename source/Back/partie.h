@@ -37,6 +37,7 @@ public :
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton);
+    void retirer_jetons_or(const std::array<unsigned int, 2>& coor_jeton);
     void remettre_jeton(Jeton jeton);
     void ajouter_rejouer(){effet_rejouer++;};
     void voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton);

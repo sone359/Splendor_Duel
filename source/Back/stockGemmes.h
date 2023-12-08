@@ -73,6 +73,7 @@ public:
 
     //Operateurs
     StockGemmesOr operator+(const StockGemmes& autre_stock) const {return StockGemmesOr(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle());};
+    StockGemmesOr operator+(const StockGemmesOr& autre_stock) const {return StockGemmesOr(get_Bleu()+autre_stock.get_Bleu(), get_Vert()+autre_stock.get_Vert(), get_Blanc()+autre_stock.get_Blanc(), get_Rouge()+autre_stock.get_Rouge(), get_Noir()+autre_stock.get_Noir(), get_Perle()+autre_stock.get_Perle(),get_Or()+autre_stock.get_Or());};
     StockGemmesOr operator-(const StockGemmes& autre_stock) const;
     StockGemmesOr operator=(const StockGemmes& autre_stock);
     StockGemmesOr operator=(const StockGemmesOr& autre_stock);

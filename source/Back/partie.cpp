@@ -223,6 +223,12 @@ void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton)
     joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton));
 }
 
+void Partie::retirer_jetons_or(const std::array<unsigned int, 2>& coor_jeton)
+{
+    Joueur& joueur = get_joueur(joueur_actif());
+    joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetonsOr(coor_jeton));
+}
+
 void Partie::remettre_jeton(Jeton jeton)
 {
     Joueur& joueur = get_joueur(joueur_actif());

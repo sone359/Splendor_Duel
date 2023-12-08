@@ -139,6 +139,17 @@ StockGemmes Plateau::actionRetirerJetons(const std::array<unsigned int, 2>& coor
     return stock;
 }
 
+StockGemmesOr Plateau::actionRetirerJetonsOr(const std::array<unsigned int, 2>& coor_jeton1)
+{
+    if (matrice[coor_jeton1[0]][coor_jeton1[1]] != Or)
+    {
+        throw SplendorException("Case (" + std::to_string(coor_jeton1[0]) + ", "  + std::to_string(coor_jeton1[1]) + ") invalide : Cette action est prévue pour les jetons or.");
+    }
+    StockGemmesOr stock;
+    addStock(stock, coor_jeton1);
+    return stock;
+}
+
 //Fonctions utilitaires
 bool verifAdjacence(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
 {
