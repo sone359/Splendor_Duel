@@ -4,10 +4,15 @@ release/Joueur.o
 release/partie.o
 release/plateau.o
 release/pyramide.o
+release/pyramidewidget.o
 release/sac.o
 release/stockGemmes.o
 release/BoutonManager.o
+release/MenuWindow.o
 release/PartieWidget.o
 release/PlateauWidget.o
 release/main.o
+release/regle_jeu.o
 release/qrc_resources.o
+release/moc_MenuWindow.o
+release/moc_regle_jeu.o

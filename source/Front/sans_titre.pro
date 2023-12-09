@@ -6,12 +6,15 @@ SOURCES += \
     ../Back/partie.cpp \
     ../Back/plateau.cpp \
     ../Back/pyramide.cpp \
+    ../Back/pyramidewidget.cpp \
     ../Back/sac.cpp \
     ../Back/stockGemmes.cpp \
     BoutonManager.cpp \
+    MenuWindow.cpp \
     PartieWidget.cpp \
     PlateauWidget.cpp \
-    main.cpp
+    main.cpp \
+    regle_jeu.cpp
 
 HEADERS += \
     ../Back/CarteRoyale.h \
@@ -20,11 +23,14 @@ HEADERS += \
     ../Back/partie.h \
     ../Back/plateau.h \
     ../Back/pyramide.h \
+    ../Back/pyramidewidget.h \
     ../Back/sac.h \
     ../Back/stockGemmes.h \
     BoutonManager.h \
     PartieWidget.h \
-    PlateauWidget.h
+    MenuWindow.h \
+    PlateauWidget.h \
+    regle_jeu.h
 
 DISTFILES += \
     C:/Users/ISMAIL/Downloads/Jeton_noir.png \
@@ -41,7 +47,11 @@ DISTFILES += \
     Images/Jetons/jeton_rouge.png \
     Images/Jetons/jeton_vert.png \
     Images/noir.png \
-    Images/privilege.png
+    Images/privilege.png \
+    Images/fond_menu_splendor.jpg \
+    Images/regle1.jpg \
+    Images/regle2.jpg \
+    Images/regle3.jpg
 
 RESOURCES += \
     resources.qrc

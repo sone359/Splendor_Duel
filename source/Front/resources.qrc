@@ -12,5 +12,9 @@
         <file>Images/Cartes_royales/CartesRoyales_voler.png</file>
         <file>Images/noir.png</file>
         <file>Images/privilege.png</file>
+        <file>Images/fond_menu_splendor.jpg</file>
+        <file>Images/regle1.jpg</file>
+        <file>Images/regle2.jpg</file>
+        <file>Images/regle3.jpg</file>
     </qresource>
 </RCC>

@@ -11,7 +11,6 @@ PlateauWidget::PlateauWidget(QWidget *parent) : QWidget(parent) {
     gridLayout = new QGridLayout(this);
     gridLayout->setSpacing(2);
     setLayout(gridLayout);
-
 }
 
 void PlateauWidget::displayCase(const std::string &imageName, const Case &position) {

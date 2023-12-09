@@ -1,23 +1,15 @@
-#include    <QApplication>
 #include <QApplication>
 #include <iostream>
 #include <QPushButton>
 #include <QLabel>
 #include <QGridLayout>
-#include "../Back/CarteRoyale.h"
 #include "Effet.h"
 #include <QWidget>
 #include <QPixmap>
 #include <QHBoxLayout>
-#include "PlateauWidget.h"
-#include "BoutonManager.h"
-#include "PartieWidget.h"
-#include "../Back/partie.h"
+#include "MenuWindow.h"
 
-#include "../Back/plateau.h"
-#include "../Back/sac.h"
-
-void displayRoyalImages(QWidget *widget, const QStringList &imagePaths) {
+/*void displayRoyalImages(QWidget *widget, const QStringList &imagePaths) {
     QVBoxLayout *mainLayout = new QVBoxLayout(widget);
 
     // Create a QHBoxLayout for the row
@@ -39,30 +31,12 @@ void displayRoyalImages(QWidget *widget, const QStringList &imagePaths) {
     mainLayout->addLayout(imageRowLayout);
 
     widget->show();
-}
+}*/
 
 int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
+    MenuWindow mainWindow; // Instanciez MainWindow au lieu de Plateau
+    mainWindow.show();
 
-
-    QApplication app(argc, argv);
-
-
-
-
-    Partie& game = Partie::get_partie();
-
-    // Create and add the PlateauWidget to the layout
-    PlateauWidget * plateauWidget = PlateauWidget::getInstance();
-
-    plateauWidget = PlateauWidget::creerPlateau();
-    PartieWidget * partie = PartieWidget::getInstance();
-    //partie->displayRoyalImages(imagePaths);
-    partie->afficherPlateau(plateauWidget);
-    partie->joueurActif("Joueur 1");
-
-    partie->setPlateauWidget(plateauWidget);
-
-    // Show the widget
-    partie->show();
-    return app.exec();
+    return a.exec();
 }

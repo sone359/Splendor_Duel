@@ -4,10 +4,15 @@ debug/Joueur.o
 debug/partie.o
 debug/plateau.o
 debug/pyramide.o
+debug/pyramidewidget.o
 debug/sac.o
 debug/stockGemmes.o
 debug/BoutonManager.o
+debug/MenuWindow.o
 debug/PartieWidget.o
 debug/PlateauWidget.o
 debug/main.o
+debug/regle_jeu.o
 debug/qrc_resources.o
+debug/moc_MenuWindow.o
+debug/moc_regle_jeu.o
