@@ -90,4 +90,4 @@ inline std::ostream& operator<<(std::ostream& os, const Joueur& j) {
         return os;
     }
 
-#endif // JOUEUR_H_INCLUDED
+#endif 
