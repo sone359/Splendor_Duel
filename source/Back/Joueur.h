@@ -8,13 +8,14 @@
 #include <iostream>
 #include <array>
 #include <algorithm>
+#include <deque>
 
 class Joueur
 {
 private:
     int nbPrivileges;
     std::vector<CarteJoaillerie> cartesJoailleriesPossedees;
-    std::vector<CarteJoaillerie> cartesJoailleriesReservees;
+    std::deque<CarteJoaillerie> cartesJoailleriesReservees;
     std::vector<CarteRoyale> cartesRoyalesPossedees;
     int nbCouronnes;
     StockGemmesOr gemmes;
@@ -39,7 +40,7 @@ public:
     // Getters
     int getNbPrivileges() const;
     std::vector<CarteJoaillerie>  getCartesJoailleriesPossedees() const;
-    std::vector<CarteJoaillerie>  getCartesJoailleriesReservees() const;
+    std::deque<CarteJoaillerie>  getCartesJoailleriesReservees() const;
     std::vector<CarteRoyale>  getCartesRoyalesPossedees() const;
     int getNbCouronnes() const;
     StockGemmesOr getGemmes() const;
@@ -56,10 +57,10 @@ public:
     void setNbPrivileges(int nbPrivileges);
     //pour initialiser les tableaux à partir d'une sauvegarde par exemple
     void setCartesJoailleriesPossedees(std::vector<CarteJoaillerie> cartes);
-    void setCartesJoailleriesReservees(std::vector<CarteJoaillerie> cartes);
+    void setCartesJoailleriesReservees(std::deque<CarteJoaillerie> cartes);
     void setCartesRoyalesPossedees(std::vector<CarteRoyale> cartes);
     //pour les modifier element par element
-    void addCartesJoailleriesPossedees(CarteJoaillerie & carte);
+    void addCartesJoailleriesPossedees(CarteJoaillerie carte);
     void addCartesJoailleriesReservees(CarteJoaillerie & carte);
     void addCartesRoyalesPossedees(CarteRoyale & carte);
     void addBonus(const CarteJoaillerie& carte);
@@ -69,34 +70,11 @@ public:
 
     int verifVictoire();
 
-    bool peutAcheter(const CarteJoaillerie& carte){
-        StockGemmes temp = gemmes + bonus;
-        if (temp<carte.get_cout()){
-            temp=temp/carte.get_cout();
-            if(temp.total_gemmes()>gemmes.get_Or()){
-                std::cout<<"avec or il reste encore "<<temp.total_gemmes()-gemmes.get_Or()<<"\n";
-                return false;
-            }
-            else{
-                std::cout<<"acheté avec jetons or.\n";
-                return true;
-            }
-        }
-        else{
-            std::cout<<"ca marche :"<<temp-carte.get_cout()<<"\n";
-            return true;
+    CarteJoaillerie& acheterCarteReservee(unsigned int num);
 
-        }
-        //temp = carte.get_cout()-temp;
-        //std::cout<<"\n--------------------------------------\n";
-        //std::cout<<"   "<<carte.get_cout();
-        //std::cout<<"\n";
-        //std::cout<<"   "<<gemmes;
-        //std::cout<<"\n";
-        //std::cout<<"--------------------------------------\n";
-        //std::cout<<"prix avec gemmes+bonus"<<temp<<"\n\n";
-        return false;
-    }
+
+    bool peutAcheter(const CarteJoaillerie& carte);
+
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Joueur& j) {
