@@ -4,6 +4,8 @@
 #include <fstream>
 #include <sstream>
 #include <cstring>
+#include <algorithm>
+#include <random>
 
 //Methodes suivant le design pattern Singleton
 Partie* Partie::partie = nullptr;
@@ -172,7 +174,6 @@ void Partie::utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned in
 
 std::vector<std::array<unsigned int, 2>> Partie::remplir_plateau(Joueur& joueur)
 {
-    std::cout<<"REMPLIR PLATEAU";
     //Verification que le plateau n'est pas vide
     if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est deja plein, impossible de le remplir");}
 
@@ -399,9 +400,13 @@ int Partie::lire_fichier(const char* fichier){
         }
         // fermeture du fichier
         inputFile.close();
+        
+        //melanger les cartes:
+        std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
+
         ////verif
-        /*for(CarteJoaillerie  carte : cartes){
-            std::cout<<carte<<std::endl;
-        }*/
+        //for(CarteJoaillerie  carte : cartes){
+        //    std::cout<<carte<<std::endl;
+        //}
         return 0;
     }
