@@ -241,7 +241,6 @@ void Partie::remettre_jeton(Jeton jeton)
 int Partie::fin_tour()
 {
     //Verification des conditions de victoire pour le joueur actif
-    std::cout<<"fin partie"<<get_joueur(joueur_actif()).verifVictoire()<<"\n";
     int fin_partie = get_joueur(joueur_actif()).verifVictoire();
 
     //Passage au tour suivant
@@ -260,13 +259,14 @@ void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
 }
 
 CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
-    //try{
+    StockGemmesOr avant_achat = joueur.getGemmes();//retiens le nombre de gemmes avant l'achat
     if (joueur.peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
         if (colonne == 0){
             throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
         }else{
             //CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
             joueur.addCartesJoailleriesPossedees(pyramide->acheterCarteJoaillerie(niv,colonne));
+            sac.ajouter_stock(joueur.getGemmes()/avant_achat);
             return joueur.getCartesJoailleriesPossedees().back();
         }
     }

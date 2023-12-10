@@ -78,8 +78,7 @@ public:
     StockGemmesOr operator-(const StockGemmes& autre_stock) const;
     StockGemmesOr operator=(const StockGemmes& autre_stock);
     StockGemmesOr operator=(const StockGemmesOr& autre_stock);
-
-    StockGemmesOr depense(const StockGemmes& achat,const StockGemmes& reduc);
+    StockGemmesOr operator/(const StockGemmesOr& autre_stock)const;
 
 protected:
     unsigned int jeton_or = 0;
