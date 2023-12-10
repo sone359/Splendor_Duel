@@ -69,8 +69,11 @@ private:
     QLineEdit *player2PearlLineEdit;
     QLineEdit *player2BlackLineEdit;
     QLineEdit *player2PrivilegeLineEdit;
+
     QLineEdit * player2GoldLineEdit;
     QLineEdit *player2CoronneLineEdit;
+
+
 
     std::vector<CarteRoyale> cartesRoyales;
     QVector<QPushButton*> royalButtons;
