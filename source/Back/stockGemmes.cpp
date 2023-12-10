@@ -310,31 +310,20 @@ StockGemmesOr StockGemmesOr::operator=(const StockGemmesOr& autre_stock)
     return *this;
 }
 
+StockGemmesOr StockGemmesOr::operator/(const StockGemmesOr& autre_stock)const{
+    StockGemmesOr result;
+    //pour chaque couleur
+    for(int i=0;i<6;i++){
+        //si le premier est < au 2e le resultat = la diff
+        if(gemmes[i]<autre_stock.gemmes[i]) result.gemmes[i]=abs(gemmes[i]-autre_stock.gemmes[i]);
+    }
+    if (jeton_or<autre_stock.jeton_or) {
+        result.set_Or(autre_stock.get_Or()-get_Or());
+    }
+    return result;
+}
+
 unsigned int total_stock(const StockGemmesOr& stock)
 {
     return stock.get_Bleu() + stock.get_Vert() + stock.get_Blanc() + stock.get_Rouge() + stock.get_Noir() + stock.get_Perle() + stock.get_Or();
-}
-//VIRER DEPENSE, ENLEVER LES GEMMES DS PEUT ACHETER
-StockGemmesOr StockGemmesOr::depense(const StockGemmes& achat,const StockGemmes& reduction){
-    StockGemmes depense = achat;
-    std::cout<<"\nBONUS"<<reduction;
-    depense-=reduction;
-    std::cout<<"\nDEPENSE-BONUS"<<depense;
-    *this/depense;
-    int nb_or = get_Or();
-    std::cout<<"\nOR"<<nb_or;
-    while(nb_or && depense.total_gemmes()){
-        std::cout<<"\nWHILE OR";
-        if(depense.get_Bleu()) depense.retirer_jeton(Bleu);
-        else if(depense.get_Blanc()) depense.retirer_jeton(Blanc);
-        else if(depense.get_Noir()) depense.retirer_jeton(Noir);
-        else if(depense.get_Rouge()) depense.retirer_jeton(Rouge);
-        else if(depense.get_Vert()) depense.retirer_jeton(Vert);
-        else if(depense.get_Perle()) depense.retirer_jeton(Perle);
-        nb_or--;
-    }
-    std::cout<<"DEPENSE "<<depense<<"\nA "<<*this<<"\nNV SOLDE = "<<*this-depense;
-    *this = *this - depense;
-    set_Or(nb_or);
-    return *this;
 }

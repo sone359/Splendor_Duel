@@ -8,9 +8,9 @@
 void InterfaceConsole::main()
 {
     int fin_partie = 0;
-    ////pour test
-    //partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,0));
-    //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
+    //pour test
+    partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,3));
+    partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
     while(deroulement_tour() == true && fin_partie == 0)
     {
         fin_partie = partie.fin_tour();

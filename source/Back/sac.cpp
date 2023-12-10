@@ -27,13 +27,38 @@ void Sac::ajouter_jeton(Jeton jeton)
     gemmes.ajouter_jeton(jeton);
 }
 
+void Sac::ajouter_stock(StockGemmesOr jetons)
+{
+    for(int i=0;i<jetons.get_Blanc();i++){
+        gemmes.ajouter_jeton(Blanc);
+    }
+    for(int i=0;i<jetons.get_Bleu();i++){
+        gemmes.ajouter_jeton(Bleu);
+    }
+    for(int i=0;i<jetons.get_Rouge();i++){
+        gemmes.ajouter_jeton(Rouge);
+    }
+    for(int i=0;i<jetons.get_Noir();i++){
+        gemmes.ajouter_jeton(Noir);
+    }
+    for(int i=0;i<jetons.get_Perle();i++){
+        gemmes.ajouter_jeton(Perle);
+    }
+    for(int i=0;i<jetons.get_Vert();i++){
+        gemmes.ajouter_jeton(Vert);
+    }
+    for(int i=0;i<jetons.get_Or();i++){
+        gemmes.ajouter_jeton(Or);
+    }
+}
+
 Jeton Sac::retirer_jeton()
 {
-    //Détermination du poids de chaque type de jeton (empêche notamment un type de jeton absent du sac d'être retiré car son poids sera égal à 0)
+    //Dï¿½termination du poids de chaque type de jeton (empï¿½che notamment un type de jeton absent du sac d'ï¿½tre retirï¿½ car son poids sera ï¿½gal ï¿½ 0)
     double nb_gemmes = total_stock(gemmes);
     std::vector<double> poids = {gemmes.get_Bleu()/nb_gemmes, gemmes.get_Vert()/nb_gemmes, gemmes.get_Blanc()/nb_gemmes, gemmes.get_Rouge()/nb_gemmes, gemmes.get_Noir()/nb_gemmes, gemmes.get_Perle()/nb_gemmes, gemmes.get_Or()/nb_gemmes};
 
-    //Génération d'un nombre aléatoire
+    //Gï¿½nï¿½ration d'un nombre alï¿½atoire
     std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //Seed triviale base sur l'heure donne comme exemple par cplusplus.com
     std::discrete_distribution<int> distribution(poids.begin(), poids.end());
 
