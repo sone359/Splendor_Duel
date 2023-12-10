@@ -172,6 +172,7 @@ void Partie::utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned in
 
 std::vector<std::array<unsigned int, 2>> Partie::remplir_plateau(Joueur& joueur)
 {
+    std::cout<<"REMPLIR PLATEAU";
     //Verification que le plateau n'est pas vide
     if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est deja plein, impossible de le remplir");}
 
@@ -239,6 +240,7 @@ void Partie::remettre_jeton(Jeton jeton)
 int Partie::fin_tour()
 {
     //Verification des conditions de victoire pour le joueur actif
+    std::cout<<"fin partie"<<get_joueur(joueur_actif()).verifVictoire()<<"\n";
     int fin_partie = get_joueur(joueur_actif()).verifVictoire();
 
     //Passage au tour suivant
@@ -257,26 +259,23 @@ void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
 }
 
 CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
-    try{
+    //try{
     if (joueur.peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
-        std::cout<<"pass\n";
         if (colonne == 0){
             throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
+        }else{
+            //CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
+            joueur.addCartesJoailleriesPossedees(pyramide->acheterCarteJoaillerie(niv,colonne));
+            return joueur.getCartesJoailleriesPossedees().back();
         }
-        CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
-
-        joueur.addCartesJoailleriesPossedees(piochee);
-        joueur.addBonus(piochee);
-        return piochee;
     }
     else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
 
 
-    }catch (const SplendorException& e) {
+    //}catch (const SplendorException& e) {
         //oh mon dieu ca marche quelle emotion
-        std::cerr << "Erreur : " << e.what() << std::endl;
-    }
-
+    //    std::cerr << "Erreur : " << e.what() << std::endl;
+    //}
 }
 
 void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){

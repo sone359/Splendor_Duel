@@ -5,7 +5,6 @@
 #include <stack>
 #include <iostream>
 
-#include "pyramide.h"
 #include "carte_joaillerie.h"
 
 class Pyramide {

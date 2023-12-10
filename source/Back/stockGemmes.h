@@ -39,7 +39,8 @@ class StockGemmes
         StockGemmes operator=(const StockGemmes& autre_stock);
         StockGemmes operator*(const unsigned int i){return StockGemmes(i*this->get_Bleu(), i*this->get_Vert(), i*this->get_Blanc(), i*this->get_Rouge(), i*this->get_Noir(), i*this->get_Perle());};
         void operator+=(const StockGemmes& autre_stock);
-        StockGemmes operator/(const StockGemmes& autre_stock);
+        void operator-=(const StockGemmes& autre_stock);
+        StockGemmes operator/(const StockGemmes& autre_stock)const;
         int operator<(const StockGemmes& s)const;
 
         unsigned int total_gemmes()const{
@@ -78,6 +79,7 @@ public:
     StockGemmesOr operator=(const StockGemmes& autre_stock);
     StockGemmesOr operator=(const StockGemmesOr& autre_stock);
 
+    StockGemmesOr depense(const StockGemmes& achat,const StockGemmes& reduc);
 
 protected:
     unsigned int jeton_or = 0;

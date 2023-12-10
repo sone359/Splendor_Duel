@@ -8,6 +8,9 @@
 void InterfaceConsole::main()
 {
     int fin_partie = 0;
+    ////pour test
+    //partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,0));
+    //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
     while(deroulement_tour() == true && fin_partie == 0)
     {
         fin_partie = partie.fin_tour();
@@ -165,6 +168,7 @@ bool InterfaceConsole::deroulement_tour()
             std::cout << except.what() << std::endl;
         }
     }
+    return true;
 }
 
 void InterfaceConsole::afficherJetonsPossedes(unsigned int num_joueur) const
@@ -300,18 +304,44 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     afficherPlateau();
     afficherJoueur(partie.joueur_actif());
 
-    //std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
-
     return true;
 }
 
 bool InterfaceConsole::action_acheter(Joueur& joueur)
 {
-    //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
-    //gestion_effets(partie.acheter_carte(joueur, niveau, numero));
-    std::cout << "Cette option n'est pas encore entierement implementee" << std::endl;
-    return true;
-    //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achetee ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
+    unsigned int niveau_carte,num_carte;
+
+    std::string reponse="non";
+    if(joueur.getCartesJoailleriesReservees().size()){
+        std::cout<<"Souhaitez vous acheter une des cartes que vous avez reservees? (oui/non)";
+        std::cin >> reponse;
+    }
+    while(reponse != "oui" && reponse!="non")
+    {
+        std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur Entree." << std::endl;   
+        std::cin >> reponse;
+    }
+    if(reponse == "non"){
+        afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
+        //Saisie des coordonnees de la carte a reserver
+        std::cout << "Entrez le niveau de la carte que vous souhaitez acheter : ";
+        std::cin >> niveau_carte;
+        std::cout << "Entrez le numero de la carte que vous souhaitez acheter (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3)  : ";
+        std::cin >> num_carte;
+        //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
+        gestion_effets(partie.acheter_carte(joueur, niveau_carte, num_carte));
+        return true;
+        //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achetee ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
+    }
+    else
+    {
+        std::cout << "Entrez le numero de la carte que vous souhaitez acheter (à partir de 1)  : ";
+        std::cin >> num_carte;
+        gestion_effets(joueur.acheterCarteReservee(num_carte));        
+        //gestion_effets(partie.acheter_carte(joueur, niveau_carte, num_carte));
+        return true;
+    }
+    
 }
 
 void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
