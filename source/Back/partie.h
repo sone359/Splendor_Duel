@@ -43,6 +43,8 @@ public :
     void ajouter_rejouer(){effet_rejouer++;};
     void voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton);
     int fin_tour();
+    int sauvegarder()const;
+    std::string getTime()const;
     
     //Getters
     Plateau& get_plateau() const {return plateau;};

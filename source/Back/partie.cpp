@@ -6,6 +6,7 @@
 #include <cstring>
 #include <algorithm>
 #include <random>
+#include <ctime>
 
 //Methodes suivant le design pattern Singleton
 Partie* Partie::partie = nullptr;
@@ -25,7 +26,7 @@ void Partie::delete_partie()
     partie = nullptr;
 }
 
-Partie::~Partie(){//for (int i=0;i<67;i++){delete cartes[i];}
+Partie::~Partie(){
 }
 
 
@@ -410,3 +411,38 @@ int Partie::lire_fichier(const char* fichier){
         //}
         return 0;
     }
+
+std::string Partie::getTime()const{
+        std::time_t now = std::time(0);
+        std::tm* dateheure = std::localtime(&now);
+        char buffer[50];
+        std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", dateheure);
+
+        return buffer;
+    }
+
+int Partie::sauvegarder()const{
+    std::cout<<"sauvegarde en cours...\n";
+    int cartes_en_jeu=0;
+    std::ofstream fsauvegarde("../data/sauvegarde");
+    if(!fsauvegarde.is_open()) throw ("Erreur a l'ouverture du fichier de sauvegarde.\n");
+    //date
+    fsauvegarde<<getTime()<<"\n";
+    //nom
+    fsauvegarde<<"sauvegarde automatique";
+    //cartes dans les pioches
+    //cartes des joueurs
+    for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesPossedees()){
+        fsauvegarde<<cartes.sauvegarder();
+        
+    }
+    //cartes de la pyramide
+    //jetons du sac
+    //jetons du plateau
+    //privileges
+    //joueur actif
+    fsauvegarde.close();
+    std::cout<<"saved!\n";
+    return 0;
+}
+

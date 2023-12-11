@@ -26,7 +26,7 @@ void InterfaceConsole::main()
     else if(fin_partie == 3)
     {
         std::cout << "Le joueur " << partie.joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
-    }
+    }else{partie.sauvegarder();}
 }
 
 bool InterfaceConsole::deroulement_tour()
