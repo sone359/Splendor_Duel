@@ -26,7 +26,7 @@ public :
 
     void initCartes();
 
-    unsigned int joueur_actif() {return (tour%2)+1;};
+    unsigned int joueur_actif()const {return (tour%2)+1;};
     unsigned int joueur_adverse() {return ((tour+1)%2)+1;};
     void prend_privilege(Joueur& joueur);
     void utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned int ligne);

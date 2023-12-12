@@ -41,9 +41,8 @@ class Pyramide {
     void piocherCarteJoaillerie(int numeroLigne, int numeroColonne);
     //appelee par acheter et reserver, recuperer renvoit la carte à la place donnée
     CarteJoaillerie recupererCarteJoaillerie(int numeroLigne, int numeroColonne);
-
     void afficherPyramide();
-
+    std::stack<CarteJoaillerie> & getPioche(int niveau);
 };
 
 

@@ -49,23 +49,23 @@ unsigned int Joueur::getNbPointsPrestige() const
 }
 unsigned int Joueur::getNbPointsPrestigeBleu() const
 {
-    return nbPointsPrestigeCouleurs[0];
+    return PointsPrestigeCouleurs.get_Bleu();
 }
 unsigned int Joueur::getNbPointsPrestigeVert() const
 {
-    return nbPointsPrestigeCouleurs[1];
+    return PointsPrestigeCouleurs.get_Vert();
 }
 unsigned int Joueur::getNbPointsPrestigeBlanc() const
 {
-    return nbPointsPrestigeCouleurs[2];
+    return PointsPrestigeCouleurs.get_Blanc();
 }
 unsigned int Joueur::getNbPointsPrestigeRouge() const
 {
-    return nbPointsPrestigeCouleurs[3];
+    return PointsPrestigeCouleurs.get_Rouge();
 }
 unsigned int Joueur::getNbPointsPrestigeNoir() const
 {
-    return nbPointsPrestigeCouleurs[4];
+    return PointsPrestigeCouleurs.get_Noir();
 }
 
 

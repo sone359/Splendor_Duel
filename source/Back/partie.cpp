@@ -310,8 +310,6 @@ int Partie::lire_fichier(const char* fichier){
         while (!inputFile.eof()) {
             if (cartes_lues==67) break;
             std::getline(inputFile, line);
-            //std::cout<<"--------------CARTE "<<cartes_lues<<"---------------\n";
-            //std::cout<<line<<std::endl;
 
             std::istringstream iss(line);
             std::string token,token1;
@@ -429,18 +427,72 @@ int Partie::sauvegarder()const{
     //date
     fsauvegarde<<getTime()<<"\n";
     //nom
-    fsauvegarde<<"sauvegarde automatique";
+    fsauvegarde<<"sauvegarde automatique"<<"\n";
     //cartes dans les pioches
-    //cartes des joueurs
+    for (int i =1;i<4;i++){
+        while (!pyramide->getPioche(i).empty())
+        {
+            fsauvegarde<<pyramide->getPioche(i).top().sauvegarder();
+            pyramide->getPioche(i).pop();
+        }
+    }
+    fsauvegarde<<'\n';
+    //cartes de la pyramide
+    for(int i =1; i<6 ;i++){
+            fsauvegarde<<pyramide->recupererCarteJoaillerie(1,i).sauvegarder();
+        }
+        for(int i =1; i<5 ;i++){
+            fsauvegarde<<pyramide->recupererCarteJoaillerie(2,i).sauvegarder();
+        }
+        for(int i =1; i<4 ;i++){
+            fsauvegarde<<pyramide->recupererCarteJoaillerie(3,i).sauvegarder();
+        }
+    //joueurs
+    fsauvegarde<<"{\n";
+    ////cartes possedees
     for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesPossedees()){
         fsauvegarde<<cartes.sauvegarder();
         
     }
-    //cartes de la pyramide
+    ////jetons
+    fsauvegarde<<joueur1.getGemmes().sauvegarder();
+    ////cartes reservees
+    for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesReservees()){
+        fsauvegarde<<cartes.sauvegarder();
+        
+    }
+    ////couronnes
+    fsauvegarde<<joueur1.getNbCouronnes()<<';';
+    ////privileges
+    fsauvegarde<<joueur1.getNbPrivileges()<<";";
+    ////points prestige
+    fsauvegarde<<joueur1.getPointsPrestigeCouleur().sauvegarder();
+    fsauvegarde<<"\n}";
+    fsauvegarde<<"{\n";
+    ////cartes possedees
+    for(CarteJoaillerie cartes : joueur2.getCartesJoailleriesPossedees()){
+        fsauvegarde<<cartes.sauvegarder();
+        
+    }
+    ////jetons
+    fsauvegarde<<joueur2.getGemmes().sauvegarder();
+    ////cartes reservees
+    for(CarteJoaillerie cartes : joueur2.getCartesJoailleriesReservees()){
+        fsauvegarde<<cartes.sauvegarder();
+        
+    }
+    ////couronnes
+    fsauvegarde<<joueur2.getNbCouronnes()<<';';
+    ////privileges
+    fsauvegarde<<joueur2.getNbPrivileges()<<";";
+    ////points prestige
+    fsauvegarde<<joueur2.getPointsPrestigeCouleur().sauvegarder();
+    fsauvegarde<<"\n}";
     //jetons du sac
+    fsauvegarde<<sac.get_gemmes().sauvegarder();
     //jetons du plateau
-    //privileges
     //joueur actif
+    fsauvegarde<<joueur_actif();
     fsauvegarde.close();
     std::cout<<"saved!\n";
     return 0;

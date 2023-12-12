@@ -4,6 +4,7 @@
 #include "../tools.h"
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 class StockGemmes
 {
@@ -43,6 +44,8 @@ class StockGemmes
         StockGemmes operator/(const StockGemmes& autre_stock)const;
         int operator<(const StockGemmes& s)const;
 
+        std::string sauvegarder()const;
+
         unsigned int total_gemmes()const{
             unsigned int sum=0;
             for(int i=0;i<6;i++){
@@ -79,6 +82,8 @@ public:
     StockGemmesOr operator=(const StockGemmes& autre_stock);
     StockGemmesOr operator=(const StockGemmesOr& autre_stock);
     StockGemmesOr operator/(const StockGemmesOr& autre_stock)const;
+
+    std::string sauvegarder()const;
 
 protected:
     unsigned int jeton_or = 0;

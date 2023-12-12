@@ -21,7 +21,7 @@ private:
     StockGemmesOr gemmes;
     StockGemmes bonus;
     unsigned int nbPointsPrestige = 0;
-    std::array<unsigned int, 5> nbPointsPrestigeCouleurs = {0, 0, 0, 0, 0};
+    StockGemmes PointsPrestigeCouleurs;
 
 public:
     // Constructeurs
@@ -52,6 +52,7 @@ public:
     unsigned int getNbPointsPrestigeBlanc() const;
     unsigned int getNbPointsPrestigeRouge() const;
     unsigned int getNbPointsPrestigeNoir() const;
+    StockGemmes getPointsPrestigeCouleur()const{return PointsPrestigeCouleurs;}
 
     // Setters
     void setNbPrivileges(int nbPrivileges);
