@@ -327,3 +327,27 @@ unsigned int total_stock(const StockGemmesOr& stock)
 {
     return stock.get_Bleu() + stock.get_Vert() + stock.get_Blanc() + stock.get_Rouge() + stock.get_Noir() + stock.get_Perle() + stock.get_Or();
 }
+
+std::string StockGemmes::sauvegarder()const{
+    std::stringstream s;
+        s<<get_Blanc()<<',';
+        s<<get_Bleu()<<',';
+        s<<get_Vert()<<',';
+        s<<get_Rouge()<<',';
+        s<<get_Noir()<<',';
+        s<<get_Perle();
+        s<<";";
+        return s.str();
+}
+std::string StockGemmesOr::sauvegarder()const{
+    std::stringstream s;
+        s<<get_Blanc()<<',';
+        s<<get_Bleu()<<',';
+        s<<get_Vert()<<',';
+        s<<get_Rouge()<<',';
+        s<<get_Noir()<<',';
+        s<<get_Perle()<<',';
+        s<<get_Or();
+        s<<";";
+        return s.str();
+}

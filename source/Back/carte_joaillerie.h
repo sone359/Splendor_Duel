@@ -33,52 +33,47 @@ public:
         s<<get_niveau()<<';';
         s<<get_pointsPrestige()<<';';
         s<<get_nbBonus()<<';';
-        if (get_cout().get_Blanc()) {
+        if (get_typeBonus().get_Blanc()) {
             s<<"blanc;";
         }
-        else if (get_cout().get_Blanc()) {
+        else if (get_typeBonus().get_Blanc()) {
             s<<"blanc;";
         }
-        else if (get_cout().get_Vert()) {
+        else if (get_typeBonus().get_Vert()) {
             s<<"vert;";
         }
-        else if (get_cout().get_Noir()) {
+        else if (get_typeBonus().get_Noir()) {
             s<<"noir;";
         }
-        else if (get_cout().get_Perle()) {
+        else if (get_typeBonus().get_Perle()) {
             s<<"perle;";
         }
-        else if (get_cout().get_Rouge()) {
+        else if (get_typeBonus().get_Rouge()) {
             s<<"rouge;";
         }else{
             s<<"none;";
         }
         s<<get_couronnes()<<";";
-        s<<get_cout().get_Blanc()<<',';
-        s<<get_cout().get_Bleu()<<',';
-        s<<get_cout().get_Vert()<<',';
-        s<<get_cout().get_Rouge()<<',';
-        s<<get_cout().get_Noir()<<',';
-        s<<get_cout().get_Perle()<<',';
+        s<<get_cout().sauvegarder();
         int repeat=get_capacite().size();
         while(repeat){
             if (get_capacite()[repeat-1]==rejouer) {
-                s<<"rejouer;";
+                s<<"rejouer";
             }
             else if (get_capacite()[repeat-1]==privilege) {
-                s<<"privilege;";
+                s<<"privilege";
             }
             else if (get_capacite()[repeat-1]==couleur) {
-                s<<"couleur;";
+                s<<"couleur";
             }
             else if (get_capacite()[repeat-1]==gemme) {
-                s<<"gemme;";
+                s<<"gemme";
             }
             else if (get_capacite()[repeat-1]==voler) {
-                s<<"voler;";
+                s<<"voler";
             }
             else if (get_capacite()[repeat-1]==sans) {
-                s<<"sans;";
+                s<<"sans";
             }
             repeat--;
             if (repeat) s<<',';
