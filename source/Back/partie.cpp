@@ -53,7 +53,7 @@ Partie::Partie()
 
 
 try {
-        lire_fichier("../data/info_cartejoaillerie");
+        lire_fichier("../data/info_cartejoaillerie_1");
         //std::cout<<"../data/info_cartejoaillerie";
     } catch (const std::exception& e) {
 
@@ -286,7 +286,7 @@ void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
 }
 
 int Partie::lire_fichier(const char* fichier){
-    // Recupration du fichier ou les cartes ton stock
+    // Recuperation du fichier ou les cartes ton stock
     std::ifstream inputFile(fichier);
     if (!inputFile.is_open()) {
         throw std::runtime_error("Error opening the file: " + std::string(strerror(errno)));
@@ -301,6 +301,7 @@ int Partie::lire_fichier(const char* fichier){
         std::vector<Effet> tempcapacite;
         StockGemmes tempcout;
         StockGemmes temptype;
+        std::string chemin;
         // saute les 2 1eres lignes
         std::getline(inputFile, line);
         std::getline(inputFile, line);
@@ -363,8 +364,9 @@ int Partie::lire_fichier(const char* fichier){
                 }
                 //std::cout<<"       cout :"<<tempcout<<std::endl;
             }
-            if (std::getline(iss, token, '\n')) {
+            if (std::getline(iss, token, ';')) {
             //std::cout<<"    capacite :";
+            
             std::istringstream iss1(token);
 
 
@@ -377,6 +379,7 @@ int Partie::lire_fichier(const char* fichier){
                     if(token1=="none") tempeffet=Effet(5);
                     //std::cout<<tempeffet<<"\n";
                 }
+
                     tempcapacite.push_back(tempeffet);
                 if (std::getline(iss1, token1, ',')) {
                     if(token1=="rejouer") tempeffet=Effet(0);
@@ -388,9 +391,15 @@ int Partie::lire_fichier(const char* fichier){
                     //std::cout<<tempeffet<<"\n";
                     tempcapacite.push_back(tempeffet);
                 }
+            
+            }
+            if (std::getline(iss, token, '\n')) {
+            //std::cout<<"    capacite :";
+            std::istringstream iss1(token);
+            chemin=token;                
             }
             //ajouter à cartes
-            cartes[cartes_lues]=CarteJoaillerie(tempniveau,temppointsPrestige,tempnombreBonus,temptype,tempcouronnes,tempcout,tempcapacite);
+            cartes[cartes_lues]=CarteJoaillerie(tempniveau,temppointsPrestige,tempnombreBonus,temptype,tempcouronnes,tempcout,tempcapacite,chemin);
             //reset prochain tour
             tempcapacite.clear();
             tempcout=0;
@@ -400,13 +409,14 @@ int Partie::lire_fichier(const char* fichier){
         // fermeture du fichier
         inputFile.close();
         
-        //melanger les cartes:
-        std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
-
         ////verif
         //for(CarteJoaillerie  carte : cartes){
         //    std::cout<<carte<<std::endl;
         //}
+        
+        //melanger les cartes:
+        std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
+
         return 0;
     }
 
