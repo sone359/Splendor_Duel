@@ -1,4 +1,5 @@
 Model : level;prestige;réduction;couleur;couronnes;prix_blanc, prix_bleu,prix_vert,prix_rouge,prix_noir,prix_perle;capacite;chemin
+
 1;0;1;bleu;0;0,0,2,2,0,1;rejouer;niveau1(17)
 1;0;1;bleu;0;1,0,1,1,1,0;none;niveau1(27)
 1;0;1;noir;0;0,0,2,2,0,0;gemme;niveau1(29)
