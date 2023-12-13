@@ -4,6 +4,9 @@
 #include <fstream>
 #include <sstream>
 #include <cstring>
+#include <algorithm>
+#include <random>
+#include <ctime>
 
 //Methodes suivant le design pattern Singleton
 Partie* Partie::partie = nullptr;
@@ -23,7 +26,7 @@ void Partie::delete_partie()
     partie = nullptr;
 }
 
-Partie::~Partie(){//for (int i=0;i<67;i++){delete cartes[i];}
+Partie::~Partie(){
 }
 
 
@@ -223,6 +226,12 @@ void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton)
     joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton));
 }
 
+void Partie::retirer_jetons_or(const std::array<unsigned int, 2>& coor_jeton)
+{
+    Joueur& joueur = get_joueur(joueur_actif());
+    joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetonsOr(coor_jeton));
+}
+
 void Partie::remettre_jeton(Jeton jeton)
 {
     Joueur& joueur = get_joueur(joueur_actif());
@@ -251,26 +260,24 @@ void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
 }
 
 CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
-    try{
+    StockGemmesOr avant_achat = joueur.getGemmes();//retiens le nombre de gemmes avant l'achat
     if (joueur.peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
-        std::cout<<"pass\n";
         if (colonne == 0){
             throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
+        }else{
+            //CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
+            joueur.addCartesJoailleriesPossedees(pyramide->acheterCarteJoaillerie(niv,colonne));
+            sac.ajouter_stock(joueur.getGemmes()/avant_achat);
+            return joueur.getCartesJoailleriesPossedees().back();
         }
-        CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
-
-        joueur.addCartesJoailleriesPossedees(piochee);
-        joueur.addBonus(piochee);
-        return piochee;
     }
     else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
 
 
-    }catch (const SplendorException& e) {
+    //}catch (const SplendorException& e) {
         //oh mon dieu ca marche quelle emotion
-        std::cerr << "Erreur : " << e.what() << std::endl;
-    }
-
+    //    std::cerr << "Erreur : " << e.what() << std::endl;
+    //}
 }
 
 void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
@@ -303,8 +310,6 @@ int Partie::lire_fichier(const char* fichier){
         while (!inputFile.eof()) {
             if (cartes_lues==67) break;
             std::getline(inputFile, line);
-            //std::cout<<"--------------CARTE "<<cartes_lues<<"---------------\n";
-            //std::cout<<line<<std::endl;
 
             std::istringstream iss(line);
             std::string token,token1;
@@ -394,9 +399,102 @@ int Partie::lire_fichier(const char* fichier){
         }
         // fermeture du fichier
         inputFile.close();
+        
+        //melanger les cartes:
+        std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
+
         ////verif
-        /*for(CarteJoaillerie  carte : cartes){
-            std::cout<<carte<<std::endl;
-        }*/
+        //for(CarteJoaillerie  carte : cartes){
+        //    std::cout<<carte<<std::endl;
+        //}
         return 0;
     }
+
+std::string Partie::getTime()const{
+        std::time_t now = std::time(0);
+        std::tm* dateheure = std::localtime(&now);
+        char buffer[50];
+        std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", dateheure);
+
+        return buffer;
+    }
+
+int Partie::sauvegarder()const{
+    std::cout<<"sauvegarde en cours...\n";
+    int cartes_en_jeu=0;
+    std::ofstream fsauvegarde("../data/sauvegarde");
+    if(!fsauvegarde.is_open()) throw ("Erreur a l'ouverture du fichier de sauvegarde.\n");
+    //date
+    fsauvegarde<<getTime()<<"\n";
+    //nom
+    fsauvegarde<<"sauvegarde automatique"<<"\n";
+    //cartes dans les pioches
+    for (int i =1;i<4;i++){
+        while (!pyramide->getPioche(i).empty())
+        {
+            fsauvegarde<<pyramide->getPioche(i).top().sauvegarder();
+            pyramide->getPioche(i).pop();
+        }
+    }
+    fsauvegarde<<'\n';
+    //cartes de la pyramide
+    for(int i =1; i<6 ;i++){
+            fsauvegarde<<pyramide->recupererCarteJoaillerie(1,i).sauvegarder();
+        }
+        for(int i =1; i<5 ;i++){
+            fsauvegarde<<pyramide->recupererCarteJoaillerie(2,i).sauvegarder();
+        }
+        for(int i =1; i<4 ;i++){
+            fsauvegarde<<pyramide->recupererCarteJoaillerie(3,i).sauvegarder();
+        }
+    //joueurs
+    fsauvegarde<<"{\n";
+    ////cartes possedees
+    for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesPossedees()){
+        fsauvegarde<<cartes.sauvegarder();
+        
+    }
+    ////jetons
+    fsauvegarde<<joueur1.getGemmes().sauvegarder();
+    ////cartes reservees
+    for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesReservees()){
+        fsauvegarde<<cartes.sauvegarder();
+        
+    }
+    ////couronnes
+    fsauvegarde<<joueur1.getNbCouronnes()<<';';
+    ////privileges
+    fsauvegarde<<joueur1.getNbPrivileges()<<";";
+    ////points prestige
+    fsauvegarde<<joueur1.getPointsPrestigeCouleur().sauvegarder();
+    fsauvegarde<<"\n}";
+    fsauvegarde<<"{\n";
+    ////cartes possedees
+    for(CarteJoaillerie cartes : joueur2.getCartesJoailleriesPossedees()){
+        fsauvegarde<<cartes.sauvegarder();
+        
+    }
+    ////jetons
+    fsauvegarde<<joueur2.getGemmes().sauvegarder();
+    ////cartes reservees
+    for(CarteJoaillerie cartes : joueur2.getCartesJoailleriesReservees()){
+        fsauvegarde<<cartes.sauvegarder();
+        
+    }
+    ////couronnes
+    fsauvegarde<<joueur2.getNbCouronnes()<<';';
+    ////privileges
+    fsauvegarde<<joueur2.getNbPrivileges()<<";";
+    ////points prestige
+    fsauvegarde<<joueur2.getPointsPrestigeCouleur().sauvegarder();
+    fsauvegarde<<"\n}";
+    //jetons du sac
+    fsauvegarde<<sac.get_gemmes().sauvegarder();
+    //jetons du plateau
+    //joueur actif
+    fsauvegarde<<joueur_actif();
+    fsauvegarde.close();
+    std::cout<<"saved!\n";
+    return 0;
+}
+

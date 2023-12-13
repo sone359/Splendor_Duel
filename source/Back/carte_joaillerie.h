@@ -4,6 +4,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include <sstream>
 #include "stockGemmes.h"
 #include "Effet.h"
 
@@ -25,6 +26,60 @@ public:
     cout(prix), niveau(n), pointsPrestige(p), nombreBonus(d), typeBonus(color),couronnes(cr), capacite(e){};
     int get_niveau() const{
         return niveau;
+    }
+
+    std::string sauvegarder()const{
+        std::stringstream s;
+        s<<get_niveau()<<';';
+        s<<get_pointsPrestige()<<';';
+        s<<get_nbBonus()<<';';
+        if (get_typeBonus().get_Blanc()) {
+            s<<"blanc;";
+        }
+        else if (get_typeBonus().get_Blanc()) {
+            s<<"blanc;";
+        }
+        else if (get_typeBonus().get_Vert()) {
+            s<<"vert;";
+        }
+        else if (get_typeBonus().get_Noir()) {
+            s<<"noir;";
+        }
+        else if (get_typeBonus().get_Perle()) {
+            s<<"perle;";
+        }
+        else if (get_typeBonus().get_Rouge()) {
+            s<<"rouge;";
+        }else{
+            s<<"none;";
+        }
+        s<<get_couronnes()<<";";
+        s<<get_cout().sauvegarder();
+        int repeat=get_capacite().size();
+        while(repeat){
+            if (get_capacite()[repeat-1]==rejouer) {
+                s<<"rejouer";
+            }
+            else if (get_capacite()[repeat-1]==privilege) {
+                s<<"privilege";
+            }
+            else if (get_capacite()[repeat-1]==couleur) {
+                s<<"couleur";
+            }
+            else if (get_capacite()[repeat-1]==gemme) {
+                s<<"gemme";
+            }
+            else if (get_capacite()[repeat-1]==voler) {
+                s<<"voler";
+            }
+            else if (get_capacite()[repeat-1]==sans) {
+                s<<"sans";
+            }
+            repeat--;
+            if (repeat) s<<',';
+        }
+        s<<";\n";
+        return s.str();
     }
 
     void afficher_Couleur(std::ostream & os) const {
