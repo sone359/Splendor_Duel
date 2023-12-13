@@ -215,6 +215,7 @@ void BoutonManager::onAcheterCarteClicked() {
 
 void BoutonManager::onReserverCarteClicked() {
     Partie& partie = Partie::get_partie();
+    PartieWidget * partieWidget = PartieWidget::getInstance();
     bool ok;
     int ligneOr = QInputDialog::getInt(nullptr, "Ligne du jeton Or", "Entrez la ligne du jeton Or (0-4):", 0, 0, 4, 1, &ok);
 
@@ -229,10 +230,9 @@ void BoutonManager::onReserverCarteClicked() {
     if (!ok) {
         return;
     }
-
-
-    //partie.reserver_carte(joueur, niveau_carte, num_carte);
-
+    try
+    {
+    partie.retirer_jetons_or({colonneOr,ligneOr});
 
     // Boîte de dialogue pour obtenir le niveau de la carte à réserver
     int niveauCarte = QInputDialog::getInt(nullptr, "Niveau de la carte", "Entrez le niveau de la carte à réserver (1-3):", 1, 1, 3, 1, &ok);
@@ -248,25 +248,31 @@ void BoutonManager::onReserverCarteClicked() {
         return;
     }
 
-    // Utilisez maintenant les valeurs de ligneOr, colonneOr, niveauCarte et numeroCarte comme nécessaire.
-    // ...
-
-    // Exemple : Afficher un message avec les valeurs obtenues
-    QString message = QString("Ligne du jeton Or : %1\nColonne du jeton Or : %2\nNiveau de la carte : %3\nNuméro de la carte : %4")
-                          .arg(ligneOr)
-                          .arg(colonneOr)
-                          .arg(niveauCarte)
-                          .arg(numeroCarte);
-
-    QMessageBox::information(nullptr, "Informations", message);
-
+    partie.reserver_carte(partie.get_joueur(partie.joueur_actif()), niveauCarte, numeroCarte);
+    update_plateau();
+    update_info();
+    partie.fin_tour();
 
     if(joueur1 == 1)    {
 
-        joueur1=0;}
-        else {
-            joueur1=1;
+        joueur1=0;
+        partieWidget->joueurActif("Joueur 2");
+
     }
+    else {
+        joueur1=1;
+        partieWidget->joueurActif("Joueur 1");
+    }
+    }
+    catch (const SplendorException& ex) {
+    // Exception caught, display a QMessageBox with the exception message
+    QMessageBox::information(parentWidget, "Exception", ex.what());
+    }
+
+
+
+
+
 
 
 }
@@ -288,8 +294,8 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
             // Utilisez les valeurs de row et col comme nécessaire
             if(joueur1==1)
                 try{
-                    game.utilise_privilege(game.get_joueur(1),row,col);
-                    QMessageBox::information(parentWidget, "Action", "Hi");
+                    game.utilise_privilege(game.get_joueur(1),col,row);
+
 
                 }
                 catch (const SplendorException& ex) {
@@ -298,7 +304,7 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
                 }
             else
                 try{
-                    game.utilise_privilege(game.get_joueur(2),row,col);
+                    game.utilise_privilege(game.get_joueur(2),col,row);
                 }
                 catch (const SplendorException& ex) {
                     // Exception caught, display a QMessageBox with the exception message
@@ -386,22 +392,12 @@ void BoutonManager::onPrendreJetonsClicked() {
 
 
     update_plateau();
-
+    update_info();
 
 
     plateauWidget->emptyJetons();
 
-   if(joueur1 == 1)    {
 
-            joueur1=0;
-            partie->joueurActif("Joueur 2");
-   }
-    else {
-
-            joueur1=1;
-            partie->joueurActif("Joueur 1");
-
-    }
    Joueur & joueur = game.get_joueur(game.joueur_actif());
     while (total_stock(joueur.getGemmes()) > 10)
             try{
@@ -411,9 +407,23 @@ void BoutonManager::onPrendreJetonsClicked() {
             QMessageBox::information(parentWidget, "Exception", ex.what());
             }
 
+
+
     update_info();
 
    game.fin_tour();
+
+    if(joueur1 == 1)    {
+
+            joueur1=0;
+            partie->joueurActif("Joueur 2");
+    }
+    else {
+
+            joueur1=1;
+            partie->joueurActif("Joueur 1");
+
+    }
 
 
 }

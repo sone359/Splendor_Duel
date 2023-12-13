@@ -20,7 +20,7 @@ void PlateauWidget::displayCase(const std::string &imageName, const Case &positi
         borderFrame->setFrameShape(QFrame::Box);
         borderFrame->setFixedSize(60, 60);
         borderFrame->setStyleSheet("border: 1px solid brown; background-color: #C4A484;");
-        gridLayout->addWidget(borderFrame, position.row, position.col);
+        gridLayout->addWidget(borderFrame, position.col, position.row);
     } else {
         // If imageName is not empty, create a button with the image
         QPushButton *button = new QPushButton;
@@ -40,7 +40,7 @@ void PlateauWidget::displayCase(const std::string &imageName, const Case &positi
 
         // Set the text of the button to be the position and the name of the image
         // Add the button to the grid layout
-        gridLayout->addWidget(button, position.row, position.col);
+        gridLayout->addWidget(button, position.col, position.row);
 
         // Connect the button click event to handleButtonClick
         connect(button, &QPushButton::clicked, [position, imageName, this]() {
