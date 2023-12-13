@@ -99,12 +99,12 @@ StockGemmes StockGemmes::operator-(const StockGemmes& autre_stock) const
 
 StockGemmes StockGemmes::operator=(const StockGemmes& autre_stock)
 {
-    this->set_Bleu(autre_stock.get_Bleu());
-    this->set_Vert(autre_stock.get_Vert());
-    this->set_Blanc(autre_stock.get_Blanc());
-    this->set_Rouge(autre_stock.get_Rouge());
-    this->set_Noir(autre_stock.get_Noir());
-    this->set_Perle(autre_stock.get_Perle());
+    set_Bleu(autre_stock.get_Bleu());
+    set_Vert(autre_stock.get_Vert());
+    set_Blanc(autre_stock.get_Blanc());
+    set_Rouge(autre_stock.get_Rouge());
+    set_Noir(autre_stock.get_Noir());
+    set_Perle(autre_stock.get_Perle());
     return *this;
 }
 
