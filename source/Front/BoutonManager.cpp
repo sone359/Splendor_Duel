@@ -214,6 +214,53 @@ void BoutonManager::onAcheterCarteClicked() {
 }
 
 void BoutonManager::onReserverCarteClicked() {
+    Partie& partie = Partie::get_partie();
+    bool ok;
+    int ligneOr = QInputDialog::getInt(nullptr, "Ligne du jeton Or", "Entrez la ligne du jeton Or (0-4):", 0, 0, 4, 1, &ok);
+
+    if (!ok) {
+        // L'utilisateur a annulé la saisie
+        return;
+    }
+
+    // Boîte de dialogue pour obtenir la colonne du jeton Or
+    int colonneOr = QInputDialog::getInt(nullptr, "Colonne du jeton Or", "Entrez la colonne du jeton Or (0-4):", 0, 0, 4, 1, &ok);
+
+    if (!ok) {
+        return;
+    }
+
+
+    //partie.reserver_carte(joueur, niveau_carte, num_carte);
+
+
+    // Boîte de dialogue pour obtenir le niveau de la carte à réserver
+    int niveauCarte = QInputDialog::getInt(nullptr, "Niveau de la carte", "Entrez le niveau de la carte à réserver (1-3):", 1, 1, 3, 1, &ok);
+
+    if (!ok) {
+        return;
+    }
+
+    // Boîte de dialogue pour obtenir le numéro de la carte à réserver
+    int numeroCarte = QInputDialog::getInt(nullptr, "Numéro de la carte", "Entrez le numéro de la carte à réserver :", 1, 1, 6 - niveauCarte , 1, &ok);
+
+    if (!ok) {
+        return;
+    }
+
+    // Utilisez maintenant les valeurs de ligneOr, colonneOr, niveauCarte et numeroCarte comme nécessaire.
+    // ...
+
+    // Exemple : Afficher un message avec les valeurs obtenues
+    QString message = QString("Ligne du jeton Or : %1\nColonne du jeton Or : %2\nNiveau de la carte : %3\nNuméro de la carte : %4")
+                          .arg(ligneOr)
+                          .arg(colonneOr)
+                          .arg(niveauCarte)
+                          .arg(numeroCarte);
+
+    QMessageBox::information(nullptr, "Informations", message);
+
+
     if(joueur1 == 1)    {
 
         joueur1=0;}
