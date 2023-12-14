@@ -45,6 +45,7 @@ public :
     int fin_tour();
     int sauvegarder()const;
     std::string getTime()const;
+    void chargerPartie(const std::string chemin);
     
     //Getters
     Plateau& get_plateau() const {return plateau;};

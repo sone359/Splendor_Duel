@@ -8,6 +8,23 @@
 void InterfaceConsole::main()
 {
     int fin_partie = 0;
+    std::string reponse="";
+    std::cout << "Souhaitez-vous charger la partie en sauvegarde ? (oui/non)" << std::endl;
+    while(reponse!="oui"){
+        std::cin >> reponse;
+        if(reponse == "non"){
+            std::cout<<"Nouvelle Partie.\n";
+            break;
+            }
+        if(reponse != "oui")
+        {
+            std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+        }
+        else
+        {
+            partie.chargerPartie("../data/sauvegarde");
+        }
+    }
     //pour test
     //partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,3));
     //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
