@@ -285,8 +285,23 @@ void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
     joueur.addCartesJoailleriesReservees(piochee);
 }
 
+CarteRoyale& Partie::recupererCarteRoyale(size_t numero)
+{
+    if (cartesRoyales.size() <= numero-1) {throw SplendorException("Le numero entre ne correspond pas ou plus a aucune carte royale");}
+
+    CarteRoyale& carte_recup = cartesRoyales[numero-1];
+    Joueur& joueur = get_joueur(joueur_actif());
+
+    cartesRoyales.erase(cartesRoyales.begin() + numero-1); //Méthode peu performante. Pourrait être remplacée par un échange entre le dernier élément et l'élément retiré mais la faible taille du vecteur fait privilégier la cohérence à l'affichage et donc la préservation de l'ordre.
+
+    joueur.addCartesRoyalesPossedees(carte_recup);
+    joueur.addPointsPrestiges(carte_recup.getPointsPrestige());
+
+    return carte_recup;
+}
+
 int Partie::lire_fichier(const char* fichier){
-    // Recupration du fichier ou les cartes ton stock
+    // Recuperation du fichier ou les cartes ton stock
     std::ifstream inputFile(fichier);
     if (!inputFile.is_open()) {
         throw std::runtime_error("Error opening the file: " + std::string(strerror(errno)));
@@ -403,7 +418,7 @@ int Partie::lire_fichier(const char* fichier){
         }
         // fermeture du fichier
         inputFile.close();
-        
+
         //melanger les cartes:
         std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
 
@@ -457,14 +472,14 @@ int Partie::sauvegarder()const{
     ////cartes possedees
     for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesPossedees()){
         fsauvegarde<<cartes.sauvegarder();
-        
+
     }
     ////jetons
     fsauvegarde<<joueur1.getGemmes().sauvegarder();
     ////cartes reservees
     for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesReservees()){
         fsauvegarde<<cartes.sauvegarder();
-        
+
     }
     ////couronnes
     fsauvegarde<<joueur1.getNbCouronnes()<<';';
@@ -477,14 +492,14 @@ int Partie::sauvegarder()const{
     ////cartes possedees
     for(CarteJoaillerie cartes : joueur2.getCartesJoailleriesPossedees()){
         fsauvegarde<<cartes.sauvegarder();
-        
+
     }
     ////jetons
     fsauvegarde<<joueur2.getGemmes().sauvegarder();
     ////cartes reservees
     for(CarteJoaillerie cartes : joueur2.getCartesJoailleriesReservees()){
         fsauvegarde<<cartes.sauvegarder();
-        
+
     }
     ////couronnes
     fsauvegarde<<joueur2.getNbCouronnes()<<';';

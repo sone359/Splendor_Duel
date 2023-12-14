@@ -33,7 +33,7 @@ public :
     std::vector<std::array<unsigned int, 2>> remplir_plateau(Joueur& joueur);
     std::array<unsigned int, 2> remplir_case();
     CarteJoaillerie& acheter_carte(Joueur& joueur, int niv, int colonne);//colonne correspond à la position de la carte de gauche à droite 1-3,1,4 ou 1-5 en fct du niveau
-    CarteJoaillerie& acheter_carte_reservee(Joueur& joueur,unsigned int num);
+    CarteJoaillerie& acheter_carte_reservee(Joueur& joueur, unsigned int num);
     void reserver_carte(Joueur& joueur, int niv, int colonne);//colonne correspond à la position de la carte de gauche à droite 1-3,1,4 ou 1-5 en fct du niveau OU 0 POUR LA PIOCHE
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3);
     void retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
@@ -42,10 +42,11 @@ public :
     void remettre_jeton(Jeton jeton);
     void ajouter_rejouer(){effet_rejouer++;};
     void voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton);
+    CarteRoyale& recupererCarteRoyale(size_t numero);
     int fin_tour();
     int sauvegarder()const;
     std::string getTime()const;
-    
+
     //Getters
     Plateau& get_plateau() const {return plateau;};
     Sac& get_sac() const {return sac;};
@@ -53,6 +54,7 @@ public :
     Joueur& get_joueur(unsigned int num_joueur);
     unsigned int get_tour() const {return tour;};
     unsigned int get_privileges_disponibles() const {return privileges_disponibles;};
+    std::vector<CarteRoyale> get_cartes_royales() const {return cartesRoyales;};
 
     //Pas de setters
 

@@ -68,6 +68,7 @@ public:
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);
+    void addPointsPrestiges(unsigned int quantite){nbPointsPrestige += quantite;}
 
     int verifVictoire();
 
@@ -91,4 +92,4 @@ inline std::ostream& operator<<(std::ostream& os, const Joueur& j) {
         return os;
     }
 
-#endif 
+#endif

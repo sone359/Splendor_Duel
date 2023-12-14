@@ -138,7 +138,7 @@ bool InterfaceConsole::deroulement_tour()
         }
     }
 
-    //Verification du nombre de jetons poss�d�s par le joueur actif
+    //Verification du nombre de jetons possedes par le joueur actif
     while (total_stock(joueur.getGemmes()) > 10)
     {
         afficherJetonsPossedes(partie.joueur_actif());
@@ -163,6 +163,22 @@ bool InterfaceConsole::deroulement_tour()
                 partie.remettre_jeton(Or);
             else
                 std::cout << "Saisie invalide, merci de rentrer B, V, W, R, N, P ou O et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+        }
+        catch (const SplendorException& except) //Si une erreur previsible liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
+        {
+            std::cout << except.what() << std::endl;
+        }
+    }
+    //Verification de la possibilite d'obtenir une carte royale
+    if (partie.get_cartes_royales().size() > 0 && (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) && (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
+    {
+        try
+        {
+            size_t num_carte;
+            std::cout << "Vous avez rempli les conditions pour obtenir une carte Royale ! Entrez le numero de la carte Royale que vous souhaitez recuperer (1 a 4)  : ";
+            std::cin >> num_carte;
+            CarteRoyale& carte_recup = partie.recupererCarteRoyale(num_carte);
+            gestion_effets(carte_recup);
         }
         catch (const SplendorException& except) //Si une erreur previsible liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
         {
@@ -332,7 +348,6 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
         //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
         gestion_effets(partie.acheter_carte(joueur, niveau_carte, num_carte));
         return true;
-        //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achetee ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
     }
     else
     {
