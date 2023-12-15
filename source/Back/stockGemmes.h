@@ -12,6 +12,8 @@ class StockGemmes
 
         virtual StockGemmes& ajouter_jeton(Jeton jeton);
         virtual StockGemmes& retirer_jeton(Jeton jeton);
+        bool inclus(Jeton jeton) const;
+        Jeton max() const;
 
         // Constructeurs
         StockGemmes(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0);
@@ -67,6 +69,8 @@ class StockGemmesOr : public StockGemmes
 public:
     StockGemmesOr& ajouter_jeton(Jeton jeton) override;
     StockGemmesOr& retirer_jeton(Jeton jeton) override;
+    bool inclus(Jeton jeton) const;
+    Jeton max() const;
 
     //Constructeur par defaut
     StockGemmesOr(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0, unsigned int jaune = 0);

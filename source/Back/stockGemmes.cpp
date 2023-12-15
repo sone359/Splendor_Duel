@@ -70,6 +70,73 @@ StockGemmes& StockGemmes::retirer_jeton(Jeton jeton)
     return *this;
 }
 
+bool StockGemmes::inclus(Jeton jeton) const
+{
+    switch (jeton)
+    {
+    case Nul:
+        return false;
+    case Or:
+        return false;
+    case Bleu:
+        if(get_Bleu() > 0) return true;
+        else return false;
+    case Vert:
+        if(get_Vert() > 0) return true;
+        else return false;
+    case Blanc:
+        if(get_Blanc() > 0) return true;
+        else return false;
+    case Rouge:
+        if(get_Rouge() > 0) return true;
+        else return false;
+    case Noir:
+        if(get_Noir() > 0) return true;
+        else return false;
+    case Perle:
+        if(get_Perle() > 0) return true;
+        else return false;
+    }
+}
+
+Jeton StockGemmes::max() const
+{
+    Jeton jeton_max = Nul;
+    unsigned int n_max = 0;
+    if(get_Bleu() > n_max)
+    {
+        jeton_max = Bleu;
+        n_max = get_Bleu();
+    }
+    if(get_Vert() > n_max)
+    {
+        jeton_max = Vert;
+        n_max = get_Vert();
+    }
+    if(get_Blanc() > n_max)
+    {
+        jeton_max = Blanc;
+        n_max = get_Blanc();
+    }
+    if(get_Rouge() > n_max)
+    {
+        jeton_max = Rouge;
+        n_max = get_Rouge();
+    }
+    if(get_Noir() > n_max)
+    {
+        jeton_max = Noir;
+        n_max = get_Noir();
+    }
+    if(get_Perle() > n_max)
+    {
+        jeton_max = Perle;
+        n_max = get_Perle();
+    }
+
+    return jeton_max;
+}
+
 //Contructeur
 StockGemmes::StockGemmes(unsigned int bleu, unsigned int vert, unsigned int blanc, unsigned int rouge, unsigned int noir, unsigned int perle)
 {
@@ -223,6 +290,79 @@ StockGemmesOr& StockGemmesOr::retirer_jeton(Jeton jeton)
     }
 
     return *this;
+}
+
+bool StockGemmesOr::inclus(Jeton jeton) const
+{
+    switch (jeton)
+    {
+    case Nul:
+        return false;
+    case Or:
+        if(get_Or() > 0) return true;
+        else return false;
+    case Bleu:
+        if(get_Bleu() > 0) return true;
+        else return false;
+    case Vert:
+        if(get_Vert() > 0) return true;
+        else return false;
+    case Blanc:
+        if(get_Blanc() > 0) return true;
+        else return false;
+    case Rouge:
+        if(get_Rouge() > 0) return true;
+        else return false;
+    case Noir:
+        if(get_Noir() > 0) return true;
+        else return false;
+    case Perle:
+        if(get_Perle() > 0) return true;
+        else return false;
+    }
+}
+
+Jeton StockGemmesOr::max() const
+{
+    Jeton jeton_max = Nul;
+    unsigned int n_max = 0;
+    if(get_Bleu() > n_max)
+    {
+        jeton_max = Bleu;
+        n_max = get_Bleu();
+    }
+    if(get_Vert() > n_max)
+    {
+        jeton_max = Vert;
+        n_max = get_Vert();
+    }
+    if(get_Blanc() > n_max)
+    {
+        jeton_max = Blanc;
+        n_max = get_Blanc();
+    }
+    if(get_Rouge() > n_max)
+    {
+        jeton_max = Rouge;
+        n_max = get_Rouge();
+    }
+    if(get_Noir() > n_max)
+    {
+        jeton_max = Noir;
+        n_max = get_Noir();
+    }
+    if(get_Perle() > n_max)
+    {
+        jeton_max = Perle;
+        n_max = get_Perle();
+    }
+    if(get_Or() > n_max)
+    {
+        jeton_max = Or;
+        n_max = get_Or();
+    }
+
+    return jeton_max;
 }
 
 //Contructeur
