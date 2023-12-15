@@ -17,6 +17,10 @@ class InterfaceConsole
 {
 public:
     void main();
+
+protected:
+    Partie& partie = Partie::get_partie();
+
     bool deroulement_tour();
     bool action_prendre_jetons(Joueur& joueur);
     bool action_reserver(Joueur& joueur);
@@ -26,15 +30,12 @@ public:
 
     //Affichages publics pour les tests mais destines a devenir private
     void afficherPyramide() const;
-     //pour afficher la pyramide dans le terminal aka afficher les cartes
-    //les unes à coté des autres on doit les afficher ligne par ligne
+     //pour afficher la pyramide dans le terminal c'est a dire afficher les cartes
+    //les unes a cote des autres, on doit les afficher ligne par ligne
     void afficherCarteparligne(const CarteJoaillerie& j,int ligne,std::ostream& os)const;
     void afficherJoueur(unsigned int joueur) const;
     void afficherPlateau() const;
     void afficherJetonsPossedes(unsigned int num_joueur) const;
-
-private:
-    Partie& partie = Partie::get_partie();
 
 
 };
