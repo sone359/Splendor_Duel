@@ -191,7 +191,13 @@ bool InterfaceConsole::deroulement_tour()
 void InterfaceConsole::afficherJetonsPossedes(unsigned int num_joueur) const
 {
     Joueur& joueur = partie.get_joueur(num_joueur);
-    std::cout << "    " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
+    std::cout << "    " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl;
+}
+
+void InterfaceConsole::afficherPointsPrestige(unsigned int num_joueur) const
+{
+    Joueur& joueur = partie.get_joueur(num_joueur);
+    std::cout << "    " << "B : " << joueur.getNbPointsPrestigeBleu() << ", V : " << joueur.getNbPointsPrestigeVert() << ", W : " << joueur.getNbPointsPrestigeBlanc() << ", R : " << joueur.getNbPointsPrestigeRouge() << ", N : " << joueur.getNbPointsPrestigeNoir() << ", Total : " << joueur.getNbPointsPrestige() << std::endl;
 }
 
 void InterfaceConsole::afficherPlateau() const
@@ -717,6 +723,9 @@ void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     size_t nbresa=partie.get_joueur(joueur).getCartesJoailleriesReservees().size();
     size_t nbposs=partie.get_joueur(joueur).getCartesJoailleriesPossedees().size();
     std::cout<<"------Joueur "<<joueur<<"---------------------------------------------------\n";
+    std::cout<<"\n    Points de Prestige accumules \n";
+    afficherPointsPrestige(joueur);
+    std::cout<<"\n    Couronnes possedees : "<< partie.get_joueur(joueur).getNbCouronnes() <<std::endl;
     std::cout<<"    Cartes Reservees \n";
     for(CarteJoaillerie carte : partie.get_joueur(joueur).getCartesJoailleriesReservees()){
         for(int l=1;l<8;l++){

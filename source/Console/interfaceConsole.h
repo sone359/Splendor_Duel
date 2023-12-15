@@ -28,14 +28,14 @@ protected:
     void gestion_effets(CarteJoaillerie& carte);
     void gestion_effets(CarteRoyale& carte);
 
-    //Affichages publics pour les tests mais destines a devenir private
     void afficherPyramide() const;
      //pour afficher la pyramide dans le terminal c'est a dire afficher les cartes
     //les unes a cote des autres, on doit les afficher ligne par ligne
-    void afficherCarteparligne(const CarteJoaillerie& j,int ligne,std::ostream& os)const;
+    void afficherCarteparligne(const CarteJoaillerie& j,int ligne,std::ostream& os) const;
     void afficherJoueur(unsigned int joueur) const;
     void afficherPlateau() const;
     void afficherJetonsPossedes(unsigned int num_joueur) const;
+    void afficherPointsPrestige(unsigned int num_joueur) const;
 
 
 };
