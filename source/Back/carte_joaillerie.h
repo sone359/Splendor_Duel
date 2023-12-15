@@ -156,7 +156,7 @@ inline std::ostream& operator<<(std::ostream& os, const CarteJoaillerie& c) {
         for(Effet  effet : c.get_capacite()){
             os<<"|   "<< effet<<"  |\n";
          }
-        os<<"|BWVRNP|\n";
+        os<<"|BVWRNP|\n";
         os <<c.get_cout();
         os << "\n--------\n" ;
         return os;

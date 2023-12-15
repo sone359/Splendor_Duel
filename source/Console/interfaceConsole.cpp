@@ -9,7 +9,7 @@ void InterfaceConsole::main()
 {
     int fin_partie = 0;
     //pour test
-    partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,1,1,0));
+    partie.get_joueur(1).setGemmes(StockGemmesOr(0,2,0,3,1,1,0));
     partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,1,1,1,1,0));
     while(deroulement_tour() == true && fin_partie == 0)
     {
@@ -702,7 +702,7 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,
             os<<"  |";
         return;
         case 5:
-            os<<"|BWVRNP|";
+            os<<"|BVWRNP|";
             return;
         case 6:
             os<<c.get_cout();

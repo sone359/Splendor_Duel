@@ -93,14 +93,14 @@ unsigned int total_stock(const StockGemmes& stock);
 unsigned int total_stock(const StockGemmesOr& stock);
 
 inline std::ostream& operator<<(std::ostream& os, const StockGemmes& g) {
-        os<<"|"<<g.get_Bleu()<<g.get_Blanc()<<g.get_Vert()<<g.get_Rouge()<<g.get_Noir()<<g.get_Perle()<<"|";
+        os<<"|"<<g.get_Bleu()<<g.get_Vert()<<g.get_Blanc()<<g.get_Rouge()<<g.get_Noir()<<g.get_Perle()<<"|";
         return os;
-    } 
+    }
 
 inline std::ostream& operator<<(std::ostream& os, const StockGemmesOr& g) {
-        os<<"|"<<g.get_Bleu()<<g.get_Blanc()<<g.get_Vert()<<g.get_Rouge()<<g.get_Noir()<<g.get_Perle()<<"|";
+        os<<"|"<<g.get_Bleu()<<g.get_Vert()<<g.get_Blanc()<<g.get_Rouge()<<g.get_Noir()<<g.get_Perle()<<"|";
         os<<"OR:"<<g.get_Or();
         return os;
-    } 
+    }
 
 #endif
