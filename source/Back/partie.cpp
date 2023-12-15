@@ -261,13 +261,29 @@ void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
 
 CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
     StockGemmesOr avant_achat = joueur.getGemmes();//retiens le nombre de gemmes avant l'achat
+    std::cout << "ici3" << std::endl;
     if (joueur.peutAcheter(pyramide->recupererCarteJoaillerie(niv,colonne))){// std::cout<<"achetee\n";
+        std::cout << "ici4" << std::endl;
         if (colonne == 0){
             throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
-        }else{
-            //CarteJoaillerie piochee = pyramide->acheterCarteJoaillerie(niv,colonne);
+        }
+        else{
+            std::cout << "ici5" << std::endl;
+            //Vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
+            std::vector<Effet> effets = pyramide->recupererCarteJoaillerie(niv,colonne).get_capacite();
+            std::cout << "ici7" << std::endl;
+            for (size_t i = 0 ; i < effets.size() ; i++)
+            {
+                if(effets[i] == couleur && joueur.getCartesJoailleriesPossedees().size() == 0)
+                {
+                    throw SplendorException("Vous ne pouvez pas acheter une carte avec la capacite Couleur sans avoir de carte a laquelle l'associer");
+                }
+            }
+            std::cout << "ici8" << std::endl;
             joueur.addCartesJoailleriesPossedees(pyramide->acheterCarteJoaillerie(niv,colonne));
+            std::cout << "ici9" << std::endl;
             sac.ajouter_stock(joueur.getGemmes()/avant_achat);
+            std::cout << "ici10" << std::endl;
             return joueur.getCartesJoailleriesPossedees().back();
         }
     }

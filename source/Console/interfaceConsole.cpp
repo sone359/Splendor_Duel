@@ -9,8 +9,8 @@ void InterfaceConsole::main()
 {
     int fin_partie = 0;
     //pour test
-    //partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,3));
-    //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
+    partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,1,1,0));
+    partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,1,1,1,1,0));
     while(deroulement_tour() == true && fin_partie == 0)
     {
         fin_partie = partie.fin_tour();
@@ -345,8 +345,9 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
         std::cin >> niveau_carte;
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3)  : ";
         std::cin >> num_carte;
-        //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
+        std::cout << "ici1" << std::endl;
         gestion_effets(partie.acheter_carte(joueur, niveau_carte, num_carte));
+        std::cout << "ici2" << std::endl;
         return true;
     }
     else
@@ -362,14 +363,22 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
 
 void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 {
+    std::cout << "la1" << std::endl;
     Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+    std::cout << "la2" << std::endl;
+    carte.get_capacite();
+    std::cout << "la3" << std::endl;
+    carte.get_capacite().size();
+    std::cout << "la4" << std::endl;
 
     for(unsigned int pos = 0 ; pos < carte.get_capacite().size() ; pos++)
     {
+        std::cout << "lafor : " << pos << std::endl;
         switch (carte.get_capacite()[pos])
         {
         case rejouer:
             {
+                std::cout << "lar" << std::endl;
                 std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
                 partie.ajouter_rejouer();
             }
@@ -380,6 +389,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                 bool continuer = true;
                 while (continuer == true)
                 {
+                    std::cout << "lac" << std::endl;
                     afficherJoueur(partie.joueur_actif());
                     std::cout << "Activation de l'effet Couleur de la carte ! Entrez le type de bonus que la carte achetee doit prendre (B, V, W, R ou N) (il doit correspondre a l'une de vos cartes) : " << std::endl;
                     std::string type_bonus;
@@ -462,6 +472,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 
         case gemme:
             {
+                std::cout << "lag" << std::endl;
                 Jeton type_carte = Nul;
                 StockGemmes stockBonus = carte.get_typeBonus();
                 if (stockBonus.get_Bleu() > 0) {type_carte = Bleu;}
@@ -509,11 +520,13 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
             break;
 
         case privilege:
+            std::cout << "lap" << std::endl;
             std::cout << "Activation de l'effet Privilege de la carte !" << std::endl;
             partie.prend_privilege(joueur);
             break;
 
         case voler:
+            std::cout << "lav" << std::endl;
             bool continuer = true;
             while (continuer == true)
             {
