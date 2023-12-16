@@ -301,6 +301,7 @@ int Partie::lire_fichier(const char* fichier){
         std::vector<Effet> tempcapacite;
         StockGemmes tempcout;
         StockGemmes temptype;
+        std::string chemin;
         // saute les 2 1eres lignes
         std::getline(inputFile, line);
         std::getline(inputFile, line);
@@ -363,7 +364,7 @@ int Partie::lire_fichier(const char* fichier){
                 }
                 //std::cout<<"       cout :"<<tempcout<<std::endl;
             }
-            if (std::getline(iss, token, '\n')) {
+            if (std::getline(iss, token, ';')) {
             //std::cout<<"    capacite :";
             std::istringstream iss1(token);
 
@@ -389,8 +390,11 @@ int Partie::lire_fichier(const char* fichier){
                     tempcapacite.push_back(tempeffet);
                 }
             }
+            if(std::getline(iss,token,';')){
+                chemin=token;
+            }
             //ajouter à cartes
-            cartes[cartes_lues]=CarteJoaillerie(tempniveau,temppointsPrestige,tempnombreBonus,temptype,tempcouronnes,tempcout,tempcapacite);
+            cartes[cartes_lues]=CarteJoaillerie(tempniveau,temppointsPrestige,tempnombreBonus,temptype,tempcouronnes,tempcout,tempcapacite,chemin);
             //reset prochain tour
             tempcapacite.clear();
             tempcout=0;
@@ -406,6 +410,7 @@ int Partie::lire_fichier(const char* fichier){
         ////verif
         //for(CarteJoaillerie  carte : cartes){
         //    std::cout<<carte<<std::endl;
+        //    std::cout<<carte.getChemin()<<'\n';
         //}
         return 0;
     }

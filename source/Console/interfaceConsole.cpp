@@ -9,8 +9,8 @@ void InterfaceConsole::main()
 {
     int fin_partie = 0;
     //pour test
-    partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,3));
-    partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
+    //partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,3));
+    //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
     while(deroulement_tour() == true && fin_partie == 0)
     {
         fin_partie = partie.fin_tour();
@@ -26,7 +26,8 @@ void InterfaceConsole::main()
     else if(fin_partie == 3)
     {
         std::cout << "Le joueur " << partie.joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
-    }else{partie.sauvegarder();}
+    }
+    else{partie.sauvegarder();}
 }
 
 bool InterfaceConsole::deroulement_tour()
@@ -318,7 +319,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
     }
     while(reponse != "oui" && reponse!="non")
     {
-        std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur Entree." << std::endl;   
+        std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur Entree." << std::endl;
         std::cin >> reponse;
     }
     if(reponse == "non"){
@@ -337,11 +338,11 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
     {
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (à partir de 1)  : ";
         std::cin >> num_carte;
-        gestion_effets(joueur.acheterCarteReservee(num_carte));        
+        gestion_effets(joueur.acheterCarteReservee(num_carte));
         //gestion_effets(partie.acheter_carte(joueur, niveau_carte, num_carte));
         return true;
     }
-    
+
 }
 
 void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)

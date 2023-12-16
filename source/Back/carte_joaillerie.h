@@ -22,11 +22,13 @@ private:
 
 public:
     CarteJoaillerie(){};
-    CarteJoaillerie(int n,int p,int d,StockGemmes color, int cr, StockGemmes prix, std::vector<Effet> e) :
-    cout(prix), niveau(n), pointsPrestige(p), nombreBonus(d), typeBonus(color),couronnes(cr), capacite(e){};
+    CarteJoaillerie(int n,int p,int d,StockGemmes color, int cr, StockGemmes prix, std::vector<Effet> e,std::string ch) :
+    cout(prix), niveau(n), pointsPrestige(p), nombreBonus(d), typeBonus(color),couronnes(cr), capacite(e), cheminImage(ch){};
     int get_niveau() const{
         return niveau;
     }
+
+    std::string getChemin(){return cheminImage;}
 
     std::string sauvegarder()const{
         std::stringstream s;
@@ -78,7 +80,9 @@ public:
             repeat--;
             if (repeat) s<<',';
         }
-        s<<";\n";
+        s<<";";
+        s<<cheminImage;
+        s<<"\n";
         return s.str();
     }
 
