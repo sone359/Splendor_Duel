@@ -485,7 +485,7 @@ void gestionEffet(CarteJoaillerie & carte){
 
                 gemmeEffet(carte);
                 QMessageBox::information(partieWidget, "Information","Jeton pris");
-
+                return;
 
                 break;
 
