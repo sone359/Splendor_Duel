@@ -57,7 +57,7 @@ bool InterfaceConsole::deroulement_tour()
         }
         else
         {
-            afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
+            afficherPlateau(); //Nouvel affichage du plateau a chaque privilege utilise, pour voir les changements
             unsigned int colonne = 0, ligne = 0;
             std::cout << "Quelle est la colonne du jeton a retirer ?";
             std::cin >> colonne;
@@ -369,22 +369,14 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
 
 void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 {
-    std::cout << "la1" << std::endl;
     Joueur& joueur = partie.get_joueur(partie.joueur_actif());
-    std::cout << "la2" << std::endl;
-    carte.get_capacite();
-    std::cout << "la3" << std::endl;
-    carte.get_capacite().size();
-    std::cout << "la4" << std::endl;
 
     for(unsigned int pos = 0 ; pos < carte.get_capacite().size() ; pos++)
     {
-        std::cout << "lafor : " << pos << std::endl;
         switch (carte.get_capacite()[pos])
         {
         case rejouer:
             {
-                std::cout << "lar" << std::endl;
                 std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
                 partie.ajouter_rejouer();
             }
@@ -395,7 +387,6 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                 bool continuer = true;
                 while (continuer == true)
                 {
-                    std::cout << "lac" << std::endl;
                     afficherJoueur(partie.joueur_actif());
                     std::cout << "Activation de l'effet Couleur de la carte ! Entrez le type de bonus que la carte achetee doit prendre (B, V, W, R ou N) (il doit correspondre a l'une de vos cartes) : " << std::endl;
                     std::string type_bonus;
@@ -478,7 +469,6 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 
         case gemme:
             {
-                std::cout << "lag" << std::endl;
                 Jeton type_carte = Nul;
                 StockGemmes stockBonus = carte.get_typeBonus();
                 if (stockBonus.get_Bleu() > 0) {type_carte = Bleu;}
@@ -526,13 +516,11 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
             break;
 
         case privilege:
-            std::cout << "lap" << std::endl;
             std::cout << "Activation de l'effet Privilege de la carte !" << std::endl;
             partie.prend_privilege(joueur);
             break;
 
         case voler:
-            std::cout << "lav" << std::endl;
             bool continuer = true;
             while (continuer == true)
             {

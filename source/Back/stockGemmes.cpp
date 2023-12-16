@@ -137,6 +137,66 @@ Jeton StockGemmes::max() const
     return jeton_max;
 }
 
+Jeton StockGemmes::random_pop()
+{
+    //Determination du poids de chaque type de jeton (empeche notamment un type de jeton absent du sac d'etre retire car son poids sera egal a 0)
+    double nb_gemmes = total_stock(*this);
+    std::vector<double> poids = {get_Bleu()/nb_gemmes, get_Vert()/nb_gemmes, get_Blanc()/nb_gemmes, get_Rouge()/nb_gemmes, get_Noir()/nb_gemmes, get_Perle()/nb_gemmes};
+
+    //Generation d'un nombre aleatoire
+    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //Seed triviale base sur l'heure donne comme exemple par cplusplus.com
+    std::discrete_distribution<int> distribution(poids.begin(), poids.end());
+
+    switch (distribution(generator))
+    {
+    case 0:
+        set_Bleu(get_Bleu() - 1);
+        return Bleu;
+    case 1:
+        set_Vert(get_Vert() - 1);
+        return Vert;
+    case 2:
+        set_Blanc(get_Blanc() - 1);
+        return Blanc;
+    case 3:
+        set_Rouge(get_Rouge() - 1);
+        return Rouge;
+    case 4:
+        set_Noir(get_Noir() - 1);
+        return Noir;
+    case 5:
+        set_Perle(get_Perle() - 1);
+        return Perle;
+    }
+}
+
+Jeton StockGemmes::random_tirage()
+{
+    //Determination du poids de chaque type de jeton (empeche notamment un type de jeton absent du sac d'etre retire car son poids sera egal a 0)
+    double nb_gemmes = total_stock(*this);
+    std::vector<double> poids = {get_Bleu()/nb_gemmes, get_Vert()/nb_gemmes, get_Blanc()/nb_gemmes, get_Rouge()/nb_gemmes, get_Noir()/nb_gemmes, get_Perle()/nb_gemmes};
+
+    //Generation d'un nombre aleatoire
+    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //Seed triviale base sur l'heure donne comme exemple par cplusplus.com
+    std::discrete_distribution<int> distribution(poids.begin(), poids.end());
+
+    switch (distribution(generator))
+    {
+    case 0:
+        return Bleu;
+    case 1:
+        return Vert;
+    case 2:
+        return Blanc;
+    case 3:
+        return Rouge;
+    case 4:
+        return Noir;
+    case 5:
+        return Perle;
+    }
+}
+
 //Contructeur
 StockGemmes::StockGemmes(unsigned int bleu, unsigned int vert, unsigned int blanc, unsigned int rouge, unsigned int noir, unsigned int perle)
 {
@@ -365,6 +425,71 @@ Jeton StockGemmesOr::max() const
     return jeton_max;
 }
 
+Jeton StockGemmesOr::random_pop()
+{
+    //Determination du poids de chaque type de jeton (empeche notamment un type de jeton absent du sac d'etre retire car son poids sera egal a 0)
+    double nb_gemmes = total_stock(*this);
+    std::vector<double> poids = {get_Bleu()/nb_gemmes, get_Vert()/nb_gemmes, get_Blanc()/nb_gemmes, get_Rouge()/nb_gemmes, get_Noir()/nb_gemmes, get_Perle()/nb_gemmes, get_Or()/nb_gemmes};
+
+    //Generation d'un nombre aleatoire
+    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //Seed triviale base sur l'heure donne comme exemple par cplusplus.com
+    std::discrete_distribution<int> distribution(poids.begin(), poids.end());
+
+    switch (distribution(generator))
+    {
+    case 0:
+        set_Bleu(get_Bleu() - 1);
+        return Bleu;
+    case 1:
+        set_Vert(get_Vert() - 1);
+        return Vert;
+    case 2:
+        set_Blanc(get_Blanc() - 1);
+        return Blanc;
+    case 3:
+        set_Rouge(get_Rouge() - 1);
+        return Rouge;
+    case 4:
+        set_Noir(get_Noir() - 1);
+        return Noir;
+    case 5:
+        set_Perle(get_Perle() - 1);
+        return Perle;
+    case 6:
+        set_Or(get_Or() - 1);
+        return Or;
+    }
+}
+
+Jeton StockGemmesOr::random_tirage()
+{
+    //Determination du poids de chaque type de jeton (empeche notamment un type de jeton absent du sac d'etre retire car son poids sera egal a 0)
+    double nb_gemmes = total_stock(*this);
+    std::vector<double> poids = {get_Bleu()/nb_gemmes, get_Vert()/nb_gemmes, get_Blanc()/nb_gemmes, get_Rouge()/nb_gemmes, get_Noir()/nb_gemmes, get_Perle()/nb_gemmes, get_Or()/nb_gemmes};
+
+    //Generation d'un nombre aleatoire
+    std::default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count()); //Seed triviale base sur l'heure donne comme exemple par cplusplus.com
+    std::discrete_distribution<int> distribution(poids.begin(), poids.end());
+
+    switch (distribution(generator))
+    {
+    case 0:
+        return Bleu;
+    case 1:
+        return Vert;
+    case 2:
+        return Blanc;
+    case 3:
+        return Rouge;
+    case 4:
+        return Noir;
+    case 5:
+        return Perle;
+    case 6:
+        return Or;
+    }
+}
+
 //Contructeur
 StockGemmesOr::StockGemmesOr(unsigned int bleu, unsigned int vert, unsigned int blanc, unsigned int rouge, unsigned int noir, unsigned int perle, unsigned int jaune)// : StockGemmes::StockGemmes()
 {
@@ -460,6 +585,69 @@ StockGemmesOr StockGemmesOr::operator/(const StockGemmesOr& autre_stock)const{
     if (jeton_or<autre_stock.jeton_or) {
         result.set_Or(autre_stock.get_Or()-get_Or());
     }
+    return result;
+}
+
+StockGemmes StockGemmesOr::operator/(const StockGemmes& autre_stock)const{
+    StockGemmesOr result;
+    unsigned int jaune = get_Or();
+    //pour chaque couleur
+    //si le premier est < au 2e le resultat = la diff
+    if(get_Bleu()<autre_stock.get_Bleu())
+    {
+        result.set_Bleu(abs(get_Bleu()-autre_stock.get_Bleu()));
+        while (result.get_Bleu() > 0 && jaune > 0)
+        {
+            result.set_Bleu(result.get_Bleu()-1);
+            jaune--;
+        }
+    }
+    if(get_Vert()<autre_stock.get_Vert())
+    {
+        result.set_Vert(abs(get_Vert()-autre_stock.get_Vert()));
+        while (result.get_Vert() > 0 && jaune > 0)
+        {
+            result.set_Vert(result.get_Vert()-1);
+            jaune--;
+        }
+    }
+    if(get_Blanc()<autre_stock.get_Blanc())
+    {
+        result.set_Blanc(abs(get_Blanc()-autre_stock.get_Blanc()));
+        while (result.get_Blanc() > 0 && jaune > 0)
+        {
+            result.set_Blanc(result.get_Blanc()-1);
+            jaune--;
+        }
+    }
+    if(get_Rouge()<autre_stock.get_Rouge())
+    {
+        result.set_Rouge(abs(get_Rouge()-autre_stock.get_Rouge()));
+        while (result.get_Rouge() > 0 && jaune > 0)
+        {
+            result.set_Rouge(result.get_Rouge()-1);
+            jaune--;
+        }
+    }
+    if(get_Noir()<autre_stock.get_Noir())
+    {
+        result.set_Noir(abs(get_Noir()-autre_stock.get_Noir()));
+        while (result.get_Noir() > 0 && jaune > 0)
+        {
+            result.set_Noir(result.get_Noir()-1);
+            jaune--;
+        }
+    }
+    if(get_Perle()<autre_stock.get_Perle())
+    {
+        result.set_Perle(abs(get_Perle()-autre_stock.get_Perle()));
+        while (result.get_Perle() > 0 && jaune > 0)
+        {
+            result.set_Perle(result.get_Perle()-1);
+            jaune--;
+        }
+    }
+
     return result;
 }
 

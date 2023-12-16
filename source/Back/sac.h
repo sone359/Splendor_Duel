@@ -1,7 +1,6 @@
 #ifndef SAC_H
 #define SAC_H
 
-#include <random>
 #include "../tools.h"
 #include "stockGemmes.h"
 

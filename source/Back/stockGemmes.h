@@ -5,6 +5,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
+#include <vector>
+#include <random>
+#include <chrono>
 
 class StockGemmes
 {
@@ -14,6 +17,8 @@ class StockGemmes
         virtual StockGemmes& retirer_jeton(Jeton jeton);
         bool inclus(Jeton jeton) const;
         Jeton max() const;
+        virtual Jeton random_pop();
+        virtual Jeton random_tirage();
 
         // Constructeurs
         StockGemmes(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0);
@@ -71,6 +76,8 @@ public:
     StockGemmesOr& retirer_jeton(Jeton jeton) override;
     bool inclus(Jeton jeton) const;
     Jeton max() const;
+    Jeton random_pop() override;
+    Jeton random_tirage() override;
 
     //Constructeur par defaut
     StockGemmesOr(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0, unsigned int jaune = 0);
@@ -86,6 +93,7 @@ public:
     StockGemmesOr operator=(const StockGemmes& autre_stock);
     StockGemmesOr operator=(const StockGemmesOr& autre_stock);
     StockGemmesOr operator/(const StockGemmesOr& autre_stock)const;
+    StockGemmes operator/(const StockGemmes& autre_stock)const;
 
     std::string sauvegarder()const;
 
