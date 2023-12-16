@@ -53,14 +53,13 @@ void BoutonManager::createButtons() {
     acheterCarteButton->setStyleSheet(buttonStyle);
     reserverCarteButton->setStyleSheet(buttonStyle);
     utiliserPrivilegeButton->setStyleSheet(buttonStyle);
-    volerButton->setStyleSheet(buttonStyle);
     prendreJetonsButton->setStyleSheet(buttonStyle);
     remplirPlateauButton->setStyleSheet(buttonStyle);
 
     buttonsLayout->addWidget(acheterCarteButton, 0, 0);
     buttonsLayout->addWidget(reserverCarteButton, 0, 1);
     buttonsLayout->addWidget(utiliserPrivilegeButton, 0, 2);
-    buttonsLayout->addWidget(volerButton, 0, 3);
+
     buttonsLayout->addWidget(prendreJetonsButton, 0, 4);
     buttonsLayout->addWidget(remplirPlateauButton, 0, 5);
 
@@ -68,7 +67,6 @@ void BoutonManager::createButtons() {
     connect(acheterCarteButton, &QPushButton::clicked, this, &BoutonManager::onAcheterCarteClicked);
     connect(reserverCarteButton, &QPushButton::clicked, this, &BoutonManager::onReserverCarteClicked);
     connect(utiliserPrivilegeButton, &QPushButton::clicked, this, &BoutonManager::onUtiliserPrivilegeClicked);
-    connect(volerButton, &QPushButton::clicked, this, &BoutonManager::onVolerDisabledClicked);
     connect(prendreJetonsButton, &QPushButton::clicked, this, &BoutonManager::onPrendreJetonsClicked);
     connect(remplirPlateauButton, &QPushButton::clicked, this, &BoutonManager::onRemplirPlateauClicked);
 
@@ -134,6 +132,37 @@ void update_info()
     partie->updatePlayerCoronne("Joueur 2",game.get_joueur(2).getNbCouronnes());
 
 }
+void update_plateau()
+{
+    PartieWidget * partie = PartieWidget::getInstance();
+    partie->removePlateau(partie->getPlateauWidget());
+    PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
+    partie->afficherPlateau(plateauWidgetInstance);
+    partie->setPlateauWidget(plateauWidgetInstance);
+
+}
+
+void fin_tour(){
+
+    Partie& partie = Partie::get_partie();
+    //Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+    PartieWidget * partieWidget = PartieWidget::getInstance();
+    partie.fin_tour();
+    if(partie.joueur_actif()==1)    {
+
+
+        partieWidget->joueurActif("Joueur 1");
+
+    }
+    else {
+
+        partieWidget->joueurActif("Joueur 2");
+    }
+    update_info();
+    update_plateau();
+
+
+}
 
 void volerJeton() {
     PartieWidget * partieWidget = PartieWidget::getInstance();
@@ -191,6 +220,8 @@ void volerJeton() {
     update_info();
 }
 
+
+
 void couleurEffet(CarteJoaillerie & carte) {
     PartieWidget * partieWidget = PartieWidget::getInstance();
     QMessageBox msgBox;
@@ -219,12 +250,17 @@ void couleurEffet(CarteJoaillerie & carte) {
     msgBox.exec();
     Partie& partie = Partie::get_partie();
     Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+
+
+
+
     // Retourner la couleur sélectionnée
-    try {
+
     if (rougeButton->isChecked()) {
 
         if(joueur.getBonus().get_Rouge() == 0)
         {
+            fin_tour();
             throw SplendorException("Vous n'avez pas de carte rouge ! Veuillez choisir un type de bonus que vous possedez.");
 
         }
@@ -242,6 +278,7 @@ void couleurEffet(CarteJoaillerie & carte) {
     } else if (blancButton->isChecked()) {
         if(joueur.getBonus().get_Blanc() == 0)
         {
+            fin_tour();
             throw SplendorException("Vous n'avez pas de carte blanche ! Veuillez choisir un type de bonus que vous possedez.");
 
         }
@@ -257,6 +294,7 @@ void couleurEffet(CarteJoaillerie & carte) {
 
         if(joueur.getBonus().get_Noir() == 0)
         {
+           fin_tour();
            throw SplendorException("Vous n'avez pas de carte noire ! Veuillez choisir un type de bonus que vous possedez.");
 
         }
@@ -272,6 +310,8 @@ void couleurEffet(CarteJoaillerie & carte) {
 
         if(joueur.getBonus().get_Vert() == 0)
         {
+            fin_tour();
+
            throw SplendorException("Vous n'avez pas de carte verte ! Veuillez choisir un type de bonus que vous possedez.");
 
         }
@@ -286,7 +326,8 @@ void couleurEffet(CarteJoaillerie & carte) {
     } else if (bleuButton->isChecked()) {
         if(joueur.getBonus().get_Bleu() == 0)
         {
-           throw SplendorException("Vous n'avez pas de carte bleue ! Veuillez choisir un type de bonus que vous possedez.");
+            fin_tour();
+            throw SplendorException("Vous n'avez pas de carte bleue ! Veuillez choisir un type de bonus que vous possedez.");
 
         }
         else
@@ -298,12 +339,9 @@ void couleurEffet(CarteJoaillerie & carte) {
         }
 
     }
-    update_info();
-    }
-    catch (const SplendorException& ex) {
-    // Exception caught, display a QMessageBox with the exception message
-    QMessageBox::information(partieWidget, "Exception", ex.what());
-    }
+
+
+
 
 
 }
@@ -411,15 +449,7 @@ void gemmeEffet(CarteJoaillerie & carte)
 void BoutonManager::addButtonsToLayout(QVBoxLayout *layout) {
     layout->addLayout(buttonsLayout);
 }
-void update_plateau()
-{
-    PartieWidget * partie = PartieWidget::getInstance();
-    partie->removePlateau(partie->getPlateauWidget());
-    PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
-    partie->afficherPlateau(plateauWidgetInstance);
-    partie->setPlateauWidget(plateauWidgetInstance);
 
-}
 
 void gestionEffet(CarteJoaillerie & carte){
     Partie& partie = Partie::get_partie();
@@ -473,6 +503,8 @@ void gestionEffet(CarteJoaillerie & carte){
     }
 
 }
+
+
 
 void gestionEffetRoyale(CarteRoyale & carte)
 {
@@ -560,20 +592,7 @@ void BoutonManager::onAcheterCarteClicked() {
                         }
 
 
-                   update_info();
-                   update_plateau();
-
-                   partie.fin_tour();
-                   if(partie.joueur_actif()==1)    {
-
-
-partieWidget->joueurActif("Joueur 1");
-
-                   }
-                   else {
-
-partieWidget->joueurActif("Joueur 2");
-                   }
+                  fin_tour();
 
                    }      catch (const SplendorException& ex) {
                    // Exception caught, display a QMessageBox with the exception message
@@ -656,7 +675,7 @@ void BoutonManager::onReserverCarteClicked() {
 
 void BoutonManager::onUtiliserPrivilegeClicked() {
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
-    Plateau& plateau = Plateau::get_plateau();
+    //Plateau& plateau = Plateau::get_plateau();
    // PartieWidget * partie = PartieWidget::getInstance();
     Partie& game = Partie::get_partie();
     plateauWidget->emptyJetons();
@@ -701,14 +720,11 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
 
 }
 
-void BoutonManager::onVolerDisabledClicked() {
- volerJeton();
 
-}
 
 void BoutonManager::onPrendreJetonsClicked() {
    PlateauWidget * plateauWidget = PlateauWidget::getInstance();
-    Plateau& plateau = Plateau::get_plateau();
+    //Plateau& plateau = Plateau::get_plateau();
    PartieWidget * partie = PartieWidget::getInstance();
     std::map<Case, std::string>& jetons = plateauWidget->getJetonsTaken();
 
@@ -809,7 +825,7 @@ void BoutonManager::onPrendreJetonsClicked() {
 void BoutonManager::onRemplirPlateauClicked() {
     Partie& game = Partie::get_partie();
 
-    PartieWidget * partie = PartieWidget::getInstance();
+   // PartieWidget * partie = PartieWidget::getInstance();
     if(joueur1 == 1)
     {
             game.remplir_plateau(game.get_joueur(1));
@@ -824,3 +840,5 @@ void BoutonManager::onRemplirPlateauClicked() {
 
 
 }
+
+
