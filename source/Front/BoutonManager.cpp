@@ -464,30 +464,29 @@ void gestionEffet(CarteJoaillerie & carte){
 
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Rejouer de la carte !");
                 partie.ajouter_rejouer();
-                update_info();
-                partie.fin_tour();
+
                 return ;
-                //std::cout<<"HIIII";
+
 
                 break;
                 case couleur:
 
                 couleurEffet(carte);
 
-                break;
+
                 break;
                 case voler:
 
                 volerJeton();
 
-                break;
+
                 break;
                 case gemme:
 
                 gemmeEffet(carte);
                 QMessageBox::information(partieWidget, "Information","Jeton pris");
 
-                break;
+
                 break;
 
                 case privilege:
@@ -495,7 +494,9 @@ void gestionEffet(CarteJoaillerie & carte){
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Privilege de la carte !");
                 partie.prend_privilege(joueur);
 
-                break;
+                return ;
+
+
                 break;
                 }
 
@@ -532,13 +533,13 @@ void gestionEffetRoyale(CarteRoyale & carte)
                 partie.prend_privilege(joueur);
 
                 break;
-                break;
+
     case voler:
 
                 volerJeton();
 
                 break;
-                break;
+
 
 
     }
