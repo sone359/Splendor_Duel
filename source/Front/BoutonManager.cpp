@@ -2,6 +2,9 @@
 #include <QRadioButton>
 #include <QMessageBox>
 #include "PartieWidget.h"
+
+#include "../Console/interfaceConsole.cpp"
+
 BoutonManager::BoutonManager(QWidget *parent)
     : parentWidget(parent),
       buttonsLayout(new QGridLayout(parent)),
@@ -135,7 +138,7 @@ void update_info()
 void volerJeton() {
     PartieWidget * partieWidget = PartieWidget::getInstance();
     QMessageBox msgBox;
-    msgBox.setText(QString("Congratulations, tu peux voler un jeton de ton adversaire, chosis une couleur de jeton"));
+    msgBox.setText(QString("Activation de l'effet Voler de la carte !, chosis une couleur de jeton"));
     msgBox.setWindowTitle("Voler un  Jeton");
 
     // Créer des boutons radio
@@ -188,6 +191,223 @@ void volerJeton() {
     update_info();
 }
 
+void couleurEffet(CarteJoaillerie & carte) {
+    PartieWidget * partieWidget = PartieWidget::getInstance();
+    QMessageBox msgBox;
+    msgBox.setText(QString("Activation de l'effet Couleur de la carte ! Entrez le type de bonus que la carte achetee doit prendre"));
+    msgBox.setWindowTitle("Effet couleur");
+
+    // Créer des boutons radio
+    QRadioButton *rougeButton = new QRadioButton("Rouge");
+    QRadioButton *blancButton = new QRadioButton("Blanc");
+    QRadioButton *noirButton = new QRadioButton("Noir");
+
+
+    QRadioButton *vertButton = new QRadioButton("Vert");
+    QRadioButton *bleuButton = new QRadioButton("Bleu");
+
+    // Ajouter les boutons radio à la boîte de message
+    msgBox.addButton(rougeButton, QMessageBox::ActionRole);
+    msgBox.addButton(blancButton, QMessageBox::ActionRole);
+    msgBox.addButton(noirButton, QMessageBox::ActionRole);
+
+
+    msgBox.addButton(vertButton, QMessageBox::ActionRole);
+    msgBox.addButton(bleuButton, QMessageBox::ActionRole);
+
+    // Afficher la boîte de message et attendre la réponse de l'utilisateur
+    msgBox.exec();
+    Partie& partie = Partie::get_partie();
+    Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+    // Retourner la couleur sélectionnée
+    try {
+    if (rougeButton->isChecked()) {
+
+        if(joueur.getBonus().get_Rouge() == 0)
+        {
+            throw SplendorException("Vous n'avez pas de carte rouge ! Veuillez choisir un type de bonus que vous possedez.");
+
+        }
+        else
+        {
+            StockGemmes nouveau_bonus = StockGemmes(0, 0, 0, carte.get_nbBonus());
+            carte.setTypeBonus(nouveau_bonus);
+            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+            return;
+        }
+
+
+
+
+    } else if (blancButton->isChecked()) {
+        if(joueur.getBonus().get_Blanc() == 0)
+        {
+            throw SplendorException("Vous n'avez pas de carte blanche ! Veuillez choisir un type de bonus que vous possedez.");
+
+        }
+        else
+        {
+            StockGemmes nouveau_bonus = StockGemmes(0, 0, carte.get_nbBonus());
+            carte.setTypeBonus(nouveau_bonus);
+            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+            return;
+        }
+
+    } else if (noirButton->isChecked()) {
+
+        if(joueur.getBonus().get_Noir() == 0)
+        {
+           throw SplendorException("Vous n'avez pas de carte noire ! Veuillez choisir un type de bonus que vous possedez.");
+
+        }
+        else
+        {
+            StockGemmes nouveau_bonus = StockGemmes(0, 0, 0, 0, carte.get_nbBonus());
+            carte.setTypeBonus(nouveau_bonus);
+            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+            return;
+        }
+
+    } else if (vertButton->isChecked()) {
+
+        if(joueur.getBonus().get_Vert() == 0)
+        {
+           throw SplendorException("Vous n'avez pas de carte verte ! Veuillez choisir un type de bonus que vous possedez.");
+
+        }
+        else
+        {
+            StockGemmes nouveau_bonus = StockGemmes(0, carte.get_nbBonus());
+            carte.setTypeBonus(nouveau_bonus);
+            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+            return;
+        }
+
+    } else if (bleuButton->isChecked()) {
+        if(joueur.getBonus().get_Bleu() == 0)
+        {
+           throw SplendorException("Vous n'avez pas de carte bleue ! Veuillez choisir un type de bonus que vous possedez.");
+
+        }
+        else
+        {
+            StockGemmes nouveau_bonus = StockGemmes(carte.get_nbBonus());
+            carte.setTypeBonus(nouveau_bonus);
+            joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+            return;
+        }
+
+    }
+    update_info();
+    }
+    catch (const SplendorException& ex) {
+    // Exception caught, display a QMessageBox with the exception message
+    QMessageBox::information(partieWidget, "Exception", ex.what());
+    }
+
+
+}
+
+void gemmeEffet(CarteJoaillerie & carte)
+{
+     PartieWidget * partieWidget = PartieWidget::getInstance();
+     Partie& partie = Partie::get_partie();
+     Jeton type_carte = Nul;
+     StockGemmes stockBonus = carte.get_typeBonus();
+     QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Gemme de la carte !");
+
+     //std::cout<<"StockBonus"<<stockBonus;
+     // Vos opérations pour obtenir les valeurs
+
+
+     if (stockBonus.get_Bleu() > 0) {type_carte = Bleu; std::cout<<"-bleu" ;}
+     else if (stockBonus.get_Vert() > 0) {type_carte = Vert; std::cout<<"-vert" ;}
+     else if (stockBonus.get_Blanc() > 0) {type_carte = Blanc; std::cout<<"-blanc" ;}
+     else if (stockBonus.get_Rouge() > 0) {type_carte = Rouge; std::cout<<"-rouge";}
+     else if (stockBonus.get_Noir() > 0) {type_carte = Noir ;  std::cout<<"-noir";}
+     else {
+    partie.fin_tour();
+    update_info();
+
+    if(partie.joueur_actif()==1)    {
+
+
+        partieWidget->joueurActif("Joueur 1");
+
+    }
+    else {
+
+        partieWidget->joueurActif("Joueur 2");
+    }
+    throw SplendorException( "La carte passee en parametre possède un type de bonus incorrect (Or ou Perle) ou nul ce qui empeche le traitement de l'effet gemme et traduit sans doute une erreur de conception des cartes. Peut-etre l'erreur vient-elle d'un effet gemme place avant un effet couleur.");
+
+     }
+    //Verification de la presence d'un jeton correspondant sur le plateau
+    bool present = false;
+    for (int i = 0 ; i < 5 ; i++)
+    {
+        for (int j = 0 ; j < 5 ; j++)
+        {
+            if (partie.get_plateau()[j][i] == type_carte)
+            {
+                present = true;
+                break;
+            }
+        }
+        if (present == true)
+        {
+            break;
+        }
+    }
+
+    if(present)
+    {
+        QMessageBox::information(partieWidget, "Action", "Le plateau est de cette forme [0:4,0:4] du gauche à droite");
+
+
+        unsigned int colonne = 0, ligne = 0;
+        do
+        {
+
+           ligne = QInputDialog::getInt(nullptr, "Entrer la ligne", "Entrez la ligne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ", 0, 0, 4, 1);
+           colonne = QInputDialog::getInt(nullptr, "Entrer la colonne", "Entrez la colonne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ", 0, 0, 4, 1);
+
+
+            if(partie.get_plateau()[colonne][ligne] != type_carte)
+           {
+                QMessageBox::information(partieWidget, "Exception", "Ce jeton n'est pas de la meme couleur que la carte que vous avez achetee");
+            }
+
+
+        } while (partie.get_plateau()[colonne][ligne] != type_carte);
+
+         partie.retirer_jetons({colonne, ligne});
+
+    }
+    else{
+        partie.fin_tour();
+        update_info();
+
+        if(partie.joueur_actif()==1)    {
+
+
+                partieWidget->joueurActif("Joueur 1");
+
+        }
+        else {
+
+                partieWidget->joueurActif("Joueur 2");
+        }
+        throw SplendorException("Aucun jeton du plateau ne correspond a la couleur de la carte que vous avez achetee, l'effet Gemme de la carte n'a pas pu etre active");
+    }
+}
+
+
+
+
+
+
+
 void BoutonManager::addButtonsToLayout(QVBoxLayout *layout) {
     layout->addLayout(buttonsLayout);
 }
@@ -201,17 +421,174 @@ void update_plateau()
 
 }
 
+void gestionEffet(CarteJoaillerie & carte){
+    Partie& partie = Partie::get_partie();
+    Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+    PartieWidget * partieWidget = PartieWidget::getInstance();
+    for(unsigned int pos = 0 ; pos < carte.get_capacite().size() ; pos++)
+    {
 
-void BoutonManager::onAcheterCarteClicked() {
-    if(joueur1 == 1)    {
+                switch (carte.get_capacite()[pos])
+                {
+                case rejouer:
 
-        joueur1=0;}
-    else {
-        joueur1=1;
+                QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Rejouer de la carte !");
+                partie.ajouter_rejouer();
+                update_info();
+                partie.fin_tour();
+                return ;
+                //std::cout<<"HIIII";
+
+                break;
+                case couleur:
+
+                couleurEffet(carte);
+
+                break;
+                break;
+                case voler:
+
+                volerJeton();
+
+                break;
+                break;
+                case gemme:
+
+                gemmeEffet(carte);
+                QMessageBox::information(partieWidget, "Information","Jeton pris");
+
+                break;
+                break;
+
+                case privilege:
+
+                QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Privilege de la carte !");
+                partie.prend_privilege(joueur);
+
+                break;
+                break;
+                }
+
+
     }
 
-
 }
+
+void gestionEffetRoyale(CarteRoyale & carte)
+{
+    Partie& partie = Partie::get_partie();
+    Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+    PartieWidget * partieWidget = PartieWidget::getInstance();
+
+    switch (carte.getCapacite())
+    {
+    case rejouer:
+
+                QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Rejouer de la carte !");
+                partie.ajouter_rejouer();
+                update_info();
+                update_plateau();
+                partie.fin_tour();
+                return ;
+
+
+                break;
+
+    case privilege:
+
+                QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Privilege de la carte !");
+                partie.prend_privilege(joueur);
+
+                break;
+                break;
+    case voler:
+
+                volerJeton();
+
+                break;
+                break;
+
+
+    }
+}
+
+
+void BoutonManager::onAcheterCarteClicked() {
+
+     Partie& partie = Partie::get_partie();
+    Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+     PartieWidget * partieWidget = PartieWidget::getInstance();
+
+
+      InterfaceConsole  ic;
+      ic.afficherPyramide();
+    QMessageBox msgBox;
+    msgBox.setText("Souhaitez-vous acheter une des cartes que vous avez réservées?");
+                   msgBox.addButton("Oui", QMessageBox::YesRole);
+                   msgBox.addButton("Non", QMessageBox::NoRole);
+                   //msgBox.setDefaultButton(QMessageBox::No);
+
+                   int choice = msgBox.exec();
+                   bool ok;
+                   try{
+                   if (choice == 0) {
+
+    int numeroCarte = QInputDialog::getInt(nullptr, "Numéro de la carte","Entrez le numero de la carte que vous souhaitez acheter (à partir de 1):",1,1,joueur.getCartesJoailleriesReservees().size(),1,&ok );
+
+        gestionEffet(joueur.acheterCarteReservee(numeroCarte));
+
+
+                   } else {
+
+                        // Boîte de dialogue pour obtenir le niveau de la carte à réserver
+                        int niveauCarte = QInputDialog::getInt(nullptr, "Niveau de la carte", "Entrez le niveau de la carte à acheter (1-3):", 1, 1, 3, 1, &ok);
+
+                        if (!ok) {
+                            return;
+                        }
+
+                        // Boîte de dialogue pour obtenir le numéro de la carte à réserver
+                        int numeroCarte = QInputDialog::getInt(nullptr, "Numéro de la carte", "Entrez le numéro de la carte à acheter :", 1, 1, 6 - niveauCarte , 1, &ok);
+
+                        if (!ok) {
+                            return;
+                          }
+                        gestionEffet( partie.acheter_carte(joueur,niveauCarte,numeroCarte));
+
+
+                        //ic.gestion_effets(partie.get_joueur(partie.joueur_actif()).acheterCarteReservee(numeroCarte));
+                        }
+
+
+                   update_info();
+                   update_plateau();
+
+                   partie.fin_tour();
+                   if(partie.joueur_actif()==1)    {
+
+
+partieWidget->joueurActif("Joueur 1");
+
+                   }
+                   else {
+
+partieWidget->joueurActif("Joueur 2");
+                   }
+
+                   }      catch (const SplendorException& ex) {
+                   // Exception caught, display a QMessageBox with the exception message
+                   QMessageBox::information(partieWidget, "Exception", ex.what());
+                   }
+}
+
+
+
+
+
+
+
+
+
 
 void BoutonManager::onReserverCarteClicked() {
     Partie& partie = Partie::get_partie();
@@ -253,15 +630,15 @@ void BoutonManager::onReserverCarteClicked() {
     update_info();
     partie.fin_tour();
 
-    if(joueur1 == 1)    {
+    if(partie.joueur_actif()==1)    {
 
-        joueur1=0;
-        partieWidget->joueurActif("Joueur 2");
+
+        partieWidget->joueurActif("Joueur 1");
 
     }
     else {
-        joueur1=1;
-        partieWidget->joueurActif("Joueur 1");
+
+        partieWidget->joueurActif("Joueur 2");
     }
     }
     catch (const SplendorException& ex) {
@@ -292,7 +669,7 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
         // Vérifiez si l'utilisateur a appuyé sur OK
 
             // Utilisez les valeurs de row et col comme nécessaire
-            if(joueur1==1)
+            if(game.joueur_actif()==1)
                 try{
                     game.utilise_privilege(game.get_joueur(1),col,row);
 
@@ -345,23 +722,22 @@ void BoutonManager::onPrendreJetonsClicked() {
 
    Partie& game = Partie::get_partie();
 
+
+   try {
    if(jetons.size()==1)
-   {       try {
+   {
             StockGemmes stock;
             //stock=plateau.actionRetirerJetons(positionArrayVector[0]);
 
 
             game.retirer_jetons(positionArrayVector[0]);
 
-            }
-            catch (const SplendorException& ex) {
-            // Exception caught, display a QMessageBox with the exception message
-            QMessageBox::information(parentWidget, "Exception", ex.what());
-            }
+
+
     }
     if(jetons.size()==2)
     {
-            try {
+
          StockGemmes stock;
          //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1]);
 
@@ -369,25 +745,55 @@ void BoutonManager::onPrendreJetonsClicked() {
              game.retirer_jetons(positionArrayVector[0],positionArrayVector[1]);
 
 
-            }
-            catch (const SplendorException& ex) {
-         // Exception caught, display a QMessageBox with the exception message
-         QMessageBox::information(parentWidget, "Exception", ex.what());
-            }
+
     }
     if(jetons.size()==3)
     {
-            try {
+
          StockGemmes stock;
 
 
          game.retirer_jetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
 
-            }
-            catch (const SplendorException& ex) {
+
+
+
+    }
+
+    plateauWidget->emptyJetons();
+
+
+    Joueur & joueur = game.get_joueur(game.joueur_actif());
+    while (total_stock(joueur.getGemmes()) > 10)
+         try{
+                            demanderCouleurJeton(total_stock(joueur.getGemmes())-10);
+         }
+         catch (const SplendorException& ex) {
+                            QMessageBox::information(parentWidget, "Exception", ex.what());
+         }
+
+
+
+    update_info();
+
+    game.fin_tour();
+
+    if(game.joueur_actif()==1)    {
+
+
+         partie->joueurActif("Joueur 1");
+
+    }
+    else {
+
+         partie->joueurActif("Joueur 2");
+    }
+
+
+
+   } catch (const SplendorException& ex) {
          // Exception caught, display a QMessageBox with the exception message
          QMessageBox::information(parentWidget, "Exception", ex.what());
-            }
     }
 
 
@@ -395,35 +801,7 @@ void BoutonManager::onPrendreJetonsClicked() {
     update_info();
 
 
-    plateauWidget->emptyJetons();
 
-
-   Joueur & joueur = game.get_joueur(game.joueur_actif());
-    while (total_stock(joueur.getGemmes()) > 10)
-            try{
-            demanderCouleurJeton(total_stock(joueur.getGemmes())-10);
-            }
-            catch (const SplendorException& ex) {
-            QMessageBox::information(parentWidget, "Exception", ex.what());
-            }
-
-
-
-    update_info();
-
-   game.fin_tour();
-
-    if(joueur1 == 1)    {
-
-            joueur1=0;
-            partie->joueurActif("Joueur 2");
-    }
-    else {
-
-            joueur1=1;
-            partie->joueurActif("Joueur 1");
-
-    }
 
 
 }

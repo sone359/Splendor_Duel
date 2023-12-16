@@ -26,6 +26,7 @@ HEADERS += \
     ../Back/pyramidewidget.h \
     ../Back/sac.h \
     ../Back/stockGemmes.h \
+    ../Console/interfaceConsole.h \
     BoutonManager.h \
     MenuWindow.h \
     PartieWidget.h \
