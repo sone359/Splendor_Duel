@@ -24,16 +24,13 @@ class Pyramide {
     void operator=(Pyramide& p)=delete;
     Pyramide(Pyramide& p)=delete;
     //et instance
-    static Pyramide *  instance;//l'instance sera finalement locale a getpyramide(), ce qui ne change rien a son 
-    //cycle de vie et plus adapte puisqu'on veut que l'instance ne soit creee que quand partie est prete cad qd les
-    //cartes sont recuperees et que partie appelle le getter de pyramide pour la 1ere fois
-    
+    static Pyramide *  instance;
+    //utiles pour l'affichage quand il y a moins de cartes/ligne
+    unsigned int cartesRestantes1=5,cartesRestantes2=4,cartesRestantes3=3;
     //ENLEVER//pour pouvoir separer le constructeur de getInstance pcq il prend des arguments un bool permet de verif l'init
     //ENLEVERbool init=false;
 
     public :
-    //appelee pour init l'instance par getinstance(cartes)
-    static void initialiser(std::vector<CarteJoaillerie > jeu);
     //instance accessible par Partie
     static Pyramide* getInstance();
     static Pyramide* getInstance(std::vector<CarteJoaillerie> cartes);
@@ -47,7 +44,7 @@ class Pyramide {
     CarteJoaillerie recupererCarteJoaillerie(int numeroLigne, int numeroColonne);
     void afficherPyramide();
     std::stack<CarteJoaillerie> & getPioche(int niveau);
-    //Pyramide();
+    unsigned int getCartesRestantes(unsigned int niveau)const;
 };
 
 

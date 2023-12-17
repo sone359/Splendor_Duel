@@ -27,6 +27,7 @@ int main()
     //std::cout<<CarteJoaillerie("3;3;1;none;0;0,0,0,8,0,0;rejouer,couleur;niveau3(3)");
 
     //Partie* game = Partie::get_partie();
+    //game->get_pyramide().afficherPyramide();
     //Partie("../data/sauvegarde");
     InterfaceConsole ic;
     ic.main();

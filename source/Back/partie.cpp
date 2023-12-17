@@ -43,9 +43,7 @@ Partie::~Partie(){
 Partie::Partie()
 {
     tour=0;
-    //pour des questions de dépendances entre les objets statiques il faut initialiser cartes dès le constructeur
-    //std::vector<CarteJoaillerie> c(67,CarteJoaillerie());
-    //cartes=c;
+    plateau= Plateau::get_plateau();
     //Remplissage du sac. Il est effectue ici plutot que directement dans Sac dans le cas ou une extension ajouterait des jetons differents
     for(unsigned int i = 0 ; i < 4 ; i++){
         sac.ajouter_jeton(Bleu);
@@ -164,20 +162,20 @@ void Partie::utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned in
         //throw SplendorException(std::format("La case ({}, {}) n'existe pas, impossible d'y retirer un jeton", coor_jeton[0], coor_jeton[1]));
         throw SplendorException("La case (" + std::to_string(colonne) + ", "  + std::to_string(ligne) + ") n'existe pas, impossible d'y retirer un jeton\n");
     }
-    if (plateau[colonne][ligne] == Nul)
+    if ((*plateau)[colonne][ligne] == Nul)
     {
         //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
         //throw SplendorException(std::format("La case ({}, {}) est vide, impossible d'y retirer un jeton", coor_jeton[0], coor_jeton[1]));
         throw SplendorException("La case (" + std::to_string(colonne) + ", "  + std::to_string(ligne) + ") est vide, impossible d'y retirer un jeton\n");
     }
-    if (plateau[colonne][ligne] == Or)
+    if ((*plateau)[colonne][ligne] == Or)
     {
         //Plus rapide et plus sûr mais n'a été ajouté qu'à partir de c++ 20 (qui ne semble pas supporté par le compilateur par défaut de Code Blocks)
         //throw SplendorException(std::format("Case {} invalide : L'or ne peut pas être retiré avec cette action", coor_jeton));
         throw SplendorException("Case (" + std::to_string(colonne) + ", "  + std::to_string(ligne) + ") invalide : L'or ne peut pas etre retire avec cette action\n");
     }
 
-    joueur.setGemmes(joueur.getGemmes().ajouter_jeton(plateau.retirerJeton({colonne, ligne})));
+    joueur.setGemmes(joueur.getGemmes().ajouter_jeton(plateau->retirerJeton({colonne, ligne})));
 
     joueur.setNbPrivileges(joueur.getNbPrivileges() - 1);
 }
@@ -185,12 +183,12 @@ void Partie::utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned in
 std::vector<std::array<unsigned int, 2>> Partie::remplir_plateau(Joueur& joueur)
 {
     //Verification que le plateau n'est pas vide
-    if(plateau.get_nbCasesVides() == 0) {throw SplendorException("Le plateau est deja plein, impossible de le remplir");}
+    if(plateau->get_nbCasesVides() == 0) {throw SplendorException("Le plateau est deja plein, impossible de le remplir");}
 
     //Initialisation de la liste des coordonnees des cases modifiees a renvoyer
     std::vector<std::array<unsigned int, 2>> coordonnees_modif;
 
-        while ((plateau.get_nbCasesVides() > 0) && (total_stock(sac.get_gemmes())))
+        while ((plateau->get_nbCasesVides() > 0) && (total_stock(sac.get_gemmes())))
         {
             coordonnees_modif.push_back(remplir_case());
         }
@@ -204,13 +202,13 @@ std::vector<std::array<unsigned int, 2>> Partie::remplir_plateau(Joueur& joueur)
 
 std::array<unsigned int, 2> Partie::remplir_case()
 {
-    return plateau.ajouterJeton(sac.retirer_jeton());
+    return plateau->ajouterJeton(sac.retirer_jeton());
 }
 
 void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2, const std::array<unsigned int, 2>& coor_jeton3)
 {
     Joueur& joueur = get_joueur(joueur_actif());
-    StockGemmes stock = plateau.actionRetirerJetons(coor_jeton1, coor_jeton2, coor_jeton3);
+    StockGemmes stock = plateau->actionRetirerJetons(coor_jeton1, coor_jeton2, coor_jeton3);
     if(stock.get_Bleu() == 3 || stock.get_Vert() == 3 || stock.get_Blanc() == 3 || stock.get_Rouge() == 3 || stock.get_Noir() == 3 || stock.get_Perle() == 2)
     {
         prend_privilege(get_joueur(joueur_adverse()));
@@ -221,7 +219,7 @@ void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, cons
 void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2)
 {
     Joueur& joueur = get_joueur(joueur_actif());
-    StockGemmes stock = plateau.actionRetirerJetons(coor_jeton1, coor_jeton2);
+    StockGemmes stock = plateau->actionRetirerJetons(coor_jeton1, coor_jeton2);
     if(stock.get_Perle() == 2)
     {
         prend_privilege(get_joueur(joueur_adverse()));
@@ -232,13 +230,13 @@ void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton1, cons
 void Partie::retirer_jetons(const std::array<unsigned int, 2>& coor_jeton)
 {
     Joueur& joueur = get_joueur(joueur_actif());
-    joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetons(coor_jeton));
+    joueur.setGemmes(joueur.getGemmes() + plateau->actionRetirerJetons(coor_jeton));
 }
 
 void Partie::retirer_jetons_or(const std::array<unsigned int, 2>& coor_jeton)
 {
     Joueur& joueur = get_joueur(joueur_actif());
-    joueur.setGemmes(joueur.getGemmes() + plateau.actionRetirerJetonsOr(coor_jeton));
+    joueur.setGemmes(joueur.getGemmes() + plateau->actionRetirerJetonsOr(coor_jeton));
 }
 
 void Partie::remettre_jeton(Jeton jeton)
@@ -290,6 +288,7 @@ CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
 }
 
 void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
+    if(joueur.getCartesJoailleriesReservees().size()==3) throw SplendorException("Impossible de reserver plus de 3 cartes.\n");
     CarteJoaillerie piochee = pyramide->reserverCarteJoaillerie(niv,colonne);
     joueur.addCartesJoailleriesReservees(piochee);
 }
@@ -319,14 +318,14 @@ int Partie::lire_fichier(const char* fichier){
         // fermeture du fichier
         inputFile.close();
         
-        ////melanger les cartes:
-        //std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
+        //melanger les cartes:
+        std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
 
         //verif
-        //for(CarteJoaillerie  carte : cartes){
-        //    std::cout<<carte<<std::endl;
-        //    std::cout<<carte.getChemin()<<'\n';
-        //}
+        for(CarteJoaillerie  carte : cartes){
+            std::cout<<carte<<std::endl;
+            std::cout<<carte.getChemin()<<'\n';
+        }
         return 0;
     }
 
@@ -368,53 +367,15 @@ int Partie::sauvegarder()const{
             fsauvegarde<<pyramide->recupererCarteJoaillerie(3,i).sauvegarder();
         }
     //joueurs
-    fsauvegarde<<"{\n";
-    ////cartes possedees
-    for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesPossedees()){
-        fsauvegarde<<cartes.sauvegarder();
-        
-    }
-    fsauvegarde<<'\n';
-    ////jetons
-    fsauvegarde<<joueur1.getGemmes().sauvegarder()<<'\n';
-    ////cartes reservees
-    for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesReservees()){
-        fsauvegarde<<cartes.sauvegarder();
-        
-    }
-    fsauvegarde<<'\n';
-    ////couronnes
-    fsauvegarde<<joueur1.getNbCouronnes()<<';';
-    ////privileges
-    fsauvegarde<<joueur1.getNbPrivileges()<<";";
-    ////points prestige
-    fsauvegarde<<joueur1.getPointsPrestigeCouleur().sauvegarder();
-    fsauvegarde<<"\n}";
-    fsauvegarde<<"{\n";
-    ////cartes possedees
-    for(CarteJoaillerie cartes : joueur2.getCartesJoailleriesPossedees()){
-        fsauvegarde<<cartes.sauvegarder();
-        
-    }
-    ////jetons
-    fsauvegarde<<joueur2.getGemmes().sauvegarder();
-    ////cartes reservees
-    for(CarteJoaillerie cartes : joueur2.getCartesJoailleriesReservees()){
-        fsauvegarde<<cartes.sauvegarder();
-        
-    }
-    ////couronnes
-    fsauvegarde<<joueur2.getNbCouronnes()<<';';
-    ////privileges
-    fsauvegarde<<joueur2.getNbPrivileges()<<";";
-    ////points prestige
-    fsauvegarde<<joueur2.getPointsPrestigeCouleur().sauvegarder();
-    fsauvegarde<<"\n}\n";
+    fsauvegarde<<joueur1.sauvegarder();
+    fsauvegarde<<joueur2.sauvegarder();
+    fsauvegarde<<"\n";
     //jetons du sac
     fsauvegarde<<sac.get_gemmes().sauvegarder();
-    //jetons du plateau
     //joueur actif
-    fsauvegarde<<joueur_actif();
+    fsauvegarde<<tour<<'\n';
+    //jetons du plateau
+    fsauvegarde<<plateau->sauvegarder();
     fsauvegarde.close();
     std::cout<<"saved!\n";
     return 0;
@@ -459,19 +420,131 @@ Partie::Partie(const std::string fichier){
             cartes.push_back(CarteJoaillerie(line));
             cartes_lues++;
         }
-        std::getline(inputFile, line);
-        while(!inputFile.eof()){//Joueur
-            std::getline(inputFile,line);
+        std::vector<CarteJoaillerie> cartesPossedeestemp;
+        std::deque<CarteJoaillerie> cartesReserveestemp;
+
+        //std::cout<<"------LECTURE JOUEUR1-------\n";
+        while(!inputFile.eof()){//Joueur1
+            std::getline(inputFile, line);
+            //std::cout<<"cartes possedees :" <<line<<'\n';
+            if(line=="\0") {
+                break;
+            }
+            cartesPossedeestemp.push_back(CarteJoaillerie(line));
+            cartes_lues++;
         }
+        std::getline(inputFile,line);
+        std::istringstream iss(line);
+        std::string token,token1;
+
+        if (std::getline(iss, token, ';')) {
+            //std::cout<<"jetons :" <<token<<'\n';
+
+            joueur1.setGemmes(StockGemmesOr(token));
+        }
+        while(!inputFile.eof()){
+            std::getline(inputFile, line);
+            //std::cout<<"cartes reservees :" <<line<<'\n';
+            if(line=="\0") {
+                break;
+            }
+            cartesReserveestemp.push_back(CarteJoaillerie(line));
+            cartes_lues++;
+        }
+        joueur1.setCartesJoailleriesReservees(cartesReserveestemp);
+        joueur1.setCartesJoailleriesPossedees(cartesPossedeestemp);
+        std::getline(inputFile,line);
+        //std::cout<<"where1 :" <<line<<'\n';
+        iss.clear();
+        iss.str(line);
+        if (std::getline(iss, token, ';')) {
+            //std::cout<<"couronnes :" <<token<<'\n';
+            joueur1.setNbCouronnes(stoi(token));
+            //std::cout<<"  "<<token<<"\n";
+        }
+        if (std::getline(iss, token, ';')) {
+            //std::cout<<"privileges :" <<token<<'\n';
+            joueur1.setNbPrivileges(stoi(token));
+            //std::cout<<"  "<<token<<"\n";
+        }
+        if (std::getline(iss, token, ';')) {
+            joueur1.setPointsPrestigeCouleur(StockGemmes(token));
+        }
+
+        std::getline(inputFile, line);
+        cartesPossedeestemp.clear();
+        cartesReserveestemp.clear();
+
+        //std::cout<<"------LECTURE JOUEUR2-------\n";
+
+        while(!inputFile.eof()){//Joueur2
+            std::getline(inputFile, line);
+            //std::cout<<"cartes possedees :" <<line<<'\n';
+            if(line=="\0") {
+                break;
+            }
+            cartesPossedeestemp.push_back(CarteJoaillerie(line));
+            cartes_lues++;
+        }
+        std::getline(inputFile,line);
+        iss.clear();
+        iss.str(line);
+        if (std::getline(iss, token, ';')) {
+            //std::cout<<"jetons :" <<token<<'\n';
+            joueur2.setGemmes(StockGemmesOr(token));
+        }
+        while(!inputFile.eof()){
+            std::getline(inputFile, line);
+            //std::cout<<"cartes reservees :" <<line<<'\n';
+            if(line=="\0") {
+                break;
+            }
+            cartesReserveestemp.push_back(CarteJoaillerie(line));
+            cartes_lues++;
+        }
+        joueur2.setCartesJoailleriesReservees(cartesReserveestemp);
+        joueur2.setCartesJoailleriesPossedees(cartesPossedeestemp);
+        std::getline(inputFile,line);
+        //std::cout<<"where1 :" <<line<<'\n';
+        iss.clear();
+        iss.str(line);
+        if (std::getline(iss, token, ';')) {
+            //std::cout<<"couronnes :" <<token<<'\n';
+            joueur2.setNbCouronnes(stoi(token));
+            //std::cout<<"  "<<token<<"\n";
+        }
+        if (std::getline(iss, token, ';')) {
+            //std::cout<<"privileges :" <<token<<'\n';
+            joueur2.setNbPrivileges(stoi(token));
+            //std::cout<<"  "<<token<<"\n";
+        }
+        if (std::getline(iss, token, ';')) {
             
-        
+            joueur2.setPointsPrestigeCouleur(StockGemmes(token));
+        }
+        std::getline(inputFile,line);
+        std::getline(inputFile,line);
+        //std::cout<<"line3 :"<<line<<"\n";
+        iss.clear();
+        iss.str(line);
+        if (std::getline(iss, token, ';')) {
+            
+            sac.ajouter_stock(StockGemmesOr(token));
+            //std::cout<<token<<"toksac\n";
+
+        }
+        if (std::getline(iss, token, ';')) {//tour
+            tour=stoi(token);
+            //std::cout<<token<<"toktour\n";
+        }
+        std::getline(inputFile,line);
+        plateau=Plateau::get_plateau(line);
         // fermeture du fichier
         inputFile.close();
         
         pyramide = Pyramide::getInstance(cartes);
         //pyramide->afficherPyramide();
         
-
         ////verif
         //for(CarteJoaillerie  carte : cartes){
         //    std::cout<<carte<<std::endl;

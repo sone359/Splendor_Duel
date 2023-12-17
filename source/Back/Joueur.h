@@ -65,9 +65,13 @@ public:
     void addCartesJoailleriesReservees(CarteJoaillerie & carte);
     void addCartesRoyalesPossedees(CarteRoyale & carte);
     void addBonus(const CarteJoaillerie& carte);
+    void addPrestige(const CarteJoaillerie& carte);
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);
+    void setPointsPrestigeCouleur(const StockGemmes& pp){PointsPrestigeCouleurs=pp;}
+
+    std::string sauvegarder()const;
 
     int verifVictoire();
 

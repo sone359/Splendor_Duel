@@ -11,7 +11,8 @@ class Plateau
 public :
 
     //M�thodes statiques suivant le design pattern Singleton
-    static Plateau& get_plateau();
+    static Plateau* get_plateau();
+    static Plateau* get_plateau(std::string line);
     static void delete_plateau();
 
     std::array<unsigned int, 2> ajouterJeton(Jeton jeton);
@@ -20,6 +21,7 @@ public :
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1, const std::array<unsigned int, 2>& coor_jeton2);
     StockGemmes actionRetirerJetons(const std::array<unsigned int, 2>& coor_jeton1);
     StockGemmesOr actionRetirerJetonsOr(const std::array<unsigned int, 2>& coor_jeton1);
+    std::string sauvegarder()const;
 
     //Getter
     unsigned int get_nbCasesVides() const {return nbCasesVides;};
@@ -30,6 +32,7 @@ public :
 protected:
     static Plateau* plateau;
     Plateau() = default;
+    Plateau(std::string s);
     Plateau(const Plateau&);
     virtual ~Plateau();
     void operator=(const Plateau&);

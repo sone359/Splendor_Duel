@@ -15,6 +15,7 @@ class StockGemmes
 
         // Constructeurs
         StockGemmes(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0);
+        explicit StockGemmes(std::string s);//explicit
         // Constructeur de recopie
         StockGemmes(const StockGemmes& autre) : StockGemmes(autre.get_Bleu(), autre.get_Vert(), autre.get_Blanc(), autre.get_Rouge(), autre.get_Noir(), autre.get_Perle()){};
 
@@ -70,6 +71,7 @@ public:
 
     //Constructeur par defaut
     StockGemmesOr(unsigned int bleu = 0, unsigned int vert = 0, unsigned int blanc = 0, unsigned int rouge = 0, unsigned int noir = 0, unsigned int perle = 0, unsigned int jaune = 0);
+    explicit StockGemmesOr(std::string s);
     //Getters
     unsigned int get_Or() const {return jeton_or;};
     //Setters

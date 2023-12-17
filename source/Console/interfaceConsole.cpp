@@ -95,7 +95,7 @@ bool InterfaceConsole::deroulement_tour()
 
     //Remplissage optionnel du plateau
     bool fin_remplissage = (partie->get_plateau().get_nbCasesVides() == 0);
-    while(!fin_remplissage)
+    while(!fin_remplissage && !partie->sac_vide())
     {
         std::cout << "Souhaitez-vous remplir le plateau (cela donnera un privilege a votre adversaire) ? (oui/non)" << std::endl;
         std::string reponse;
@@ -307,8 +307,12 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     afficherPlateau(); //Nouvel affichage du plateau pour permettre au joueur de plus facilement choisir son jeton Or
     std::cout << "Entrez la colonne du jeton Or a retirer : ";
     std::cin >> colonne_jeton;
-    std::cout << "Entrez la ligne du jeton Or a retirer : ";
+    std::cout << "Entrez la ligne du jeton Or a retirer (ou un nombre qui ne correspond à aucune ligne pour retourner au choix des actions) : ";
     std::cin >> ligne_jeton;
+    if(ligne_jeton<0 || colonne_jeton<0 ||ligne_jeton>4 ||colonne_jeton>4){
+        std::cout<< "\nCes coordonnees ne sont pas valides. Retour au menu.\n\n";
+        return false;
+    }
 
     //Saisie des coordonnees de la carte a reserver
     afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
@@ -343,8 +347,12 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
     if(reponse == "non"){
         afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
         //Saisie des coordonnees de la carte a reserver
-        std::cout << "Entrez le niveau de la carte que vous souhaitez acheter : ";
+        std::cout << "Entrez le niveau de la carte que vous souhaitez acheter (ou un nombre superieur a 3 pour retourner au choix des actions): ";
         std::cin >> niveau_carte;
+        if(niveau_carte<=0 || niveau_carte>3){
+            std::cout<< "\nLe niveau est compris entre 1 et 3. Retour au menu.\n\n";
+            return false;
+        }
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3)  : ";
         std::cin >> num_carte;
         //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
@@ -637,10 +645,10 @@ void InterfaceConsole::gestion_effets(CarteRoyale& carte)
 
 void InterfaceConsole::afficherPyramide() const{
     std::cout<<"-------------------------PYRAMIDE--------------------------\n";
-    for(int j=3;j>=1;j--){
-        for(int l=1;l<8;l++){
+    for(int j=3;j>=1;j--){//niveau
+        for(int l=1;l<8;l++){//ligne de la carte
             for(int p=0;p<j*4;p++)std::cout<<" ";
-            for (int i = 1; i <= 6-j; i++)
+            for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
                 std::cout<<' ';

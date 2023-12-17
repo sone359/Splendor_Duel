@@ -2,13 +2,13 @@
 
 Plateau* Plateau::plateau = nullptr;
 
-Plateau& Plateau::get_plateau()
+Plateau* Plateau::get_plateau()
 {
     if (plateau == nullptr)
     {
         plateau = new Plateau;
     }
-    return *plateau;
+    return plateau;
 }
 
 void Plateau::delete_plateau()
@@ -234,4 +234,41 @@ void Plateau::addStock(StockGemmes& stock, const std::array<unsigned int, 2>& co
 {
     Jeton jeton_retire = retirerJeton(coor_jeton);
     stock.ajouter_jeton(jeton_retire);
+}
+
+std::string Plateau::sauvegarder()const{
+    std::stringstream s;
+    for(std::array<unsigned int, 2> coord : ordre_cases){
+        s<<matrice[coord[0]][coord[1]]<<",";
+    }
+    s<<';';
+    s<<nbCasesVides;
+    return s.str();
+}
+
+Plateau* Plateau::get_plateau(std::string line){
+    if (plateau == nullptr)
+    {
+        plateau = new Plateau(line);
+    }
+    return plateau;
+}
+
+
+Plateau::Plateau(std::string line){
+    //std::cout<<"\n------LECTURE PLAT----------\n"<<line;
+    std::istringstream iss(line);
+    //std::cout<<"line"<<line<<'\n';
+    std::string token,token1;
+    std::getline(iss, token, ';');
+    //std::cout<<"token"<<token<<'\n';
+    std::istringstream iss1(token);
+    for(std::array<unsigned int, 2> coord : ordre_cases){
+        if (std::getline(iss1, token1, ',')) {
+            //std::cout<<"token1"<<token1<<'\n';
+            matrice[coord[0]][coord[1]]=Jeton(stoi(token1));
+        }
+    }
+    std::getline(iss,token,';');
+    nbCasesVides=stoi(token);
 }

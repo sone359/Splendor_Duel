@@ -2,6 +2,57 @@
 
 //Méthodes publiques de la classe StockGemmes
 
+StockGemmes::StockGemmes(std::string s){
+    std::istringstream iss1(s);
+    std::string token1;
+    if (std::getline(iss1, token1, ',')) {
+        set_Blanc(stoi(token1));
+        //std::cout<<"\n->"<<token1<<"<-\n";
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Bleu(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Vert(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Rouge(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Noir(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Perle(stoi(token1));
+    }
+}
+
+StockGemmesOr::StockGemmesOr(std::string s){
+    std::istringstream iss1(s);
+    std::string token1;
+    if (std::getline(iss1, token1, ',')) {
+        set_Blanc(stoi(token1));
+        //std::cout<<"\n->"<<token1<<"<-\n";
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Bleu(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Vert(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Rouge(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Noir(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Perle(stoi(token1));
+    }
+    if (std::getline(iss1, token1, ',')) {
+        set_Or(stoi(token1));
+    }
+}
+
 StockGemmes& StockGemmes::ajouter_jeton(Jeton jeton)
 {
     switch (jeton)

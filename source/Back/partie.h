@@ -28,7 +28,7 @@ public :
     void initCartes();
 
     unsigned int joueur_actif()const {return (tour%2)+1;};
-    unsigned int joueur_adverse()const {return (joueur_actif()+1)%2+1;};
+    unsigned int joueur_adverse()const {return 2-(tour%2);};
     void prend_privilege(Joueur& joueur);
     void utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned int ligne);
     std::vector<std::array<unsigned int, 2>> remplir_plateau(Joueur& joueur);
@@ -49,7 +49,7 @@ public :
     void chargerPartie(const std::string chemin);
     
     //Getters
-    Plateau& get_plateau() const {return plateau;};
+    Plateau& get_plateau() const {return *plateau;};
     Sac& get_sac() const {return sac;};
     Pyramide& get_pyramide() const {return *pyramide;};
     Joueur& get_joueur(unsigned int num_joueur);
@@ -60,6 +60,8 @@ public :
     Partie(std::string s);
     ~Partie();
 
+    bool sac_vide(){return sac.get_gemmes().total_gemmes()==0;}
+
 protected:
     static Partie* partie;
     Partie();
@@ -68,7 +70,7 @@ protected:
     void operator=(const Partie&);
 
 private:
-    Plateau& plateau = Plateau::get_plateau();
+    Plateau* plateau ;//= Plateau::get_plateau();
     Sac& sac = Sac::get_sac();
     Pyramide* pyramide;// = Pyramide::getInstance();
     Joueur joueur1;

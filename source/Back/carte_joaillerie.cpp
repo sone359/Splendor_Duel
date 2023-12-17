@@ -66,7 +66,7 @@ CarteJoaillerie::CarteJoaillerie(std::string line){
                         if(token1=="privilege") capacite.push_back(Effet(1));;
                         if(token1=="couleur") capacite.push_back(Effet(2));
                         if(token1=="gemme") capacite.push_back(Effet(3));
-                        if(token1=="sans") capacite.push_back(Effet(5));
+                        if(token1=="none") capacite.push_back(Effet(5));
                     }
                    
                 }
@@ -120,7 +120,7 @@ std::string CarteJoaillerie::sauvegarder()const{
                 s<<"voler";
             }
             else if (get_capacite()[repeat-1]==sans) {
-                s<<"sans";
+                s<<"none";
             }
             repeat--;
             if (repeat) s<<',';

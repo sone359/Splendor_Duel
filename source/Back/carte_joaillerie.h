@@ -22,7 +22,7 @@ private:
 
 public:
     CarteJoaillerie(){};
-    CarteJoaillerie(std::string ligne);
+    explicit CarteJoaillerie(std::string ligne);
     CarteJoaillerie(int n,int p,int d,StockGemmes color, int cr, StockGemmes prix, std::vector<Effet> e,std::string ch) :
     cout(prix), niveau(n), pointsPrestige(p), nombreBonus(d), typeBonus(color),couronnes(cr), capacite(e), cheminImage(ch){};
     int get_niveau() const{
