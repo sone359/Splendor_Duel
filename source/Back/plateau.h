@@ -32,7 +32,7 @@ public :
 protected:
     static Plateau* plateau;
     Plateau() = default;
-    Plateau(std::string s);
+    explicit Plateau(std::string s);
     Plateau(const Plateau&);
     virtual ~Plateau();
     void operator=(const Plateau&);

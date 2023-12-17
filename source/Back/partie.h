@@ -57,12 +57,12 @@ public :
     unsigned int get_privileges_disponibles() const {return privileges_disponibles;};
 
     //Pas de setters
-    Partie(std::string s);
     ~Partie();
 
     bool sac_vide(){return sac.get_gemmes().total_gemmes()==0;}
 
 protected:
+    explicit Partie(std::string s);
     static Partie* partie;
     Partie();
     Partie(const Partie&);
