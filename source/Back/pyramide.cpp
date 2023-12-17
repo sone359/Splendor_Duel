@@ -5,6 +5,7 @@
 
 Pyramide* Pyramide::instance = nullptr;
 
+//Pyramide::Pyramide(){ligne1.resize(5);ligne2.resize(4);ligne3.resize(3);};
 
     Pyramide::Pyramide(std::vector<CarteJoaillerie> cartes){
         ligne1.resize(5);  
@@ -27,16 +28,12 @@ Pyramide* Pyramide::instance = nullptr;
         for(int i =1; i<4 ;i++){
             piocherCarteJoaillerie(3,i);
         }
-
-
     }
 
     void Pyramide::initialiser(std::vector<CarteJoaillerie> cartes){
-        if (instance == nullptr) {
-            instance = new Pyramide(cartes);
-        } else {
-            std::cerr << "La pyramide a déjà été initialisée.\n" << std::endl;
-        }
+        //if (instance == nullptr) {
+        //    static Pyramide instance = new Pyramide(cartes);
+        //}
     }
 
 
@@ -44,6 +41,12 @@ Pyramide* Pyramide::instance = nullptr;
         if(instance==nullptr)//l'instance n'existe pas
             std::cerr<<"La pyramide doit d'abord être initialisee.\n"<<std::endl;
 
+        return instance;//renvoit l'instance
+    }
+    Pyramide* Pyramide::getInstance(std::vector<CarteJoaillerie> cartes){
+        //if(instance==nullptr)//l'instance n'existe pas
+            instance = new Pyramide(cartes);
+            //instance->afficherPyramide();
         return instance;//renvoit l'instance
     }
 

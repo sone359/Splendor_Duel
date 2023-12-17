@@ -1,4 +1,4 @@
-OBJS = main.o stockGemmes.o plateau.o sac.o pyramide.o Joueur.o Effet.o CarteRoyale.o partie.o interfaceConsole.o
+OBJS = main.o stockGemmes.o plateau.o sac.o pyramide.o Joueur.o Effet.o CarteRoyale.o partie.o interfaceConsole.o carte_joaillerie.o
 CC = g++ 
 
 test : $(OBJS)
@@ -33,6 +33,9 @@ partie.o : Back/partie.cpp Back/partie.h Back/stockGemmes.h tools.h Back/plateau
 
 interfaceConsole.o : Console/interfaceConsole.cpp Console/interfaceConsole.h Back/plateau.h Back/Joueur.h 
 	$(CC) -c Console/$*.cpp
+
+carte_joaillerie.o : Back/carte_joaillerie.cpp Back/carte_joaillerie.h
+	$(CC) -c Back/$*.cpp
 
 clean : 
 	rm -rf *.o

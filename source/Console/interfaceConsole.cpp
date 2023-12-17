@@ -13,7 +13,8 @@ void InterfaceConsole::main()
     while(reponse!="oui"){
         std::cin >> reponse;
         if(reponse == "non"){
-            std::cout<<"Nouvelle Partie.\n";
+            std::cout<<"Nouvelle partie\n";
+            partie = Partie::get_partie();
             break;
             }
         if(reponse != "oui")
@@ -22,42 +23,42 @@ void InterfaceConsole::main()
         }
         else
         {
-            partie.chargerPartie("../data/sauvegarde");
+            partie = Partie::get_partie("../data/sauvegarde");
         }
     }
     //pour test
-    //partie.get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,3));
-    //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
+    //partie->get_joueur(1).setGemmes(StockGemmesOr(2,2,3,0,0,0,3));
+    //partie->get_joueur(2).setGemmes(StockGemmesOr(1,1,0,0,1,1,3));
     while(deroulement_tour() == true && fin_partie == 0)
     {
-        fin_partie = partie.fin_tour();
+        fin_partie = partie->fin_tour();
     }
     if(fin_partie == 1)
     {
-        std::cout << "Le joueur " << partie.joueur_actif() << " a plus de 20 points de prestige en tout et remporte la partie ! Felicitations !" << std::endl;
+        std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 20 points de prestige en tout et remporte la partie ! Felicitations !" << std::endl;
     }
     else if(fin_partie == 2)
     {
-        std::cout << "Le joueur " << partie.joueur_actif() << " a plus de 10 couronnes et remporte la partie ! Felicitations !" << std::endl;
+        std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 couronnes et remporte la partie ! Felicitations !" << std::endl;
     }
     else if(fin_partie == 3)
     {
-        std::cout << "Le joueur " << partie.joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
+        std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
     }
-    else{partie.sauvegarder();}
+    else{partie->sauvegarder();}
 }
 
 bool InterfaceConsole::deroulement_tour()
 {
     //Affichage de l'etat de la partie
-    afficherJoueur(partie.joueur_adverse());
+    afficherJoueur(partie->joueur_adverse());
     afficherPyramide();
     afficherPlateau();
-    afficherJoueur(partie.joueur_actif());
+    afficherJoueur(partie->joueur_actif());
 
-    Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+    Joueur& joueur = partie->get_joueur(partie->joueur_actif());
 
-    std::cout << "\nTour " << partie.get_tour()+1 << ", au joueur " << partie.joueur_actif() << " de jouer !" << std::endl << std::endl;
+    std::cout << "\nTour " << partie->get_tour()+1 << ", au joueur " << partie->joueur_actif() << " de jouer !" << std::endl << std::endl;
 
     //Actions optionnelles
 
@@ -82,8 +83,8 @@ bool InterfaceConsole::deroulement_tour()
             std::cin >> ligne;
             try
             {
-                partie.utilise_privilege(joueur, colonne, ligne);
-                afficherJetonsPossedes(partie.joueur_actif());
+                partie->utilise_privilege(joueur, colonne, ligne);
+                afficherJetonsPossedes(partie->joueur_actif());
             }
             catch (const SplendorException& except) //Si une erreur liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
             {
@@ -93,7 +94,7 @@ bool InterfaceConsole::deroulement_tour()
     }
 
     //Remplissage optionnel du plateau
-    bool fin_remplissage = (partie.get_plateau().get_nbCasesVides() == 0);
+    bool fin_remplissage = (partie->get_plateau().get_nbCasesVides() == 0);
     while(!fin_remplissage)
     {
         std::cout << "Souhaitez-vous remplir le plateau (cela donnera un privilege a votre adversaire) ? (oui/non)" << std::endl;
@@ -108,7 +109,7 @@ bool InterfaceConsole::deroulement_tour()
         {
             try
             {
-                partie.remplir_plateau(joueur);
+                partie->remplir_plateau(joueur);
                 fin_remplissage = true;
             }
             catch (const SplendorException& except) //Si une erreur liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
@@ -158,26 +159,26 @@ bool InterfaceConsole::deroulement_tour()
     //Verification du nombre de jetons poss�d�s par le joueur actif
     while (total_stock(joueur.getGemmes()) > 10)
     {
-        afficherJetonsPossedes(partie.joueur_actif());
+        afficherJetonsPossedes(partie->joueur_actif());
         std::cout << "\nVous avez trop de jetons ! Entrez le type de jeton a remettre dans le sac (B, V, W, R, N, P ou O) : " << std::endl;
         std::string jeton_retire;
         std::cin >> jeton_retire;
         try
         {
             if(jeton_retire == "B" || jeton_retire == "b")
-                partie.remettre_jeton(Bleu);
+                partie->remettre_jeton(Bleu);
             else if(jeton_retire == "V" || jeton_retire == "v")
-                partie.remettre_jeton(Vert);
+                partie->remettre_jeton(Vert);
             else if(jeton_retire == "W" || jeton_retire == "w")
-                partie.remettre_jeton(Blanc);
+                partie->remettre_jeton(Blanc);
             else if(jeton_retire == "R" || jeton_retire == "r")
-                partie.remettre_jeton(Rouge);
+                partie->remettre_jeton(Rouge);
             else if(jeton_retire == "N" || jeton_retire == "n")
-                partie.remettre_jeton(Noir);
+                partie->remettre_jeton(Noir);
             else if(jeton_retire == "P" || jeton_retire == "p")
-                partie.remettre_jeton(Perle);
+                partie->remettre_jeton(Perle);
             else if(jeton_retire == "O" || jeton_retire == "o")
-                partie.remettre_jeton(Or);
+                partie->remettre_jeton(Or);
             else
                 std::cout << "Saisie invalide, merci de rentrer B, V, W, R, N, P ou O et d'appuyer sur la touche Entree de votre clavier" << std::endl;
         }
@@ -191,7 +192,7 @@ bool InterfaceConsole::deroulement_tour()
 
 void InterfaceConsole::afficherJetonsPossedes(unsigned int num_joueur) const
 {
-    Joueur& joueur = partie.get_joueur(num_joueur);
+    Joueur& joueur = partie->get_joueur(num_joueur);
     std::cout << "    " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
 }
 
@@ -205,7 +206,7 @@ void InterfaceConsole::afficherPlateau() const
         std::cout << "    " << i << " | ";
         for (int j = 0 ; j < 5 ; j++)
         {
-            switch (partie.get_plateau()[j][i])
+            switch (partie->get_plateau()[j][i])
             {
             case Nul:
                 std::cout << "- ";
@@ -266,7 +267,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
 
     if(nb_jetons == "1")
     {
-        partie.retirer_jetons({colonne1, ligne1});
+        partie->retirer_jetons({colonne1, ligne1});
         return true;
     }
     else
@@ -280,7 +281,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
 
         if(nb_jetons == "2")
         {
-            partie.retirer_jetons({colonne1, ligne1}, {colonne2, ligne2});
+            partie->retirer_jetons({colonne1, ligne1}, {colonne2, ligne2});
             return true;
         }
         else
@@ -292,7 +293,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
             std::cout << "Entrez la ligne du troisieme jeton a retirer : ";
             std::cin >> ligne3;
 
-            partie.retirer_jetons({colonne1, ligne1}, {colonne2, ligne2}, {colonne3, ligne3});
+            partie->retirer_jetons({colonne1, ligne1}, {colonne2, ligne2}, {colonne3, ligne3});
             return true;
         }
     }
@@ -316,11 +317,11 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     std::cout << "Entrez le numero de la carte que vous souhaitez reserver (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3) ou bien 0 si vous souhaitez reserver la carte non visible sur le dessus de la pioche du niveau choisi : ";
     std::cin >> num_carte;
 
-    //partie.reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
-    partie.retirer_jetons_or({colonne_jeton,ligne_jeton});
-    partie.reserver_carte(joueur, niveau_carte, num_carte);
+    //partie->reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
+    partie->retirer_jetons_or({colonne_jeton,ligne_jeton});
+    partie->reserver_carte(joueur, niveau_carte, num_carte);
     afficherPlateau();
-    afficherJoueur(partie.joueur_actif());
+    afficherJoueur(partie->joueur_actif());
 
     return true;
 }
@@ -347,7 +348,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3)  : ";
         std::cin >> num_carte;
         //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
-        gestion_effets(partie.acheter_carte(joueur, niveau_carte, num_carte));
+        gestion_effets(partie->acheter_carte(joueur, niveau_carte, num_carte));
         return true;
         //A voir s'il ne vaut pas mieux renvoyer l'effet, la carte achetee ou carrement ne pas faire de fonction en plus et tout mettre dans deroulement_tour
     }
@@ -356,7 +357,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (à partir de 1)  : ";
         std::cin >> num_carte;
         gestion_effets(joueur.acheterCarteReservee(num_carte));
-        //gestion_effets(partie.acheter_carte(joueur, niveau_carte, num_carte));
+        //gestion_effets(partie->acheter_carte(joueur, niveau_carte, num_carte));
         return true;
     }
 
@@ -364,7 +365,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
 
 void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 {
-    Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+    Joueur& joueur = partie->get_joueur(partie->joueur_actif());
 
     for(unsigned int pos = 0 ; pos < carte.get_capacite().size() ; pos++)
     {
@@ -373,7 +374,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
         case rejouer:
             {
                 std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
-                partie.ajouter_rejouer();
+                partie->ajouter_rejouer();
             }
             break;
 
@@ -382,7 +383,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                 bool continuer = true;
                 while (continuer == true)
                 {
-                    afficherJoueur(partie.joueur_actif());
+                    afficherJoueur(partie->joueur_actif());
                     std::cout << "Activation de l'effet Couleur de la carte ! Entrez le type de bonus que la carte achetee doit prendre (B, V, W, R ou N) (il doit correspondre a l'une de vos cartes) : " << std::endl;
                     std::string type_bonus;
                     std::cin >> type_bonus;
@@ -478,7 +479,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                 {
                     for (int j = 0 ; j < 5 ; j++)
                     {
-                        if (partie.get_plateau()[j][i] == type_carte)
+                        if (partie->get_plateau()[j][i] == type_carte)
                         {
                             present = true;
                             break;
@@ -501,10 +502,10 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                         std::cin >> colonne;
                         std::cout << "Entrez la ligne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ";
                         std::cin >> ligne;
-                        if(partie.get_plateau()[colonne][ligne] != type_carte)
+                        if(partie->get_plateau()[colonne][ligne] != type_carte)
                             std::cout << "Ce jeton n'est pas de la meme couleur que la carte que vous avez achetee !\n" << std::endl;
-                    } while (partie.get_plateau()[colonne][ligne] != type_carte);
-                    partie.retirer_jetons({colonne, ligne});
+                    } while (partie->get_plateau()[colonne][ligne] != type_carte);
+                    partie->retirer_jetons({colonne, ligne});
                 }
                 else{std::cout << "Aucun jeton du plateau ne correspond a la couleur de la carte que vous avez achetee, l'effet Gemme de la carte n'a pas pu etre active" << std::endl;}
             }
@@ -512,46 +513,46 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 
         case privilege:
             std::cout << "Activation de l'effet Privilege de la carte !" << std::endl;
-            partie.prend_privilege(joueur);
+            partie->prend_privilege(joueur);
             break;
 
         case voler:
             bool continuer = true;
             while (continuer == true)
             {
-                afficherJetonsPossedes(partie.joueur_adverse());
+                afficherJetonsPossedes(partie->joueur_adverse());
                 std::cout << "Activation de l'effet Voler de la carte ! Entrez le type de jeton a prendre a votre adversaire (B, V, W, R, N ou P) : " << std::endl;
                 std::string jeton_retire;
                 std::cin >> jeton_retire;
                 try{
                     if(jeton_retire == "B" || jeton_retire == "b")
                     {
-                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Bleu);
+                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
                         continuer = false;
                     }
                     else if(jeton_retire == "V" || jeton_retire == "v")
                     {
-                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Vert);
+                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
                         continuer = false;
                     }
                     else if(jeton_retire == "W" || jeton_retire == "w")
                     {
-                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Blanc);
+                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
                         continuer = false;
                     }
                     else if(jeton_retire == "R" || jeton_retire == "r")
                     {
-                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Rouge);
+                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
                         continuer = false;
                     }
                     else if(jeton_retire == "N" || jeton_retire == "n")
                     {
-                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Noir);
+                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
                         continuer = false;
                     }
                     else if(jeton_retire == "P" || jeton_retire == "p")
                     {
-                        partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Perle);
+                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
                         continuer = false;
                     }
                     else
@@ -568,59 +569,59 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
 
 void InterfaceConsole::gestion_effets(CarteRoyale& carte)
 {
-    Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+    Joueur& joueur = partie->get_joueur(partie->joueur_actif());
 
     switch (carte.getCapacite())
     {
     case rejouer:
         {
             std::cout << "Activation de l'effet Rejouer de la carte !" << std::endl;
-            partie.ajouter_rejouer();
+            partie->ajouter_rejouer();
         }
         break;
 
     case privilege:
         std::cout << "Activation de l'effet Privilege de la carte !" << std::endl;
-        partie.prend_privilege(joueur);
+        partie->prend_privilege(joueur);
         break;
 
     case voler:
         bool continuer = true;
         while (continuer == true)
         {
-            afficherJetonsPossedes(partie.joueur_adverse());
+            afficherJetonsPossedes(partie->joueur_adverse());
             std::cout << "Activation de l'effet Voler de la carte ! Entrez le type de jeton a prendre a votre adversaire (B, V, W, R, N ou P) : " << std::endl;
             std::string jeton_retire;
             std::cin >> jeton_retire;
             try{
                 if(jeton_retire == "B" || jeton_retire == "b")
                 {
-                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Bleu);
+                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
                     continuer = false;
                 }
                 else if(jeton_retire == "V" || jeton_retire == "v")
                 {
-                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Vert);
+                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
                     continuer = false;
                 }
                 else if(jeton_retire == "W" || jeton_retire == "w")
                 {
-                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Blanc);
+                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
                     continuer = false;
                 }
                 else if(jeton_retire == "R" || jeton_retire == "r")
                 {
-                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Rouge);
+                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
                     continuer = false;
                 }
                 else if(jeton_retire == "N" || jeton_retire == "n")
                 {
-                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Noir);
+                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
                     continuer = false;
                 }
                 else if(jeton_retire == "P" || jeton_retire == "p")
                 {
-                    partie.voler(joueur, partie.get_joueur(partie.joueur_adverse()), Perle);
+                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
                     continuer = false;
                 }
                 else
@@ -641,7 +642,7 @@ void InterfaceConsole::afficherPyramide() const{
             for(int p=0;p<j*4;p++)std::cout<<" ";
             for (int i = 1; i <= 6-j; i++)
             {
-                afficherCarteparligne(partie.get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
+                afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
                 std::cout<<' ';
             }
         std::cout<<'\n';
@@ -663,32 +664,63 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,
             os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
             return;
         case 4:
-            os<<"| ";
-            switch (c.get_capacite()[0])
-            {
-            case 0:
-                os<<"REJ";
-                break;
-            case 1:
-                os<<"PRV";
-                break;
-            case 2:
-                os<<"CLR";
-                break;
-            case 3:
-                os<<"GEM";
-                break;
-            case 4:
-                os<<"VOL";
-                break;
-            case 5:
-                os<<"   ";
-                break;
-            default :
-                throw SplendorException("Erreur capacite.\n");
-                break;
+            if (c.get_capacite().size()>=2){
+                os<<"|";
+                for(int ca : c.get_capacite()){
+                    switch (c.get_capacite()[ca])
+                    {
+                    case 0:
+                        os<<"REJ";
+                        break;
+                    case 1:
+                        os<<"PRV";
+                        break;
+                    case 2:
+                        os<<"CLR";
+                        break;
+                    case 3:
+                        os<<"GEM";
+                        break;
+                    case 4:
+                        os<<"VOL";
+                        break;
+                    case 5:
+                        os<<"   ";
+                        break;
+                    default :
+                        throw SplendorException("Erreur capacite.\n");
+                        break;
+                    }
+                }
+                os<<"|";
+            }else{
+                os<<"| ";
+                switch (c.get_capacite()[0])
+                {
+                case 0:
+                    os<<"REJ";
+                    break;
+                case 1:
+                    os<<"PRV";
+                    break;
+                case 2:
+                    os<<"CLR";
+                    break;
+                case 3:
+                    os<<"GEM";
+                    break;
+                case 4:
+                    os<<"VOL";
+                    break;
+                case 5:
+                    os<<"   ";
+                    break;
+                default :
+                    throw SplendorException("Erreur capacite.\n");
+                    break;
+                }
+                os<<"  |";
             }
-            os<<"  |";
         return;
         case 5:
             os<<"|BWVRNP|";
@@ -703,22 +735,19 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,
 }
 
 void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
-    size_t nbresa=partie.get_joueur(joueur).getCartesJoailleriesReservees().size();
-    size_t nbposs=partie.get_joueur(joueur).getCartesJoailleriesPossedees().size();
+    size_t nbresa=partie->get_joueur(joueur).getCartesJoailleriesReservees().size();
+    size_t nbposs=partie->get_joueur(joueur).getCartesJoailleriesPossedees().size();
     std::cout<<"------Joueur "<<joueur<<"---------------------------------------------------\n";
     std::cout<<"    Cartes Reservees \n";
-    for(CarteJoaillerie carte : partie.get_joueur(joueur).getCartesJoailleriesReservees()){
+    for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
         for(int l=1;l<8;l++){
-            for (int i = 1; i <= nbresa; i++)
-            {
                 afficherCarteparligne(carte,l,std::cout);
                 std::cout<<' ';
-            }
         std::cout<<'\n';
         }
     }
     std::cout<<"    Cartes Possedees \n";
-    for(CarteJoaillerie carte : partie.get_joueur(joueur).getCartesJoailleriesPossedees()){
+    for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
         for(int l=1;l<8;l++){
             for (int i = 1; i <= nbposs; i++)
             {
@@ -731,15 +760,15 @@ void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     std::cout<<"\n    Jetons Possedes \n";
     afficherJetonsPossedes(joueur);
     /*
-    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Bleu();i++) std::cout<<'B';
-    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Blanc();i++) std::cout<<'W';
-    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Vert();i++) std::cout<<'V';
-    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Rouge();i++) std::cout<<'R';
-    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Noir();i++) std::cout<<'N';
-    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Perle();i++) std::cout<<'P';
-    for (int i=0;i<partie.get_joueur(joueur).getGemmes().get_Or();i++) std::cout<<'O';
-    std::cout<<"\n"<<partie.get_joueur(joueur).getNbPrivileges()<<" privileges, ";
-    std::cout<<partie.get_joueur(joueur).getNbCouronnes()<<" couronnes\n";*/
+    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Bleu();i++) std::cout<<'B';
+    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Blanc();i++) std::cout<<'W';
+    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Vert();i++) std::cout<<'V';
+    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Rouge();i++) std::cout<<'R';
+    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Noir();i++) std::cout<<'N';
+    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Perle();i++) std::cout<<'P';
+    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Or();i++) std::cout<<'O';
+    std::cout<<"\n"<<partie->get_joueur(joueur).getNbPrivileges()<<" privileges, ";
+    std::cout<<partie->get_joueur(joueur).getNbCouronnes()<<" couronnes\n";*/
 
 
 

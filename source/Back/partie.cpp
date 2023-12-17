@@ -11,13 +11,21 @@
 //Methodes suivant le design pattern Singleton
 Partie* Partie::partie = nullptr;
 
-Partie& Partie::get_partie()
+Partie* Partie::get_partie()
 {
     if (partie == nullptr)
     {
         partie = new Partie;
     }
-    return *partie;
+    return partie;
+}
+Partie* Partie::get_partie(std::string s)
+{
+    if (partie == nullptr)
+    {
+        partie = new Partie(s);
+    }
+    return partie;
 }
 
 void Partie::delete_partie()
@@ -27,15 +35,17 @@ void Partie::delete_partie()
 }
 
 Partie::~Partie(){
+    delete pyramide;
 }
 
 
 //Constucteur
 Partie::Partie()
 {
+    tour=0;
     //pour des questions de dépendances entre les objets statiques il faut initialiser cartes dès le constructeur
-    std::vector<CarteJoaillerie> c(67,CarteJoaillerie());
-    cartes=c;
+    //std::vector<CarteJoaillerie> c(67,CarteJoaillerie());
+    //cartes=c;
     //Remplissage du sac. Il est effectue ici plutot que directement dans Sac dans le cas ou une extension ajouterait des jetons differents
     for(unsigned int i = 0 ; i < 4 ; i++){
         sac.ajouter_jeton(Bleu);
@@ -50,8 +60,8 @@ Partie::Partie()
         sac.ajouter_jeton(Or);
     }
     remplir_plateau(joueur1);
-
-
+//
+//
 try {
         lire_fichier("../data/info_cartejoaillerie");
         //std::cout<<"../data/info_cartejoaillerie";
@@ -69,9 +79,8 @@ try {
     }
 
 
-
-    Pyramide::initialiser(cartes);
-    pyramide = Pyramide::getInstance();
+    pyramide = Pyramide::getInstance(cartes);
+ //   pyramide->afficherPyramide();
 }
 
 void Partie::initCartes(){
@@ -295,13 +304,6 @@ int Partie::lire_fichier(const char* fichier){
         std::string line;
         //compte cartes
         int cartes_lues=0;
-        //var temp
-        int tempniveau, temppointsPrestige, tempnombreBonus, tempcouronnes, step;
-        Effet tempeffet;
-        std::vector<Effet> tempcapacite;
-        StockGemmes tempcout;
-        StockGemmes temptype;
-        std::string chemin;
         // saute les 2 1eres lignes
         std::getline(inputFile, line);
         std::getline(inputFile, line);
@@ -311,103 +313,16 @@ int Partie::lire_fichier(const char* fichier){
         while (!inputFile.eof()) {
             if (cartes_lues==67) break;
             std::getline(inputFile, line);
-
-            std::istringstream iss(line);
-            std::string token,token1;
-
-            if (std::getline(iss, token, ';')) {
-                tempniveau=stoi(token);
-                //std::cout<<tempniveau<<"  ";
-            }
-            if (std::getline(iss, token, ';')) {
-                temppointsPrestige=stoi(token);
-                //std::cout<<temppointsPrestige<<"  ";
-            }
-            if (std::getline(iss, token, ';')) {
-                tempnombreBonus=stoi(token);
-                //std::cout<<tempnombreBonus<<"\n";
-            }
-            if (std::getline(iss, token, ';')) {
-                if(token=="blanc") temptype.set_Blanc(1);
-                if(token=="bleu") temptype.set_Bleu(1);
-                if(token=="vert") temptype.set_Vert(1);
-                if(token=="rouge") temptype.set_Rouge(1);
-                if(token=="noir") {temptype.set_Noir(1);}
-                if(token=="perle") temptype.set_Perle(1);
-                //std::cout<<"       type :"<<temptype<<std::endl;
-            }
-            if (std::getline(iss, token, ';')) {
-                tempcouronnes=stoi(token);
-                //std::cout<<tempcouronnes<<"\n";
-            }
-            if (std::getline(iss, token, ';')) {
-                std::istringstream iss1(token);
-                //std::cout<<"\n->"<<token<<"<-\n";
-                if (std::getline(iss1, token1, ',')) {
-                    tempcout.set_Blanc(stoi(token1));
-                    //std::cout<<"\n->"<<token1<<"<-\n";
-                }
-                if (std::getline(iss1, token1, ',')) {
-                    tempcout.set_Bleu(stoi(token1));
-                }
-                if (std::getline(iss1, token1, ',')) {
-                    tempcout.set_Vert(stoi(token1));
-                }
-                if (std::getline(iss1, token1, ',')) {
-                    tempcout.set_Rouge(stoi(token1));
-                }
-                if (std::getline(iss1, token1, ',')) {
-                    tempcout.set_Noir(stoi(token1));
-                }
-                if (std::getline(iss1, token1, ',')) {
-                    tempcout.set_Perle(stoi(token1));
-                }
-                //std::cout<<"       cout :"<<tempcout<<std::endl;
-            }
-            if (std::getline(iss, token, ';')) {
-            //std::cout<<"    capacite :";
-            std::istringstream iss1(token);
-
-
-                if (std::getline(iss1, token1, ',')) {
-                    if(token1=="rejouer") tempeffet=Effet(0);
-                    if(token1=="voler") tempeffet=Effet(4);
-                    if(token1=="privilege") tempeffet=Effet(1);;
-                    if(token1=="couleur") tempeffet=Effet(2);
-                    if(token1=="gemme") tempeffet=Effet(3);
-                    if(token1=="none") tempeffet=Effet(5);
-                    //std::cout<<tempeffet<<"\n";
-                }
-                    tempcapacite.push_back(tempeffet);
-                if (std::getline(iss1, token1, ',')) {
-                    if(token1=="rejouer") tempeffet=Effet(0);
-                    if(token1=="voler") tempeffet=Effet(4);
-                    if(token1=="privilege") tempeffet=Effet(1);;
-                    if(token1=="couleur") tempeffet=Effet(2);
-                    if(token1=="gemme") tempeffet=Effet(3);
-                    if(token1=="none") tempeffet=Effet(5);
-                    //std::cout<<tempeffet<<"\n";
-                    tempcapacite.push_back(tempeffet);
-                }
-            }
-            if(std::getline(iss,token,';')){
-                chemin=token;
-            }
-            //ajouter à cartes
-            cartes[cartes_lues]=CarteJoaillerie(tempniveau,temppointsPrestige,tempnombreBonus,temptype,tempcouronnes,tempcout,tempcapacite,chemin);
-            //reset prochain tour
-            tempcapacite.clear();
-            tempcout=0;
-            temptype=0;
+            cartes.push_back(CarteJoaillerie(line));
             cartes_lues++;
         }
         // fermeture du fichier
         inputFile.close();
         
-        //melanger les cartes:
-        std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
+        ////melanger les cartes:
+        //std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
 
-        ////verif
+        //verif
         //for(CarteJoaillerie  carte : cartes){
         //    std::cout<<carte<<std::endl;
         //    std::cout<<carte.getChemin()<<'\n';
@@ -441,7 +356,7 @@ int Partie::sauvegarder()const{
             pyramide->getPioche(i).pop();
         }
     }
-    fsauvegarde<<'\n';
+    fsauvegarde<<"\n";
     //cartes de la pyramide
     for(int i =1; i<6 ;i++){
             fsauvegarde<<pyramide->recupererCarteJoaillerie(1,i).sauvegarder();
@@ -459,13 +374,15 @@ int Partie::sauvegarder()const{
         fsauvegarde<<cartes.sauvegarder();
         
     }
+    fsauvegarde<<'\n';
     ////jetons
-    fsauvegarde<<joueur1.getGemmes().sauvegarder();
+    fsauvegarde<<joueur1.getGemmes().sauvegarder()<<'\n';
     ////cartes reservees
     for(CarteJoaillerie cartes : joueur1.getCartesJoailleriesReservees()){
         fsauvegarde<<cartes.sauvegarder();
         
     }
+    fsauvegarde<<'\n';
     ////couronnes
     fsauvegarde<<joueur1.getNbCouronnes()<<';';
     ////privileges
@@ -492,7 +409,7 @@ int Partie::sauvegarder()const{
     fsauvegarde<<joueur2.getNbPrivileges()<<";";
     ////points prestige
     fsauvegarde<<joueur2.getPointsPrestigeCouleur().sauvegarder();
-    fsauvegarde<<"\n}";
+    fsauvegarde<<"\n}\n";
     //jetons du sac
     fsauvegarde<<sac.get_gemmes().sauvegarder();
     //jetons du plateau
@@ -503,7 +420,7 @@ int Partie::sauvegarder()const{
     return 0;
 }
 
-void Partie::chargerPartie(const std::string fichier){
+Partie::Partie(const std::string fichier){
     // ouverture du fichier de sauvegarde
     std::ifstream inputFile(fichier);
     if (!inputFile.is_open()) {
@@ -524,218 +441,40 @@ void Partie::chargerPartie(const std::string fichier){
         // saute les 2 1eres lignes
         std::getline(inputFile, line);
         std::getline(inputFile, line);
-        //pour ignorer la premiere ligne
-        bool isFirstLine = true;
-        //tant qu'on est pas a la fin du fichier
-        //while (!inputFile.eof()) {
             
-
-        while(line[0]!='}'&& !inputFile.eof()){//pioches
+        while(!inputFile.eof()){//pioches
             std::getline(inputFile, line);
-            std::istringstream iss(line);
-            std::string token,token1;
-            nbline++;
-            std::cout<<nbline<<" "<<line<<'\n';
-            if(line[0]!='{' && line[0]!='}'){
-                if (std::getline(iss, token, ';')) {
-                    tempniveau=stoi(token);
-                    //std::cout<<tempniveau<<"  ";
-                }
-                if (std::getline(iss, token, ';')) {
-                    temppointsPrestige=stoi(token);
-                    //std::cout<<temppointsPrestige<<"  ";
-                }
-                if (std::getline(iss, token, ';')) {
-                    tempnombreBonus=stoi(token);
-                    //std::cout<<tempnombreBonus<<"\n";
-                }
-                if (std::getline(iss, token, ';')) {
-                    if(token=="blanc") temptype.set_Blanc(1);
-                    if(token=="bleu") temptype.set_Bleu(1);
-                    if(token=="vert") temptype.set_Vert(1);
-                    if(token=="rouge") temptype.set_Rouge(1);
-                    if(token=="noir") {temptype.set_Noir(1);}
-                    if(token=="perle") temptype.set_Perle(1);
-                    //std::cout<<"       type :"<<temptype<<std::endl;
-                }
-                if (std::getline(iss, token, ';')) {
-                    tempcouronnes=stoi(token);
-                    //std::cout<<tempcouronnes<<"\n";
-                }
-                if (std::getline(iss, token, ';')) {
-                    std::istringstream iss1(token);
-                    //std::cout<<"\n->"<<token<<"<-\n";
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Blanc(stoi(token1));
-                        //std::cout<<"\n->"<<token1<<"<-\n";
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Bleu(stoi(token1));
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Vert(stoi(token1));
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Rouge(stoi(token1));
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Noir(stoi(token1));
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Perle(stoi(token1));
-                    }
-                    //std::cout<<"       cout :"<<tempcout<<std::endl;
-                }
-                if (std::getline(iss, token, ';')) {
-                //std::cout<<"    capacite :";
-                std::istringstream iss1(token);
-
-
-                    if (std::getline(iss1, token1, ',')) {
-                        if(token1=="rejouer") tempeffet=Effet(0);
-                        if(token1=="voler") tempeffet=Effet(4);
-                        if(token1=="privilege") tempeffet=Effet(1);;
-                        if(token1=="couleur") tempeffet=Effet(2);
-                        if(token1=="gemme") tempeffet=Effet(3);
-                        if(token1=="none") tempeffet=Effet(5);
-                        //std::cout<<tempeffet<<"\n";
-                    }
-                        tempcapacite.push_back(tempeffet);
-                    if (std::getline(iss1, token1, ',')) {
-                        if(token1=="rejouer") tempeffet=Effet(0);
-                        if(token1=="voler") tempeffet=Effet(4);
-                        if(token1=="privilege") tempeffet=Effet(1);;
-                        if(token1=="couleur") tempeffet=Effet(2);
-                        if(token1=="gemme") tempeffet=Effet(3);
-                        if(token1=="none") tempeffet=Effet(5);
-                        //std::cout<<tempeffet<<"\n";
-                        tempcapacite.push_back(tempeffet);
-                    }
-                }
-                if(std::getline(iss,token,';')){
-                    chemin=token;
-                }
-                //ajouter à cartes
-                cartes[cartes_lues]=CarteJoaillerie(tempniveau,temppointsPrestige,tempnombreBonus,temptype,tempcouronnes,tempcout,tempcapacite,chemin);
-                //reset prochain tour
-                tempcapacite.clear();
-                tempcout=0;
-                temptype=0;
-                cartes_lues++;
+            if(line=="\0") {
+                break;
             }
-        }
-        //melanger les cartes:
-        std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
-        std::getline(inputFile, line);
-        while(line[0]!='}'&& !inputFile.eof()){//Pyramide
-            std::cout<<"HI\n";
-            std::getline(inputFile, line);
-            std::istringstream iss(line);
-            std::string token,token1;
-            nbline++;
-            std::cout<<nbline<<" "<<line<<'\n';
-            if(line[0]!='{' && line[0]!='}'){
-                if (std::getline(iss, token, ';')) {
-                    tempniveau=stoi(token);
-                    //std::cout<<tempniveau<<"  ";
-                }
-                if (std::getline(iss, token, ';')) {
-                    temppointsPrestige=stoi(token);
-                    //std::cout<<temppointsPrestige<<"  ";
-                }
-                if (std::getline(iss, token, ';')) {
-                    tempnombreBonus=stoi(token);
-                    //std::cout<<tempnombreBonus<<"\n";
-                }
-                if (std::getline(iss, token, ';')) {
-                    if(token=="blanc") temptype.set_Blanc(1);
-                    if(token=="bleu") temptype.set_Bleu(1);
-                    if(token=="vert") temptype.set_Vert(1);
-                    if(token=="rouge") temptype.set_Rouge(1);
-                    if(token=="noir") {temptype.set_Noir(1);}
-                    if(token=="perle") temptype.set_Perle(1);
-                    //std::cout<<"       type :"<<temptype<<std::endl;
-                }
-                if (std::getline(iss, token, ';')) {
-                    tempcouronnes=stoi(token);
-                    //std::cout<<tempcouronnes<<"\n";
-                }
-                if (std::getline(iss, token, ';')) {
-                    std::istringstream iss1(token);
-                    //std::cout<<"\n->"<<token<<"<-\n";
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Blanc(stoi(token1));
-                        //std::cout<<"\n->"<<token1<<"<-\n";
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Bleu(stoi(token1));
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Vert(stoi(token1));
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Rouge(stoi(token1));
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Noir(stoi(token1));
-                    }
-                    if (std::getline(iss1, token1, ',')) {
-                        tempcout.set_Perle(stoi(token1));
-                    }
-                    //std::cout<<"       cout :"<<tempcout<<std::endl;
-                }
-                if (std::getline(iss, token, ';')) {
-                //std::cout<<"    capacite :";
-                std::istringstream iss1(token);
-
-
-                    if (std::getline(iss1, token1, ',')) {
-                        if(token1=="rejouer") tempeffet=Effet(0);
-                        if(token1=="voler") tempeffet=Effet(4);
-                        if(token1=="privilege") tempeffet=Effet(1);;
-                        if(token1=="couleur") tempeffet=Effet(2);
-                        if(token1=="gemme") tempeffet=Effet(3);
-                        if(token1=="none") tempeffet=Effet(5);
-                        //std::cout<<tempeffet<<"\n";
-                    }
-                        tempcapacite.push_back(tempeffet);
-                    if (std::getline(iss1, token1, ',')) {
-                        if(token1=="rejouer") tempeffet=Effet(0);
-                        if(token1=="voler") tempeffet=Effet(4);
-                        if(token1=="privilege") tempeffet=Effet(1);;
-                        if(token1=="couleur") tempeffet=Effet(2);
-                        if(token1=="gemme") tempeffet=Effet(3);
-                        if(token1=="none") tempeffet=Effet(5);
-                        //std::cout<<tempeffet<<"\n";
-                        tempcapacite.push_back(tempeffet);
-                    }
-                }
-                if(std::getline(iss,token,';')){
-                    chemin=token;
-                }
-                //ajouter à cartes
-                cartes[cartes_lues]=CarteJoaillerie(tempniveau,temppointsPrestige,tempnombreBonus,temptype,tempcouronnes,tempcout,tempcapacite,chemin);
-                //reset prochain tour
-                tempcapacite.clear();
-                tempcout=0;
-                temptype=0;
-                cartes_lues++;
-            }
+            cartes.push_back(CarteJoaillerie(line));
+            cartes_lues++;
         }
         std::getline(inputFile, line);
-        while(line[0]!='}'&& !inputFile.eof()){//Joueur
-            
+        while(!inputFile.eof()){//Pyramide
+            std::getline(inputFile, line);
+            if(line=="{\0") {
+                break;
+            }
+            cartes.push_back(CarteJoaillerie(line));
+            cartes_lues++;
+        }
+        std::getline(inputFile, line);
+        while(!inputFile.eof()){//Joueur
+            std::getline(inputFile,line);
         }
             
         
         // fermeture du fichier
         inputFile.close();
         
+        pyramide = Pyramide::getInstance(cartes);
+        //pyramide->afficherPyramide();
         
 
-        //verif
-        for(CarteJoaillerie  carte : cartes){
-            std::cout<<carte<<std::endl;
-            std::cout<<carte.getChemin()<<'\n';
-        }
+        ////verif
+        //for(CarteJoaillerie  carte : cartes){
+        //    std::cout<<carte<<std::endl;
+        //    std::cout<<carte.getChemin()<<'\n';
+        //}
 }

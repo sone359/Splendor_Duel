@@ -24,15 +24,19 @@ class Pyramide {
     void operator=(Pyramide& p)=delete;
     Pyramide(Pyramide& p)=delete;
     //et instance
-    static Pyramide * instance;
-    //pour pouvoir separer le constructeur de getInstance pcq il prend des arguments un bool permet de verif l'init
-    bool init=false;
+    static Pyramide *  instance;//l'instance sera finalement locale a getpyramide(), ce qui ne change rien a son 
+    //cycle de vie et plus adapte puisqu'on veut que l'instance ne soit creee que quand partie est prete cad qd les
+    //cartes sont recuperees et que partie appelle le getter de pyramide pour la 1ere fois
+    
+    //ENLEVER//pour pouvoir separer le constructeur de getInstance pcq il prend des arguments un bool permet de verif l'init
+    //ENLEVERbool init=false;
 
     public :
-    //appelee au debut du jeu pour init l'instance
+    //appelee pour init l'instance par getinstance(cartes)
     static void initialiser(std::vector<CarteJoaillerie > jeu);
     //instance accessible par Partie
     static Pyramide* getInstance();
+    static Pyramide* getInstance(std::vector<CarteJoaillerie> cartes);
     //acheter retourne la CarteJoaillerie achetée et la remplace ds la pyramide avec piocher
     CarteJoaillerie acheterCarteJoaillerie(int numeroLigne, int numeroColonne);
     //reserver retourne la CarteJoaillerie réservée et la remplace ds la pyramide avec piocher
@@ -43,6 +47,7 @@ class Pyramide {
     CarteJoaillerie recupererCarteJoaillerie(int numeroLigne, int numeroColonne);
     void afficherPyramide();
     std::stack<CarteJoaillerie> & getPioche(int niveau);
+    //Pyramide();
 };
 
 

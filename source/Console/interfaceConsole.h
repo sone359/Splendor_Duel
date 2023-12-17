@@ -34,7 +34,7 @@ public:
     void afficherJetonsPossedes(unsigned int num_joueur) const;
 
 private:
-    Partie& partie = Partie::get_partie();
+    Partie * partie;
 
 
 };
