@@ -4,9 +4,12 @@
 #include <vector>
 #include <array>
 #include <stdexcept>
+#include <unistd.h>
 
 void InterfaceConsole::main()
-{
+{   
+    std::cout << "\e[8;75;149t";
+    titre();
     int fin_partie = 0;
     std::string reponse="";
     std::cout << "Souhaitez-vous charger la partie en sauvegarde ? (oui/non)" << std::endl;
@@ -51,10 +54,11 @@ void InterfaceConsole::main()
 bool InterfaceConsole::deroulement_tour()
 {
     //Affichage de l'etat de la partie
-    afficherJoueur(partie->joueur_adverse());
-    afficherPyramide();
-    afficherPlateau();
-    afficherJoueur(partie->joueur_actif());
+    //afficherJoueur(partie->joueur_adverse());
+    //afficherPyramide();
+    //afficherPlateau();
+    //afficherJoueur(partie->joueur_actif());
+    afficherConsole();
 
     Joueur& joueur = partie->get_joueur(partie->joueur_actif());
 
@@ -75,7 +79,7 @@ bool InterfaceConsole::deroulement_tour()
         }
         else
         {
-            afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
+            //afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
             unsigned int colonne = 0, ligne = 0;
             std::cout << "Quelle est la colonne du jeton a retirer ?";
             std::cin >> colonne;
@@ -84,7 +88,8 @@ bool InterfaceConsole::deroulement_tour()
             try
             {
                 partie->utilise_privilege(joueur, colonne, ligne);
-                afficherJetonsPossedes(partie->joueur_actif());
+                afficherConsole();
+                //afficherJetonsPossedes(partie->joueur_actif());
             }
             catch (const SplendorException& except) //Si une erreur liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
             {
@@ -111,12 +116,13 @@ bool InterfaceConsole::deroulement_tour()
             {
                 partie->remplir_plateau(joueur);
                 fin_remplissage = true;
+                afficherConsole();
             }
             catch (const SplendorException& except) //Si une erreur liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
             {
                 std::cout << except.what() << std::endl;
             }
-            afficherPlateau(); //Affichage du plateau pour visualiser les changements apport�s par le remplissage
+            //afficherPlateau(); //Affichage du plateau pour visualiser les changements apport�s par le remplissage
         }
     }
 
@@ -149,6 +155,7 @@ bool InterfaceConsole::deroulement_tour()
             {
                 std::cout << "Saisie invalide, merci de rentrer 1, 2, 3 ou 4 et d'appuyer sur la touche Entree de votre clavier" << std::endl;
             }
+            afficherConsole();
         }
         catch (const SplendorException& except) //Si une erreur previsible liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
         {
@@ -258,7 +265,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
     }
 
     //Saisie des coordonnees du jeton 1
-    afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
+    //afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
     unsigned int colonne1 = 0, ligne1 = 0;
     std::cout << "Entrez la colonne du premier jeton a retirer : ";
     std::cin >> colonne1;
@@ -304,7 +311,7 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     unsigned int colonne_jeton = 0, ligne_jeton = 0, niveau_carte = 0, num_carte = 0;
 
     //Saisie des coordonnees du jeton Or a retirer
-    afficherPlateau(); //Nouvel affichage du plateau pour permettre au joueur de plus facilement choisir son jeton Or
+    //afficherPlateau(); //Nouvel affichage du plateau pour permettre au joueur de plus facilement choisir son jeton Or
     std::cout << "Entrez la colonne du jeton Or a retirer : ";
     std::cin >> colonne_jeton;
     std::cout << "Entrez la ligne du jeton Or a retirer (ou un nombre qui ne correspond à aucune ligne pour retourner au choix des actions) : ";
@@ -315,7 +322,7 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     }
 
     //Saisie des coordonnees de la carte a reserver
-    afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
+    //afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
     std::cout << "Entrez le niveau de la carte que vous souhaitez reserver : ";
     std::cin >> niveau_carte;
     std::cout << "Entrez le numero de la carte que vous souhaitez reserver (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3) ou bien 0 si vous souhaitez reserver la carte non visible sur le dessus de la pioche du niveau choisi : ";
@@ -324,8 +331,8 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     //partie->reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
     partie->retirer_jetons_or({colonne_jeton,ligne_jeton});
     partie->reserver_carte(joueur, niveau_carte, num_carte);
-    afficherPlateau();
-    afficherJoueur(partie->joueur_actif());
+    //afficherPlateau();
+    //afficherJoueur(partie->joueur_actif());
 
     return true;
 }
@@ -345,7 +352,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
         std::cin >> reponse;
     }
     if(reponse == "non"){
-        afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
+        //afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
         //Saisie des coordonnees de la carte a reserver
         std::cout << "Entrez le niveau de la carte que vous souhaitez acheter (ou un nombre superieur a 3 pour retourner au choix des actions): ";
         std::cin >> niveau_carte;
@@ -391,7 +398,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                 bool continuer = true;
                 while (continuer == true)
                 {
-                    afficherJoueur(partie->joueur_actif());
+                    //afficherJoueur(partie->joueur_actif());
                     std::cout << "Activation de l'effet Couleur de la carte ! Entrez le type de bonus que la carte achetee doit prendre (B, V, W, R ou N) (il doit correspondre a l'une de vos cartes) : " << std::endl;
                     std::string type_bonus;
                     std::cin >> type_bonus;
@@ -505,7 +512,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                     do
                     {
                         //Saisie des coordonnees du jeton à récupérer
-                        afficherPlateau(); //Nouvel affichage du plateau pour faciliter le choix de jeton du joueur
+                        //afficherPlateau(); //Nouvel affichage du plateau pour faciliter le choix de jeton du joueur
                         std::cout << "Entrez la colonne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ";
                         std::cin >> colonne;
                         std::cout << "Entrez la ligne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ";
@@ -643,6 +650,17 @@ void InterfaceConsole::gestion_effets(CarteRoyale& carte)
     }
 }
 
+void InterfaceConsole::afficherConsole() const{
+    system("clear");
+    afficherJoueur(partie->joueur_adverse());
+    for(unsigned int i=1;i<=22;i++){
+        afficherPyramideparLigne(i,std::cout);
+        if(i<14) afficherPlateauparLigne(i,std::cout);
+        std::cout<<"\n";
+    }
+    afficherJoueur(partie->joueur_actif());
+}
+
 void InterfaceConsole::afficherPyramide() const{
     std::cout<<"-------------------------PYRAMIDE--------------------------\n";
     for(int j=3;j>=1;j--){//niveau
@@ -659,7 +677,40 @@ void InterfaceConsole::afficherPyramide() const{
     }
 }
 
-void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,std::ostream& os)const {
+void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream& os) const{
+    if (ligne<1 || ligne>22) throw SplendorException("La pyramide s'affiche en 22 lignes.\n");
+    switch(ligne){
+        case 1:
+        os<<"----------------------------------PYRAMIDE-------------------------------";
+        return;
+    }
+    if (ligne>1 && ligne<=8){
+        os<<"                         ";
+        for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(3); i++)
+            {
+                afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(3,i),ligne-1,os);
+            }
+            os<<"                        ";
+    }
+    if (ligne>8 && ligne<=15){
+        os<<"                     ";
+        for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(2); i++)
+            {
+                afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(2,i),(ligne-8),os);
+            }
+        os<<"                    ";
+    }
+    if (ligne>15 && ligne<=22){
+        os<<"                 ";
+        for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(1); i++)
+            {
+                afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(1,i),(ligne-15),os);
+            }
+        os<<"                ";
+    }
+}
+
+void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,unsigned int ligne,std::ostream& os)const {
     if (ligne<1 || ligne>7) throw SplendorException("Une carte s'affiche en 7 lignes.\n");
     switch (ligne){
         case 1:
@@ -742,10 +793,69 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,int ligne,
     }
 }
 
+void InterfaceConsole::afficherPlateauparLigne(unsigned int ligne,std::ostream& os)const {
+    if (ligne<1 || ligne>13) throw SplendorException("Le plateau s'affiche en 13 lignes.\n");
+    switch (ligne){
+        case 1:
+        os<<"--------------------------------PLATEAU-----------------------------------";
+        return;
+        break;
+        case 2:
+        os << "                           0   1   2   3   4                              " ;
+        return;
+        break;
+        case 3:
+        os << "                         .-------------------.                            " ;
+        return;
+        case 13 :
+        os << "                         °-------------------°                            " ;
+        return;
+
+    }
+    if (ligne>=4 && ligne%2==0){
+        std::cout << "                       " << (ligne-4)/2 << " | ";
+        for (int j = 0 ; j < 5 ; j++)
+        {
+            switch (partie->get_plateau()[j][(ligne-4)/2])
+            {
+            case Nul:
+                os << "-";
+                break;
+            case Bleu:
+                os << "B";
+                break;
+            case Vert:
+                os << "V";
+                break;
+            case Blanc:
+                os << "W";
+                break;
+            case Rouge:
+                os << "R";
+                break;
+            case Noir:
+                os << "N";
+                break;
+            case Perle:
+                os << "P";
+                break;
+            case Or:
+                os << "O";
+                break;
+            }
+        os << " | ";
+        }
+        os<<"                         ";
+        return;
+    }
+    if (ligne >=5) os<<"                         |---+---+---+---+---|                            ";
+    return;
+}
+
 void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     size_t nbresa=partie->get_joueur(joueur).getCartesJoailleriesReservees().size();
     size_t nbposs=partie->get_joueur(joueur).getCartesJoailleriesPossedees().size();
-    std::cout<<"------Joueur "<<joueur<<"---------------------------------------------------\n";
+    std::cout<<"------Joueur "<<joueur<<"-------------------------------------------------------------------------------------------------------------------------------------\n";
     std::cout<<"    Cartes Reservees \n";
     for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
         for(int l=1;l<8;l++){
@@ -793,3 +903,76 @@ void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     //    return os;
 }
 
+void InterfaceConsole::titre()const{
+    system("clear");
+    std::cout<<"\n\n\n\n\n\n\n\n";
+    usleep(50000);
+    std::cout<<"                               _#######             ###                             ##        "<<std::endl;             
+    usleep(50000);
+    std::cout<<"                              /       ###            ###                             ##                        "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                             /         ##             ##                             ##                        "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                             ##        #              ##                             ##                        "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                              ###                     ##                             ##                        "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                             ## ###           /###    ##      /##  ###  /###     ### ##    /###   ###  /###    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                              ### ###        / ###  / ##     / ###  ###/ #### / ######### / ###  / ###/ #### / "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                ### ###     /   ###/  ##    /   ###  ##   ###/ ##   #### /   ###/   ##   ###/  "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                  ### /##  ##    ##   ##   ##    ### ##    ##  ##    ## ##    ##    ##         "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                    #/ /## ##    ##   ##   ########  ##    ##  ##    ## ##    ##    ##         "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                     #/ ## ##    ##   ##   #######   ##    ##  ##    ## ##    ##    ##         "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                      # /  ##    ##   ##   ##        ##    ##  ##    ## ##    ##    ##         "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                            /##        /   ##    ##   ##   ####    / ##    ##  ##    /# ##    ##    ##         "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                           /  ########/    #######    ### / ######/  ###   ###  ####/    ######     ###        "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                          /     #####      ######      ##/   #####    ###   ###  ###      ####       ###       "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                          |                ##                                                                  "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                           \)              ##                      ##### ##                         ###     "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                           ##                    /#####  /##                         ###    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                            ##                 //    /  / ###                         ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                              /     /  /   ###                        ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                   /  /     ###                       ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                  ## ##      ## ##    ###      /##    ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                  ## ##      ##  ##     ##  / / ###   ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                  ## ##      ##  ##      ##/ /   ###  ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                  ## ##      ##  ##      ## ##    ### ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                  ## ##      ##  ##      ## ########  ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                  #  ##      ##  ##      ## #######   ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                     /       /   ##      ## ##        ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                                /###/       /    ##      /# ####    / ##    "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                               /   ########/      ######/ ## ######/  ### / "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                              /       ####         #####   ## #####    ##/  "<<std::endl; 
+    usleep(50000);
+    std::cout<<"                                                              #  "<<std::endl;                                           
+    usleep(50000);
+    std::cout<<"                                                               ## \n\n\n"<<std::endl;
+    sleep(2);
+    std::cout<<"Adaptation par Simon Biffe, Ahmed Bouzidi, Ismail Essagar et Marie Herminie Blondy.\n\n";
+    sleep(3);
+}
