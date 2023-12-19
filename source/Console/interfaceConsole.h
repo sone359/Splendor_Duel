@@ -35,15 +35,25 @@ protected:
 
     void afficherPyramide() const;
      //pour afficher la pyramide dans le terminal c'est a dire afficher les cartes
-    //les unes a cote des autres, on doit les afficher ligne par ligne
-    void afficherCarteparligne(const CarteJoaillerie& j,int ligne,std::ostream& os) const;
+    //les unes a cote des autres on doit les afficher ligne par ligne
+    void afficherCarteparligne(const CarteJoaillerie& j,unsigned int ligne,std::ostream& os)const;
     void afficherJoueur(unsigned int joueur) const;
     void afficherPlateau() const;
     void afficherJetonsPossedes(unsigned int num_joueur) const;
-    void afficherPointsPrestige(unsigned int num_joueur) const;
+    void afficherBonus(unsigned int num_joueur) const;
+    void afficherPrestige(unsigned int num_joueur) const;
+    void afficherPlateauparLigne(unsigned int ligne, std::ostream& os) const;
+    void afficherPyramideparLigne(unsigned int ligne, std::ostream& os) const;
+    void afficherConsole() const;
+    void titre()const;
+    void afficherReglesparLigne(unsigned int ligne, std::ostream& os)const;
+    void afficherCarteRoyaleparLigne(unsigned int ligne, unsigned int carte,std::ostream& os)const;
+
 
     bool get_statut_joueur_actif();
     IA1& get_IA_joueur_actif();
+private:
+    Partie * partie;
 
 
 };

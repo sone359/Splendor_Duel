@@ -22,6 +22,7 @@ private:
 
 public:
     CarteJoaillerie(){};
+    explicit CarteJoaillerie(std::string ligne);
     CarteJoaillerie(int n,int p,int d,StockGemmes color, int cr, StockGemmes prix, std::vector<Effet> e,std::string ch) :
     cout(prix), niveau(n), pointsPrestige(p), nombreBonus(d), typeBonus(color),couronnes(cr), capacite(e), cheminImage(ch){};
     int get_niveau() const{
@@ -30,62 +31,7 @@ public:
 
     std::string getChemin(){return cheminImage;}
 
-    std::string sauvegarder()const{
-        std::stringstream s;
-        s<<get_niveau()<<';';
-        s<<get_pointsPrestige()<<';';
-        s<<get_nbBonus()<<';';
-        if (get_typeBonus().get_Blanc()) {
-            s<<"blanc;";
-        }
-        else if (get_typeBonus().get_Blanc()) {
-            s<<"blanc;";
-        }
-        else if (get_typeBonus().get_Vert()) {
-            s<<"vert;";
-        }
-        else if (get_typeBonus().get_Noir()) {
-            s<<"noir;";
-        }
-        else if (get_typeBonus().get_Perle()) {
-            s<<"perle;";
-        }
-        else if (get_typeBonus().get_Rouge()) {
-            s<<"rouge;";
-        }else{
-            s<<"none;";
-        }
-        s<<get_couronnes()<<";";
-        s<<get_cout().sauvegarder();
-        int repeat=get_capacite().size();
-        while(repeat){
-            if (get_capacite()[repeat-1]==rejouer) {
-                s<<"rejouer";
-            }
-            else if (get_capacite()[repeat-1]==privilege) {
-                s<<"privilege";
-            }
-            else if (get_capacite()[repeat-1]==couleur) {
-                s<<"couleur";
-            }
-            else if (get_capacite()[repeat-1]==gemme) {
-                s<<"gemme";
-            }
-            else if (get_capacite()[repeat-1]==voler) {
-                s<<"voler";
-            }
-            else if (get_capacite()[repeat-1]==sans) {
-                s<<"sans";
-            }
-            repeat--;
-            if (repeat) s<<',';
-        }
-        s<<";";
-        s<<cheminImage;
-        s<<"\n";
-        return s.str();
-    }
-
+    std::string sauvegarder()const;
     void afficher_Couleur(std::ostream & os) const {
         if (get_typeBonus().get_Blanc()) {
             os<<"W";

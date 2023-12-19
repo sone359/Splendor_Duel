@@ -84,10 +84,21 @@ void Joueur::addCartesJoailleriesPossedees(CarteJoaillerie carte)
     //gemmes.depense(carte.get_cout(),bonus);
     cartesJoailleriesPossedees.push_back(carte);
     addBonus(carte);
+    addPrestige(carte);
+    addCouronnes(carte);
+}
+
+void Joueur::addCouronnes(const CarteJoaillerie& carte){
+    nbCouronnes+=carte.get_couronnes();
 }
 
 void Joueur::addBonus(const CarteJoaillerie& carte){
     bonus+=carte.get_typeBonus()*carte.get_nbBonus();
+}
+
+void Joueur::addPrestige(const CarteJoaillerie& carte){
+    nbPointsPrestige+=carte.get_pointsPrestige();
+    PointsPrestigeCouleurs+=carte.get_typeBonus()*carte.get_pointsPrestige();
 }
 
 void Joueur::setCartesJoailleriesReservees(std::deque<CarteJoaillerie> cartes)
@@ -190,3 +201,29 @@ bool Joueur::peutAcheter(const CarteJoaillerie& carte){
         return false;
     }
 
+std::string Joueur::sauvegarder() const{
+    std::stringstream s;
+    s<<"{\n";
+    ////cartes possedees
+    for(CarteJoaillerie cartes : cartesJoailleriesPossedees){
+        s<<cartes.sauvegarder();
+        
+    }
+    s<<'\n';
+    ////jetons
+    s<<gemmes.sauvegarder()<<'\n';
+    ////cartes reservees
+    for(CarteJoaillerie cartes : cartesJoailleriesReservees){
+        s<<cartes.sauvegarder();
+        
+    }
+    s<<'\n';
+    ////couronnes
+    s<<nbCouronnes<<';';
+    ////privileges
+    s<<nbPrivileges<<";";
+    ////points prestige
+    s<<PointsPrestigeCouleurs.sauvegarder();
+    s<<"\n}";
+    return s.str();
+}

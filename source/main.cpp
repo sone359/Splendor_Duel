@@ -23,6 +23,12 @@ int main()
     //Pyramide::getInstance();
     //std::cout<<"youhou";
 
+    //std::cout<<CarteJoaillerie("1;1;1;none;0;0,0,0,0,4,1;couleur;niveau1(5)");
+    //std::cout<<CarteJoaillerie("3;3;1;none;0;0,0,0,8,0,0;rejouer,couleur;niveau3(3)");
+
+    //Partie* game = Partie::get_partie();
+    //game->get_pyramide().afficherPyramide();
+    //Partie("../data/sauvegarde");
     InterfaceConsole ic;
 //
 /*

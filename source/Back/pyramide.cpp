@@ -5,6 +5,7 @@
 
 Pyramide* Pyramide::instance = nullptr;
 
+//Pyramide::Pyramide(){ligne1.resize(5);ligne2.resize(4);ligne3.resize(3);};
 
     Pyramide::Pyramide(std::vector<CarteJoaillerie> cartes){
         ligne1.resize(5);  
@@ -27,23 +28,20 @@ Pyramide* Pyramide::instance = nullptr;
         for(int i =1; i<4 ;i++){
             piocherCarteJoaillerie(3,i);
         }
-
-
     }
 
-    void Pyramide::initialiser(std::vector<CarteJoaillerie> cartes){
-        if (instance == nullptr) {
-            instance = new Pyramide(cartes);
-        } else {
-            std::cerr << "La pyramide a déjà été initialisée.\n" << std::endl;
-        }
-    }
 
 
     Pyramide* Pyramide::getInstance(){
         if(instance==nullptr)//l'instance n'existe pas
             std::cerr<<"La pyramide doit d'abord être initialisee.\n"<<std::endl;
 
+        return instance;//renvoit l'instance
+    }
+    Pyramide* Pyramide::getInstance(std::vector<CarteJoaillerie> cartes){
+        //if(instance==nullptr)//l'instance n'existe pas
+            instance = new Pyramide(cartes);
+            //instance->afficherPyramide();
         return instance;//renvoit l'instance
     }
 
@@ -54,12 +52,13 @@ Pyramide* Pyramide::instance = nullptr;
         return result;
     }
 
+
     CarteJoaillerie Pyramide::acheterCarteJoaillerie(int numeroLigne, int numeroColonne){
         if(numeroColonne==0) throw SplendorException("Impossible d'acheter une carte de la pioche.\n");
         //on récupère la carte à cette adresse pour la retourner
         CarteJoaillerie result = recupererCarteJoaillerie(numeroLigne,numeroColonne);
         //elle est remplacee en piochant
-        piocherCarteJoaillerie(numeroLigne,numeroColonne);
+        if(!getPioche(numeroLigne).empty()) piocherCarteJoaillerie(numeroLigne,numeroColonne);
         return result;
     }
 
@@ -67,14 +66,26 @@ Pyramide* Pyramide::instance = nullptr;
         switch (numeroLigne)
         {
         case 1:
+        if (Niveau1.empty()){//si pioche vide
+            ligne1.erase(ligne1.begin()+numeroColonne+1);
+            cartesRestantes1--;
+        } 
             ligne1[numeroColonne-1]=Niveau1.top();
             Niveau1.pop();
             break;
         case 2:
+        if (Niveau2.empty()) {//si pioche vide
+            ligne2.erase(ligne2.begin()+numeroColonne+1);
+            cartesRestantes2--;
+        } 
             ligne2[numeroColonne-1]=Niveau2.top();
             Niveau2.pop();
             break;
         case 3:
+        if (Niveau3.empty()) {//si pioche vide
+            ligne3.erase(ligne3.begin()+numeroColonne+1);
+            cartesRestantes3--;
+        } 
             ligne3[numeroColonne-1]=Niveau3.top();
             Niveau3.pop();
             break;
@@ -87,14 +98,17 @@ Pyramide* Pyramide::instance = nullptr;
             switch (numeroLigne)
             {
             case 1:
+            if (Niveau1.empty()) throw SplendorException("La pioche est vide.\n");
                 res = Niveau1.top();
                 Niveau1.pop();
                 break;
             case 2:
+            if (Niveau2.empty()) throw SplendorException("La pioche est vide.\n");
                 res = Niveau2.top();
                 Niveau2.pop();
                 break;
             case 3:
+            if (Niveau3.empty()) throw SplendorException("La pioche est vide.\n");
                 res = Niveau3.top();
                 Niveau3.pop();
                 break;
@@ -174,6 +188,18 @@ std::stack<CarteJoaillerie> & Pyramide::getPioche(int niveau){
         std::cout<<'\n';
 
     }
+unsigned int Pyramide::getCartesRestantes(unsigned int niveau)const{
+    switch(niveau){
+        case 1 :
+        return cartesRestantes1;
+        case 2 :
+        return cartesRestantes2;
+        case 3 :
+        return cartesRestantes3;
+        default :
+        throw SplendorException("Niveau invalide.\n");
+    }
+}
 
 
 #endif

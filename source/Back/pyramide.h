@@ -24,15 +24,16 @@ class Pyramide {
     void operator=(Pyramide& p)=delete;
     Pyramide(Pyramide& p)=delete;
     //et instance
-    static Pyramide * instance;
-    //pour pouvoir separer le constructeur de getInstance pcq il prend des arguments un bool permet de verif l'init
-    bool init=false;
+    static Pyramide *  instance;
+    //utiles pour l'affichage quand il y a moins de cartes/ligne
+    unsigned int cartesRestantes1=5,cartesRestantes2=4,cartesRestantes3=3;
+    //ENLEVER//pour pouvoir separer le constructeur de getInstance pcq il prend des arguments un bool permet de verif l'init
+    //ENLEVERbool init=false;
 
     public :
-    //appelee au debut du jeu pour init l'instance
-    static void initialiser(std::vector<CarteJoaillerie > jeu);
     //instance accessible par Partie
     static Pyramide* getInstance();
+    static Pyramide* getInstance(std::vector<CarteJoaillerie> cartes);
     //acheter retourne la CarteJoaillerie achetée et la remplace ds la pyramide avec piocher
     CarteJoaillerie acheterCarteJoaillerie(int numeroLigne, int numeroColonne);
     //reserver retourne la CarteJoaillerie réservée et la remplace ds la pyramide avec piocher
@@ -43,6 +44,7 @@ class Pyramide {
     CarteJoaillerie recupererCarteJoaillerie(int numeroLigne, int numeroColonne);
     void afficherPyramide();
     std::stack<CarteJoaillerie> & getPioche(int niveau);
+    unsigned int getCartesRestantes(unsigned int niveau)const;
 };
 
 
