@@ -66,6 +66,7 @@ public:
     void addCartesRoyalesPossedees(CarteRoyale & carte);
     void addBonus(const CarteJoaillerie& carte);
     void addPrestige(const CarteJoaillerie& carte);
+    void addCouronnes(const CarteJoaillerie& cartes);
     void setNbCouronnes(int nbCouronnes);
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);

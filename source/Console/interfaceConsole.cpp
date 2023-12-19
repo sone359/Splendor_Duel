@@ -8,7 +8,7 @@
 
 void InterfaceConsole::main()
 {   
-    std::cout << "\e[8;75;149t";
+    std::cout << "\e[8;75;159t";
     titre();
     int fin_partie = 0;
     std::string reponse="";
@@ -200,7 +200,7 @@ bool InterfaceConsole::deroulement_tour()
 void InterfaceConsole::afficherJetonsPossedes(unsigned int num_joueur) const
 {
     Joueur& joueur = partie->get_joueur(num_joueur);
-    std::cout << "    " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or() << std::endl << std::endl;
+    std::cout << "    " << "B x " << joueur.getGemmes().get_Bleu() << ", V x " << joueur.getGemmes().get_Vert() << ", W x " << joueur.getGemmes().get_Blanc() << ", R x " << joueur.getGemmes().get_Rouge() << ", N x " << joueur.getGemmes().get_Noir() << ", P x " << joueur.getGemmes().get_Perle() << ", O x " << joueur.getGemmes().get_Or();
 }
 
 void InterfaceConsole::afficherPlateau() const
@@ -656,9 +656,20 @@ void InterfaceConsole::afficherConsole() const{
     for(unsigned int i=1;i<=22;i++){
         afficherPyramideparLigne(i,std::cout);
         if(i<14) afficherPlateauparLigne(i,std::cout);
+        if(i==15||i==14) std::cout<<"                                         ";
+        if(i>15) {
+            for(int j=1;j<=4;j++){
+            afficherCarteRoyaleparLigne(i-15,j,std::cout);
+            std::cout<<" ";
+            }
+            std::cout<<"     ";
+        }
+        afficherReglesparLigne(i,std::cout);
         std::cout<<"\n";
     }
     afficherJoueur(partie->joueur_actif());
+    std::cout<<"-------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+
 }
 
 void InterfaceConsole::afficherPyramide() const{
@@ -681,7 +692,7 @@ void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream
     if (ligne<1 || ligne>22) throw SplendorException("La pyramide s'affiche en 22 lignes.\n");
     switch(ligne){
         case 1:
-        os<<"----------------------------------PYRAMIDE-------------------------------";
+        os<<"----------------------------------PYRAMIDE----------------------------------";
         return;
     }
     if (ligne>1 && ligne<=8){
@@ -690,7 +701,7 @@ void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(3,i),ligne-1,os);
             }
-            os<<"                        ";
+            os<<"                         ";
     }
     if (ligne>8 && ligne<=15){
         os<<"                     ";
@@ -698,7 +709,7 @@ void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(2,i),(ligne-8),os);
             }
-        os<<"                    ";
+        os<<"                     ";
     }
     if (ligne>15 && ligne<=22){
         os<<"                 ";
@@ -706,7 +717,7 @@ void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(1,i),(ligne-15),os);
             }
-        os<<"                ";
+        os<<"                 ";
     }
 }
 
@@ -793,27 +804,128 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,unsigned i
     }
 }
 
+void InterfaceConsole::afficherCarteRoyaleparLigne(unsigned int ligne, unsigned int carte,std::ostream& os)const{
+    if (ligne<1 || ligne>7) throw SplendorException("Une carte s'affiche en 7 lignes.\n");
+    if (carte<1 || carte>7) throw SplendorException("Il y a 4 cartes royales.\n");
+    switch (ligne){
+        case 1 :
+            os<<"--|VV|--";
+            return;
+        case 2:
+            switch (carte)
+            {
+            case 1:
+                os<<"| .==- |";
+                return;
+
+            case 2:
+                os<<"|.o88o.|";
+                return;
+            case 3:
+                os<<"| |^^^||";
+                return;
+            case 4:
+                os<<"| nnnn |";
+                return;
+            }
+        case 3:
+            switch (carte)
+            {
+            case 1:
+                os<<"|//oo\\\\|";
+                return;
+
+            case 2:
+                os<<"|8|u uB|";
+                return;
+            case 3:
+                os<<"| (|\"|)|";
+                return;
+            case 4:
+                os<<"|(/66\\)|";
+                return;
+            }
+        case 4:
+            switch (carte)
+            {
+            case 1:
+                os<<"|\\|^./\\|";
+                return;
+
+            case 2:
+                os<<"|8(°û )|";
+                return;
+            case 3:
+                os<<"| /°I°\\|";
+                return;
+            case 4:
+                os<<"|(;_-;)|";
+                return;
+            }
+        case 5:
+            switch (carte)
+            {
+            case 1:
+                os<<"|//-V-||";
+                return;
+
+            case 2:
+                os<<"|<//|\\\\|";
+                return;
+            case 3:
+                os<<"|(!)--)|";
+                return;
+            case 4:
+                os<<"|/|`*'||";
+                return;
+            }
+        case 6:
+            switch (carte)
+            {
+            case 1:
+                os<<"|  GEM |";
+                return;
+
+            case 2:
+                os<<"|  PRV |";
+                return;
+            case 3:
+                os<<"|  REJ |";
+                return;
+            case 4:
+                os<<"|      |";
+                return;
+            }
+        case 7 :
+        if (carte==4){os<<"----3---";return;}
+        os<<"----2---";
+        return;
+
+    }
+}
+
+
 void InterfaceConsole::afficherPlateauparLigne(unsigned int ligne,std::ostream& os)const {
     if (ligne<1 || ligne>13) throw SplendorException("Le plateau s'affiche en 13 lignes.\n");
     switch (ligne){
         case 1:
-        os<<"--------------------------------PLATEAU-----------------------------------";
+        os<<"-----------------PLATEAU-----------------";
         return;
         break;
         case 2:
-        os << "                           0   1   2   3   4                              " ;
+        os << "            0   1   2   3   4            " ;
         return;
         break;
         case 3:
-        os << "                         .-------------------.                            " ;
+        os << "          .-------------------.          " ;
         return;
         case 13 :
-        os << "                         °-------------------°                            " ;
+        os << "          °-------------------°          " ;
         return;
 
     }
     if (ligne>=4 && ligne%2==0){
-        std::cout << "                       " << (ligne-4)/2 << " | ";
+        std::cout << "        " << (ligne-4)/2 << " | ";
         for (int j = 0 ; j < 5 ; j++)
         {
             switch (partie->get_plateau()[j][(ligne-4)/2])
@@ -845,62 +957,71 @@ void InterfaceConsole::afficherPlateauparLigne(unsigned int ligne,std::ostream& 
             }
         os << " | ";
         }
-        os<<"                         ";
+        os<<"         ";
         return;
     }
-    if (ligne >=5) os<<"                         |---+---+---+---+---|                            ";
+    if (ligne >=5) os<<"          |---+---+---+---+---|          ";
     return;
 }
+void InterfaceConsole::afficherReglesparLigne(unsigned int ligne,std::ostream& os)const{
+    if (ligne<1 || ligne>22) throw SplendorException("La pyramide s'affiche en 22 lignes.\n");
+    switch(ligne){
+        case 1: os<<"-------------------REGLES----------------";return;
+        case 3: os<<"|   - Le BUT DU JEU est d'avoir 20 points";return;
+        case 4: os<<"|   de prestige, 10 couronnes, ou 10 po- ";return;
+        case 5: os<<"|   ints de prestige d'une meme couleur, ";return;
+        case 6: os<<"|   achetez des cartes pour y arriver    ";return;
+        case 8: os<<"|   - Pendant un tour, vous pouvez d'ab- ";return;
+        case 9: os<<"|   ord remplir le plateau ou utiliser   ";return;
+        case 10: os<<"|   un privilege, puis realiser une des  ";return;
+        case 11: os<<"|   4 actions obligatoires               ";return;
+        case 13: os<<"|   - Les jetons que vous recuperez doi- ";return;
+        case 14: os<<"|   vent etre les uns a cote des autres  ";return;
+        case 16: os<<"|   - Interdit d'avoir plus de 3 cartes  ";return;
+        case 17: os<<"|   reservees ou plus de 10 jetons       ";return;
+        case 19: os<<"|   - Vous obtenez 1 cartes royale quand ";return;
+        case 20: os<<"|   vous avez 3 couronnes et une deuxi-  ";return;
+        case 21: os<<"|   eme a 6 couronnes                    ";return;
+    }
+    std::cout<<"|                                        ";
+}
+
 
 void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
-    size_t nbresa=partie->get_joueur(joueur).getCartesJoailleriesReservees().size();
-    size_t nbposs=partie->get_joueur(joueur).getCartesJoailleriesPossedees().size();
-    std::cout<<"------Joueur "<<joueur<<"-------------------------------------------------------------------------------------------------------------------------------------\n";
-    std::cout<<"    Cartes Reservees \n";
-    for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
-        for(int l=1;l<8;l++){
-                afficherCarteparligne(carte,l,std::cout);
-                std::cout<<' ';
-        std::cout<<'\n';
+    std::cout<<"------Joueur "<<joueur<<"-----------------------------------------------------------------------------------------------------------------------------------------------\n";
+    if(joueur==partie->joueur_actif()){
+        std::cout<<"    Cartes Reservees \n";
+        for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
+            for(int l=1;l<8;l++){
+                    afficherCarteparligne(carte,l,std::cout);
+                    std::cout<<' ';
+            }
         }
+        std::cout<<'\n';
     }
     std::cout<<"    Cartes Possedees \n";
     for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
         for(int l=1;l<8;l++){
-            for (int i = 1; i <= nbposs; i++)
-            {
-                afficherCarteparligne(carte,l,std::cout);
-                std::cout<<' ';
-            }
+            afficherCarteparligne(carte,l,std::cout);
+            std::cout<<' ';
         std::cout<<'\n';
         }
     }
-    std::cout<<"\n    Jetons Possedes \n";
-    afficherJetonsPossedes(joueur);
-    /*
-    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Bleu();i++) std::cout<<'B';
-    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Blanc();i++) std::cout<<'W';
-    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Vert();i++) std::cout<<'V';
-    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Rouge();i++) std::cout<<'R';
-    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Noir();i++) std::cout<<'N';
-    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Perle();i++) std::cout<<'P';
-    for (int i=0;i<partie->get_joueur(joueur).getGemmes().get_Or();i++) std::cout<<'O';
-    std::cout<<"\n"<<partie->get_joueur(joueur).getNbPrivileges()<<" privileges, ";
-    std::cout<<partie->get_joueur(joueur).getNbCouronnes()<<" couronnes\n";*/
+    std::cout<<"\n    Jetons Possedes                                                                  Points Prestige                                  Couronnes           \n";
+    std::cout<<' ';afficherJetonsPossedes(joueur);std::cout<<"                 "; afficherPrestige(joueur);std::cout<<"               ";partie->get_joueur(joueur).getNbCouronnes();std::cout<<"                         \n\n";
+    std::cout<<'+';afficherBonus(joueur);std::cout<<"                                    Total Points Prestige :"<<partie->get_joueur(joueur).getNbPointsPrestige()<<'\n';
+}
 
+void InterfaceConsole::afficherPrestige(unsigned int num_joueur) const
+{
+    Joueur& joueur = partie->get_joueur(num_joueur);
+    std::cout << "    " << "B x " << joueur.getPointsPrestigeCouleur().get_Bleu() << ", V x " << joueur.getPointsPrestigeCouleur().get_Vert() << ", W x " << joueur.getPointsPrestigeCouleur().get_Blanc() << ", R x " << joueur.getPointsPrestigeCouleur().get_Rouge() << ", N x " << joueur.getPointsPrestigeCouleur().get_Noir() << ", P x " << joueur.getPointsPrestigeCouleur().get_Perle();
+}
 
-
-
-    //std::cout <<"\nPrivileges : "<< j.getNbPrivileges() << "\nCouronnes : " << j.getNbCouronnes()<<'\n';
-    //    os << "  Cartes Joailleries Possedees:\n";
-    //    for (const auto& carte : j.getCartesJoailleriesPossedees()) {
-    //        os << "    " << carte << "\n";
-    //    }
-    //    os << "  Cartes Joailleries Reservees:\n";
-    //    for (const auto& carte : j.getCartesJoailleriesReservees()) {
-    //        os << "    " << carte << "\n";
-    //    }
-    //    return os;
+void InterfaceConsole::afficherBonus(unsigned int num_joueur) const
+{
+    Joueur& joueur = partie->get_joueur(num_joueur);
+    std::cout << "    " << "B x " << joueur.getBonus().get_Bleu() << ", V x " << joueur.getBonus().get_Vert() << ", W x " << joueur.getBonus().get_Blanc() << ", R x " << joueur.getBonus().get_Rouge() << ", N x " << joueur.getBonus().get_Noir() << ", P x " << joueur.getBonus().get_Perle();
 }
 
 void InterfaceConsole::titre()const{
@@ -939,39 +1060,39 @@ void InterfaceConsole::titre()const{
     usleep(50000);
     std::cout<<"                          |                ##                                                                  "<<std::endl; 
     usleep(50000);
-    std::cout<<"                           \)              ##                      ##### ##                         ###     "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                           ##                    /#####  /##                         ###    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                            ##                 //    /  / ###                         ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                              /     /  /   ###                        ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                   /  /     ###                       ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                  ## ##      ## ##    ###      /##    ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                  ## ##      ##  ##     ##  / / ###   ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                  ## ##      ##  ##      ##/ /   ###  ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                  ## ##      ##  ##      ## ##    ### ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                  ## ##      ##  ##      ## ########  ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                  #  ##      ##  ##      ## #######   ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                     /       /   ##      ## ##        ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                                /###/       /    ##      /# ####    / ##    "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                               /   ########/      ######/ ## ######/  ### / "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                              /       ####         #####   ## #####    ##/  "<<std::endl; 
-    usleep(50000);
-    std::cout<<"                                                              #  "<<std::endl;                                           
-    usleep(50000);
-    std::cout<<"                                                               ## \n\n\n"<<std::endl;
+    std::cout<<"                           \\)              ##                                ##### ##                         ###     "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                           ##                              /#####  /##                         ###    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                            ##                           //    /  / ###                         ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                        /     /  /   ###                        ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                             /  /     ###                       ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                            ## ##      ## ##    ###      /##    ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                            ## ##      ##  ##     ##  / / ###   ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                            ## ##      ##  ##      ##/ /   ###  ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                            ## ##      ##  ##      ## ##    ### ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                            ## ##      ##  ##      ## ########  ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                            #  ##      ##  ##      ## #######   ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                               /       /   ##      ## ##        ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                          /###/       /    ##      /# ####    / ##    "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                         /   ########/      ######/ ## ######/  ### / "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                        /       ####         #####   ## #####    ##/  "<<std::endl; 
+    usleep(50000);          
+    std::cout<<"                                                                        #  "<<std::endl;                                           
+    usleep(50000);          
+    std::cout<<"                                                                         ## \n\n\n"<<std::endl;
     sleep(2);
     std::cout<<"Adaptation par Simon Biffe, Ahmed Bouzidi, Ismail Essagar et Marie Herminie Blondy.\n\n";
     sleep(3);

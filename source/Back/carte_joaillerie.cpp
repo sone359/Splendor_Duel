@@ -83,8 +83,8 @@ std::string CarteJoaillerie::sauvegarder()const{
         if (get_typeBonus().get_Blanc()) {
             s<<"blanc;";
         }
-        else if (get_typeBonus().get_Blanc()) {
-            s<<"blanc;";
+        else if (get_typeBonus().get_Bleu()) {
+            s<<"bleu;";
         }
         else if (get_typeBonus().get_Vert()) {
             s<<"vert;";

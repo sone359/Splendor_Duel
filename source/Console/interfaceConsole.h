@@ -32,10 +32,14 @@ public:
     void afficherJoueur(unsigned int joueur) const;
     void afficherPlateau() const;
     void afficherJetonsPossedes(unsigned int num_joueur) const;
+    void afficherBonus(unsigned int num_joueur) const;
+    void afficherPrestige(unsigned int num_joueur) const;
     void afficherPlateauparLigne(unsigned int ligne, std::ostream& os) const;
     void afficherPyramideparLigne(unsigned int ligne, std::ostream& os) const;
     void afficherConsole() const;
     void titre()const;
+    void afficherReglesparLigne(unsigned int ligne, std::ostream& os)const;
+    void afficherCarteRoyaleparLigne(unsigned int ligne, unsigned int carte,std::ostream& os)const;
 
 
 private:

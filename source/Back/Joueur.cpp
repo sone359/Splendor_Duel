@@ -85,6 +85,11 @@ void Joueur::addCartesJoailleriesPossedees(CarteJoaillerie carte)
     cartesJoailleriesPossedees.push_back(carte);
     addBonus(carte);
     addPrestige(carte);
+    addCouronnes(carte);
+}
+
+void Joueur::addCouronnes(const CarteJoaillerie& carte){
+    nbCouronnes+=carte.get_couronnes();
 }
 
 void Joueur::addBonus(const CarteJoaillerie& carte){

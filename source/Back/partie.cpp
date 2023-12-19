@@ -176,7 +176,6 @@ void Partie::utilise_privilege(Joueur& joueur, unsigned int colonne, unsigned in
     }
 
     joueur.setGemmes(joueur.getGemmes().ajouter_jeton(plateau->retirerJeton({colonne, ligne})));
-
     joueur.setNbPrivileges(joueur.getNbPrivileges() - 1);
 }
 
