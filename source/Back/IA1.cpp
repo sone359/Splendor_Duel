@@ -83,19 +83,19 @@ bool IA1::prendre_3_jetons()
             if (partie.get_plateau()[i+j][i] != Nul && partie.get_plateau()[i+j+1][i+1] != Nul && partie.get_plateau()[i+j+2][i+2] != Nul
                 && partie.get_plateau()[i+j][i] != Or && partie.get_plateau()[i+j+1][i+1] != Or && partie.get_plateau()[i+j+2][i+2] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i+j][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+j+1][j+1])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+j+2][j+2])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[i+j][i])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[i+j+1][i+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[i+j+2][i+2])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
-                    getPartie().retirer_jetons({i+j, j}, {i+j+1, j+1}, {i+j+2, j+2});
+                    getPartie().retirer_jetons({i+j, i}, {i+j+1, i+1}, {i+j+2, i+2});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i+j, j};
+                    coor_jeton1 = {i+j, i};
                     coor_jeton2 = {i+j+1, i+1};
                     coor_jeton3 = {i+j+2, i+2};
                 }
@@ -159,7 +159,7 @@ bool IA1::prendre_2_jetons()
                 {
                     jetons_cible_max = jetons_cible_temp;
                     coor_jeton1 = {j, i};
-                    coor_jeton2 = {j, i};
+                    coor_jeton2 = {j, i+1};
                 }
             }
         }
@@ -189,19 +189,19 @@ bool IA1::prendre_2_jetons()
             if (partie.get_plateau()[i+j][i] != Nul && partie.get_plateau()[i+j+1][i+1] != Nul
                 && partie.get_plateau()[i+j][i] != Or && partie.get_plateau()[i+j+1][i+1] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i+j][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+j+1][j+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[i+j][i])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[i+j+1][i+1])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
                     //Prendre les jetons
-                    getPartie().retirer_jetons({i+j, j}, {i+j+1, j+1});
+                    getPartie().retirer_jetons({i+j, i}, {i+j+1, i+1});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i+j, j};
+                    coor_jeton1 = {i+j, i};
                     coor_jeton2 = {i+j+1, i+1};
                 }
             }

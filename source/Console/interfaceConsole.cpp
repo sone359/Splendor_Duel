@@ -34,17 +34,51 @@ InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
             partie = Partie::get_partie("../data/sauvegarde");
         }
     }
-    //pour test
-    statut_joueur2 = true;
-    //partie.get_joueur(1).setGemmes(StockGemmesOr(0,2,0,3,1,1,0));
-    //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,1,1,1,1,0));
+    reponse = "";
+    std::cout << "Souhaitez-vous remplacer le joueur 1 par une Intelligence Artificielle ? (oui/non)" << std::endl;
+    while(reponse!="oui" && reponse != "non"){
+        std::cin >> reponse;
+        if(reponse == "non"){
+            statut_joueur1 = false;
+        }
+        else if(reponse != "oui")
+        {
+            std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+        }
+        else
+        {
+            statut_joueur1 = true;
+        }
+    }
+    reponse = "";
+    std::cout << "Souhaitez-vous remplacer le joueur 2 par une Intelligence Artificielle ? (oui/non)" << std::endl;
+    while(reponse!="oui" && reponse != "non"){
+        std::cin >> reponse;
+        if(reponse == "non"){
+            statut_joueur2 = false;
+        }
+        else if(reponse != "oui")
+        {
+            std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+        }
+        else
+        {
+            statut_joueur2 = true;
+        }
+    }
     bool continuer = true;
     while(continuer && fin_partie == 0)
     {
         if(get_statut_joueur_actif())
         {
             std::cout << "test1" << std::endl;
-            continuer = get_IA_joueur_actif().deroulement_tour();
+            try{
+                continuer = get_IA_joueur_actif().deroulement_tour();
+            }
+            catch (const SplendorException& e)
+            {
+                std::cout << "L'IA a du mal a trouver une action a jouer, elle passe son tour" << std::endl;
+            }
         }
         else
         {
@@ -70,11 +104,6 @@ InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
 
 bool InterfaceConsole::deroulement_tour()
 {
-    //Affichage de l'etat de la partie
-    //afficherJoueur(partie->joueur_adverse());
-    //afficherPyramide();
-    //afficherPlateau();
-    //afficherJoueur(partie->joueur_actif());
     afficherConsole();
 
     Joueur& joueur = partie->get_joueur(partie->joueur_actif());
@@ -96,7 +125,6 @@ bool InterfaceConsole::deroulement_tour()
         }
         else
         {
-            //afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
             unsigned int colonne = 0, ligne = 0;
             std::cout << "Quelle est la colonne du jeton a retirer ?";
             std::cin >> colonne;
@@ -106,7 +134,6 @@ bool InterfaceConsole::deroulement_tour()
             {
                 partie->utilise_privilege(joueur, colonne, ligne);
                 afficherConsole();
-                //afficherJetonsPossedes(partie->joueur_actif());
             }
             catch (const SplendorException& except) //Si une erreur liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
             {
@@ -139,7 +166,6 @@ bool InterfaceConsole::deroulement_tour()
             {
                 std::cout << except.what() << std::endl;
             }
-            //afficherPlateau(); //Affichage du plateau pour visualiser les changements apport�s par le remplissage
         }
     }
 
