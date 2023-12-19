@@ -600,32 +600,32 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                 try{
                     if(jeton_retire == "B" || jeton_retire == "b")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
                         continuer = false;
                     }
                     else if(jeton_retire == "V" || jeton_retire == "v")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
                         continuer = false;
                     }
                     else if(jeton_retire == "W" || jeton_retire == "w")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
                         continuer = false;
                     }
                     else if(jeton_retire == "R" || jeton_retire == "r")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
                         continuer = false;
                     }
                     else if(jeton_retire == "N" || jeton_retire == "n")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
                         continuer = false;
                     }
                     else if(jeton_retire == "P" || jeton_retire == "p")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
                         continuer = false;
                     }
                     else
@@ -669,32 +669,32 @@ void InterfaceConsole::gestion_effets(CarteRoyale& carte)
             try{
                 if(jeton_retire == "B" || jeton_retire == "b")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
                     continuer = false;
                 }
                 else if(jeton_retire == "V" || jeton_retire == "v")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
                     continuer = false;
                 }
                 else if(jeton_retire == "W" || jeton_retire == "w")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
                     continuer = false;
                 }
                 else if(jeton_retire == "R" || jeton_retire == "r")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
                     continuer = false;
                 }
                 else if(jeton_retire == "N" || jeton_retire == "n")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
                     continuer = false;
                 }
                 else if(jeton_retire == "P" || jeton_retire == "p")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
                     continuer = false;
                 }
                 else

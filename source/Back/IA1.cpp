@@ -463,7 +463,7 @@ void IA1::gestion_effets(CarteJoaillerie& carte)
                 {
                     gemme_volee = partie.get_joueur(partie.joueur_adverse()).getGemmes().random_tirage();
                 }
-                getPartie().voler(joueur, partie.get_joueur(partie.joueur_adverse()), gemme_volee);
+                getPartie().capacite_voler(joueur, partie.get_joueur(partie.joueur_adverse()), gemme_volee);
             }
             break;
         }
@@ -493,7 +493,7 @@ void IA1::gestion_effets(CarteRoyale& carte)
             {
                 gemme_volee = partie.get_joueur(partie.joueur_adverse()).getGemmes().random_tirage();
             }
-            getPartie().voler(joueur, partie.get_joueur(partie.joueur_adverse()), gemme_volee);
+            getPartie().capacite_voler(joueur, partie.get_joueur(partie.joueur_adverse()), gemme_volee);
         }
         break;
     }

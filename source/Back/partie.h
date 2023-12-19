@@ -11,6 +11,7 @@
 #include "CarteRoyale.h"
 #include "pyramide.h"
 #include "carte_joaillerie.h"
+#include "Effet.h"
 
 
 class Partie
@@ -42,7 +43,7 @@ public :
     void retirer_jetons_or(const std::array<unsigned int, 2>& coor_jeton);
     void remettre_jeton(Jeton jeton);
     void ajouter_rejouer(){effet_rejouer++;};
-    void voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton);
+    void capacite_voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton);
     CarteRoyale& recupererCarteRoyale(size_t numero);
     int fin_tour();
     int sauvegarder()const;

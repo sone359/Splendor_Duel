@@ -57,6 +57,11 @@ Partie::Partie()
     for(unsigned int i = 0 ; i < 3 ; i++){
         sac.ajouter_jeton(Or);
     }
+    //Initialisation des cartes royales
+    cartesRoyales.push_back(CarteRoyale(2, voler, "../data/Cartes_royales/CartesRoyales_voler.png"));
+    cartesRoyales.push_back(CarteRoyale(2, privilege, "../data/Cartes_royales/CartesRoyales_privilege.png"));
+    cartesRoyales.push_back(CarteRoyale(2, rejouer, "../data/Cartes_royales/CartesRoyales_rejouer.png"));
+    cartesRoyales.push_back(CarteRoyale(3, sans, "../data/Cartes_royales/CartesRoyales_sans.png"));
     remplir_plateau(joueur1);
 //
 //
@@ -260,7 +265,7 @@ int Partie::fin_tour()
     return fin_partie;
 }
 
-void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
+void Partie::capacite_voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
 {
     joueur2.setGemmes(joueur2.getGemmes().retirer_jeton(jeton));
     joueur1.setGemmes(joueur1.getGemmes().ajouter_jeton(jeton));
