@@ -8,7 +8,7 @@
 class IA1
 {
 public:
-    IA1(unsigned int joueur) : partie(Partie::get_partie()), num_joueur(joueur) {}
+    IA1(unsigned int joueur) : partie(*Partie::get_partie()), num_joueur(joueur) {}
     Partie& getPartie() {return partie;}
     unsigned int getNumJoueur(){return num_joueur;}
 

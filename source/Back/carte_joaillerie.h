@@ -32,6 +32,7 @@ public:
     std::string getChemin(){return cheminImage;}
 
     std::string sauvegarder()const;
+
     void afficher_Couleur(std::ostream & os) const {
         if (get_typeBonus().get_Blanc()) {
             os<<"W";

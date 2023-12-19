@@ -20,7 +20,6 @@ public:
     InterfaceConsole();
 
 protected:
-    Partie& partie = Partie::get_partie();
     bool statut_joueur1 = false; //false : joueur et true : IA
     bool statut_joueur2 = false; //false : joueur et true : IA
     IA1 IA_joueur1;

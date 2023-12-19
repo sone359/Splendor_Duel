@@ -6,8 +6,13 @@
 #include <stdexcept>
 #include <unistd.h>
 
+#ifdef _WIN32
+    // Code spécifique à Windows
+    #include <cstdlib>  // Pour system("cls")
+#endif
+
 InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
-{   
+{
     std::cout << "\e[8;75;159t";
     titre();
     int fin_partie = 0;
@@ -46,7 +51,7 @@ InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
             std::cout << "test2" << std::endl;
             continuer = deroulement_tour();
         }
-        fin_partie = partie.fin_tour();
+        fin_partie = partie->fin_tour();
     }
     if(fin_partie == 1)
     {
@@ -207,14 +212,14 @@ bool InterfaceConsole::deroulement_tour()
         }
     }
     //Verification de la possibilite d'obtenir une carte royale
-    if (partie.get_cartes_royales().size() > 0 && (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) && (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
+    if (partie->get_cartes_royales().size() > 0 && (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) && (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
     {
         try
         {
             size_t num_carte;
             std::cout << "Vous avez rempli les conditions pour obtenir une carte Royale ! Entrez le numero de la carte Royale que vous souhaitez recuperer (1 a 4)  : ";
             std::cin >> num_carte;
-            CarteRoyale& carte_recup = partie.recupererCarteRoyale(num_carte);
+            CarteRoyale& carte_recup = partie->recupererCarteRoyale(num_carte);
             gestion_effets(carte_recup);
         }
         catch (const SplendorException& except) //Si une erreur previsible liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
@@ -678,7 +683,11 @@ void InterfaceConsole::gestion_effets(CarteRoyale& carte)
 }
 
 void InterfaceConsole::afficherConsole() const{
-    system("clear");
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
     afficherJoueur(partie->joueur_adverse());
     for(unsigned int i=1;i<=22;i++){
         afficherPyramideparLigne(i,std::cout);
@@ -1052,73 +1061,77 @@ void InterfaceConsole::afficherBonus(unsigned int num_joueur) const
 }
 
 void InterfaceConsole::titre()const{
-    system("clear");
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
     std::cout<<"\n\n\n\n\n\n\n\n";
     usleep(50000);
-    std::cout<<"                               _#######             ###                             ##        "<<std::endl;             
+    std::cout<<"                               _#######             ###                             ##        "<<std::endl;
     usleep(50000);
-    std::cout<<"                              /       ###            ###                             ##                        "<<std::endl; 
+    std::cout<<"                              /       ###            ###                             ##                        "<<std::endl;
     usleep(50000);
-    std::cout<<"                             /         ##             ##                             ##                        "<<std::endl; 
+    std::cout<<"                             /         ##             ##                             ##                        "<<std::endl;
     usleep(50000);
-    std::cout<<"                             ##        #              ##                             ##                        "<<std::endl; 
+    std::cout<<"                             ##        #              ##                             ##                        "<<std::endl;
     usleep(50000);
-    std::cout<<"                              ###                     ##                             ##                        "<<std::endl; 
+    std::cout<<"                              ###                     ##                             ##                        "<<std::endl;
     usleep(50000);
-    std::cout<<"                             ## ###           /###    ##      /##  ###  /###     ### ##    /###   ###  /###    "<<std::endl; 
+    std::cout<<"                             ## ###           /###    ##      /##  ###  /###     ### ##    /###   ###  /###    "<<std::endl;
     usleep(50000);
-    std::cout<<"                              ### ###        / ###  / ##     / ###  ###/ #### / ######### / ###  / ###/ #### / "<<std::endl; 
+    std::cout<<"                              ### ###        / ###  / ##     / ###  ###/ #### / ######### / ###  / ###/ #### / "<<std::endl;
     usleep(50000);
-    std::cout<<"                                ### ###     /   ###/  ##    /   ###  ##   ###/ ##   #### /   ###/   ##   ###/  "<<std::endl; 
+    std::cout<<"                                ### ###     /   ###/  ##    /   ###  ##   ###/ ##   #### /   ###/   ##   ###/  "<<std::endl;
     usleep(50000);
-    std::cout<<"                                  ### /##  ##    ##   ##   ##    ### ##    ##  ##    ## ##    ##    ##         "<<std::endl; 
+    std::cout<<"                                  ### /##  ##    ##   ##   ##    ### ##    ##  ##    ## ##    ##    ##         "<<std::endl;
     usleep(50000);
-    std::cout<<"                                    #/ /## ##    ##   ##   ########  ##    ##  ##    ## ##    ##    ##         "<<std::endl; 
+    std::cout<<"                                    #/ /## ##    ##   ##   ########  ##    ##  ##    ## ##    ##    ##         "<<std::endl;
     usleep(50000);
-    std::cout<<"                                     #/ ## ##    ##   ##   #######   ##    ##  ##    ## ##    ##    ##         "<<std::endl; 
+    std::cout<<"                                     #/ ## ##    ##   ##   #######   ##    ##  ##    ## ##    ##    ##         "<<std::endl;
     usleep(50000);
-    std::cout<<"                                      # /  ##    ##   ##   ##        ##    ##  ##    ## ##    ##    ##         "<<std::endl; 
+    std::cout<<"                                      # /  ##    ##   ##   ##        ##    ##  ##    ## ##    ##    ##         "<<std::endl;
     usleep(50000);
-    std::cout<<"                            /##        /   ##    ##   ##   ####    / ##    ##  ##    /# ##    ##    ##         "<<std::endl; 
+    std::cout<<"                            /##        /   ##    ##   ##   ####    / ##    ##  ##    /# ##    ##    ##         "<<std::endl;
     usleep(50000);
-    std::cout<<"                           /  ########/    #######    ### / ######/  ###   ###  ####/    ######     ###        "<<std::endl; 
+    std::cout<<"                           /  ########/    #######    ### / ######/  ###   ###  ####/    ######     ###        "<<std::endl;
     usleep(50000);
-    std::cout<<"                          /     #####      ######      ##/   #####    ###   ###  ###      ####       ###       "<<std::endl; 
+    std::cout<<"                          /     #####      ######      ##/   #####    ###   ###  ###      ####       ###       "<<std::endl;
     usleep(50000);
-    std::cout<<"                          |                ##                                                                  "<<std::endl; 
+    std::cout<<"                          |                ##                                                                  "<<std::endl;
     usleep(50000);
-    std::cout<<"                           \\)              ##                                ##### ##                         ###     "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                           ##                              /#####  /##                         ###    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                            ##                           //    /  / ###                         ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                        /     /  /   ###                        ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                             /  /     ###                       ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                            ## ##      ## ##    ###      /##    ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                            ## ##      ##  ##     ##  / / ###   ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                            ## ##      ##  ##      ##/ /   ###  ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                            ## ##      ##  ##      ## ##    ### ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                            ## ##      ##  ##      ## ########  ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                            #  ##      ##  ##      ## #######   ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                               /       /   ##      ## ##        ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                          /###/       /    ##      /# ####    / ##    "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                         /   ########/      ######/ ## ######/  ### / "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                        /       ####         #####   ## #####    ##/  "<<std::endl; 
-    usleep(50000);          
-    std::cout<<"                                                                        #  "<<std::endl;                                           
-    usleep(50000);          
+    std::cout<<"                           \\)              ##                                ##### ##                         ###     "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                           ##                              /#####  /##                         ###    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                            ##                           //    /  / ###                         ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                        /     /  /   ###                        ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                             /  /     ###                       ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                            ## ##      ## ##    ###      /##    ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                            ## ##      ##  ##     ##  / / ###   ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                            ## ##      ##  ##      ##/ /   ###  ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                            ## ##      ##  ##      ## ##    ### ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                            ## ##      ##  ##      ## ########  ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                            #  ##      ##  ##      ## #######   ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                               /       /   ##      ## ##        ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                          /###/       /    ##      /# ####    / ##    "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                         /   ########/      ######/ ## ######/  ### / "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                        /       ####         #####   ## #####    ##/  "<<std::endl;
+    usleep(50000);
+    std::cout<<"                                                                        #  "<<std::endl;
+    usleep(50000);
     std::cout<<"                                                                         ## \n\n\n"<<std::endl;
     sleep(2);
     std::cout<<"Adaptation par Simon Biffe, Ahmed Bouzidi, Ismail Essagar et Marie Herminie Blondy.\n\n";
@@ -1127,14 +1140,14 @@ void InterfaceConsole::titre()const{
 
 bool InterfaceConsole::get_statut_joueur_actif()
 {
-    if(partie.joueur_actif() == 1)
+    if(partie->joueur_actif() == 1)
         return statut_joueur1;
     return statut_joueur2;
 }
 
 IA1& InterfaceConsole::get_IA_joueur_actif()
 {
-    if(partie.joueur_actif() == 1)
+    if(partie->joueur_actif() == 1)
         return IA_joueur1;
     return IA_joueur2;
 }

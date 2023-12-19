@@ -426,7 +426,7 @@ Partie::Partie(const std::string fichier){
         // saute les 2 1eres lignes
         std::getline(inputFile, line);
         std::getline(inputFile, line);
-            
+
         while(!inputFile.eof()){//pioches
             std::getline(inputFile, line);
             if(line=="\0") {
@@ -543,7 +543,7 @@ Partie::Partie(const std::string fichier){
             //std::cout<<"  "<<token<<"\n";
         }
         if (std::getline(iss, token, ';')) {
-            
+
             joueur2.setPointsPrestigeCouleur(StockGemmes(token));
         }
         std::getline(inputFile,line);
@@ -552,7 +552,7 @@ Partie::Partie(const std::string fichier){
         iss.clear();
         iss.str(line);
         if (std::getline(iss, token, ';')) {
-            
+
             sac.ajouter_stock(StockGemmesOr(token));
             //std::cout<<token<<"toksac\n";
 
@@ -565,10 +565,10 @@ Partie::Partie(const std::string fichier){
         plateau=Plateau::get_plateau(line);
         // fermeture du fichier
         inputFile.close();
-        
+
         pyramide = Pyramide::getInstance(cartes);
         //pyramide->afficherPyramide();
-        
+
         ////verif
         //for(CarteJoaillerie  carte : cartes){
         //    std::cout<<carte<<std::endl;
