@@ -5,14 +5,26 @@
 #include <array>
 #include <stdexcept>
 
-void InterfaceConsole::main()
+InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
 {
     int fin_partie = 0;
     //pour test
-    partie.get_joueur(1).setGemmes(StockGemmesOr(0,2,0,3,1,1,0));
-    partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,1,1,1,1,0));
-    while(deroulement_tour() == true && fin_partie == 0)
+    statut_joueur2 = true;
+    //partie.get_joueur(1).setGemmes(StockGemmesOr(0,2,0,3,1,1,0));
+    //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,1,1,1,1,0));
+    bool continuer = true;
+    while(continuer && fin_partie == 0)
     {
+        if(get_statut_joueur_actif())
+        {
+            std::cout << "test1" << std::endl;
+            continuer = get_IA_joueur_actif().deroulement_tour();
+        }
+        else
+        {
+            std::cout << "test2" << std::endl;
+            continuer = deroulement_tour();
+        }
         fin_partie = partie.fin_tour();
     }
     if(fin_partie == 1)
@@ -113,6 +125,7 @@ bool InterfaceConsole::deroulement_tour()
         {
             if(reponse == "1")
             {
+                std::cout << "test3" << std::endl;
                 fin_actions_obligatoires = action_prendre_jetons(joueur);
             }
             else if(reponse == "2")
@@ -290,7 +303,7 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
         }
         else
         {
-            //Saisie des coordonn�es du jeton 3
+            //Saisie des coordonnees du jeton 3
             unsigned int colonne3 = 0, ligne3 = 0;
             std::cout << "Entrez la colonne du troisieme jeton a retirer : ";
             std::cin >> colonne3;
@@ -351,9 +364,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
         std::cin >> niveau_carte;
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3)  : ";
         std::cin >> num_carte;
-        std::cout << "ici1" << std::endl;
         gestion_effets(partie.acheter_carte(joueur, niveau_carte, num_carte));
-        std::cout << "ici2" << std::endl;
         return true;
     }
     else
@@ -764,3 +775,16 @@ void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     //    return os;
 }
 
+bool InterfaceConsole::get_statut_joueur_actif()
+{
+    if(partie.joueur_actif() == 1)
+        return statut_joueur1;
+    return statut_joueur2;
+}
+
+IA1& InterfaceConsole::get_IA_joueur_actif()
+{
+    if(partie.joueur_actif() == 1)
+        return IA_joueur1;
+    return IA_joueur2;
+}

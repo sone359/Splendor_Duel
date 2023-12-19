@@ -12,14 +12,19 @@
 #include "../Back/pyramide.h"
 #include "../Back/carte_joaillerie.h"
 #include "../Back/Effet.h"
+#include "../Back/IA1.h"
 
 class InterfaceConsole
 {
 public:
-    void main();
+    InterfaceConsole();
 
 protected:
     Partie& partie = Partie::get_partie();
+    bool statut_joueur1 = false; //false : joueur et true : IA
+    bool statut_joueur2 = false; //false : joueur et true : IA
+    IA1 IA_joueur1;
+    IA1 IA_joueur2;
 
     bool deroulement_tour();
     bool action_prendre_jetons(Joueur& joueur);
@@ -36,6 +41,9 @@ protected:
     void afficherPlateau() const;
     void afficherJetonsPossedes(unsigned int num_joueur) const;
     void afficherPointsPrestige(unsigned int num_joueur) const;
+
+    bool get_statut_joueur_actif();
+    IA1& get_IA_joueur_actif();
 
 
 };

@@ -9,7 +9,7 @@ bool IA1::prendre_3_jetons()
     std::array<unsigned int, 2> coor_jeton3;
     for (size_t i = 0 ; i < 3 ; i++)
     {
-        for (size_t j = 0 ; j < 3 ; j++)
+        for (size_t j = 0 ; j < 5 ; j++)
         {
             //Test des combinaisons horizontales
             jetons_cible_temp = 0;
@@ -20,9 +20,9 @@ bool IA1::prendre_3_jetons()
                 if (jetons_cible.inclus(partie.get_plateau()[i+1][j])) {jetons_cible_temp++;}
                 if (jetons_cible.inclus(partie.get_plateau()[i+2][j])) {jetons_cible_temp++;}
 
-                if (jetons_cible_temp == 3)
+                if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
-                    //Prendre les jetons
+                    getPartie().retirer_jetons({i, j}, {i+1, j}, {i+2, j});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
@@ -35,24 +35,24 @@ bool IA1::prendre_3_jetons()
             }
             //Test des combinaisons verticales
             jetons_cible_temp = 0;
-            if (partie.get_plateau()[i][j] != Nul && partie.get_plateau()[i][j+1] != Nul && partie.get_plateau()[i][j+2] != Nul
-                && partie.get_plateau()[i][j] != Or && partie.get_plateau()[i][j+1] != Or && partie.get_plateau()[i][j+2] != Or)
+            if (partie.get_plateau()[j][i] != Nul && partie.get_plateau()[j][i+1] != Nul && partie.get_plateau()[j][i+2] != Nul
+                && partie.get_plateau()[j][i] != Or && partie.get_plateau()[j][i+1] != Or && partie.get_plateau()[j][i+2] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i][j+1])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i][j+2])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[j][i])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[j][i+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[j][i+2])) {jetons_cible_temp++;}
 
-                if (jetons_cible_temp == 3)
+                if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
-                    //Prendre les jetons
+                    getPartie().retirer_jetons({j, i}, {j, i+1}, {j, i+2});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i, j};
-                    coor_jeton2 = {i, j+1};
-                    coor_jeton3 = {i, j+2};
+                    coor_jeton1 = {j, i};
+                    coor_jeton2 = {j, i+1};
+                    coor_jeton3 = {j, i+2};
                 }
             }
         }
@@ -63,19 +63,19 @@ bool IA1::prendre_3_jetons()
             if (partie.get_plateau()[i][i+j] != Nul && partie.get_plateau()[i+1][i+j+1] != Nul && partie.get_plateau()[i+2][i+j+2] != Nul
                 && partie.get_plateau()[i][i+j] != Or && partie.get_plateau()[i+1][i+j+1] != Or && partie.get_plateau()[i+2][i+j+2] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i][j])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[i][i+j])) {jetons_cible_temp++;}
                 if (jetons_cible.inclus(partie.get_plateau()[i+1][i+j+1])) {jetons_cible_temp++;}
                 if (jetons_cible.inclus(partie.get_plateau()[i+2][i+j+2])) {jetons_cible_temp++;}
 
-                if (jetons_cible_temp == 3)
+                if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
-                    //Prendre les jetons
+                    getPartie().retirer_jetons({i, i+j}, {i+1, i+j+1}, {i+2, i+j+2});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i, j};
+                    coor_jeton1 = {i, i+j};
                     coor_jeton2 = {i+1, i+j+1};
                     coor_jeton3 = {i+2, i+j+2};
                 }
@@ -87,24 +87,24 @@ bool IA1::prendre_3_jetons()
                 if (jetons_cible.inclus(partie.get_plateau()[i+j+1][j+1])) {jetons_cible_temp++;}
                 if (jetons_cible.inclus(partie.get_plateau()[i+j+2][j+2])) {jetons_cible_temp++;}
 
-                if (jetons_cible_temp == 3)
+                if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
-                    //Prendre les jetons
+                    getPartie().retirer_jetons({i+j, j}, {i+j+1, j+1}, {i+j+2, j+2});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i, j};
+                    coor_jeton1 = {i+j, j};
                     coor_jeton2 = {i+j+1, i+1};
                     coor_jeton3 = {i+j+2, i+2};
                 }
             }
         }
     }
-    if (jetons_cible_temp == 2)
+    if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
     {
-        //Prendre les jetons
+        getPartie().retirer_jetons(coor_jeton1, coor_jeton2, coor_jeton3);
         return true;
     }
     return false;
@@ -118,7 +118,7 @@ bool IA1::prendre_2_jetons()
     std::array<unsigned int, 2> coor_jeton2;
     for (size_t i = 0 ; i < 4 ; i++)
     {
-        for (size_t j = 0 ; j < 4 ; j++)
+        for (size_t j = 0 ; j < 5 ; j++)
         {
             //Test des combinaisons horizontales
             jetons_cible_temp = 0;
@@ -128,7 +128,7 @@ bool IA1::prendre_2_jetons()
                 if (jetons_cible.inclus(partie.get_plateau()[i][j])) {jetons_cible_temp++;}
                 if (jetons_cible.inclus(partie.get_plateau()[i+1][j])) {jetons_cible_temp++;}
 
-                if (jetons_cible_temp == 2)
+                if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
                     //Prendre les jetons
                     getPartie().retirer_jetons({i, j}, {i+1, j});
@@ -143,23 +143,23 @@ bool IA1::prendre_2_jetons()
             }
             //Test des combinaisons verticales
             jetons_cible_temp = 0;
-            if (partie.get_plateau()[i][j] != Nul && partie.get_plateau()[i][j+1] != Nul
-                && partie.get_plateau()[i][j] != Or && partie.get_plateau()[i][j+1] != Or)
+            if (partie.get_plateau()[j][i] != Nul && partie.get_plateau()[j][i] != Nul
+                && partie.get_plateau()[j][i] != Or && partie.get_plateau()[j][i] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i][j+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[j][i])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(partie.get_plateau()[j][i+1])) {jetons_cible_temp++;}
 
-                if (jetons_cible_temp == 2)
+                if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
                     //Prendre les jetons
-                    getPartie().retirer_jetons({i, j}, {i, j+1});
+                    getPartie().retirer_jetons({j, i}, {j, i+1});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i, j};
-                    coor_jeton2 = {i, j+1};
+                    coor_jeton1 = {j, i};
+                    coor_jeton2 = {j, i};
                 }
             }
         }
@@ -173,7 +173,7 @@ bool IA1::prendre_2_jetons()
                 if (jetons_cible.inclus(partie.get_plateau()[i][i+j])) {jetons_cible_temp++;}
                 if (jetons_cible.inclus(partie.get_plateau()[i+1][i+j+1])) {jetons_cible_temp++;}
 
-                if (jetons_cible_temp == 2)
+                if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
                     //Prendre les jetons
                     getPartie().retirer_jetons({i, i+j}, {i+1, i+j+1});
@@ -182,7 +182,7 @@ bool IA1::prendre_2_jetons()
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i, j};
+                    coor_jeton1 = {i, i+j};
                     coor_jeton2 = {i+1, i+j+1};
                 }
             }
@@ -192,7 +192,7 @@ bool IA1::prendre_2_jetons()
                 if (jetons_cible.inclus(partie.get_plateau()[i+j][j])) {jetons_cible_temp++;}
                 if (jetons_cible.inclus(partie.get_plateau()[i+j+1][j+1])) {jetons_cible_temp++;}
 
-                if (jetons_cible_temp == 2)
+                if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
                     //Prendre les jetons
                     getPartie().retirer_jetons({i+j, j}, {i+j+1, j+1});
@@ -201,13 +201,13 @@ bool IA1::prendre_2_jetons()
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i, j};
+                    coor_jeton1 = {i+j, j};
                     coor_jeton2 = {i+j+1, i+1};
                 }
             }
         }
     }
-    if (jetons_cible_temp == 1)
+    if (jetons_cible_temp == 1 || jetons_cible_temp == total_stock(jetons_cible))
     {
         //Prendre les jetons
         getPartie().retirer_jetons(coor_jeton1, coor_jeton2);
@@ -281,9 +281,9 @@ bool IA1::deroulement_tour(bool test)
     size_t niveau_max = 0;
     size_t num_max = 0;
 
-    for (size_t niveau = 0 ; niveau < 3 ; niveau++)
+    for (size_t niveau = 1 ; niveau < 4 ; niveau++)
     {
-        for (size_t num = 0 ; num < 5-niveau ; num++)
+        for (size_t num = 1 ; num < 7-niveau ; num++)
         {
             CarteJoaillerie carte_temp = getPartie().get_pyramide().recupererCarteJoaillerie(niveau, num);
             //Verification de la validite de la carte

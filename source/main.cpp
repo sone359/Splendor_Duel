@@ -23,9 +23,7 @@ int main()
     //Pyramide::getInstance();
     //std::cout<<"youhou";
 
-    Partie& game = Partie::get_partie();
     InterfaceConsole ic;
-    ic.main();
 //
 /*
     ic.afficherPlateau();
