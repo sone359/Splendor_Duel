@@ -82,7 +82,7 @@ PlateauWidget* PlateauWidget::getInstance() {
     return instance;
 }
 PlateauWidget* PlateauWidget::creerPlateau() {
-    Plateau& plateau = Plateau::get_plateau();
+    Plateau * plateau = Plateau::get_plateau();
     instance=nullptr;
 
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
@@ -92,7 +92,7 @@ PlateauWidget* PlateauWidget::creerPlateau() {
         std::cout << i << " ";
         for (int j = 0 ; j < 5 ; j++)
         {
-            switch (plateau[j][i])
+            switch ((*plateau)[j][i])
             {
             case Nul:
                 std::cout << "- ";
@@ -126,7 +126,7 @@ PlateauWidget* PlateauWidget::creerPlateau() {
     for (int i = 0; i < 5; i++) {
         std::cout << i << " ";
         for (int j = 0; j < 5; j++) {
-            switch (plateau[j][i]) {
+            switch ((*plateau)[j][i]) {
             case Nul:
                 plateauWidget->displayCase("", {j, i});
                 break;

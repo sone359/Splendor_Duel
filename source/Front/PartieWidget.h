@@ -10,6 +10,7 @@
 #include "PlateauWidget.h"
 #include "BoutonManager.h"
 #include "../Back/CarteRoyale.h"
+#include "pyramideFront.h"
 
 class PartieWidget : public QWidget {
 public:
@@ -17,6 +18,7 @@ public:
     void displayRoyalImages(const QStringList &imagePaths);
     void removePlateau(PlateauWidget * pl=nullptr);
     void afficherPlateau(PlateauWidget * pl);
+    void displayPyramide(pyramidefront* pyramide);
     void setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, QLineEdit*& greenLineEdit,
                                           QLineEdit*& blueLineEdit, QLineEdit*& whiteLineEdit,
                                           QLineEdit*& pearlLineEdit, QLineEdit*& blackLineEdit,

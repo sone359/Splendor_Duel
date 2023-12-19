@@ -14,6 +14,7 @@ SOURCES += \
     PartieWidget.cpp \
     PlateauWidget.cpp \
     main.cpp \
+    pyramideFront.cpp \
     regle_jeu.cpp
 
 HEADERS += \
@@ -32,9 +33,40 @@ HEADERS += \
     PartieWidget.h \
     MenuWindow.h \
     PlateauWidget.h \
+    pyramideFront.h \
     regle_jeu.h
 
 DISTFILES += \
+    ../../data/cartesplendor(niveau_1)/niveau1(1).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(10).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(11).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(12).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(13).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(14).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(15).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(16).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(17).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(18).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(19).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(2).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(20).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(21).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(22).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(23).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(24).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(25).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(26).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(27).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(28).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(29).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(3).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(30).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(4).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(5).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(6).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(7).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(8).jpg \
+    ../../data/cartesplendor(niveau_1)/niveau1(9).jpg \
     ../../data/info_cartejoaillerie \
     ../../data/info_cartejoaillerie_1 \
     C:/Users/ISMAIL/Downloads/Jeton_noir.png \

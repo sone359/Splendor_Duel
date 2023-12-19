@@ -91,15 +91,17 @@ MenuWindow::MenuWindow(QWidget *parent)
 }
 
 void MenuWindow::onButton1Clicked() {
-    Partie& game = Partie::get_partie();
+    Partie * game = Partie::get_partie();
 
     // Create and add the PlateauWidget to the layout
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
 
     plateauWidget = PlateauWidget::creerPlateau();
     PartieWidget * partie = PartieWidget::getInstance();
+    //pyramidefront *pyramide;
     //partie->displayRoyalImages(imagePaths);
     partie->afficherPlateau(plateauWidget);
+    //partie->displayPyramide(pyramide);
     partie->joueurActif("Joueur 1");
 
     partie->setPlateauWidget(plateauWidget);
@@ -111,7 +113,7 @@ void MenuWindow::onButton1Clicked() {
 }
 
 void MenuWindow::onButton2Clicked() {
-    Partie& game = Partie::get_partie();
+    Partie * game = Partie::get_partie();
 
     // Create and add the PlateauWidget to the layout
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
