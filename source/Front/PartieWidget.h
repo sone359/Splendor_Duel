@@ -16,7 +16,7 @@ class PartieWidget : public QWidget {
 public:
     static PartieWidget *getInstance();
     void displayRoyalImages(const QStringList &imagePaths);
-    void removePlateau(PlateauWidget * pl=nullptr);
+    void removePlateau(PlateauWidget * pl);
     void afficherPlateau(PlateauWidget * pl);
     void displayPyramide(pyramidefront* pyramide);
     void setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, QLineEdit*& greenLineEdit,
@@ -40,6 +40,8 @@ public:
     void removeRoyalButton(int buttonIndex);
 
     void joueurActif(const QString& playerName) ;
+
+    void afficherPyr_Plat(PlateauWidget * pl,pyramidefront* pyramide);
 
 public slots:
     void handleRoyalButtonClick(const QString &imagePath);
@@ -74,6 +76,8 @@ private:
 
     QLineEdit * player2GoldLineEdit;
     QLineEdit *player2CoronneLineEdit;
+
+    QHBoxLayout * pyramideETplateau;
 
 
 

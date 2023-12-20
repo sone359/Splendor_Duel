@@ -2,8 +2,7 @@
 #include <QRadioButton>
 #include <QMessageBox>
 #include "PartieWidget.h"
-
-//#include "../Console/interfaceConsole.cpp"
+#include <iostream>
 
 BoutonManager::BoutonManager(QWidget *parent)
     : parentWidget(parent),
@@ -135,6 +134,7 @@ void update_info()
 void update_plateau()
 {
     PartieWidget * partie = PartieWidget::getInstance();
+
     partie->removePlateau(partie->getPlateauWidget());
     PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
     partie->afficherPlateau(plateauWidgetInstance);
@@ -547,6 +547,109 @@ void BoutonManager::gestionEffetRoyale(CarteRoyale & carte)
     }
 }
 
+void afficherCarteparligne(const CarteJoaillerie& c,unsigned int ligne,std::ostream& os) {
+
+    //if (ligne<1 || ligne>7)  throw SplendorException("Une carte s'affiche en 7 lignes.\n");
+    switch (ligne){
+    case 1:
+                os<<"----";c.afficher_Couleur(os);os<<"---";
+                return;
+    case 2:
+                os <<"|  +"<< c.get_nbBonus() << "  |";
+                return;
+    case 3:
+                os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
+                return;
+    case 4:
+                if (c.get_capacite().size()>=2){
+                os<<"|";
+                for(int ca : c.get_capacite()){
+                switch (c.get_capacite()[ca])
+                {
+                case 0:
+                    os<<"REJ";
+                    break;
+                case 1:
+                    os<<"PRV";
+                    break;
+                case 2:
+                    os<<"CLR";
+                    break;
+                case 3:
+                    os<<"GEM";
+                    break;
+                case 4:
+                    os<<"VOL";
+                    break;
+                case 5:
+                    os<<"   ";
+                    break;
+                default :
+                    throw SplendorException("Erreur capacite.\n");
+                    break;
+                }
+                }
+                os<<"|";
+                }else{
+                os<<"| ";
+                switch (c.get_capacite()[0])
+                {
+                case 0:
+                os<<"REJ";
+                break;
+                case 1:
+                os<<"PRV";
+                break;
+                case 2:
+                os<<"CLR";
+                break;
+                case 3:
+                os<<"GEM";
+                break;
+                case 4:
+                os<<"VOL";
+                break;
+                case 5:
+                os<<"   ";
+                break;
+                default :
+                throw SplendorException("Erreur capacite.\n");
+                break;
+                }
+                os<<"  |";
+                }
+                return;
+    case 5:
+                os<<"|BVWRNP|";
+                return;
+    case 6:
+                os<<c.get_cout();
+                return;
+    case 7:
+                os<<"--------";
+                return;
+    }
+}
+
+
+void afficherPyramide()
+{
+    Partie * partie = Partie::get_partie();
+    std::cout<<"-------------------------PYRAMIDE--------------------------\n";
+    for(int j=3;j>=1;j--){//niveau
+                for(int l=1;l<8;l++){//ligne de la carte
+                for(int p=0;p<j*4;p++)std::cout<<" ";
+                for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
+                {
+                afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
+                std::cout<<' ';
+                }
+                std::cout<<'\n';
+                }
+                std::cout<<'\n';
+    }
+}
+
 
 void BoutonManager::onAcheterCarteClicked() {
 
@@ -554,6 +657,8 @@ void BoutonManager::onAcheterCarteClicked() {
     Joueur & joueur = partie->get_joueur(partie->joueur_actif());
      PartieWidget * partieWidget = PartieWidget::getInstance();
 
+
+    afficherPyramide();
 
       //InterfaceConsole  ic;
       //ic.afficherPyramide();

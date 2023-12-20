@@ -67,7 +67,7 @@ try {
 
     try{
             // Chemin de Ismail
-  lire_fichier("D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie");
+  lire_fichier("D:\\LO21\\lo21_splendor-main\\data\\info_cartejoaillerie_1");
             //std::cout<<"D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie";
         } catch (const std::exception& e) {
             const char* cheminSubstitut2="";

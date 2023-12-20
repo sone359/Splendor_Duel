@@ -2,6 +2,7 @@ QT    +=    widgets
 SOURCES += \
     ../Back/CarteRoyale.cpp \
     ../Back/Effet.cpp \
+    ../Back/IA1.cpp \
     ../Back/Joueur.cpp \
     ../Back/carte_joaillerie.cpp \
     ../Back/partie.cpp \
@@ -10,6 +11,7 @@ SOURCES += \
     ../Back/pyramidewidget.cpp \
     ../Back/sac.cpp \
     ../Back/stockGemmes.cpp \
+    ../Console/interfaceConsole.cpp \
     BoutonManager.cpp \
     MenuWindow.cpp \
     PartieWidget.cpp \
@@ -21,6 +23,7 @@ SOURCES += \
 HEADERS += \
     ../Back/CarteRoyale.h \
     ../Back/Effet.h \
+    ../Back/IA1.h \
     ../Back/Joueur.h \
     ../Back/partie.h \
     ../Back/plateau.h \
@@ -72,6 +75,7 @@ DISTFILES += \
     ../../data/info_cartejoaillerie_1 \
     C:/Users/ISMAIL/Downloads/Jeton_noir.png \
     C:/Users/ISMAIL/Downloads/jeton_blanc.png \
+    C:/Users/ISMAIL/Downloads/splender_background.jpg \
     Images/Cartes_royales/CartesRoyales_privilege.png \
     Images/Cartes_royales/CartesRoyales_rejouer.png \
     Images/Cartes_royales/CartesRoyales_sans.png \

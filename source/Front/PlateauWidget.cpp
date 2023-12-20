@@ -35,7 +35,7 @@ void PlateauWidget::displayCase(const std::string &imageName, const Case &positi
 
         // Set the size and border of the button
         button->setFixedSize(60, 60);
-        button->setStyleSheet("border: 1px solid brown; background-color: #C4A484; ");
+        button->setStyleSheet("border: 1px solid brown; background-color: #C4A484;");
 
 
         // Set the text of the button to be the position and the name of the image

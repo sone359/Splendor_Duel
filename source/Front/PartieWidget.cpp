@@ -346,6 +346,10 @@ void PartieWidget::displayPyramide(pyramidefront* pyramide){
 mainLayout->addWidget(pyramide);
 }
 
+
+
+
+
 void PartieWidget::updatePlayerPrivilege(const QString& playerName,int privilegeValue){
      if (playerName == "Joueur 1") {
         player1PrivilegeLineEdit->setText(QString::number(privilegeValue));

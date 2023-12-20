@@ -100,8 +100,17 @@ void MenuWindow::onButton1Clicked() {
     PartieWidget * partie = PartieWidget::getInstance();
     //pyramidefront *pyramide;
     //partie->displayRoyalImages(imagePaths);
+
+    QString backgroundImagePath = ":/Images/splender_background.jpg";
+
+    // Appliquer l'image de fond à PartieWidget
+    partie->setStyleSheet("background-color: #fffaca");
+
+    pyramidefront * pyramide=pyramidefront::getInstance();
+
+    //partie->afficherPyr_Plat(plateauWidget,pyramide->creerPyramide());
     partie->afficherPlateau(plateauWidget);
-    //partie->displayPyramide(pyramide);
+    partie->displayPyramide(pyramide->creerPyramide());
     partie->joueurActif("Joueur 1");
 
     partie->setPlateauWidget(plateauWidget);
@@ -123,6 +132,11 @@ void MenuWindow::onButton2Clicked() {
     //partie->displayRoyalImages(imagePaths);
     partie->afficherPlateau(plateauWidget);
     partie->joueurActif("Joueur 1");
+    QString backgroundImagePath = ":/Images/splender_background.jpg";
+
+    // Appliquer l'image de fond à PartieWidget
+    partie->setStyleSheet("background-image: url('" + backgroundImagePath + "'); background-repeat: no-repeat; background-position: center;");
+
 
     partie->setPlateauWidget(plateauWidget);
 

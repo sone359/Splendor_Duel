@@ -1,18 +1,19 @@
 #ifndef PYRAMIDEFRONT_H
 #define PYRAMIDEFRONT_H
-#include <QVBoxLayout>
 #include <QWidget>
-#include <QGridLayout>
-#include <QLabel>
-#include <vector>
+#include <QHBoxLayout>
 
 
 class pyramidefront : public QWidget
 {
-
 public:
+    static pyramidefront* getInstance();
+    pyramidefront* creerPyramide();
+    static pyramidefront * instance;
+    QVBoxLayout* get_mainLayout();
+private:
     pyramidefront(QWidget *parent = nullptr);
-    ~pyramidefront();
+    QVBoxLayout *mainLayout;
 };
 
 #endif // PYRAMIDEFRONT_H
