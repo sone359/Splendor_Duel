@@ -14,70 +14,72 @@ PartieWidget::PartieWidget(QWidget *parent) : QWidget(parent) {
     };
 
     displayRoyalImages(imagePaths);
-
+    Partie * game = Partie::get_partie();
     boutonManager.addButtonsToLayout(mainLayout);
-
-    player1Label = new QLabel("Joueur 1", this);
+    //QMessageBox::information(this, "Info", "Player 1: " + Player1 );
+    player1Label = new QLabel(Player1, this);
     player1RedLineEdit = new QLineEdit(this);
-    player1RedLineEdit->setText("0");
+    player1RedLineEdit->setText(QString::number(game->get_joueur(1).getGemmes().get_Rouge()));
     player1RedLineEdit->setReadOnly(true);
     player1GreenLineEdit = new QLineEdit(this);
-    player1GreenLineEdit->setText("0");
+    player1GreenLineEdit->setText(QString::number(game->get_joueur(1).getGemmes().get_Vert()));
     player1GreenLineEdit->setReadOnly(true);
     player1BlueLineEdit = new QLineEdit(this);
-    player1BlueLineEdit->setText("0");
+    player1BlueLineEdit->setText(QString::number(game->get_joueur(1).getGemmes().get_Bleu()));
     player1BlueLineEdit->setReadOnly(true);
     player1WhiteLineEdit = new QLineEdit(this);
-    player1WhiteLineEdit->setText("0");
+    player1WhiteLineEdit->setText(QString::number(game->get_joueur(1).getGemmes().get_Blanc()));
     player1WhiteLineEdit->setReadOnly(true);
     player1PearlLineEdit = new QLineEdit(this);
-    player1PearlLineEdit->setText("0");
+    player1PearlLineEdit->setText(QString::number(game->get_joueur(1).getGemmes().get_Perle()));
     player1PearlLineEdit->setReadOnly(true);
     player1BlackLineEdit = new QLineEdit(this);
-    player1BlackLineEdit->setText("0");
+    player1BlackLineEdit->setText(QString::number(game->get_joueur(1).getGemmes().get_Noir()));
     player1BlackLineEdit->setReadOnly(true);
     player1PrivilegeLineEdit = new QLineEdit(this);
-    player1PrivilegeLineEdit->setText("0");
+    player1PrivilegeLineEdit->setText(QString::number(game->get_joueur(1).getNbPrivileges()));
     player1PrivilegeLineEdit->setReadOnly(true);
     player1GoldLineEdit = new QLineEdit(this);
-    player1GoldLineEdit->setText("0");
+    player1GoldLineEdit->setText(QString::number(game->get_joueur(1).getGemmes().get_Or()));
     player1GoldLineEdit->setReadOnly(true);
     player1CoronneLineEdit = new QLineEdit(this);
-    player1CoronneLineEdit->setText("0");
+    player1CoronneLineEdit->setText(QString::number(game->get_joueur(1).getNbCouronnes()));
     player1CoronneLineEdit->setReadOnly(true);
+
+
 
     setupPlayerWidgets(player1Label, player1RedLineEdit, player1GreenLineEdit,
                        player1BlueLineEdit, player1WhiteLineEdit, player1PearlLineEdit,
                        player1BlackLineEdit, player1PrivilegeLineEdit,player1GoldLineEdit,player1CoronneLineEdit);
 
     // Player 2
-    player2Label = new QLabel("Joueur 2", this);
+    player2Label = new QLabel(Player2, this);
     player2RedLineEdit = new QLineEdit(this);
-    player2RedLineEdit->setText("0");
+    player2RedLineEdit->setText(QString::number(game->get_joueur(2).getGemmes().get_Rouge()));
     player2RedLineEdit->setReadOnly(true);
     player2GreenLineEdit = new QLineEdit(this);
-    player2GreenLineEdit->setText("0");
+    player2GreenLineEdit->setText(QString::number(game->get_joueur(2).getGemmes().get_Vert()));
     player2GreenLineEdit->setReadOnly(true);
     player2BlueLineEdit = new QLineEdit(this);
-    player2BlueLineEdit->setText("0");
+    player2BlueLineEdit->setText(QString::number(game->get_joueur(2).getGemmes().get_Bleu()));
     player2BlueLineEdit->setReadOnly(true);
     player2WhiteLineEdit = new QLineEdit(this);
-    player2WhiteLineEdit->setText("0");
+    player2WhiteLineEdit->setText(QString::number(game->get_joueur(2).getGemmes().get_Blanc()));
     player2WhiteLineEdit->setReadOnly(true);
     player2PearlLineEdit = new QLineEdit(this);
-    player2PearlLineEdit->setText("0");
+    player2PearlLineEdit->setText(QString::number(game->get_joueur(2).getGemmes().get_Perle()));
     player2PearlLineEdit->setReadOnly(true);
     player2BlackLineEdit = new QLineEdit(this);
-    player2BlackLineEdit->setText("0");
+    player2BlackLineEdit->setText(QString::number(game->get_joueur(2).getGemmes().get_Noir()));
     player2BlackLineEdit->setReadOnly(true);
     player2PrivilegeLineEdit = new QLineEdit(this);
-    player2PrivilegeLineEdit->setText("0");
+    player2PrivilegeLineEdit->setText(QString::number(game->get_joueur(2).getNbPrivileges()));
     player2PrivilegeLineEdit->setReadOnly(true);
     player2GoldLineEdit = new QLineEdit(this);
-    player2GoldLineEdit->setText("0");
+    player2GoldLineEdit->setText(QString::number(game->get_joueur(2).getGemmes().get_Or()));
     player2GoldLineEdit->setReadOnly(true);
     player2CoronneLineEdit = new QLineEdit(this);
-    player2CoronneLineEdit->setText("0");
+    player2CoronneLineEdit->setText(QString::number(game->get_joueur(2).getNbCouronnes()));
     player2CoronneLineEdit->setReadOnly(true);
 
     setupPlayerWidgets(player2Label, player2RedLineEdit, player2GreenLineEdit,
@@ -100,8 +102,10 @@ PartieWidget::PartieWidget(QWidget *parent) : QWidget(parent) {
 
 }
 
+
+
 void PartieWidget::updatePlayerInfo(const QString& playerName, int redValue, int greenValue, int blueValue, int whiteValue, int pearlValue, int blackValue,int goldvalue) {
-    if (playerName == "Joueur 1") {
+    if (playerName == Player1) {
         player1RedLineEdit->setText(QString::number(redValue));
         player1GreenLineEdit->setText(QString::number(greenValue));
         player1BlueLineEdit->setText(QString::number(blueValue));
@@ -109,7 +113,7 @@ void PartieWidget::updatePlayerInfo(const QString& playerName, int redValue, int
         player1PearlLineEdit->setText(QString::number(pearlValue));
         player1BlackLineEdit->setText(QString::number(blackValue));
         player1GoldLineEdit->setText(QString::number(goldvalue));
-    } else if (playerName == "Joueur 2") {
+    } else if (playerName == Player2) {
         player2RedLineEdit->setText(QString::number(redValue));
         player2GreenLineEdit->setText(QString::number(greenValue));
         player2BlueLineEdit->setText(QString::number(blueValue));
@@ -118,6 +122,13 @@ void PartieWidget::updatePlayerInfo(const QString& playerName, int redValue, int
         player2BlackLineEdit->setText(QString::number(blackValue));
         player2GoldLineEdit->setText(QString::number(goldvalue));
     }
+}
+
+void PartieWidget::setLabel(const QString & player1,const QString & player2)
+{
+    player1Label->setText(player1);
+    player2Label->setText(player2);
+
 }
 
 void setSmallImageBackground(QLabel* label, const QString& imagePath) {
@@ -325,10 +336,11 @@ void colorerLabel(QLabel* label, const QString& couleur) {
 }
 
 void PartieWidget::joueurActif(const QString& playerName) {
-    if (playerName == "Joueur 1") {
+    if (playerName == Player1) {
+
         colorerLabel(player1Label, "green");
         colorerLabel(player2Label, "");  // Réinitialiser le fond de l'autre label
-    } else if (playerName == "Joueur 2") {
+    } else if (playerName == Player2) {
         colorerLabel(player1Label, "");  // Réinitialiser le fond de l'autre label
         colorerLabel(player2Label, "green");
     }
@@ -351,10 +363,10 @@ mainLayout->addWidget(pyramide);
 
 
 void PartieWidget::updatePlayerPrivilege(const QString& playerName,int privilegeValue){
-     if (playerName == "Joueur 1") {
+     if (playerName == Player1) {
         player1PrivilegeLineEdit->setText(QString::number(privilegeValue));
         }
-     else if(playerName == "Joueur 2")
+     else if(playerName == Player2)
      {
         player2PrivilegeLineEdit->setText(QString::number(privilegeValue));
 
@@ -364,10 +376,10 @@ void PartieWidget::updatePlayerPrivilege(const QString& playerName,int privilege
 
 void PartieWidget::updatePlayerCoronne(const QString& playerName,int coronneValue)
 {
-if (playerName == "Joueur 1") {
+if (playerName == Player1) {
         player1CoronneLineEdit->setText(QString::number(coronneValue));
 }
-else if(playerName == "Joueur 2")
+else if(playerName == Player2)
 {
         player2CoronneLineEdit->setText(QString::number(coronneValue));
 

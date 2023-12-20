@@ -30,7 +30,7 @@ private slots:
     void onAcheterCarteClicked();
     void onReserverCarteClicked();
     void onUtiliserPrivilegeClicked();
-
+    void onAnnulerJetonsClicked();
     void onPrendreJetonsClicked();
     void onRemplirPlateauClicked();
 
@@ -41,7 +41,7 @@ private:
     QPushButton *acheterCarteButton = new QPushButton("Acheter une carte", parentWidget);
     QPushButton *reserverCarteButton = new QPushButton("Réserver une carte", parentWidget);
     QPushButton *utiliserPrivilegeButton = new QPushButton("Utiliser un privilège", parentWidget);
-
+    QPushButton *annulerJetonsButton = new QPushButton("Annuler prise jetons", parentWidget);
     QPushButton *prendreJetonsButton = new QPushButton("Prendre des Jetons", parentWidget);
     QPushButton *remplirPlateauButton = new QPushButton("Remplir le plateau", parentWidget);
     int joueur1=1;

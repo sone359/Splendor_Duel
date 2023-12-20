@@ -52,6 +52,7 @@ void BoutonManager::createButtons() {
     acheterCarteButton->setStyleSheet(buttonStyle);
     reserverCarteButton->setStyleSheet(buttonStyle);
     utiliserPrivilegeButton->setStyleSheet(buttonStyle);
+    annulerJetonsButton->setStyleSheet(buttonStyle);
     prendreJetonsButton->setStyleSheet(buttonStyle);
     remplirPlateauButton->setStyleSheet(buttonStyle);
 
@@ -60,12 +61,14 @@ void BoutonManager::createButtons() {
     buttonsLayout->addWidget(utiliserPrivilegeButton, 0, 2);
 
     buttonsLayout->addWidget(prendreJetonsButton, 0, 4);
-    buttonsLayout->addWidget(remplirPlateauButton, 0, 5);
+    buttonsLayout->addWidget(annulerJetonsButton, 0, 5);
+    buttonsLayout->addWidget(remplirPlateauButton, 0, 6);
 
     // Associer chaque bouton à son action respective
     connect(acheterCarteButton, &QPushButton::clicked, this, &BoutonManager::onAcheterCarteClicked);
     connect(reserverCarteButton, &QPushButton::clicked, this, &BoutonManager::onReserverCarteClicked);
     connect(utiliserPrivilegeButton, &QPushButton::clicked, this, &BoutonManager::onUtiliserPrivilegeClicked);
+    connect(annulerJetonsButton, &QPushButton::clicked, this, &BoutonManager::onAnnulerJetonsClicked);
     connect(prendreJetonsButton, &QPushButton::clicked, this, &BoutonManager::onPrendreJetonsClicked);
     connect(remplirPlateauButton, &QPushButton::clicked, this, &BoutonManager::onRemplirPlateauClicked);
 
@@ -123,12 +126,12 @@ void update_info()
     Partie * game = Partie::get_partie();
     PartieWidget * partie = PartieWidget::getInstance();
 
-    partie->updatePlayerInfo("Joueur 1", game->get_joueur(1).getGemmes().get_Rouge() , game->get_joueur(1).getGemmes().get_Vert(), game->get_joueur(1).getGemmes().get_Bleu(), game->get_joueur(1).getGemmes().get_Blanc(), game->get_joueur(1).getGemmes().get_Perle(), game->get_joueur(1).getGemmes().get_Noir(),game->get_joueur(1).getGemmes().get_Or());
-    partie->updatePlayerInfo("Joueur 2", game->get_joueur(2).getGemmes().get_Rouge() , game->get_joueur(2).getGemmes().get_Vert(), game->get_joueur(2).getGemmes().get_Bleu(), game->get_joueur(2).getGemmes().get_Blanc(), game->get_joueur(2).getGemmes().get_Perle(), game->get_joueur(2).getGemmes().get_Noir(),game->get_joueur(2).getGemmes().get_Or());
-    partie->updatePlayerPrivilege("Joueur 1",game->get_joueur(1).getNbPrivileges());
-    partie->updatePlayerPrivilege("Joueur 2",game->get_joueur(2).getNbPrivileges());
-    partie->updatePlayerCoronne("Joueur 1",game->get_joueur(1).getNbCouronnes());
-    partie->updatePlayerCoronne("Joueur 2",game->get_joueur(2).getNbCouronnes());
+    partie->updatePlayerInfo(partie->getPlayer1(), game->get_joueur(1).getGemmes().get_Rouge() , game->get_joueur(1).getGemmes().get_Vert(), game->get_joueur(1).getGemmes().get_Bleu(), game->get_joueur(1).getGemmes().get_Blanc(), game->get_joueur(1).getGemmes().get_Perle(), game->get_joueur(1).getGemmes().get_Noir(),game->get_joueur(1).getGemmes().get_Or());
+    partie->updatePlayerInfo(partie->getPlayer2(), game->get_joueur(2).getGemmes().get_Rouge() , game->get_joueur(2).getGemmes().get_Vert(), game->get_joueur(2).getGemmes().get_Bleu(), game->get_joueur(2).getGemmes().get_Blanc(), game->get_joueur(2).getGemmes().get_Perle(), game->get_joueur(2).getGemmes().get_Noir(),game->get_joueur(2).getGemmes().get_Or());
+    partie->updatePlayerPrivilege(partie->getPlayer1(),game->get_joueur(1).getNbPrivileges());
+    partie->updatePlayerPrivilege(partie->getPlayer2(),game->get_joueur(2).getNbPrivileges());
+    partie->updatePlayerCoronne(partie->getPlayer1(),game->get_joueur(1).getNbCouronnes());
+    partie->updatePlayerCoronne(partie->getPlayer2(),game->get_joueur(2).getNbCouronnes());
 
 }
 void update_plateau()
@@ -151,12 +154,12 @@ void fin_tour(){
     if(partie->joueur_actif()==1)    {
 
 
-        partieWidget->joueurActif("Joueur 1");
+        partieWidget->joueurActif(partieWidget->getPlayer1());
 
     }
     else {
 
-        partieWidget->joueurActif("Joueur 2");
+        partieWidget->joueurActif(partieWidget->getPlayer2());
     }
     update_info();
     update_plateau();
@@ -370,12 +373,12 @@ void gemmeEffet(CarteJoaillerie & carte)
     if(partie->joueur_actif()==1)    {
 
 
-        partieWidget->joueurActif("Joueur 1");
+        partieWidget->joueurActif(partieWidget->getPlayer1());
 
     }
     else {
 
-        partieWidget->joueurActif("Joueur 2");
+        partieWidget->joueurActif(partieWidget->getPlayer2());
     }
     throw SplendorException( "La carte passee en parametre possède un type de bonus incorrect (Or ou Perle) ou nul ce qui empeche le traitement de l'effet gemme et traduit sans doute une erreur de conception des cartes. Peut-etre l'erreur vient-elle d'un effet gemme place avant un effet couleur.");
 
@@ -429,12 +432,12 @@ void gemmeEffet(CarteJoaillerie & carte)
         if(partie->joueur_actif()==1)    {
 
 
-                partieWidget->joueurActif("Joueur 1");
+                partieWidget->joueurActif(partieWidget->getPlayer1());
 
         }
         else {
 
-                partieWidget->joueurActif("Joueur 2");
+                partieWidget->joueurActif(partieWidget->getPlayer2());
         }
         throw SplendorException("Aucun jeton du plateau ne correspond a la couleur de la carte que vous avez achetee, l'effet Gemme de la carte n'a pas pu etre active");
     }
@@ -711,6 +714,16 @@ void BoutonManager::onAcheterCarteClicked() {
 }
 
 
+void BoutonManager::onAnnulerJetonsClicked()
+{
+
+          PlateauWidget * plateauWidget = PlateauWidget::getInstance();
+                   plateauWidget->emptyJetons();
+
+
+}
+
+
 
 
 
@@ -852,7 +865,7 @@ void BoutonManager::onPrendreJetonsClicked() {
    if(jetons.size()==1)
    {
             StockGemmes stock;
-            //stock=plateau.actionRetirerJetons(positionArrayVector[0]);
+
 
 
             game->retirer_jetons(positionArrayVector[0]);
@@ -864,7 +877,7 @@ void BoutonManager::onPrendreJetonsClicked() {
     {
 
          StockGemmes stock;
-         //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1]);
+
 
 
              game->retirer_jetons(positionArrayVector[0],positionArrayVector[1]);
@@ -894,36 +907,21 @@ void BoutonManager::onPrendreJetonsClicked() {
                             demanderCouleurJeton(total_stock(joueur.getGemmes())-10);
          }
          catch (const SplendorException& ex) {
+
                             QMessageBox::information(parentWidget, "Exception", ex.what());
          }
 
-
-
-    update_info();
-
-    game->fin_tour();
-
-    if(game->joueur_actif()==1)    {
-
-
-         partie->joueurActif("Joueur 1");
-
-    }
-    else {
-
-         partie->joueurActif("Joueur 2");
-    }
+  fin_tour();
 
 
 
    } catch (const SplendorException& ex) {
+  plateauWidget->emptyJetons();
          // Exception caught, display a QMessageBox with the exception message
          QMessageBox::information(parentWidget, "Exception", ex.what());
     }
 
 
-    update_plateau();
-    update_info();
 
 
 

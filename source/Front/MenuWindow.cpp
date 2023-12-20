@@ -100,8 +100,25 @@ void MenuWindow::onButton1Clicked() {
     PartieWidget * partie = PartieWidget::getInstance();
     //pyramidefront *pyramide;
     //partie->displayRoyalImages(imagePaths);
+    QString  playerName1  =     QInputDialog::getText(nullptr, "Player 1 Name", "Le joueur 1 est:");
 
-    QString backgroundImagePath = ":/Images/splender_background.jpg";
+
+
+
+    QString   playerName2 = QInputDialog::getText(nullptr, "Player 2 Name", "Le joueur 2 est:");
+
+
+
+
+
+
+    // Set the player names in PartieWidget (assuming you have setters for player names)
+//
+//    QMessageBox(parentWidget,"information",playerName2);
+    partie->setPlayer1(playerName1);
+    partie->setPlayer2(playerName2);
+
+    partie->setLabel(playerName1,playerName2);
 
     // Appliquer l'image de fond à PartieWidget
     partie->setStyleSheet("background-color: #fffaca");
@@ -110,8 +127,8 @@ void MenuWindow::onButton1Clicked() {
 
     //partie->afficherPyr_Plat(plateauWidget,pyramide->creerPyramide());
     partie->afficherPlateau(plateauWidget);
-    partie->displayPyramide(pyramide->creerPyramide());
-    partie->joueurActif("Joueur 1");
+    //partie->displayPyramide(pyramide->creerPyramide());
+    partie->joueurActif(partie->getPlayer1());
 
     partie->setPlateauWidget(plateauWidget);
 

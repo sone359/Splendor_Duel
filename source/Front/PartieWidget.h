@@ -43,6 +43,33 @@ public:
 
     void afficherPyr_Plat(PlateauWidget * pl,pyramidefront* pyramide);
 
+    QString getPlayer1() const {
+        return Player1;
+    }
+
+    // Setter for Player1
+    void setPlayer1(const QString &value) {
+        Player1 = value;
+
+    }
+
+    // Getter for Player2
+    QString getPlayer2() const {
+        return Player2;
+    }
+
+    // Setter for Player2
+    void setPlayer2(const QString &value) {
+        Player2 = value;
+    }
+
+    void setLabel(const QString & player1,const QString & player2);
+
+
+
+
+
+
 public slots:
     void handleRoyalButtonClick(const QString &imagePath);
 
@@ -79,6 +106,8 @@ private:
 
     QHBoxLayout * pyramideETplateau;
 
+    QString Player1;
+    QString Player2;
 
 
     std::vector<CarteRoyale> cartesRoyales;
