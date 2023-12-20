@@ -3,7 +3,7 @@
 #include <QMessageBox>
 #include "PartieWidget.h"
 
-#include "../Console/interfaceConsole.cpp"
+//#include "../Console/interfaceConsole.cpp"
 
 BoutonManager::BoutonManager(QWidget *parent)
     : parentWidget(parent),
@@ -472,13 +472,13 @@ void gestionEffet(CarteJoaillerie & carte){
                 case couleur:
 
                 couleurEffet(carte);
-
+                return;
 
                 break;
                 case voler:
 
-                volerJeton();
-
+                   volerJeton();
+                return;
 
                 break;
                 case gemme:
@@ -507,7 +507,7 @@ void gestionEffet(CarteJoaillerie & carte){
 
 
 
-void gestionEffetRoyale(CarteRoyale & carte)
+void BoutonManager::gestionEffetRoyale(CarteRoyale & carte)
 {
     Partie* partie = Partie::get_partie();
     Joueur& joueur = partie->get_joueur(partie->joueur_actif());
@@ -531,13 +531,15 @@ void gestionEffetRoyale(CarteRoyale & carte)
 
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Privilege de la carte !");
                 partie->prend_privilege(joueur);
-
+                update_info();
+                update_plateau();
+                return;
                 break;
 
     case voler:
 
                 volerJeton();
-
+                return;
                 break;
 
 
@@ -553,7 +555,7 @@ void BoutonManager::onAcheterCarteClicked() {
      PartieWidget * partieWidget = PartieWidget::getInstance();
 
 
-      InterfaceConsole  ic;
+      //InterfaceConsole  ic;
       //ic.afficherPyramide();
     QMessageBox msgBox;
     msgBox.setText("Souhaitez-vous acheter une des cartes que vous avez réservées?");
@@ -591,6 +593,8 @@ void BoutonManager::onAcheterCarteClicked() {
 
                         //ic.gestion_effets(partie->get_joueur(partie->joueur_actif()).acheterCarteReservee(numeroCarte));
                         }
+
+
 
 
                   fin_tour();
@@ -646,20 +650,7 @@ void BoutonManager::onReserverCarteClicked() {
     }
 
     partie->reserver_carte(partie->get_joueur(partie->joueur_actif()), niveauCarte, numeroCarte);
-    update_plateau();
-    update_info();
-    partie->fin_tour();
-
-    if(partie->joueur_actif()==1)    {
-
-
-        partieWidget->joueurActif("Joueur 1");
-
-    }
-    else {
-
-        partieWidget->joueurActif("Joueur 2");
-    }
+    fin_tour();
     }
     catch (const SplendorException& ex) {
     // Exception caught, display a QMessageBox with the exception message
@@ -717,6 +708,18 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
 
     plateauWidget->emptyJetons();
 
+
+
+}
+
+void verifierCarteRoyale(Joueur & joueur)
+{
+    PartieWidget * partieWidget = PartieWidget::getInstance();
+    Partie * partie = Partie::get_partie();
+    if (partie->get_cartes_royales().size() > 0 && (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) && (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
+    {
+          QMessageBox::information(partieWidget, "Information", "Vous avez rempli les conditions pour obtenir une carte Royale ! Cliquer sur la carte Royale à prendre");
+    }
 
 
 }

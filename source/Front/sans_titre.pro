@@ -3,6 +3,7 @@ SOURCES += \
     ../Back/CarteRoyale.cpp \
     ../Back/Effet.cpp \
     ../Back/Joueur.cpp \
+    ../Back/carte_joaillerie.cpp \
     ../Back/partie.cpp \
     ../Back/plateau.cpp \
     ../Back/pyramide.cpp \

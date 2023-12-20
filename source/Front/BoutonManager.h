@@ -11,7 +11,7 @@
 #include "../Back/partie.h"
 #include "../Back/Joueur.h"
 #include "QInputDialog"
-#include "../Console/interfaceConsole.h"
+//#include "../Console/interfaceConsole.h"
 
 class BoutonManager : public QObject {
 
@@ -21,6 +21,8 @@ public:
 
     void createButtons();
     void addButtonsToLayout(QVBoxLayout *layout);
+
+    void gestionEffetRoyale(CarteRoyale & carte);
 
 
 

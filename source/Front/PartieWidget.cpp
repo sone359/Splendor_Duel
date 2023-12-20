@@ -273,28 +273,42 @@ void PartieWidget::removeRoyalButton(int buttonIndex) {
     }
 }
 
+
+
+
+
 void PartieWidget::handleRoyalButtonClick(const QString &imagePath) {
     // Check if the buttonIndex is within the valid range
 
     for (int i = 0; i < cartesRoyales.size(); ++i) {
         if (QString::fromStdString(cartesRoyales[i].getCheminImage()) == imagePath)
          {
-
-            CarteRoyale clickedCarte = cartesRoyales[i];
+            Partie * game = Partie::get_partie();
+            CarteRoyale & clickedCarte = cartesRoyales[i];
             // You can use the information as needed
-            int pointsPrestige = clickedCarte.getPointsPrestige();
-            Effet effet = clickedCarte.getCapacite();
 
-            // Example: Display information in a message box
-            QString message = QString("Carte %1 - Points Prestige: %2, Capacite: %3")
-                                  .arg(i + 1).arg(pointsPrestige).arg(static_cast<int>(effet));
+            Joueur & joueur = game->get_joueur(game->joueur_actif());
 
-            QMessageBox::information(this, "Carte Royale Clicked", message);
+            if (game->get_cartes_royales().size() > 0 && (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) && (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
+
+            {
+            joueur.addCartesRoyalesPossedees(clickedCarte);
+            joueur.addPointsPrestiges(clickedCarte.getPointsPrestige());
             removeRoyalButton(i);
+            boutonManager.gestionEffetRoyale(clickedCarte);
+
+
+
+            }
+            else
+            {
+           QMessageBox::information(this, "Exception", "Tu n'a pas assez de coronne . Désolé");
+
 
         }
     }
 
+}
 }
 
 void colorerLabel(QLabel* label, const QString& couleur) {
