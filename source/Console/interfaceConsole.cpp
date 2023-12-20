@@ -11,7 +11,7 @@
     #include <cstdlib>  // Pour system("cls")
 #endif
 
-InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
+InterfaceConsole::InterfaceConsole()
 {
     std::cout << "\e[8;75;159t";
     titre();
@@ -915,10 +915,10 @@ void InterfaceConsole::afficherCarteRoyaleparLigne(unsigned int ligne, unsigned 
                 return;
 
             case 2:
-                os<<"|8(°û )|";
+                os<<"|8( û )|";
                 return;
             case 3:
-                os<<"| /°I°\\|";
+                os<<"| /'I'\\|";
                 return;
             case 4:
                 os<<"|(;_-;)|";
@@ -979,10 +979,10 @@ void InterfaceConsole::afficherPlateauparLigne(unsigned int ligne,std::ostream& 
         return;
         break;
         case 3:
-        os << "          .-------------------.          " ;
+        os << "          o-------------------o          " ;
         return;
         case 13 :
-        os << "          °-------------------°          " ;
+        os << "          o-------------------o          " ;
         return;
 
     }
