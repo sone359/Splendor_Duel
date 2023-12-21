@@ -45,7 +45,7 @@ public :
     void voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton);
     CarteRoyale& recupererCarteRoyale(size_t numero);
     int fin_tour();
-    int sauvegarder()const;
+    int sauvegarder(const std::string fichier)const;
     std::string getTime()const;
     void chargerPartie(const std::string chemin);
 

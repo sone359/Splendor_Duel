@@ -104,6 +104,8 @@ PartieWidget::PartieWidget(QWidget *parent) : QWidget(parent) {
 
 
 
+
+
 void PartieWidget::updatePlayerInfo(const QString& playerName, int redValue, int greenValue, int blueValue, int whiteValue, int pearlValue, int blackValue,int goldvalue) {
     if (playerName == Player1) {
         player1RedLineEdit->setText(QString::number(redValue));

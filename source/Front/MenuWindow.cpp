@@ -90,8 +90,32 @@ MenuWindow::MenuWindow(QWidget *parent)
     setWindowTitle("Menu Splendor");
 }
 
+
+
+
 void MenuWindow::onButton1Clicked() {
-    Partie * game = Partie::get_partie();
+    Partie * game=nullptr;
+    QMessageBox msgBox;
+   msgBox.setWindowTitle("Continuez ?");
+    msgBox.setText("Que souhaitez-vous faire?");
+    msgBox.addButton("Nouvelle Partie", QMessageBox::AcceptRole);
+    msgBox.addButton("Continuer Partie", QMessageBox::RejectRole);
+
+    // Définir le bouton par défaut sur "Nouvelle Partie"
+    //msgBox.setDefaultButton(QMessageBox::AcceptRole);
+
+    // Afficher la boîte de dialogue et attendre la réponse
+    int choice = msgBox.exec();
+
+    // Traiter la réponse en fonction du bouton cliqué
+    if (choice == 0) {
+        // Action si "Nouvelle Partie" est cliqué
+        game = Partie::get_partie();
+    } else  {
+        // Action si "Continuer Partie" est cliqué
+       game = Partie::get_partie("D:\\LO21\\lo21_splendor-main\\data\\sauvegarde");
+    }
+
 
     // Create and add the PlateauWidget to the layout
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
@@ -100,12 +124,8 @@ void MenuWindow::onButton1Clicked() {
     PartieWidget * partie = PartieWidget::getInstance();
     //pyramidefront *pyramide;
     //partie->displayRoyalImages(imagePaths);
-    QString  playerName1  =     QInputDialog::getText(nullptr, "Player 1 Name", "Le joueur 1 est:");
-
-
-
-
-    QString   playerName2 = QInputDialog::getText(nullptr, "Player 2 Name", "Le joueur 2 est:");
+    QString  playerName1  =     QInputDialog::getText(nullptr, "Nom du joueur 1", "Le premier joueur  est:");
+    QString   playerName2 = QInputDialog::getText(nullptr, "Nom du joueur 2", "Le deuxième joueur  est:");
 
 
 
@@ -128,7 +148,16 @@ void MenuWindow::onButton1Clicked() {
     //partie->afficherPyr_Plat(plateauWidget,pyramide->creerPyramide());
     partie->afficherPlateau(plateauWidget);
     //partie->displayPyramide(pyramide->creerPyramide());
-    partie->joueurActif(partie->getPlayer1());
+    if(game->joueur_actif()==1)    {
+
+
+        partie->joueurActif(partie->getPlayer1());
+
+    }
+    else {
+
+        partie->joueurActif(partie->getPlayer2());
+    }
 
     partie->setPlateauWidget(plateauWidget);
 

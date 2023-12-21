@@ -70,8 +70,21 @@ public:
 
 
 
+
 public slots:
     void handleRoyalButtonClick(const QString &imagePath);
+
+
+protected:
+    void closeEvent(QCloseEvent *event) override
+    {
+        Partie * partie = Partie::get_partie();
+
+        partie->sauvegarder("D:\\LO21\\lo21_splendor-main\\data\\sauvegarde");
+
+        // Call the base class implementation to ensure the widget is properly closed
+        QWidget::closeEvent(event);
+    }
 
 private:
     explicit PartieWidget(QWidget *parent = nullptr);

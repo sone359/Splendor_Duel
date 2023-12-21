@@ -65,7 +65,7 @@ InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
     }
-    else{partie->sauvegarder();}
+    else{partie->sauvegarder("../data/sauvegarde");}
 }
 
 bool InterfaceConsole::deroulement_tour()
