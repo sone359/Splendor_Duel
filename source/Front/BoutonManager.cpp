@@ -550,108 +550,108 @@ void BoutonManager::gestionEffetRoyale(CarteRoyale & carte)
     }
 }
 
-void afficherCarteparligne(const CarteJoaillerie& c,unsigned int ligne,std::ostream& os) {
+//void afficherCarteparligne(const CarteJoaillerie& c,unsigned int ligne,std::ostream& os) {
 
-    //if (ligne<1 || ligne>7)  throw SplendorException("Une carte s'affiche en 7 lignes.\n");
-    switch (ligne){
-    case 1:
-                os<<"----";c.afficher_Couleur(os);os<<"---";
-                return;
-    case 2:
-                os <<"|  +"<< c.get_nbBonus() << "  |";
-                return;
-    case 3:
-                os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
-                return;
-    case 4:
-                if (c.get_capacite().size()>=2){
-                os<<"|";
-                for(int ca : c.get_capacite()){
-                switch (c.get_capacite()[ca])
-                {
-                case 0:
-                    os<<"REJ";
-                    break;
-                case 1:
-                    os<<"PRV";
-                    break;
-                case 2:
-                    os<<"CLR";
-                    break;
-                case 3:
-                    os<<"GEM";
-                    break;
-                case 4:
-                    os<<"VOL";
-                    break;
-                case 5:
-                    os<<"   ";
-                    break;
-                default :
-                    throw SplendorException("Erreur capacite.\n");
-                    break;
-                }
-                }
-                os<<"|";
-                }else{
-                os<<"| ";
-                switch (c.get_capacite()[0])
-                {
-                case 0:
-                os<<"REJ";
-                break;
-                case 1:
-                os<<"PRV";
-                break;
-                case 2:
-                os<<"CLR";
-                break;
-                case 3:
-                os<<"GEM";
-                break;
-                case 4:
-                os<<"VOL";
-                break;
-                case 5:
-                os<<"   ";
-                break;
-                default :
-                throw SplendorException("Erreur capacite.\n");
-                break;
-                }
-                os<<"  |";
-                }
-                return;
-    case 5:
-                os<<"|BVWRNP|";
-                return;
-    case 6:
-                os<<c.get_cout();
-                return;
-    case 7:
-                os<<"--------";
-                return;
-    }
-}
+//    //if (ligne<1 || ligne>7)  throw SplendorException("Une carte s'affiche en 7 lignes.\n");
+//    switch (ligne){
+//    case 1:
+//                os<<"----";c.afficher_Couleur(os);os<<"---";
+//                return;
+//    case 2:
+//                os <<"|  +"<< c.get_nbBonus() << "  |";
+//                return;
+//    case 3:
+//                os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
+//                return;
+//    case 4:
+//                if (c.get_capacite().size()>=2){
+//                os<<"|";
+//                for(int ca : c.get_capacite()){
+//                switch (c.get_capacite()[ca])
+//                {
+//                case 0:
+//                    os<<"REJ";
+//                    break;
+//                case 1:
+//                    os<<"PRV";
+//                    break;
+//                case 2:
+//                    os<<"CLR";
+//                    break;
+//                case 3:
+//                    os<<"GEM";
+//                    break;
+//                case 4:
+//                    os<<"VOL";
+//                    break;
+//                case 5:
+//                    os<<"   ";
+//                    break;
+//                default :
+//                    throw SplendorException("Erreur capacite.\n");
+//                    break;
+//                }
+//                }
+//                os<<"|";
+//                }else{
+//                os<<"| ";
+//                switch (c.get_capacite()[0])
+//                {
+//                case 0:
+//                os<<"REJ";
+//                break;
+//                case 1:
+//                os<<"PRV";
+//                break;
+//                case 2:
+//                os<<"CLR";
+//                break;
+//                case 3:
+//                os<<"GEM";
+//                break;
+//                case 4:
+//                os<<"VOL";
+//                break;
+//                case 5:
+//                os<<"   ";
+//                break;
+//                default :
+//                throw SplendorException("Erreur capacite.\n");
+//                break;
+//                }
+//                os<<"  |";
+//                }
+//                return;
+//    case 5:
+//                os<<"|BVWRNP|";
+//                return;
+//    case 6:
+//                os<<c.get_cout();
+//                return;
+//    case 7:
+//                os<<"--------";
+//                return;
+//    }
+//}
 
 
-void afficherPyramide()
-{
-    Partie * partie = Partie::get_partie();
-    std::cout<<"-------------------------PYRAMIDE--------------------------\n";
-    for(int j=3;j>=1;j--){//niveau
-                for(int l=1;l<8;l++){//ligne de la carte
-                for(int p=0;p<j*4;p++)std::cout<<" ";
-                for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
-                {
-                afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
-                std::cout<<' ';
-                }
-                std::cout<<'\n';
-                }
-                std::cout<<'\n';
-    }
-}
+//void afficherPyramide()
+//{
+//    Partie * partie = Partie::get_partie();
+//    std::cout<<"-------------------------PYRAMIDE--------------------------\n";
+//    for(int j=3;j>=1;j--){//niveau
+//                for(int l=1;l<8;l++){//ligne de la carte
+//                for(int p=0;p<j*4;p++)std::cout<<" ";
+//                for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
+//                {
+//                afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
+//                std::cout<<' ';
+//                }
+//                std::cout<<'\n';
+//                }
+//                std::cout<<'\n';
+//    }
+//}
 
 
 void BoutonManager::onAcheterCarteClicked() {
@@ -661,11 +661,12 @@ void BoutonManager::onAcheterCarteClicked() {
      PartieWidget * partieWidget = PartieWidget::getInstance();
 
 
-    afficherPyramide();
+    //afficherPyramide();
 
       //InterfaceConsole  ic;
       //ic.afficherPyramide();
     QMessageBox msgBox;
+     msgBox.setWindowTitle("Acheter une carte");
     msgBox.setText("Souhaitez-vous acheter une des cartes que vous avez réservées?");
                    msgBox.addButton("Oui", QMessageBox::YesRole);
                    msgBox.addButton("Non", QMessageBox::NoRole);
@@ -681,7 +682,7 @@ void BoutonManager::onAcheterCarteClicked() {
         gestionEffet(joueur.acheterCarteReservee(numeroCarte));
 
 
-                   } else {
+                   } else  {
 
                         // Boîte de dialogue pour obtenir le niveau de la carte à réserver
                         int niveauCarte = QInputDialog::getInt(nullptr, "Niveau de la carte", "Entrez le niveau de la carte à acheter (1-3):", 1, 1, 3, 1, &ok);
@@ -789,11 +790,17 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
    // PartieWidget * partie = PartieWidget::getInstance();
     Partie * game = Partie::get_partie();
     plateauWidget->emptyJetons();
+    bool ok;
     QMessageBox::information(parentWidget, "Action", "Le plateau est de cette forme [0:4,0:4] du gauche à droite");
 
-        unsigned int row = QInputDialog::getInt(nullptr, "Entrer la ligne", "Entrez le numéro de ligne du jeton que vous souhaitez avoir :", 0, 0, 4, 1);
-        unsigned int col = QInputDialog::getInt(nullptr, "Entrer la colonne", "Entrez le numéro de colonne jeton que vous souhaitez avoir :", 0, 0, 4, 1);
-
+        unsigned int row = QInputDialog::getInt(nullptr, "Entrer la ligne", "Entrez le numéro de ligne du jeton que vous souhaitez avoir :", 0, 0, 4, 1, &ok);
+        if (!ok) {
+    return;
+    }
+        unsigned int col = QInputDialog::getInt(nullptr, "Entrer la colonne", "Entrez le numéro de colonne jeton que vous souhaitez avoir :", 0, 0, 4, 1,&ok);
+        if (!ok) {
+    return;
+    }
 
         // Vérifiez si l'utilisateur a appuyé sur OK
 
