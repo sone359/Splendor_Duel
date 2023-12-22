@@ -322,6 +322,21 @@ CarteRoyale& Partie::recupererCarteRoyale(size_t numero)
     return carte_recup;
 }
 
+bool Partie::get_statut_joueur_actif() const
+{
+    if(joueur_actif() == 1)
+        return statut_joueur1;
+    return statut_joueur2;
+}
+
+void Partie::set_statut_joueur(unsigned int joueur, bool statut)
+{
+    if(joueur == 1)
+        statut_joueur1 = statut;
+    else
+        statut_joueur2 = statut;
+}
+
 int Partie::lire_fichier(const char* fichier){
     // ouverture du fichier ou les cartes sont stockees
     std::ifstream inputFile(fichier);

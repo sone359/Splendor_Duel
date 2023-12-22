@@ -431,6 +431,7 @@ bool StockGemmesOr::inclus(Jeton jeton) const
         if(get_Perle() > 0) return true;
         else return false;
     }
+    return false;
 }
 
 Jeton StockGemmesOr::max() const

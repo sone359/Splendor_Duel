@@ -8,8 +8,7 @@
 class IA1
 {
 public:
-    IA1() : partie(*Partie::get_partie()) {}
-    Partie& getPartie() {return partie;}
+    Partie& getPartie() {*Partie::get_partie();}
     unsigned int getNumJoueur(){return getPartie().joueur_actif();}
 
     bool prendre_3_jetons();
@@ -22,7 +21,6 @@ public:
 
 private:
     StockGemmes jetons_cible;
-    Partie& partie;
 };
 
 #endif

@@ -58,8 +58,11 @@ public :
     unsigned int get_tour() const {return tour;};
     unsigned int get_privileges_disponibles() const {return privileges_disponibles;};
     std::vector<CarteRoyale> get_cartes_royales() const {return cartesRoyales;};
+    bool get_statut_joueur_actif() const;
 
-    //Pas de setters
+    //Setters
+    void set_statut_joueur(unsigned int joueur, bool statut);
+
     ~Partie();
 
     bool sac_vide(){return sac.get_gemmes().total_gemmes()==0;}
@@ -82,6 +85,8 @@ private:
     std::vector<CarteRoyale> cartesRoyales;
     unsigned int privileges_disponibles = 3;
     unsigned int effet_rejouer = 0;
+    bool statut_joueur1 = false; //false : joueur et true : IA
+    bool statut_joueur2 = false; //false : joueur et true : IA
 };
 
 #endif

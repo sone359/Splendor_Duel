@@ -11,7 +11,7 @@
     #include <cstdlib>  // Pour system("cls")
 #endif
 
-InterfaceConsole::InterfaceConsole()
+InterfaceConsole::InterfaceConsole() : IA(IA1())
 {
     std::cout << "\e[8;75;159t";
     titre();
@@ -39,7 +39,7 @@ InterfaceConsole::InterfaceConsole()
     while(reponse!="oui" && reponse != "non"){
         std::cin >> reponse;
         if(reponse == "non"){
-            statut_joueur1 = false;
+            partie->set_statut_joueur(1, false);
         }
         else if(reponse != "oui")
         {
@@ -47,7 +47,7 @@ InterfaceConsole::InterfaceConsole()
         }
         else
         {
-            statut_joueur1 = true;
+            partie->set_statut_joueur(1, true);
         }
     }
     reponse = "";
@@ -55,7 +55,7 @@ InterfaceConsole::InterfaceConsole()
     while(reponse!="oui" && reponse != "non"){
         std::cin >> reponse;
         if(reponse == "non"){
-            statut_joueur2 = false;
+            partie->set_statut_joueur(2, false);
         }
         else if(reponse != "oui")
         {
@@ -63,17 +63,16 @@ InterfaceConsole::InterfaceConsole()
         }
         else
         {
-            statut_joueur2 = true;
+            partie->set_statut_joueur(2, true);
         }
     }
     bool continuer = true;
     while(continuer && fin_partie == 0)
     {
-        if(get_statut_joueur_actif())
+        if(partie->get_statut_joueur_actif())
         {
-            std::cout << "test1" << std::endl;
             try{
-                continuer = IA1().deroulement_tour();
+                continuer = IA.deroulement_tour();
             }
             catch (const SplendorException& e)
             {
@@ -739,7 +738,7 @@ void InterfaceConsole::afficherPyramide() const{
     for(int j=3;j>=1;j--){//niveau
         for(int l=1;l<8;l++){//ligne de la carte
             for(int p=0;p<j*4;p++)std::cout<<" ";
-            for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
+            for (unsigned int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
                 std::cout<<' ';
@@ -767,7 +766,7 @@ void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream
     }
     if (ligne>8 && ligne<=15){
         os<<"                     ";
-        for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(2); i++)
+        for (unsigned int i = 1; i <= partie->get_pyramide().getCartesRestantes(2); i++)
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(2,i),(ligne-8),os);
             }
@@ -775,7 +774,7 @@ void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream
     }
     if (ligne>15 && ligne<=22){
         os<<"                 ";
-        for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(1); i++)
+        for (unsigned int i = 1; i <= partie->get_pyramide().getCartesRestantes(1); i++)
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(1,i),(ligne-15),os);
             }
@@ -1164,16 +1163,9 @@ void InterfaceConsole::titre()const{
     sleep(3);
 }
 
-bool InterfaceConsole::get_statut_joueur_actif()
-{
-    if(partie->joueur_actif() == 1)
-        return statut_joueur1;
-    return statut_joueur2;
-}
-
-IA1& InterfaceConsole::get_IA_joueur_actif()
+/*IA1& InterfaceConsole::get_IA_joueur_actif()
 {
     if(partie->joueur_actif() == 1)
         return IA_joueur1;
     return IA_joueur2;
-}
+}*/
