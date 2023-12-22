@@ -72,7 +72,7 @@ try {
 
     try{
             // Chemin de Ismail
-  lire_fichier("D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie");
+  lire_fichier("D:\\LO21\\lo21_splendor-main\\data\\info_cartejoaillerie_1");
             //std::cout<<"D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie";
         } catch (const std::exception& e) {
             const char* cheminSubstitut2="";
@@ -382,13 +382,17 @@ std::string Partie::getTime()const{
         return buffer;
     }
 
-int Partie::sauvegarder()const{
+int Partie::sauvegarder(const std::string fichier)const{
     std::cout<<"sauvegarde en cours...\n";
     int cartes_en_jeu=0;
-    std::ofstream fsauvegarde("../data/sauvegarde");
+    std::ofstream fsauvegarde(fichier);
+
     if(!fsauvegarde.is_open()) throw ("Erreur a l'ouverture du fichier de sauvegarde.\n");
+
     //date
     fsauvegarde<<getTime()<<"\n";
+
+
     //nom
     fsauvegarde<<"sauvegarde automatique"<<"\n";
     //cartes dans les pioches
@@ -399,6 +403,7 @@ int Partie::sauvegarder()const{
             pyramide->getPioche(i).pop();
         }
     }
+
     fsauvegarde<<"\n";
     //cartes de la pyramide
     for(int i =1; i<6 ;i++){
@@ -410,16 +415,19 @@ int Partie::sauvegarder()const{
         for(int i =1; i<4 ;i++){
             fsauvegarde<<pyramide->recupererCarteJoaillerie(3,i).sauvegarder();
         }
+
     //joueurs
     fsauvegarde<<joueur1.sauvegarder();
     fsauvegarde<<joueur2.sauvegarder();
     fsauvegarde<<"\n";
+
     //jetons du sac
     fsauvegarde<<sac.get_gemmes().sauvegarder();
     //joueur actif
     fsauvegarde<<tour<<'\n';
     //jetons du plateau
     fsauvegarde<<plateau->sauvegarder();
+
     fsauvegarde.close();
     std::cout<<"saved!\n";
     return 0;
