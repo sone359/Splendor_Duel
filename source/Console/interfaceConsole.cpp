@@ -11,7 +11,7 @@
     #include <cstdlib>  // Pour system("cls")
 #endif
 
-InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
+InterfaceConsole::InterfaceConsole()
 {
     std::cout << "\e[8;75;159t";
     titre();
@@ -73,7 +73,7 @@ InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
         {
             std::cout << "test1" << std::endl;
             try{
-                continuer = get_IA_joueur_actif().deroulement_tour();
+                continuer = IA1().deroulement_tour();
             }
             catch (const SplendorException& e)
             {

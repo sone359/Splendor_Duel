@@ -255,7 +255,7 @@ bool IA1::prendre_1_jetons()
 float IA1::valeur(CarteJoaillerie& carte)
 {
     float n_valeur = 0;
-    if (getPartie().get_joueur(num_joueur).getPointsPrestigeCouleur().max() == carte.get_typeBonus().max())
+    if (getPartie().get_joueur(getNumJoueur()).getPointsPrestigeCouleur().max() == carte.get_typeBonus().max())
     {
         n_valeur += carte.get_pointsPrestige()*1.2;
     }
@@ -275,7 +275,7 @@ float IA1::valeur(CarteJoaillerie& carte)
 
 bool IA1::deroulement_tour(bool test)
 {
-    Joueur& joueur = getPartie().get_joueur(num_joueur);
+    Joueur& joueur = getPartie().get_joueur(getNumJoueur());
     //Recherche de la carte Joaillerie cible
     float rapport_max = -1000;
     size_t niveau_max = 0;
@@ -373,7 +373,7 @@ bool IA1::deroulement_tour(bool test)
 
 void IA1::gestion_effets(CarteJoaillerie& carte)
 {
-    Joueur& joueur = getPartie().get_joueur(num_joueur);
+    Joueur& joueur = getPartie().get_joueur(getNumJoueur());
 
     for(unsigned int pos = 0 ; pos < carte.get_capacite().size() ; pos++)
     {
@@ -472,7 +472,7 @@ void IA1::gestion_effets(CarteJoaillerie& carte)
 
 void IA1::gestion_effets(CarteRoyale& carte)
 {
-    Joueur& joueur = getPartie().get_joueur(num_joueur);
+    Joueur& joueur = getPartie().get_joueur(getNumJoueur());
 
     switch (carte.getCapacite())
     {
