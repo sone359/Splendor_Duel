@@ -322,13 +322,18 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
         return false;
     }
 
+    std::string reponse;
+
     //Saisie des coordonnees du jeton 1
-    //afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
     unsigned int colonne1 = 0, ligne1 = 0;
     std::cout << "Entrez la colonne du premier jeton a retirer : ";
-    std::cin >> colonne1;
+    std::cin >> reponse;
+    try {colonne1 = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("La colonne doit etre un entier et etre compris entre 0 a 4");}
     std::cout << "Entrez la ligne du premier jeton a retirer : ";
-    std::cin >> ligne1;
+    std::cin >> reponse;
+    try {ligne1 = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("La ligne doit etre un entier et etre compris entre 0 a 4");}
 
     if(nb_jetons == "1")
     {
@@ -340,9 +345,13 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
         //Saisie des coordonnees du jeton 2
         unsigned int colonne2 = 0, ligne2 = 0;
         std::cout << "Entrez la colonne du deuxieme jeton a retirer : ";
-        std::cin >> colonne2;
+        std::cin >> reponse;
+        try {colonne2 = std::stoi(reponse);}
+        catch (std::invalid_argument){throw SplendorException("La colonne doit etre un entier et etre compris entre 0 a 4");}
         std::cout << "Entrez la ligne du deuxieme jeton a retirer : ";
-        std::cin >> ligne2;
+        std::cin >> reponse;
+        try {ligne2 = std::stoi(reponse);}
+        catch (std::invalid_argument){throw SplendorException("La ligne doit etre un entier et etre compris entre 0 a 4");}
 
         if(nb_jetons == "2")
         {
@@ -354,9 +363,13 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
             //Saisie des coordonnees du jeton 3
             unsigned int colonne3 = 0, ligne3 = 0;
             std::cout << "Entrez la colonne du troisieme jeton a retirer : ";
-            std::cin >> colonne3;
+            std::cin >> reponse;
+            try {colonne3 = std::stoi(reponse);}
+            catch (std::invalid_argument){throw SplendorException("La colonne doit etre un entier et etre compris entre 0 a 4");}
             std::cout << "Entrez la ligne du troisieme jeton a retirer : ";
-            std::cin >> ligne3;
+            std::cin >> reponse;
+            try {ligne3 = std::stoi(reponse);}
+            catch (std::invalid_argument){throw SplendorException("La ligne doit etre un entier et etre compris entre 0 a 4");}
 
             partie->retirer_jetons({colonne1, ligne1}, {colonne2, ligne2}, {colonne3, ligne3});
             return true;
@@ -367,13 +380,18 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
 bool InterfaceConsole::action_reserver(Joueur& joueur)
 {
     unsigned int colonne_jeton = 0, ligne_jeton = 0, niveau_carte = 0, num_carte = 0;
+    std::string reponse;
 
     //Saisie des coordonnees du jeton Or a retirer
     //afficherPlateau(); //Nouvel affichage du plateau pour permettre au joueur de plus facilement choisir son jeton Or
     std::cout << "Entrez la colonne du jeton Or a retirer : ";
-    std::cin >> colonne_jeton;
+    std::cin >> reponse;
+    try {colonne_jeton = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("La colonne doit etre un entier et etre compris entre 0 a 4");}
     std::cout << "Entrez la ligne du jeton Or a retirer (ou un nombre qui ne correspond à aucune ligne pour retourner au choix des actions) : ";
-    std::cin >> ligne_jeton;
+    std::cin >> reponse;
+    try {ligne_jeton = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("La ligne doit etre un entier et etre compris entre 0 a 4");}
     if(ligne_jeton<0 || colonne_jeton<0 ||ligne_jeton>4 ||colonne_jeton>4){
         std::cout<< "\nCes coordonnees ne sont pas valides. Retour au menu.\n\n";
         return false;
@@ -382,9 +400,13 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     //Saisie des coordonnees de la carte a reserver
     //afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
     std::cout << "Entrez le niveau de la carte que vous souhaitez reserver : ";
-    std::cin >> niveau_carte;
+    std::cin >> reponse;
+    try {niveau_carte = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("Le niveau doit etre un entier et etre compris entre 1 a 3");}
     std::cout << "Entrez le numero de la carte que vous souhaitez reserver (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3) ou bien 0 si vous souhaitez reserver la carte non visible sur le dessus de la pioche du niveau choisi : ";
-    std::cin >> num_carte;
+    std::cin >> reponse;
+    try {num_carte = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("Le numero de carte doit etre un entier et etre compris entre 1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3");}
 
     //partie->reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
     partie->retirer_jetons_or({colonne_jeton,ligne_jeton});
@@ -413,13 +435,17 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
         //afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
         //Saisie des coordonnees de la carte a reserver
         std::cout << "Entrez le niveau de la carte que vous souhaitez acheter (ou un nombre superieur a 3 pour retourner au choix des actions): ";
-        std::cin >> niveau_carte;
+        std::cin >> reponse;
+        try {niveau_carte = std::stoi(reponse);}
+        catch (std::invalid_argument){throw SplendorException("Le niveau doit etre un entier et etre compris entre 1 et 3");}
         if(niveau_carte<=0 || niveau_carte>3){
             std::cout<< "\nLe niveau est compris entre 1 et 3. Retour au menu.\n\n";
             return false;
         }
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3)  : ";
-        std::cin >> num_carte;
+        std::cin >> reponse;
+        try {num_carte = std::stoi(reponse);}
+        catch (std::invalid_argument){throw SplendorException("Le numero de carte doit etre un entier et etre compris entre 1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3");}
         //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
         gestion_effets(partie->acheter_carte(joueur, niveau_carte, num_carte));
         return true;
