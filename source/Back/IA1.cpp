@@ -252,7 +252,7 @@ bool IA1::prendre_1_jetons()
     return false;
 }
 
-float IA1::valeur(CarteJoaillerie& carte)
+float IA1::valeur(CarteJoaillerie& carte) const
 {
     float n_valeur = 0;
     if (getPartie().get_joueur(getNumJoueur()).getPointsPrestigeCouleur().max() == carte.get_typeBonus().max())
