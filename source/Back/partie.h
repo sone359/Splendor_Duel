@@ -5,6 +5,7 @@
 #include <array>
 #include <stdexcept>
 #include <iostream>
+#include <map>
 #include "plateau.h"
 #include "sac.h"
 #include "Joueur.h"

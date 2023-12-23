@@ -622,33 +622,22 @@ Partie::Partie(const std::string fichier){
 
 void Partie::inscrireGagnant(unsigned int joueur){
     std::map<std::string,unsigned int> scores=recupererGagnants();
-    for(std::pair<std::string,unsigned int> score : scores){//si il y est deja
-        if (score.first==get_joueur(joueur).getNom()) {
-            score.second+=1;
-            std::ofstream file("../data/gagnants");
-            if(!file.is_open()) throw ("Erreur a l'ouverture du fichier de sauvegarde.\n");
-            for(std::pair<std::string,unsigned int> score : scores){//sinon
-                file<<score.first<<'\n';
-                file<<score.second<<'\n';
-            }
-            file.close();
-            return;
-        }
-        std::ofstream file;
-        file.open("../data/gagnants", std::ios::app);
-        file<<get_joueur(joueur).getNom()<<'\n';
-        file<<1<<'\n';
-        file.close();
+    scores[partie->get_joueur(joueur).getNom()]+=1;
+    std::ofstream file("../data/gagnants");
+    if(!file.is_open()) throw ("Erreur a l'ouverture du fichier de sauvegarde.\n");
+    for(std::pair<std::string,unsigned int> score : scores){
+        file<<score.first<<'\n';
+        file<<score.second<<'\n';
     }
-    
-}
+        file.close();
+        return;
+    }
 
 std::map<std::string,unsigned int> Partie::recupererGagnants(){
     std::map<std::string,unsigned int> scores;
     std::ifstream inputFile("../data/gagnants");
     if (!inputFile.is_open()) {
         throw std::runtime_error("Error opening the file: " + std::string(strerror(errno)));
-        return;
     }
     std::string line1;
     std::string line2;

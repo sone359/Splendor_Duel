@@ -52,6 +52,9 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
         else
         {
             partie->set_statut_joueur(1, true);
+            std::cout<<"\nNommez l'IA : ";
+            std::cin>>nomj1;
+            partie->get_joueur(1).setNom(nomj1);
         }
     }
     reponse = "";
@@ -71,6 +74,9 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
         else
         {
             partie->set_statut_joueur(2, true);
+            std::cout<<"\nNommez l'IA : ";
+            std::cin>>nomj2;
+            partie->get_joueur(2).setNom(nomj2);
         }
     }
     bool continuer = true;
@@ -187,7 +193,7 @@ bool InterfaceConsole::deroulement_tour()
     bool fin_actions_obligatoires = false;
     while(!fin_actions_obligatoires)
     {
-        std::cout << "Quelle action obligatoire souhaitez-vous effectuer ?\n1 - Prendre jusqu'a 3 jetons Gemme et/ou Perle\n2 - Prendre 1 jeton Or pour reserver 1 carte Joaillerie\n3 - Acheter 1 carte Joaillerie\n4 - Quitter la partie" << std::endl;
+        std::cout << "Quelle action obligatoire souhaitez-vous effectuer ?\n1 - Prendre jusqu'a 3 jetons Gemme et/ou Perle\n2 - Prendre 1 jeton Or pour reserver 1 carte Joaillerie\n3 - Acheter 1 carte Joaillerie\n4 - Quitter la partie\n5 - Consulter le tableau des gagnants" << std::endl;
         std::string reponse;
         std::cin >> reponse;
         try
@@ -207,6 +213,9 @@ bool InterfaceConsole::deroulement_tour()
             else if(reponse == "4")
             {
                 return false;
+            }
+            else if(reponse == "5"){
+                afficherGagnants(partie->recupererGagnants());
             }
             else
             {
@@ -1128,20 +1137,9 @@ void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
                 }
                 ligne.clear();
         }
-
-    //for(int l=1;l<8;l++){
-    //    for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
-    //        if (l==0)count++;
-    //        if(count<=16){
-    //            afficherCarteparligne(carte,l,std::cout);
-    //            std::cout<<' ';
-    //        }
-    //    }
-    //        std::cout<<'\n';
-    //}
     
     std::cout<<"\n    Jetons Possedes                                                                  Points Prestige                                  Couronnes           \n";
-    std::cout<<' ';afficherJetonsPossedes(joueur);std::cout<<"                 "; afficherPrestige(joueur);std::cout<<"               ";partie->get_joueur(joueur).getNbCouronnes();std::cout<<"                         \n\n";
+    std::cout<<' ';afficherJetonsPossedes(joueur);std::cout<<"                 "; afficherPrestige(joueur);std::cout<<"                        Cx"<<partie->get_joueur(joueur).getNbCouronnes()<<"                         \n\n";
     std::cout<<'+';afficherBonus(joueur);std::cout<<"                                    Total Points Prestige :"<<partie->get_joueur(joueur).getNbPointsPrestige()<<'\n';
 }
 
@@ -1155,6 +1153,36 @@ void InterfaceConsole::afficherBonus(unsigned int num_joueur) const
 {
     Joueur& joueur = partie->get_joueur(num_joueur);
     std::cout << "    " << "B x " << joueur.getBonus().get_Bleu() << ", V x " << joueur.getBonus().get_Vert() << ", W x " << joueur.getBonus().get_Blanc() << ", R x " << joueur.getBonus().get_Rouge() << ", N x " << joueur.getBonus().get_Noir() << ", P x " << joueur.getBonus().get_Perle();
+}
+
+void InterfaceConsole::afficherGagnants(std::map<std::string,unsigned int> gagnants)const{//appeler partie->recupererGagnants()
+    #ifdef _WIN32
+        system("cls");
+    #else
+       system("clear");
+    #endif
+    //trie gagnants par score
+    std::map<unsigned int,std::vector<std::string>> danslordre;//vector pcq on peut avoir plsrs joueurs avec le mm score 
+
+    for(std::pair<std::string,unsigned int> joueur : gagnants){
+        danslordre[joueur.second].push_back(joueur.first);
+    }
+    //affichage
+    std::cout<<"--------------------------------------------------------------------------GAGNANTS--------------------------------------------------------------------------\n";
+    for(std::pair<unsigned int,std::vector<std::string>> joueur : danslordre){
+        for(std::string nom : joueur.second){
+            for(int i=0;i<(150-nom.size())/2;i++) std::cout<<" ";
+            std::cout<<nom<<" : "<<joueur.first;
+            std::cout<<"\n";
+        }
+    }
+    std::cout<<"------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    std::string  reponse ="";
+    std::cout << "Entrez q pour quitter " << std::endl;
+        while(reponse!="q" && reponse != "Q"){
+            std::cin >> reponse;
+        }
+    afficherConsole();
 }
 
 void InterfaceConsole::titre()const{
