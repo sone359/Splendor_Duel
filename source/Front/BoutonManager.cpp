@@ -2,8 +2,7 @@
 #include <QRadioButton>
 #include <QMessageBox>
 #include "PartieWidget.h"
-
-#include "../Console/interfaceConsole.cpp"
+#include <iostream>
 
 BoutonManager::BoutonManager(QWidget *parent)
     : parentWidget(parent),
@@ -53,6 +52,7 @@ void BoutonManager::createButtons() {
     acheterCarteButton->setStyleSheet(buttonStyle);
     reserverCarteButton->setStyleSheet(buttonStyle);
     utiliserPrivilegeButton->setStyleSheet(buttonStyle);
+    annulerJetonsButton->setStyleSheet(buttonStyle);
     prendreJetonsButton->setStyleSheet(buttonStyle);
     remplirPlateauButton->setStyleSheet(buttonStyle);
 
@@ -61,12 +61,14 @@ void BoutonManager::createButtons() {
     buttonsLayout->addWidget(utiliserPrivilegeButton, 0, 2);
 
     buttonsLayout->addWidget(prendreJetonsButton, 0, 4);
-    buttonsLayout->addWidget(remplirPlateauButton, 0, 5);
+    buttonsLayout->addWidget(annulerJetonsButton, 0, 5);
+    buttonsLayout->addWidget(remplirPlateauButton, 0, 6);
 
     // Associer chaque bouton à son action respective
     connect(acheterCarteButton, &QPushButton::clicked, this, &BoutonManager::onAcheterCarteClicked);
     connect(reserverCarteButton, &QPushButton::clicked, this, &BoutonManager::onReserverCarteClicked);
     connect(utiliserPrivilegeButton, &QPushButton::clicked, this, &BoutonManager::onUtiliserPrivilegeClicked);
+    connect(annulerJetonsButton, &QPushButton::clicked, this, &BoutonManager::onAnnulerJetonsClicked);
     connect(prendreJetonsButton, &QPushButton::clicked, this, &BoutonManager::onPrendreJetonsClicked);
     connect(remplirPlateauButton, &QPushButton::clicked, this, &BoutonManager::onRemplirPlateauClicked);
 
@@ -98,22 +100,22 @@ void demanderCouleurJeton(int occ) {
 
     // Afficher la boîte de message et attendre la réponse de l'utilisateur
     msgBox.exec();
-    Partie& partie = Partie::get_partie();
+    Partie * partie = Partie::get_partie();
     // Retourner la couleur sélectionnée
     if (rougeButton->isChecked()) {
-        partie.remettre_jeton(Rouge);
+        partie->remettre_jeton(Rouge);
     } else if (blancButton->isChecked()) {
-        partie.remettre_jeton(Blanc);
+        partie->remettre_jeton(Blanc);
     } else if (noirButton->isChecked()) {
-        partie.remettre_jeton(Noir);
+        partie->remettre_jeton(Noir);
     } else if (orButton->isChecked()) {
-        partie.remettre_jeton(Or);
+        partie->remettre_jeton(Or);
     } else if (perleButton->isChecked()) {
-        partie.remettre_jeton(Perle);
+        partie->remettre_jeton(Perle);
     } else if (vertButton->isChecked()) {
-        partie.remettre_jeton(Vert);
+        partie->remettre_jeton(Vert);
     } else if (bleuButton->isChecked()) {
-        partie.remettre_jeton(Bleu);
+        partie->remettre_jeton(Bleu);
     }
 
 
@@ -121,20 +123,21 @@ void demanderCouleurJeton(int occ) {
 
 void update_info()
 {
-    Partie & game = Partie::get_partie();
+    Partie * game = Partie::get_partie();
     PartieWidget * partie = PartieWidget::getInstance();
 
-    partie->updatePlayerInfo("Joueur 1", game.get_joueur(1).getGemmes().get_Rouge() , game.get_joueur(1).getGemmes().get_Vert(), game.get_joueur(1).getGemmes().get_Bleu(), game.get_joueur(1).getGemmes().get_Blanc(), game.get_joueur(1).getGemmes().get_Perle(), game.get_joueur(1).getGemmes().get_Noir(),game.get_joueur(1).getGemmes().get_Or());
-    partie->updatePlayerInfo("Joueur 2", game.get_joueur(2).getGemmes().get_Rouge() , game.get_joueur(2).getGemmes().get_Vert(), game.get_joueur(2).getGemmes().get_Bleu(), game.get_joueur(2).getGemmes().get_Blanc(), game.get_joueur(2).getGemmes().get_Perle(), game.get_joueur(2).getGemmes().get_Noir(),game.get_joueur(2).getGemmes().get_Or());
-    partie->updatePlayerPrivilege("Joueur 1",game.get_joueur(1).getNbPrivileges());
-    partie->updatePlayerPrivilege("Joueur 2",game.get_joueur(2).getNbPrivileges());
-    partie->updatePlayerCoronne("Joueur 1",game.get_joueur(1).getNbCouronnes());
-    partie->updatePlayerCoronne("Joueur 2",game.get_joueur(2).getNbCouronnes());
+    partie->updatePlayerInfo(partie->getPlayer1(), game->get_joueur(1).getGemmes().get_Rouge() , game->get_joueur(1).getGemmes().get_Vert(), game->get_joueur(1).getGemmes().get_Bleu(), game->get_joueur(1).getGemmes().get_Blanc(), game->get_joueur(1).getGemmes().get_Perle(), game->get_joueur(1).getGemmes().get_Noir(),game->get_joueur(1).getGemmes().get_Or());
+    partie->updatePlayerInfo(partie->getPlayer2(), game->get_joueur(2).getGemmes().get_Rouge() , game->get_joueur(2).getGemmes().get_Vert(), game->get_joueur(2).getGemmes().get_Bleu(), game->get_joueur(2).getGemmes().get_Blanc(), game->get_joueur(2).getGemmes().get_Perle(), game->get_joueur(2).getGemmes().get_Noir(),game->get_joueur(2).getGemmes().get_Or());
+    partie->updatePlayerPrivilege(partie->getPlayer1(),game->get_joueur(1).getNbPrivileges());
+    partie->updatePlayerPrivilege(partie->getPlayer2(),game->get_joueur(2).getNbPrivileges());
+    partie->updatePlayerCoronne(partie->getPlayer1(),game->get_joueur(1).getNbCouronnes());
+    partie->updatePlayerCoronne(partie->getPlayer2(),game->get_joueur(2).getNbCouronnes());
 
 }
 void update_plateau()
 {
     PartieWidget * partie = PartieWidget::getInstance();
+
     partie->removePlateau(partie->getPlateauWidget());
     PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
     partie->afficherPlateau(plateauWidgetInstance);
@@ -144,19 +147,19 @@ void update_plateau()
 
 void fin_tour(){
 
-    Partie& partie = Partie::get_partie();
-    //Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+    Partie* partie = Partie::get_partie();
+    //Joueur & joueur = partie->get_joueur(partie->joueur_actif());
     PartieWidget * partieWidget = PartieWidget::getInstance();
-    partie.fin_tour();
-    if(partie.joueur_actif()==1)    {
+    partie->fin_tour();
+    if(partie->joueur_actif()==1)    {
 
 
-        partieWidget->joueurActif("Joueur 1");
+        partieWidget->joueurActif(partieWidget->getPlayer1());
 
     }
     else {
 
-        partieWidget->joueurActif("Joueur 2");
+        partieWidget->joueurActif(partieWidget->getPlayer2());
     }
     update_info();
     update_plateau();
@@ -190,26 +193,26 @@ void volerJeton() {
 
     // Afficher la boîte de message et attendre la réponse de l'utilisateur
     msgBox.exec();
-    Partie& partie = Partie::get_partie();
+    Partie* partie = Partie::get_partie();
     // Retourner la couleur sélectionnée
     try {
     if (rougeButton->isChecked()) {
-        partie.voler(partie.get_joueur(partie.joueur_actif()), partie.get_joueur(partie.joueur_adverse()), Rouge);
+        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Rouge);
     } else if (blancButton->isChecked()) {
-        partie.voler(partie.get_joueur(partie.joueur_actif()), partie.get_joueur(partie.joueur_adverse()), Blanc);
+        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Blanc);
 
     } else if (noirButton->isChecked()) {
-        partie.voler(partie.get_joueur(partie.joueur_actif()), partie.get_joueur(partie.joueur_adverse()), Noir);
+        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Noir);
 
     } else if (perleButton->isChecked()) {
-        partie.voler(partie.get_joueur(partie.joueur_actif()), partie.get_joueur(partie.joueur_adverse()), Perle);
+        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Perle);
 
     } else if (vertButton->isChecked()) {
-        partie.voler(partie.get_joueur(partie.joueur_actif()), partie.get_joueur(partie.joueur_adverse()), Vert);
+        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Vert);
 
 
     } else if (bleuButton->isChecked()) {
-        partie.voler(partie.get_joueur(partie.joueur_actif()), partie.get_joueur(partie.joueur_adverse()), Bleu);
+        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Bleu);
 
     }
     }
@@ -248,8 +251,8 @@ void couleurEffet(CarteJoaillerie & carte) {
 
     // Afficher la boîte de message et attendre la réponse de l'utilisateur
     msgBox.exec();
-    Partie& partie = Partie::get_partie();
-    Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+    Partie* partie = Partie::get_partie();
+    Joueur & joueur = partie->get_joueur(partie->joueur_actif());
 
 
 
@@ -349,7 +352,7 @@ void couleurEffet(CarteJoaillerie & carte) {
 void gemmeEffet(CarteJoaillerie & carte)
 {
      PartieWidget * partieWidget = PartieWidget::getInstance();
-     Partie& partie = Partie::get_partie();
+     Partie* partie = Partie::get_partie();
      Jeton type_carte = Nul;
      StockGemmes stockBonus = carte.get_typeBonus();
      QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Gemme de la carte !");
@@ -364,18 +367,18 @@ void gemmeEffet(CarteJoaillerie & carte)
      else if (stockBonus.get_Rouge() > 0) {type_carte = Rouge; std::cout<<"-rouge";}
      else if (stockBonus.get_Noir() > 0) {type_carte = Noir ;  std::cout<<"-noir";}
      else {
-    partie.fin_tour();
+    partie->fin_tour();
     update_info();
 
-    if(partie.joueur_actif()==1)    {
+    if(partie->joueur_actif()==1)    {
 
 
-        partieWidget->joueurActif("Joueur 1");
+        partieWidget->joueurActif(partieWidget->getPlayer1());
 
     }
     else {
 
-        partieWidget->joueurActif("Joueur 2");
+        partieWidget->joueurActif(partieWidget->getPlayer2());
     }
     throw SplendorException( "La carte passee en parametre possède un type de bonus incorrect (Or ou Perle) ou nul ce qui empeche le traitement de l'effet gemme et traduit sans doute une erreur de conception des cartes. Peut-etre l'erreur vient-elle d'un effet gemme place avant un effet couleur.");
 
@@ -386,7 +389,7 @@ void gemmeEffet(CarteJoaillerie & carte)
     {
         for (int j = 0 ; j < 5 ; j++)
         {
-            if (partie.get_plateau()[j][i] == type_carte)
+            if (partie->get_plateau()[j][i] == type_carte)
             {
                 present = true;
                 break;
@@ -411,30 +414,30 @@ void gemmeEffet(CarteJoaillerie & carte)
            colonne = QInputDialog::getInt(nullptr, "Entrer la colonne", "Entrez la colonne du jeton a retirer (il doit etre de la couleur de la carte que vous avez achetee) : ", 0, 0, 4, 1);
 
 
-            if(partie.get_plateau()[colonne][ligne] != type_carte)
+            if(partie->get_plateau()[colonne][ligne] != type_carte)
            {
                 QMessageBox::information(partieWidget, "Exception", "Ce jeton n'est pas de la meme couleur que la carte que vous avez achetee");
             }
 
 
-        } while (partie.get_plateau()[colonne][ligne] != type_carte);
+        } while (partie->get_plateau()[colonne][ligne] != type_carte);
 
-         partie.retirer_jetons({colonne, ligne});
+         partie->retirer_jetons({colonne, ligne});
 
     }
     else{
-        partie.fin_tour();
+        partie->fin_tour();
         update_info();
 
-        if(partie.joueur_actif()==1)    {
+        if(partie->joueur_actif()==1)    {
 
 
-                partieWidget->joueurActif("Joueur 1");
+                partieWidget->joueurActif(partieWidget->getPlayer1());
 
         }
         else {
 
-                partieWidget->joueurActif("Joueur 2");
+                partieWidget->joueurActif(partieWidget->getPlayer2());
         }
         throw SplendorException("Aucun jeton du plateau ne correspond a la couleur de la carte que vous avez achetee, l'effet Gemme de la carte n'a pas pu etre active");
     }
@@ -452,8 +455,8 @@ void BoutonManager::addButtonsToLayout(QVBoxLayout *layout) {
 
 
 void gestionEffet(CarteJoaillerie & carte){
-    Partie& partie = Partie::get_partie();
-    Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+    Partie* partie = Partie::get_partie();
+    Joueur & joueur = partie->get_joueur(partie->joueur_actif());
     PartieWidget * partieWidget = PartieWidget::getInstance();
     for(unsigned int pos = 0 ; pos < carte.get_capacite().size() ; pos++)
     {
@@ -463,7 +466,7 @@ void gestionEffet(CarteJoaillerie & carte){
                 case rejouer:
 
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Rejouer de la carte !");
-                partie.ajouter_rejouer();
+                partie->ajouter_rejouer();
 
                 return ;
 
@@ -472,13 +475,13 @@ void gestionEffet(CarteJoaillerie & carte){
                 case couleur:
 
                 couleurEffet(carte);
-
+                return;
 
                 break;
                 case voler:
 
-                volerJeton();
-
+                   volerJeton();
+                return;
 
                 break;
                 case gemme:
@@ -492,7 +495,7 @@ void gestionEffet(CarteJoaillerie & carte){
                 case privilege:
 
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Privilege de la carte !");
-                partie.prend_privilege(joueur);
+                partie->prend_privilege(joueur);
 
                 return ;
 
@@ -507,10 +510,10 @@ void gestionEffet(CarteJoaillerie & carte){
 
 
 
-void gestionEffetRoyale(CarteRoyale & carte)
+void BoutonManager::gestionEffetRoyale(CarteRoyale & carte)
 {
-    Partie& partie = Partie::get_partie();
-    Joueur& joueur = partie.get_joueur(partie.joueur_actif());
+    Partie* partie = Partie::get_partie();
+    Joueur& joueur = partie->get_joueur(partie->joueur_actif());
     PartieWidget * partieWidget = PartieWidget::getInstance();
 
     switch (carte.getCapacite())
@@ -518,10 +521,10 @@ void gestionEffetRoyale(CarteRoyale & carte)
     case rejouer:
 
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Rejouer de la carte !");
-                partie.ajouter_rejouer();
+                partie->ajouter_rejouer();
                 update_info();
                 update_plateau();
-                partie.fin_tour();
+                partie->fin_tour();
                 return ;
 
 
@@ -530,14 +533,16 @@ void gestionEffetRoyale(CarteRoyale & carte)
     case privilege:
 
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Privilege de la carte !");
-                partie.prend_privilege(joueur);
-
+                partie->prend_privilege(joueur);
+                update_info();
+                update_plateau();
+                return;
                 break;
 
     case voler:
 
                 volerJeton();
-
+                return;
                 break;
 
 
@@ -545,17 +550,123 @@ void gestionEffetRoyale(CarteRoyale & carte)
     }
 }
 
+//void afficherCarteparligne(const CarteJoaillerie& c,unsigned int ligne,std::ostream& os) {
+
+//    //if (ligne<1 || ligne>7)  throw SplendorException("Une carte s'affiche en 7 lignes.\n");
+//    switch (ligne){
+//    case 1:
+//                os<<"----";c.afficher_Couleur(os);os<<"---";
+//                return;
+//    case 2:
+//                os <<"|  +"<< c.get_nbBonus() << "  |";
+//                return;
+//    case 3:
+//                os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
+//                return;
+//    case 4:
+//                if (c.get_capacite().size()>=2){
+//                os<<"|";
+//                for(int ca : c.get_capacite()){
+//                switch (c.get_capacite()[ca])
+//                {
+//                case 0:
+//                    os<<"REJ";
+//                    break;
+//                case 1:
+//                    os<<"PRV";
+//                    break;
+//                case 2:
+//                    os<<"CLR";
+//                    break;
+//                case 3:
+//                    os<<"GEM";
+//                    break;
+//                case 4:
+//                    os<<"VOL";
+//                    break;
+//                case 5:
+//                    os<<"   ";
+//                    break;
+//                default :
+//                    throw SplendorException("Erreur capacite.\n");
+//                    break;
+//                }
+//                }
+//                os<<"|";
+//                }else{
+//                os<<"| ";
+//                switch (c.get_capacite()[0])
+//                {
+//                case 0:
+//                os<<"REJ";
+//                break;
+//                case 1:
+//                os<<"PRV";
+//                break;
+//                case 2:
+//                os<<"CLR";
+//                break;
+//                case 3:
+//                os<<"GEM";
+//                break;
+//                case 4:
+//                os<<"VOL";
+//                break;
+//                case 5:
+//                os<<"   ";
+//                break;
+//                default :
+//                throw SplendorException("Erreur capacite.\n");
+//                break;
+//                }
+//                os<<"  |";
+//                }
+//                return;
+//    case 5:
+//                os<<"|BVWRNP|";
+//                return;
+//    case 6:
+//                os<<c.get_cout();
+//                return;
+//    case 7:
+//                os<<"--------";
+//                return;
+//    }
+//}
+
+
+//void afficherPyramide()
+//{
+//    Partie * partie = Partie::get_partie();
+//    std::cout<<"-------------------------PYRAMIDE--------------------------\n";
+//    for(int j=3;j>=1;j--){//niveau
+//                for(int l=1;l<8;l++){//ligne de la carte
+//                for(int p=0;p<j*4;p++)std::cout<<" ";
+//                for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
+//                {
+//                afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
+//                std::cout<<' ';
+//                }
+//                std::cout<<'\n';
+//                }
+//                std::cout<<'\n';
+//    }
+//}
+
 
 void BoutonManager::onAcheterCarteClicked() {
 
-     Partie& partie = Partie::get_partie();
-    Joueur & joueur = partie.get_joueur(partie.joueur_actif());
+     Partie* partie = Partie::get_partie();
+    Joueur & joueur = partie->get_joueur(partie->joueur_actif());
      PartieWidget * partieWidget = PartieWidget::getInstance();
 
 
-      InterfaceConsole  ic;
-      ic.afficherPyramide();
+    //afficherPyramide();
+
+      //InterfaceConsole  ic;
+      //ic.afficherPyramide();
     QMessageBox msgBox;
+     msgBox.setWindowTitle("Acheter une carte");
     msgBox.setText("Souhaitez-vous acheter une des cartes que vous avez réservées?");
                    msgBox.addButton("Oui", QMessageBox::YesRole);
                    msgBox.addButton("Non", QMessageBox::NoRole);
@@ -571,7 +682,7 @@ void BoutonManager::onAcheterCarteClicked() {
         gestionEffet(joueur.acheterCarteReservee(numeroCarte));
 
 
-                   } else {
+                   } else  {
 
                         // Boîte de dialogue pour obtenir le niveau de la carte à réserver
                         int niveauCarte = QInputDialog::getInt(nullptr, "Niveau de la carte", "Entrez le niveau de la carte à acheter (1-3):", 1, 1, 3, 1, &ok);
@@ -586,11 +697,13 @@ void BoutonManager::onAcheterCarteClicked() {
                         if (!ok) {
                             return;
                           }
-                        gestionEffet( partie.acheter_carte(joueur,niveauCarte,numeroCarte));
+                        gestionEffet( partie->acheter_carte(joueur,niveauCarte,numeroCarte));
 
 
-                        //ic.gestion_effets(partie.get_joueur(partie.joueur_actif()).acheterCarteReservee(numeroCarte));
+                        //ic.gestion_effets(partie->get_joueur(partie->joueur_actif()).acheterCarteReservee(numeroCarte));
                         }
+
+
 
 
                   fin_tour();
@@ -599,6 +712,16 @@ void BoutonManager::onAcheterCarteClicked() {
                    // Exception caught, display a QMessageBox with the exception message
                    QMessageBox::information(partieWidget, "Exception", ex.what());
                    }
+}
+
+
+void BoutonManager::onAnnulerJetonsClicked()
+{
+
+          PlateauWidget * plateauWidget = PlateauWidget::getInstance();
+                   plateauWidget->emptyJetons();
+
+
 }
 
 
@@ -611,7 +734,7 @@ void BoutonManager::onAcheterCarteClicked() {
 
 
 void BoutonManager::onReserverCarteClicked() {
-    Partie& partie = Partie::get_partie();
+    Partie * partie = Partie::get_partie();
     PartieWidget * partieWidget = PartieWidget::getInstance();
     bool ok;
     int ligneOr = QInputDialog::getInt(nullptr, "Ligne du jeton Or", "Entrez la ligne du jeton Or (0-4):", 0, 0, 4, 1, &ok);
@@ -629,7 +752,7 @@ void BoutonManager::onReserverCarteClicked() {
     }
     try
     {
-    partie.retirer_jetons_or({colonneOr,ligneOr});
+    partie->retirer_jetons_or({colonneOr,ligneOr});
 
     // Boîte de dialogue pour obtenir le niveau de la carte à réserver
     int niveauCarte = QInputDialog::getInt(nullptr, "Niveau de la carte", "Entrez le niveau de la carte à réserver (1-3):", 1, 1, 3, 1, &ok);
@@ -645,21 +768,8 @@ void BoutonManager::onReserverCarteClicked() {
         return;
     }
 
-    partie.reserver_carte(partie.get_joueur(partie.joueur_actif()), niveauCarte, numeroCarte);
-    update_plateau();
-    update_info();
-    partie.fin_tour();
-
-    if(partie.joueur_actif()==1)    {
-
-
-        partieWidget->joueurActif("Joueur 1");
-
-    }
-    else {
-
-        partieWidget->joueurActif("Joueur 2");
-    }
+    partie->reserver_carte(partie->get_joueur(partie->joueur_actif()), niveauCarte, numeroCarte);
+    fin_tour();
     }
     catch (const SplendorException& ex) {
     // Exception caught, display a QMessageBox with the exception message
@@ -678,20 +788,26 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
     //Plateau& plateau = Plateau::get_plateau();
    // PartieWidget * partie = PartieWidget::getInstance();
-    Partie& game = Partie::get_partie();
+    Partie * game = Partie::get_partie();
     plateauWidget->emptyJetons();
+    bool ok;
     QMessageBox::information(parentWidget, "Action", "Le plateau est de cette forme [0:4,0:4] du gauche à droite");
 
-        unsigned int row = QInputDialog::getInt(nullptr, "Entrer la ligne", "Entrez le numéro de ligne du jeton que vous souhaitez avoir :", 0, 0, 4, 1);
-        unsigned int col = QInputDialog::getInt(nullptr, "Entrer la colonne", "Entrez le numéro de colonne jeton que vous souhaitez avoir :", 0, 0, 4, 1);
-
+        unsigned int row = QInputDialog::getInt(nullptr, "Entrer la ligne", "Entrez le numéro de ligne du jeton que vous souhaitez avoir :", 0, 0, 4, 1, &ok);
+        if (!ok) {
+    return;
+    }
+        unsigned int col = QInputDialog::getInt(nullptr, "Entrer la colonne", "Entrez le numéro de colonne jeton que vous souhaitez avoir :", 0, 0, 4, 1,&ok);
+        if (!ok) {
+    return;
+    }
 
         // Vérifiez si l'utilisateur a appuyé sur OK
 
             // Utilisez les valeurs de row et col comme nécessaire
-            if(game.joueur_actif()==1)
+            if(game->joueur_actif()==1)
                 try{
-                    game.utilise_privilege(game.get_joueur(1),col,row);
+                    game->utilise_privilege(game->get_joueur(1),col,row);
 
 
                 }
@@ -701,7 +817,7 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
                 }
             else
                 try{
-                    game.utilise_privilege(game.get_joueur(2),col,row);
+                    game->utilise_privilege(game->get_joueur(2),col,row);
                 }
                 catch (const SplendorException& ex) {
                     // Exception caught, display a QMessageBox with the exception message
@@ -717,6 +833,18 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
 
     plateauWidget->emptyJetons();
 
+
+
+}
+
+void verifierCarteRoyale(Joueur & joueur)
+{
+    PartieWidget * partieWidget = PartieWidget::getInstance();
+    Partie * partie = Partie::get_partie();
+    if (partie->get_cartes_royales().size() > 0 && (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) && (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
+    {
+          QMessageBox::information(partieWidget, "Information", "Vous avez rempli les conditions pour obtenir une carte Royale ! Cliquer sur la carte Royale à prendre");
+    }
 
 
 }
@@ -737,17 +865,17 @@ void BoutonManager::onPrendreJetonsClicked() {
             positionArrayVector.push_back(tposition);
    }
 
-   Partie& game = Partie::get_partie();
+   Partie* game = Partie::get_partie();
 
 
    try {
    if(jetons.size()==1)
    {
             StockGemmes stock;
-            //stock=plateau.actionRetirerJetons(positionArrayVector[0]);
 
 
-            game.retirer_jetons(positionArrayVector[0]);
+
+            game->retirer_jetons(positionArrayVector[0]);
 
 
 
@@ -756,10 +884,10 @@ void BoutonManager::onPrendreJetonsClicked() {
     {
 
          StockGemmes stock;
-         //stock=plateau.actionRetirerJetons(positionArrayVector[0],positionArrayVector[1]);
 
 
-             game.retirer_jetons(positionArrayVector[0],positionArrayVector[1]);
+
+             game->retirer_jetons(positionArrayVector[0],positionArrayVector[1]);
 
 
 
@@ -770,7 +898,7 @@ void BoutonManager::onPrendreJetonsClicked() {
          StockGemmes stock;
 
 
-         game.retirer_jetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
+         game->retirer_jetons(positionArrayVector[0],positionArrayVector[1],positionArrayVector[2]);
 
 
 
@@ -780,42 +908,27 @@ void BoutonManager::onPrendreJetonsClicked() {
     plateauWidget->emptyJetons();
 
 
-    Joueur & joueur = game.get_joueur(game.joueur_actif());
+    Joueur & joueur = game->get_joueur(game->joueur_actif());
     while (total_stock(joueur.getGemmes()) > 10)
          try{
                             demanderCouleurJeton(total_stock(joueur.getGemmes())-10);
          }
          catch (const SplendorException& ex) {
+
                             QMessageBox::information(parentWidget, "Exception", ex.what());
          }
 
-
-
-    update_info();
-
-    game.fin_tour();
-
-    if(game.joueur_actif()==1)    {
-
-
-         partie->joueurActif("Joueur 1");
-
-    }
-    else {
-
-         partie->joueurActif("Joueur 2");
-    }
+  fin_tour();
 
 
 
    } catch (const SplendorException& ex) {
+  plateauWidget->emptyJetons();
          // Exception caught, display a QMessageBox with the exception message
          QMessageBox::information(parentWidget, "Exception", ex.what());
     }
 
 
-    update_plateau();
-    update_info();
 
 
 
@@ -824,16 +937,16 @@ void BoutonManager::onPrendreJetonsClicked() {
 }
 
 void BoutonManager::onRemplirPlateauClicked() {
-    Partie& game = Partie::get_partie();
+    Partie* game = Partie::get_partie();
 
    // PartieWidget * partie = PartieWidget::getInstance();
     if(joueur1 == 1)
     {
-            game.remplir_plateau(game.get_joueur(1));
+            game->remplir_plateau(game->get_joueur(1));
 
     }
     else  {
-            game.remplir_plateau(game.get_joueur(2));
+            game->remplir_plateau(game->get_joueur(2));
 
     }
     update_info();

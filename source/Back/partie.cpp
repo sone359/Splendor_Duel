@@ -58,6 +58,11 @@ Partie::Partie()
     for(unsigned int i = 0 ; i < 3 ; i++){
         sac.ajouter_jeton(Or);
     }
+    //Initialisation des cartes royales
+    cartesRoyales.push_back(CarteRoyale(2, voler, "../data/Cartes_royales/CartesRoyales_voler.png"));
+    cartesRoyales.push_back(CarteRoyale(2, privilege, "../data/Cartes_royales/CartesRoyales_privilege.png"));
+    cartesRoyales.push_back(CarteRoyale(2, rejouer, "../data/Cartes_royales/CartesRoyales_rejouer.png"));
+    cartesRoyales.push_back(CarteRoyale(3, sans, "../data/Cartes_royales/CartesRoyales_sans.png"));
     remplir_plateau(joueur1);
 //
 //
@@ -68,7 +73,7 @@ try {
 
     try{
             // Chemin de Ismail
-  lire_fichier("D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie");
+  lire_fichier("D:\\LO21\\lo21_splendor-main\\data\\info_cartejoaillerie_1");
             //std::cout<<"D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie";
         } catch (const std::exception& e) {
             const char* cheminSubstitut2="";
@@ -261,7 +266,7 @@ int Partie::fin_tour()
     return fin_partie;
 }
 
-void Partie::voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
+void Partie::capacite_voler(Joueur& joueur1, Joueur& joueur2, Jeton jeton)
 {
     joueur2.setGemmes(joueur2.getGemmes().retirer_jeton(jeton));
     joueur1.setGemmes(joueur1.getGemmes().ajouter_jeton(jeton));
@@ -297,6 +302,14 @@ CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
     //}
 }
 
+CarteJoaillerie& Partie::acheterCarteReservee(unsigned int num){
+    Joueur& joueur=get_joueur(joueur_actif());
+    StockGemmesOr avant_achat = joueur.getGemmes();//retiens le nombre de gemmes avant l'achat
+    CarteJoaillerie & res=joueur.acheterCarteReservee(num);
+    sac.ajouter_stock(joueur.getGemmes()/avant_achat);
+    return res;
+}
+
 void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
     if(joueur.getCartesJoailleriesReservees().size()==3) throw SplendorException("Impossible de reserver plus de 3 cartes.\n");
     CarteJoaillerie piochee = pyramide->reserverCarteJoaillerie(niv,colonne);
@@ -316,6 +329,21 @@ CarteRoyale& Partie::recupererCarteRoyale(size_t numero)
     joueur.addPointsPrestiges(carte_recup.getPointsPrestige());
 
     return carte_recup;
+}
+
+bool Partie::get_statut_joueur_actif() const
+{
+    if(joueur_actif() == 1)
+        return statut_joueur1;
+    return statut_joueur2;
+}
+
+void Partie::set_statut_joueur(unsigned int joueur, bool statut)
+{
+    if(joueur == 1)
+        statut_joueur1 = statut;
+    else
+        statut_joueur2 = statut;
 }
 
 int Partie::lire_fichier(const char* fichier){
@@ -363,13 +391,17 @@ std::string Partie::getTime()const{
         return buffer;
     }
 
-int Partie::sauvegarder()const{
+int Partie::sauvegarder(const std::string fichier)const{
     std::cout<<"sauvegarde en cours...\n";
     int cartes_en_jeu=0;
-    std::ofstream fsauvegarde("../data/sauvegarde");
+    std::ofstream fsauvegarde(fichier);
+
     if(!fsauvegarde.is_open()) throw ("Erreur a l'ouverture du fichier de sauvegarde.\n");
+
     //date
     fsauvegarde<<getTime()<<"\n";
+
+
     //nom
     fsauvegarde<<"sauvegarde automatique"<<"\n";
     //cartes dans les pioches
@@ -380,6 +412,7 @@ int Partie::sauvegarder()const{
             pyramide->getPioche(i).pop();
         }
     }
+
     fsauvegarde<<"\n";
     //cartes de la pyramide
     for(int i =1; i<6 ;i++){
@@ -391,16 +424,19 @@ int Partie::sauvegarder()const{
         for(int i =1; i<4 ;i++){
             fsauvegarde<<pyramide->recupererCarteJoaillerie(3,i).sauvegarder();
         }
+
     //joueurs
     fsauvegarde<<joueur1.sauvegarder();
     fsauvegarde<<joueur2.sauvegarder();
     fsauvegarde<<"\n";
+
     //jetons du sac
     fsauvegarde<<sac.get_gemmes().sauvegarder();
     //joueur actif
     fsauvegarde<<tour<<'\n';
     //jetons du plateau
     fsauvegarde<<plateau->sauvegarder();
+
     fsauvegarde.close();
     std::cout<<"saved!\n";
     return 0;
@@ -430,13 +466,11 @@ Partie::Partie(const std::string fichier){
 
         while(!inputFile.eof()){//pioches
             std::getline(inputFile, line);
-            if(line=="\0") {
-                break;
-            }
+            if(line=="\0"||line=="\n") break;
             cartes.push_back(CarteJoaillerie(line));
             cartes_lues++;
         }
-        std::getline(inputFile, line);
+        //std::getline(inputFile, line);
         while(!inputFile.eof()){//Pyramide
             std::getline(inputFile, line);
             if(line=="{\0") {
@@ -566,6 +600,15 @@ Partie::Partie(const std::string fichier){
         plateau=Plateau::get_plateau(line);
         // fermeture du fichier
         inputFile.close();
+
+        joueur1.initBonus();
+        joueur2.initBonus();
+        joueur1.initPrestige();
+        joueur2.initPrestige();
+
+        //for(CarteJoaillerie carte : cartes)
+        //    std::cout<<carte;
+        //std::cout<<"\n\n";
 
         pyramide = Pyramide::getInstance(cartes);
         //pyramide->afficherPyramide();

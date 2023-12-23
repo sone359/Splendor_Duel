@@ -35,7 +35,7 @@ void PlateauWidget::displayCase(const std::string &imageName, const Case &positi
 
         // Set the size and border of the button
         button->setFixedSize(60, 60);
-        button->setStyleSheet("border: 1px solid brown; background-color: #C4A484; ");
+        button->setStyleSheet("border: 1px solid brown; background-color: #C4A484;");
 
 
         // Set the text of the button to be the position and the name of the image
@@ -82,7 +82,7 @@ PlateauWidget* PlateauWidget::getInstance() {
     return instance;
 }
 PlateauWidget* PlateauWidget::creerPlateau() {
-    Plateau& plateau = Plateau::get_plateau();
+    Plateau * plateau = Plateau::get_plateau();
     instance=nullptr;
 
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
@@ -92,7 +92,7 @@ PlateauWidget* PlateauWidget::creerPlateau() {
         std::cout << i << " ";
         for (int j = 0 ; j < 5 ; j++)
         {
-            switch (plateau[j][i])
+            switch ((*plateau)[j][i])
             {
             case Nul:
                 std::cout << "- ";
@@ -126,7 +126,7 @@ PlateauWidget* PlateauWidget::creerPlateau() {
     for (int i = 0; i < 5; i++) {
         std::cout << i << " ";
         for (int j = 0; j < 5; j++) {
-            switch (plateau[j][i]) {
+            switch ((*plateau)[j][i]) {
             case Nul:
                 plateauWidget->displayCase("", {j, i});
                 break;

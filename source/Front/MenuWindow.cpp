@@ -90,17 +90,74 @@ MenuWindow::MenuWindow(QWidget *parent)
     setWindowTitle("Menu Splendor");
 }
 
+
+
+
 void MenuWindow::onButton1Clicked() {
-    Partie& game = Partie::get_partie();
+    Partie * game=nullptr;
+    QMessageBox msgBox;
+   msgBox.setWindowTitle("Continuez ?");
+    msgBox.setText("Que souhaitez-vous faire?");
+    msgBox.addButton("Nouvelle Partie", QMessageBox::AcceptRole);
+    msgBox.addButton("Continuer Partie", QMessageBox::RejectRole);
+
+    // Définir le bouton par défaut sur "Nouvelle Partie"
+    //msgBox.setDefaultButton(QMessageBox::AcceptRole);
+
+    // Afficher la boîte de dialogue et attendre la réponse
+    int choice = msgBox.exec();
+
+    // Traiter la réponse en fonction du bouton cliqué
+    if (choice == 0) {
+        // Action si "Nouvelle Partie" est cliqué
+        game = Partie::get_partie();
+    } else  {
+        // Action si "Continuer Partie" est cliqué
+       game = Partie::get_partie("D:\\LO21\\lo21_splendor-main\\data\\sauvegarde");
+    }
+
 
     // Create and add the PlateauWidget to the layout
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
 
     plateauWidget = PlateauWidget::creerPlateau();
     PartieWidget * partie = PartieWidget::getInstance();
+    //pyramidefront *pyramide;
     //partie->displayRoyalImages(imagePaths);
+    QString  playerName1  =     QInputDialog::getText(nullptr, "Nom du joueur 1", "Le premier joueur  est:");
+    QString   playerName2 = QInputDialog::getText(nullptr, "Nom du joueur 2", "Le deuxième joueur  est:");
+
+
+
+
+
+
+    // Set the player names in PartieWidget (assuming you have setters for player names)
+//
+//    QMessageBox(parentWidget,"information",playerName2);
+    partie->setPlayer1(playerName1);
+    partie->setPlayer2(playerName2);
+
+    partie->setLabel(playerName1,playerName2);
+
+    // Appliquer l'image de fond à PartieWidget
+    partie->setStyleSheet("background-color: #fffaca");
+
+    pyramidefront * pyramide=pyramidefront::getInstance();
+
+    //partie->afficherPyr_Plat(plateauWidget,pyramide->creerPyramide());
     partie->afficherPlateau(plateauWidget);
-    partie->joueurActif("Joueur 1");
+    //partie->displayPyramide(pyramide->creerPyramide());
+    if(game->joueur_actif()==1)    {
+
+
+        partie->joueurActif(partie->getPlayer1());
+
+    }
+    else {
+
+        partie->joueurActif(partie->getPlayer2());
+    }
 
     partie->setPlateauWidget(plateauWidget);
 
@@ -111,7 +168,7 @@ void MenuWindow::onButton1Clicked() {
 }
 
 void MenuWindow::onButton2Clicked() {
-    Partie& game = Partie::get_partie();
+    Partie * game = Partie::get_partie();
 
     // Create and add the PlateauWidget to the layout
     PlateauWidget * plateauWidget = PlateauWidget::getInstance();
@@ -121,6 +178,11 @@ void MenuWindow::onButton2Clicked() {
     //partie->displayRoyalImages(imagePaths);
     partie->afficherPlateau(plateauWidget);
     partie->joueurActif("Joueur 1");
+    QString backgroundImagePath = ":/Images/splender_background.jpg";
+
+    // Appliquer l'image de fond à PartieWidget
+    partie->setStyleSheet("background-image: url('" + backgroundImagePath + "'); background-repeat: no-repeat; background-position: center;");
+
 
     partie->setPlateauWidget(plateauWidget);
 

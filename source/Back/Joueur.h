@@ -73,6 +73,9 @@ public:
     void setGemmes(const StockGemmesOr& gemmes);
     void setBonus(const StockGemmes& bonus);
     void setPointsPrestigeCouleur(const StockGemmes& pp){PointsPrestigeCouleurs=pp;}
+    void setNom(std::string nom){name=nom;return;}
+    void initBonus();
+    void initPrestige(){for(CarteJoaillerie carte : cartesJoailleriesPossedees) nbPointsPrestige+=carte.get_pointsPrestige();};
 
     std::string sauvegarder()const;
     void addPointsPrestiges(unsigned int quantite){nbPointsPrestige += quantite;}

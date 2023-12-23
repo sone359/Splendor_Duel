@@ -10,13 +10,15 @@
 #include "PlateauWidget.h"
 #include "BoutonManager.h"
 #include "../Back/CarteRoyale.h"
+#include "pyramideFront.h"
 
 class PartieWidget : public QWidget {
 public:
     static PartieWidget *getInstance();
     void displayRoyalImages(const QStringList &imagePaths);
-    void removePlateau(PlateauWidget * pl=nullptr);
+    void removePlateau(PlateauWidget * pl);
     void afficherPlateau(PlateauWidget * pl);
+    void displayPyramide(pyramidefront* pyramide);
     void setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, QLineEdit*& greenLineEdit,
                                           QLineEdit*& blueLineEdit, QLineEdit*& whiteLineEdit,
                                           QLineEdit*& pearlLineEdit, QLineEdit*& blackLineEdit,
@@ -39,8 +41,50 @@ public:
 
     void joueurActif(const QString& playerName) ;
 
+    void afficherPyr_Plat(PlateauWidget * pl,pyramidefront* pyramide);
+
+    QString getPlayer1() const {
+        return Player1;
+    }
+
+    // Setter for Player1
+    void setPlayer1(const QString &value) {
+        Player1 = value;
+
+    }
+
+    // Getter for Player2
+    QString getPlayer2() const {
+        return Player2;
+    }
+
+    // Setter for Player2
+    void setPlayer2(const QString &value) {
+        Player2 = value;
+    }
+
+    void setLabel(const QString & player1,const QString & player2);
+
+
+
+
+
+
+
 public slots:
     void handleRoyalButtonClick(const QString &imagePath);
+
+
+protected:
+    void closeEvent(QCloseEvent *event) override
+    {
+        Partie * partie = Partie::get_partie();
+
+        partie->sauvegarder("D:\\LO21\\lo21_splendor-main\\data\\sauvegarde");
+
+        // Call the base class implementation to ensure the widget is properly closed
+        QWidget::closeEvent(event);
+    }
 
 private:
     explicit PartieWidget(QWidget *parent = nullptr);
@@ -73,6 +117,10 @@ private:
     QLineEdit * player2GoldLineEdit;
     QLineEdit *player2CoronneLineEdit;
 
+    QHBoxLayout * pyramideETplateau;
+
+    QString Player1;
+    QString Player2;
 
 
     std::vector<CarteRoyale> cartesRoyales;
