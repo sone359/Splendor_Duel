@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <random>
 #include <ctime>
+#include <map>
 
 //Methodes suivant le design pattern Singleton
 Partie* Partie::partie = nullptr;
@@ -301,6 +302,14 @@ CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
     //}
 }
 
+CarteJoaillerie& Partie::acheterCarteReservee(unsigned int num){
+    Joueur& joueur=get_joueur(joueur_actif());
+    StockGemmesOr avant_achat = joueur.getGemmes();//retiens le nombre de gemmes avant l'achat
+    CarteJoaillerie & res=joueur.acheterCarteReservee(num);
+    sac.ajouter_stock(joueur.getGemmes()/avant_achat);
+    return res;
+}
+
 void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
     if(joueur.getCartesJoailleriesReservees().size()==3) throw SplendorException("Impossible de reserver plus de 3 cartes.\n");
     CarteJoaillerie piochee = pyramide->reserverCarteJoaillerie(niv,colonne);
@@ -365,11 +374,11 @@ int Partie::lire_fichier(const char* fichier){
         //melanger les cartes:
         std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
 
-        //verif
-        for(CarteJoaillerie  carte : cartes){
-            std::cout<<carte<<std::endl;
-            std::cout<<carte.getChemin()<<'\n';
-        }
+        ////verif
+        //for(CarteJoaillerie  carte : cartes){
+        //    std::cout<<carte<<std::endl;
+        //    std::cout<<carte.getChemin()<<'\n';
+        //}
         return 0;
     }
 
@@ -457,13 +466,11 @@ Partie::Partie(const std::string fichier){
 
         while(!inputFile.eof()){//pioches
             std::getline(inputFile, line);
-            if(line=="\0") {
-                break;
-            }
+            if(line=="\0"||line=="\n") break;
             cartes.push_back(CarteJoaillerie(line));
             cartes_lues++;
         }
-        std::getline(inputFile, line);
+        //std::getline(inputFile, line);
         while(!inputFile.eof()){//Pyramide
             std::getline(inputFile, line);
             if(line=="{\0") {
@@ -594,6 +601,15 @@ Partie::Partie(const std::string fichier){
         // fermeture du fichier
         inputFile.close();
 
+        joueur1.initBonus();
+        joueur2.initBonus();
+        joueur1.initPrestige();
+        joueur2.initPrestige();
+
+        //for(CarteJoaillerie carte : cartes)
+        //    std::cout<<carte;
+        //std::cout<<"\n\n";
+
         pyramide = Pyramide::getInstance(cartes);
         //pyramide->afficherPyramide();
 
@@ -602,4 +618,32 @@ Partie::Partie(const std::string fichier){
         //    std::cout<<carte<<std::endl;
         //    std::cout<<carte.getChemin()<<'\n';
         //}
+}
+
+void Partie::inscrireGagnant(unsigned int joueur){
+    std::map<std::string,unsigned int> scores=recupererGagnants();
+    scores[partie->get_joueur(joueur).getNom()]+=1;
+    std::ofstream file("../data/gagnants");
+    if(!file.is_open()) throw ("Erreur a l'ouverture du fichier de sauvegarde.\n");
+    for(std::pair<std::string,unsigned int> score : scores){
+        file<<score.first<<'\n';
+        file<<score.second<<'\n';
+    }
+        file.close();
+        return;
+    }
+
+std::map<std::string,unsigned int> Partie::recupererGagnants(){
+    std::map<std::string,unsigned int> scores;
+    std::ifstream inputFile("../data/gagnants");
+    if (!inputFile.is_open()) {
+        throw std::runtime_error("Error opening the file: " + std::string(strerror(errno)));
+    }
+    std::string line1;
+    std::string line2;
+        while(std::getline(inputFile, line1) && std::getline(inputFile, line2)){
+            scores[line1]=stoi(line2);
+        }
+    inputFile.close();
+    return scores;
 }

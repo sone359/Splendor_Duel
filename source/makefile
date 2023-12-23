@@ -1,7 +1,7 @@
 OBJS = main.o stockGemmes.o plateau.o sac.o pyramide.o Joueur.o Effet.o CarteRoyale.o partie.o interfaceConsole.o carte_joaillerie.o IA1.o
 CC = g++ 
 
-test : $(OBJS)
+splendor : $(OBJS)
 	$(CC) -o $@ $(OBJS)
 
 main.o : main.cpp Back/stockGemmes.h Back/plateau.h Back/sac.h Back/partie.h Back/Joueur.h Console/interfaceConsole.h Back/carte_joaillerie.h Back/IA1.h

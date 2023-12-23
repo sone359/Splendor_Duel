@@ -35,11 +35,15 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
         }
     }
     reponse = "";
+    std::string nomj1,nomj2;
     std::cout << "Souhaitez-vous remplacer le joueur 1 par une Intelligence Artificielle ? (oui/non)" << std::endl;
     while(reponse!="oui" && reponse != "non"){
         std::cin >> reponse;
         if(reponse == "non"){
             partie->set_statut_joueur(1, false);
+            std::cout<<"\nEntrez le nom du joueur 1 : ";
+            std::cin>>nomj1;
+            partie->get_joueur(1).setNom(nomj1);
         }
         else if(reponse != "oui")
         {
@@ -48,6 +52,9 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
         else
         {
             partie->set_statut_joueur(1, true);
+            std::cout<<"\nNommez l'IA : ";
+            std::cin>>nomj1;
+            partie->get_joueur(1).setNom(nomj1);
         }
     }
     reponse = "";
@@ -56,6 +63,9 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
         std::cin >> reponse;
         if(reponse == "non"){
             partie->set_statut_joueur(2, false);
+            std::cout<<"\nEntrez le nom du joueur 2 : ";
+            std::cin>>nomj2;
+            partie->get_joueur(2).setNom(nomj2);
         }
         else if(reponse != "oui")
         {
@@ -64,6 +74,9 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
         else
         {
             partie->set_statut_joueur(2, true);
+            std::cout<<"\nNommez l'IA : ";
+            std::cin>>nomj2;
+            partie->get_joueur(2).setNom(nomj2);
         }
     }
     bool continuer = true;
@@ -71,13 +84,18 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
     {
         if(partie->get_statut_joueur_actif())
         {
+            std::cout<<"L'IA joue ...\n";
+            sleep(1);
             try{
                 continuer = IA.deroulement_tour();
+                afficherConsole();
+                std::cout<<"L'IA joue ...\n";
             }
             catch (const SplendorException& e)
             {
                 std::cout << "L'IA a du mal a trouver une action a jouer, elle passe son tour" << std::endl;
             }
+            sleep(1);
         }
         else
         {
@@ -89,14 +107,17 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
     if(fin_partie == 1)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 20 points de prestige en tout et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else if(fin_partie == 2)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 couronnes et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else if(fin_partie == 3)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else{partie->sauvegarder("../data/sauvegarde");}
 }
@@ -172,7 +193,7 @@ bool InterfaceConsole::deroulement_tour()
     bool fin_actions_obligatoires = false;
     while(!fin_actions_obligatoires)
     {
-        std::cout << "Quelle action obligatoire souhaitez-vous effectuer ?\n1 - Prendre jusqu'a 3 jetons Gemme et/ou Perle\n2 - Prendre 1 jeton Or pour reserver 1 carte Joaillerie\n3 - Acheter 1 carte Joaillerie\n4 - Quitter la partie" << std::endl;
+        std::cout << "Quelle action obligatoire souhaitez-vous effectuer ?\n1 - Prendre jusqu'a 3 jetons Gemme et/ou Perle\n2 - Prendre 1 jeton Or pour reserver 1 carte Joaillerie\n3 - Acheter 1 carte Joaillerie\n4 - Quitter la partie\n5 - Consulter le tableau des gagnants" << std::endl;
         std::string reponse;
         std::cin >> reponse;
         try
@@ -192,6 +213,9 @@ bool InterfaceConsole::deroulement_tour()
             else if(reponse == "4")
             {
                 return false;
+            }
+            else if(reponse == "5"){
+                afficherGagnants(partie->recupererGagnants());
             }
             else
             {
@@ -454,7 +478,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
     {
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (à partir de 1)  : ";
         std::cin >> num_carte;
-        gestion_effets(joueur.acheterCarteReservee(num_carte));
+        gestion_effets(partie->acheterCarteReservee(num_carte));
         //gestion_effets(partie->acheter_carte(joueur, niveau_carte, num_carte));
         return true;
     }
@@ -496,6 +520,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                             StockGemmes nouveau_bonus = StockGemmes(carte.get_nbBonus());
                             carte.setTypeBonus(nouveau_bonus);
                             joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+                            joueur.addPointsPrestiges(carte.get_pointsPrestige());
                             continuer = false;
                         }
                     }
@@ -818,7 +843,7 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,unsigned i
             os <<"|  +"<< c.get_nbBonus() << "  |";
             return;
         case 3:
-            os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
+            os << "|P:"<<c.get_pointsPrestige()<<"C:"<<c.get_couronnes()<<"|" ;
             return;
         case 4:
             if (c.get_capacite().size()>=2){
@@ -1078,24 +1103,43 @@ void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     std::cout<<"------Joueur "<<joueur<<"-----------------------------------------------------------------------------------------------------------------------------------------------\n";
     if(joueur==partie->joueur_actif()){
         std::cout<<"    Cartes Reservees \n";
-        for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
-            for(int l=1;l<8;l++){
+        for(int l=1;l<8;l++){
+            for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
                     afficherCarteparligne(carte,l,std::cout);
                     std::cout<<' ';
             }
+            std::cout<<'\n';
         }
         std::cout<<'\n';
     }
     std::cout<<"    Cartes Possedees \n";
-    for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
-        for(int l=1;l<8;l++){
-            afficherCarteparligne(carte,l,std::cout);
-            std::cout<<' ';
-            std::cout<<'\n';
+        std::vector<CarteJoaillerie> ligne;
+        for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
+            ligne.push_back(carte);
+            if (ligne.size()==16 ) {
+                for(int l=1;l<8;l++){
+                    for(CarteJoaillerie carte : ligne){
+                        afficherCarteparligne(carte,l,std::cout);
+                        std::cout<<' ';
+                    }
+                    std::cout<<'\n';
+                }
+                ligne.clear();
+            }
         }
-    }
+        if(!ligne.empty()){
+            for(int l=1;l<8;l++){
+                    for(CarteJoaillerie carte : ligne){
+                        afficherCarteparligne(carte,l,std::cout);
+                        std::cout<<' ';
+                    }
+                    std::cout<<'\n';
+                }
+                ligne.clear();
+        }
+    
     std::cout<<"\n    Jetons Possedes                                                                  Points Prestige                                  Couronnes           \n";
-    std::cout<<' ';afficherJetonsPossedes(joueur);std::cout<<"                 "; afficherPrestige(joueur);std::cout<<"               ";partie->get_joueur(joueur).getNbCouronnes();std::cout<<"                         \n\n";
+    std::cout<<' ';afficherJetonsPossedes(joueur);std::cout<<"                 "; afficherPrestige(joueur);std::cout<<"                        Cx"<<partie->get_joueur(joueur).getNbCouronnes()<<"                         \n\n";
     std::cout<<'+';afficherBonus(joueur);std::cout<<"                                    Total Points Prestige :"<<partie->get_joueur(joueur).getNbPointsPrestige()<<'\n';
 }
 
@@ -1109,6 +1153,36 @@ void InterfaceConsole::afficherBonus(unsigned int num_joueur) const
 {
     Joueur& joueur = partie->get_joueur(num_joueur);
     std::cout << "    " << "B x " << joueur.getBonus().get_Bleu() << ", V x " << joueur.getBonus().get_Vert() << ", W x " << joueur.getBonus().get_Blanc() << ", R x " << joueur.getBonus().get_Rouge() << ", N x " << joueur.getBonus().get_Noir() << ", P x " << joueur.getBonus().get_Perle();
+}
+
+void InterfaceConsole::afficherGagnants(std::map<std::string,unsigned int> gagnants)const{//appeler partie->recupererGagnants()
+    #ifdef _WIN32
+        system("cls");
+    #else
+       system("clear");
+    #endif
+    //trie gagnants par score
+    std::map<unsigned int,std::vector<std::string>> danslordre;//vector pcq on peut avoir plsrs joueurs avec le mm score 
+
+    for(std::pair<std::string,unsigned int> joueur : gagnants){
+        danslordre[joueur.second].push_back(joueur.first);
+    }
+    //affichage
+    std::cout<<"--------------------------------------------------------------------------GAGNANTS--------------------------------------------------------------------------\n";
+    for(std::pair<unsigned int,std::vector<std::string>> joueur : danslordre){
+        for(std::string nom : joueur.second){
+            for(int i=0;i<(150-nom.size())/2;i++) std::cout<<" ";
+            std::cout<<nom<<" : "<<joueur.first;
+            std::cout<<"\n";
+        }
+    }
+    std::cout<<"------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    std::string  reponse ="";
+    std::cout << "Entrez q pour quitter " << std::endl;
+        while(reponse!="q" && reponse != "Q"){
+            std::cin >> reponse;
+        }
+    afficherConsole();
 }
 
 void InterfaceConsole::titre()const{
@@ -1186,7 +1260,7 @@ void InterfaceConsole::titre()const{
     std::cout<<"                                                                         ## \n\n\n"<<std::endl;
     sleep(2);
     std::cout<<"Adaptation par Simon Biffe, Ahmed Bouzidi, Ismail Essagar et Marie Herminie Blondy.\n\n";
-    sleep(3);
+    sleep(1);
 }
 
 /*IA1& InterfaceConsole::get_IA_joueur_actif()

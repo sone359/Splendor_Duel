@@ -42,6 +42,7 @@ protected:
     void titre()const;
     void afficherReglesparLigne(unsigned int ligne, std::ostream& os)const;
     void afficherCarteRoyaleparLigne(unsigned int ligne, unsigned int carte,std::ostream& os)const;
+    void afficherGagnants(std::map<std::string,unsigned int> gagnants)const;
 
 private:
     Partie * partie;

@@ -11,7 +11,7 @@ public:
     bool deroulement_tour(bool test = false);
 
     //Getters
-    Partie& getPartie() const {*Partie::get_partie();}
+    Partie& getPartie() const {return *Partie::get_partie();}
     unsigned int getNumJoueur() const {return getPartie().joueur_actif();}
 
     virtual ~IA1() = default;
