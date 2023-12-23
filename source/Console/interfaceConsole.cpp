@@ -35,11 +35,15 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
         }
     }
     reponse = "";
+    std::string nomj1,nomj2;
     std::cout << "Souhaitez-vous remplacer le joueur 1 par une Intelligence Artificielle ? (oui/non)" << std::endl;
     while(reponse!="oui" && reponse != "non"){
         std::cin >> reponse;
         if(reponse == "non"){
             partie->set_statut_joueur(1, false);
+            std::cout<<"\nEntrez le nom du joueur 1 : ";
+            std::cin>>nomj1;
+            partie->get_joueur(1).setNom(nomj1);
         }
         else if(reponse != "oui")
         {
@@ -56,6 +60,9 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
         std::cin >> reponse;
         if(reponse == "non"){
             partie->set_statut_joueur(2, false);
+            std::cout<<"\nEntrez le nom du joueur 2 : ";
+            std::cin>>nomj2;
+            partie->get_joueur(2).setNom(nomj2);
         }
         else if(reponse != "oui")
         {
@@ -71,13 +78,18 @@ InterfaceConsole::InterfaceConsole() : IA(IA1())
     {
         if(partie->get_statut_joueur_actif())
         {
+            std::cout<<"L'IA joue ...\n";
+            sleep(1);
             try{
                 continuer = IA.deroulement_tour();
+                afficherConsole();
+                std::cout<<"L'IA joue ...\n";
             }
             catch (const SplendorException& e)
             {
                 std::cout << "L'IA a du mal a trouver une action a jouer, elle passe son tour" << std::endl;
             }
+            sleep(1);
         }
         else
         {
@@ -454,7 +466,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
     {
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (à partir de 1)  : ";
         std::cin >> num_carte;
-        gestion_effets(joueur.acheterCarteReservee(num_carte));
+        gestion_effets(partie->acheterCarteReservee(num_carte));
         //gestion_effets(partie->acheter_carte(joueur, niveau_carte, num_carte));
         return true;
     }
@@ -496,6 +508,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                             StockGemmes nouveau_bonus = StockGemmes(carte.get_nbBonus());
                             carte.setTypeBonus(nouveau_bonus);
                             joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+                            joueur.addPointsPrestiges(carte.get_pointsPrestige());
                             continuer = false;
                         }
                     }
@@ -818,7 +831,7 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,unsigned i
             os <<"|  +"<< c.get_nbBonus() << "  |";
             return;
         case 3:
-            os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
+            os << "|P:"<<c.get_pointsPrestige()<<"C:"<<c.get_couronnes()<<"|" ;
             return;
         case 4:
             if (c.get_capacite().size()>=2){
@@ -1078,22 +1091,52 @@ void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     std::cout<<"------Joueur "<<joueur<<"-----------------------------------------------------------------------------------------------------------------------------------------------\n";
     if(joueur==partie->joueur_actif()){
         std::cout<<"    Cartes Reservees \n";
-        for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
-            for(int l=1;l<8;l++){
+        for(int l=1;l<8;l++){
+            for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
                     afficherCarteparligne(carte,l,std::cout);
                     std::cout<<' ';
             }
+            std::cout<<'\n';
         }
         std::cout<<'\n';
     }
     std::cout<<"    Cartes Possedees \n";
-    for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
-        for(int l=1;l<8;l++){
-            afficherCarteparligne(carte,l,std::cout);
-            std::cout<<' ';
-            std::cout<<'\n';
+        std::vector<CarteJoaillerie> ligne;
+        for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
+            ligne.push_back(carte);
+            if (ligne.size()==16 ) {
+                for(int l=1;l<8;l++){
+                    for(CarteJoaillerie carte : ligne){
+                        afficherCarteparligne(carte,l,std::cout);
+                        std::cout<<' ';
+                    }
+                    std::cout<<'\n';
+                }
+                ligne.clear();
+            }
         }
-    }
+        if(!ligne.empty()){
+            for(int l=1;l<8;l++){
+                    for(CarteJoaillerie carte : ligne){
+                        afficherCarteparligne(carte,l,std::cout);
+                        std::cout<<' ';
+                    }
+                    std::cout<<'\n';
+                }
+                ligne.clear();
+        }
+
+    //for(int l=1;l<8;l++){
+    //    for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
+    //        if (l==0)count++;
+    //        if(count<=16){
+    //            afficherCarteparligne(carte,l,std::cout);
+    //            std::cout<<' ';
+    //        }
+    //    }
+    //        std::cout<<'\n';
+    //}
+    
     std::cout<<"\n    Jetons Possedes                                                                  Points Prestige                                  Couronnes           \n";
     std::cout<<' ';afficherJetonsPossedes(joueur);std::cout<<"                 "; afficherPrestige(joueur);std::cout<<"               ";partie->get_joueur(joueur).getNbCouronnes();std::cout<<"                         \n\n";
     std::cout<<'+';afficherBonus(joueur);std::cout<<"                                    Total Points Prestige :"<<partie->get_joueur(joueur).getNbPointsPrestige()<<'\n';
@@ -1186,7 +1229,7 @@ void InterfaceConsole::titre()const{
     std::cout<<"                                                                         ## \n\n\n"<<std::endl;
     sleep(2);
     std::cout<<"Adaptation par Simon Biffe, Ahmed Bouzidi, Ismail Essagar et Marie Herminie Blondy.\n\n";
-    sleep(3);
+    sleep(1);
 }
 
 /*IA1& InterfaceConsole::get_IA_joueur_actif()

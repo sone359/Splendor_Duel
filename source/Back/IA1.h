@@ -8,7 +8,7 @@
 class IA1
 {
 public:
-    Partie& getPartie() {*Partie::get_partie();}
+    Partie& getPartie() {return *Partie::get_partie();}
     unsigned int getNumJoueur(){return getPartie().joueur_actif();}
 
     bool prendre_3_jetons();

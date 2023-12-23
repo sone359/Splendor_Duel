@@ -301,6 +301,14 @@ CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
     //}
 }
 
+CarteJoaillerie& Partie::acheterCarteReservee(unsigned int num){
+    Joueur& joueur=get_joueur(joueur_actif());
+    StockGemmesOr avant_achat = joueur.getGemmes();//retiens le nombre de gemmes avant l'achat
+    CarteJoaillerie & res=joueur.acheterCarteReservee(num);
+    sac.ajouter_stock(joueur.getGemmes()/avant_achat);
+    return res;
+}
+
 void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
     if(joueur.getCartesJoailleriesReservees().size()==3) throw SplendorException("Impossible de reserver plus de 3 cartes.\n");
     CarteJoaillerie piochee = pyramide->reserverCarteJoaillerie(niv,colonne);
@@ -365,11 +373,11 @@ int Partie::lire_fichier(const char* fichier){
         //melanger les cartes:
         std::shuffle(cartes.begin(),cartes.end(),std::default_random_engine(std::random_device()()));
 
-        //verif
-        for(CarteJoaillerie  carte : cartes){
-            std::cout<<carte<<std::endl;
-            std::cout<<carte.getChemin()<<'\n';
-        }
+        ////verif
+        //for(CarteJoaillerie  carte : cartes){
+        //    std::cout<<carte<<std::endl;
+        //    std::cout<<carte.getChemin()<<'\n';
+        //}
         return 0;
     }
 
@@ -457,13 +465,11 @@ Partie::Partie(const std::string fichier){
 
         while(!inputFile.eof()){//pioches
             std::getline(inputFile, line);
-            if(line=="\0") {
-                break;
-            }
+            if(line=="\0"||line=="\n") break;
             cartes.push_back(CarteJoaillerie(line));
             cartes_lues++;
         }
-        std::getline(inputFile, line);
+        //std::getline(inputFile, line);
         while(!inputFile.eof()){//Pyramide
             std::getline(inputFile, line);
             if(line=="{\0") {
@@ -593,6 +599,15 @@ Partie::Partie(const std::string fichier){
         plateau=Plateau::get_plateau(line);
         // fermeture du fichier
         inputFile.close();
+
+        joueur1.initBonus();
+        joueur2.initBonus();
+        joueur1.initPrestige();
+        joueur2.initPrestige();
+
+        //for(CarteJoaillerie carte : cartes)
+        //    std::cout<<carte;
+        //std::cout<<"\n\n";
 
         pyramide = Pyramide::getInstance(cartes);
         //pyramide->afficherPyramide();
