@@ -168,8 +168,7 @@ CarteJoaillerie& Joueur::acheterCarteReservee(unsigned int num){
             
         } else {
             throw SplendorException("Numero invalide pour les cartes reservees.");
-        }        
-    
+        }            
     }
     else throw SplendorException("Cette carte est trop chere, recuperez plus de jetons.\n");
 }
@@ -226,4 +225,10 @@ std::string Joueur::sauvegarder() const{
     s<<PointsPrestigeCouleurs.sauvegarder();
     s<<"\n}";
     return s.str();
+}
+
+void Joueur::initBonus(){
+    for(CarteJoaillerie  carte : cartesJoailleriesPossedees){
+        addBonus(carte);
+    }
 }

@@ -1,10 +1,10 @@
-OBJS = main.o stockGemmes.o plateau.o sac.o pyramide.o Joueur.o Effet.o CarteRoyale.o partie.o interfaceConsole.o carte_joaillerie.o
+OBJS = main.o stockGemmes.o plateau.o sac.o pyramide.o Joueur.o Effet.o CarteRoyale.o partie.o interfaceConsole.o carte_joaillerie.o IA1.o
 CC = g++ 
 
-test : $(OBJS)
+splendor : $(OBJS)
 	$(CC) -o $@ $(OBJS)
 
-main.o : main.cpp Back/stockGemmes.h Back/plateau.h Back/sac.h Back/partie.h Back/Joueur.h Console/interfaceConsole.h Back/carte_joaillerie.h
+main.o : main.cpp Back/stockGemmes.h Back/plateau.h Back/sac.h Back/partie.h Back/Joueur.h Console/interfaceConsole.h Back/carte_joaillerie.h Back/IA1.h
 	$(CC) -c $*.cpp
 
 stockGemmes.o : Back/stockGemmes.cpp Back/stockGemmes.h tools.h
@@ -33,6 +33,9 @@ partie.o : Back/partie.cpp Back/partie.h Back/stockGemmes.h tools.h Back/plateau
 
 interfaceConsole.o : Console/interfaceConsole.cpp Console/interfaceConsole.h Back/plateau.h Back/Joueur.h 
 	$(CC) -c Console/$*.cpp
+
+IA1.o : Back/IA1.cpp Back/partie.h Back/stockGemmes.h
+	$(CC) -c Back/$*.cpp
 
 carte_joaillerie.o : Back/carte_joaillerie.cpp Back/carte_joaillerie.h
 	$(CC) -c Back/$*.cpp

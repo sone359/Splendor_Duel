@@ -20,11 +20,6 @@ public:
     InterfaceConsole();
 
 protected:
-    bool statut_joueur1 = false; //false : joueur et true : IA
-    bool statut_joueur2 = false; //false : joueur et true : IA
-    IA1 IA_joueur1;
-    IA1 IA_joueur2;
-
     bool deroulement_tour();
     bool action_prendre_jetons(Joueur& joueur);
     bool action_reserver(Joueur& joueur);
@@ -47,14 +42,11 @@ protected:
     void titre()const;
     void afficherReglesparLigne(unsigned int ligne, std::ostream& os)const;
     void afficherCarteRoyaleparLigne(unsigned int ligne, unsigned int carte,std::ostream& os)const;
+    void afficherGagnants(std::map<std::string,unsigned int> gagnants)const;
 
-
-    bool get_statut_joueur_actif();
-    IA1& get_IA_joueur_actif();
 private:
     Partie * partie;
-
-
+    IA1 IA;
 };
 
 #endif // INTERFACECONSOLE_H

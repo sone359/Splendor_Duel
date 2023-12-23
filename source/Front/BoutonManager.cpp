@@ -258,22 +258,22 @@ void volerJeton() {
     // Retourner la couleur sélectionnée
     try {
     if (rougeButton->isChecked()) {
-        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Rouge);
+            partie->capacite_voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Rouge);
     } else if (blancButton->isChecked()) {
-        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Blanc);
+        partie->capacite_voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Blanc);
 
     } else if (noirButton->isChecked()) {
-        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Noir);
+        partie->capacite_voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Noir);
 
     } else if (perleButton->isChecked()) {
-        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Perle);
+        partie->capacite_voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Perle);
 
     } else if (vertButton->isChecked()) {
-        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Vert);
+        partie->capacite_voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Vert);
 
 
     } else if (bleuButton->isChecked()) {
-        partie->voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Bleu);
+        partie->capacite_voler(partie->get_joueur(partie->joueur_actif()), partie->get_joueur(partie->joueur_adverse()), Bleu);
 
     }
     }

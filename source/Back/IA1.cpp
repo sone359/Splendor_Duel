@@ -13,12 +13,12 @@ bool IA1::prendre_3_jetons()
         {
             //Test des combinaisons horizontales
             jetons_cible_temp = 0;
-            if (partie.get_plateau()[i][j] != Nul && partie.get_plateau()[i+1][j] != Nul && partie.get_plateau()[i+2][j] != Nul
-                && partie.get_plateau()[i][j] != Or && partie.get_plateau()[i+1][j] != Or && partie.get_plateau()[i+2][j] != Or)
+            if (getPartie().get_plateau()[i][j] != Nul && getPartie().get_plateau()[i+1][j] != Nul && getPartie().get_plateau()[i+2][j] != Nul
+                && getPartie().get_plateau()[i][j] != Or && getPartie().get_plateau()[i+1][j] != Or && getPartie().get_plateau()[i+2][j] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+1][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+2][j])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i][j])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+1][j])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+2][j])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
@@ -35,12 +35,12 @@ bool IA1::prendre_3_jetons()
             }
             //Test des combinaisons verticales
             jetons_cible_temp = 0;
-            if (partie.get_plateau()[j][i] != Nul && partie.get_plateau()[j][i+1] != Nul && partie.get_plateau()[j][i+2] != Nul
-                && partie.get_plateau()[j][i] != Or && partie.get_plateau()[j][i+1] != Or && partie.get_plateau()[j][i+2] != Or)
+            if (getPartie().get_plateau()[j][i] != Nul && getPartie().get_plateau()[j][i+1] != Nul && getPartie().get_plateau()[j][i+2] != Nul
+                && getPartie().get_plateau()[j][i] != Or && getPartie().get_plateau()[j][i+1] != Or && getPartie().get_plateau()[j][i+2] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[j][i])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[j][i+1])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[j][i+2])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[j][i])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[j][i+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[j][i+2])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
@@ -60,12 +60,12 @@ bool IA1::prendre_3_jetons()
         jetons_cible_temp = 0;
         for (size_t j = 0 ; j < 3-i ; j++)
         {
-            if (partie.get_plateau()[i][i+j] != Nul && partie.get_plateau()[i+1][i+j+1] != Nul && partie.get_plateau()[i+2][i+j+2] != Nul
-                && partie.get_plateau()[i][i+j] != Or && partie.get_plateau()[i+1][i+j+1] != Or && partie.get_plateau()[i+2][i+j+2] != Or)
+            if (getPartie().get_plateau()[i][i+j] != Nul && getPartie().get_plateau()[i+1][i+j+1] != Nul && getPartie().get_plateau()[i+2][i+j+2] != Nul
+                && getPartie().get_plateau()[i][i+j] != Or && getPartie().get_plateau()[i+1][i+j+1] != Or && getPartie().get_plateau()[i+2][i+j+2] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i][i+j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+1][i+j+1])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+2][i+j+2])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i][i+j])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+1][i+j+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+2][i+j+2])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
@@ -80,22 +80,22 @@ bool IA1::prendre_3_jetons()
                     coor_jeton3 = {i+2, i+j+2};
                 }
             }
-            if (partie.get_plateau()[i+j][i] != Nul && partie.get_plateau()[i+j+1][i+1] != Nul && partie.get_plateau()[i+j+2][i+2] != Nul
-                && partie.get_plateau()[i+j][i] != Or && partie.get_plateau()[i+j+1][i+1] != Or && partie.get_plateau()[i+j+2][i+2] != Or)
+            if (getPartie().get_plateau()[i+j][i] != Nul && getPartie().get_plateau()[i+j+1][i+1] != Nul && getPartie().get_plateau()[i+j+2][i+2] != Nul
+                && getPartie().get_plateau()[i+j][i] != Or && getPartie().get_plateau()[i+j+1][i+1] != Or && getPartie().get_plateau()[i+j+2][i+2] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i+j][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+j+1][j+1])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+j+2][j+2])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+j][i])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+j+1][i+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+j+2][i+2])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 3 || jetons_cible_temp == total_stock(jetons_cible))
                 {
-                    getPartie().retirer_jetons({i+j, j}, {i+j+1, j+1}, {i+j+2, j+2});
+                    getPartie().retirer_jetons({i+j, i}, {i+j+1, i+1}, {i+j+2, i+2});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i+j, j};
+                    coor_jeton1 = {i+j, i};
                     coor_jeton2 = {i+j+1, i+1};
                     coor_jeton3 = {i+j+2, i+2};
                 }
@@ -122,11 +122,11 @@ bool IA1::prendre_2_jetons()
         {
             //Test des combinaisons horizontales
             jetons_cible_temp = 0;
-            if (partie.get_plateau()[i][j] != Nul && partie.get_plateau()[i+1][j] != Nul
-                && partie.get_plateau()[i][j] != Or && partie.get_plateau()[i+1][j] != Or)
+            if (getPartie().get_plateau()[i][j] != Nul && getPartie().get_plateau()[i+1][j] != Nul
+                && getPartie().get_plateau()[i][j] != Or && getPartie().get_plateau()[i+1][j] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+1][j])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i][j])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+1][j])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
@@ -143,11 +143,11 @@ bool IA1::prendre_2_jetons()
             }
             //Test des combinaisons verticales
             jetons_cible_temp = 0;
-            if (partie.get_plateau()[j][i] != Nul && partie.get_plateau()[j][i] != Nul
-                && partie.get_plateau()[j][i] != Or && partie.get_plateau()[j][i] != Or)
+            if (getPartie().get_plateau()[j][i] != Nul && getPartie().get_plateau()[j][i] != Nul
+                && getPartie().get_plateau()[j][i] != Or && getPartie().get_plateau()[j][i] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[j][i])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[j][i+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[j][i])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[j][i+1])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
@@ -159,7 +159,7 @@ bool IA1::prendre_2_jetons()
                 {
                     jetons_cible_max = jetons_cible_temp;
                     coor_jeton1 = {j, i};
-                    coor_jeton2 = {j, i};
+                    coor_jeton2 = {j, i+1};
                 }
             }
         }
@@ -167,11 +167,11 @@ bool IA1::prendre_2_jetons()
         jetons_cible_temp = 0;
         for (size_t j = 0 ; j < 4-i ; j++)
         {
-            if (partie.get_plateau()[i][i+j] != Nul && partie.get_plateau()[i+1][i+j+1] != Nul
-                && partie.get_plateau()[i][i+j] != Or && partie.get_plateau()[i+1][i+j+1] != Or)
+            if (getPartie().get_plateau()[i][i+j] != Nul && getPartie().get_plateau()[i+1][i+j+1] != Nul
+                && getPartie().get_plateau()[i][i+j] != Or && getPartie().get_plateau()[i+1][i+j+1] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i][i+j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+1][i+j+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i][i+j])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+1][i+j+1])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
@@ -186,22 +186,22 @@ bool IA1::prendre_2_jetons()
                     coor_jeton2 = {i+1, i+j+1};
                 }
             }
-            if (partie.get_plateau()[i+j][i] != Nul && partie.get_plateau()[i+j+1][i+1] != Nul
-                && partie.get_plateau()[i+j][i] != Or && partie.get_plateau()[i+j+1][i+1] != Or)
+            if (getPartie().get_plateau()[i+j][i] != Nul && getPartie().get_plateau()[i+j+1][i+1] != Nul
+                && getPartie().get_plateau()[i+j][i] != Or && getPartie().get_plateau()[i+j+1][i+1] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i+j][j])) {jetons_cible_temp++;}
-                if (jetons_cible.inclus(partie.get_plateau()[i+j+1][j+1])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+j][i])) {jetons_cible_temp++;}
+                if (jetons_cible.inclus(getPartie().get_plateau()[i+j+1][i+1])) {jetons_cible_temp++;}
 
                 if (jetons_cible_temp == 2 || jetons_cible_temp == total_stock(jetons_cible))
                 {
                     //Prendre les jetons
-                    getPartie().retirer_jetons({i+j, j}, {i+j+1, j+1});
+                    getPartie().retirer_jetons({i+j, i}, {i+j+1, i+1});
                     return true;
                 }
                 if (jetons_cible_temp > jetons_cible_max)
                 {
                     jetons_cible_max = jetons_cible_temp;
-                    coor_jeton1 = {i+j, j};
+                    coor_jeton1 = {i+j, i};
                     coor_jeton2 = {i+j+1, i+1};
                 }
             }
@@ -227,9 +227,9 @@ bool IA1::prendre_1_jetons()
         {
             //Test des combinaisons horizontales
             jetons_cible_temp = 0;
-            if (partie.get_plateau()[i][j] != Nul && partie.get_plateau()[i][j] != Or)
+            if (getPartie().get_plateau()[i][j] != Nul && getPartie().get_plateau()[i][j] != Or)
             {
-                if (jetons_cible.inclus(partie.get_plateau()[i][j]))
+                if (jetons_cible.inclus(getPartie().get_plateau()[i][j]))
                 {
                     //Prendre les jetons
                     getPartie().retirer_jetons({i, j});
@@ -252,10 +252,10 @@ bool IA1::prendre_1_jetons()
     return false;
 }
 
-float IA1::valeur(CarteJoaillerie& carte)
+float IA1::valeur(CarteJoaillerie& carte) const
 {
     float n_valeur = 0;
-    if (getPartie().get_joueur(num_joueur).getPointsPrestigeCouleur().max() == carte.get_typeBonus().max())
+    if (getPartie().get_joueur(getNumJoueur()).getPointsPrestigeCouleur().max() == carte.get_typeBonus().max())
     {
         n_valeur += carte.get_pointsPrestige()*1.2;
     }
@@ -275,7 +275,7 @@ float IA1::valeur(CarteJoaillerie& carte)
 
 bool IA1::deroulement_tour(bool test)
 {
-    Joueur& joueur = getPartie().get_joueur(num_joueur);
+    Joueur& joueur = getPartie().get_joueur(getNumJoueur());
     //Recherche de la carte Joaillerie cible
     float rapport_max = -1000;
     size_t niveau_max = 0;
@@ -324,7 +324,7 @@ bool IA1::deroulement_tour(bool test)
 
     if (total_stock(jetons_cible) == 0)
     {
-        gestion_effets(partie.acheter_carte(joueur, niveau_max, num_max));
+        gestion_effets(getPartie().acheter_carte(joueur, niveau_max, num_max));
     }
     else
     {
@@ -364,7 +364,7 @@ bool IA1::deroulement_tour(bool test)
         std::uniform_int_distribution<size_t> distribution(0, getPartie().get_cartes_royales().size()-1);
         size_t num_carte = distribution(generator);
 
-        CarteRoyale& carte_recup = partie.recupererCarteRoyale(num_carte);
+        CarteRoyale& carte_recup = getPartie().recupererCarteRoyale(num_carte);
         gestion_effets(carte_recup);
     }
 
@@ -373,7 +373,7 @@ bool IA1::deroulement_tour(bool test)
 
 void IA1::gestion_effets(CarteJoaillerie& carte)
 {
-    Joueur& joueur = getPartie().get_joueur(num_joueur);
+    Joueur& joueur = getPartie().get_joueur(getNumJoueur());
 
     for(unsigned int pos = 0 ; pos < carte.get_capacite().size() ; pos++)
     {
@@ -437,9 +437,9 @@ void IA1::gestion_effets(CarteJoaillerie& carte)
                 {
                     for (int j = 0 ; j < 5 ; j++)
                     {
-                        if (partie.get_plateau()[j][i] == type_carte)
+                        if (getPartie().get_plateau()[j][i] == type_carte)
                         {
-                            partie.retirer_jetons({j, i});
+                            getPartie().retirer_jetons({j, i});
                             present = true;
                             break;
                         }
@@ -453,17 +453,17 @@ void IA1::gestion_effets(CarteJoaillerie& carte)
             break;
 
         case privilege:
-            partie.prend_privilege(joueur);
+            getPartie().prend_privilege(joueur);
             break;
 
         case voler:
             {
-                Jeton gemme_volee = partie.get_joueur(partie.joueur_adverse()).getGemmes().random_tirage();
+                Jeton gemme_volee = getPartie().get_joueur(getPartie().joueur_adverse()).getGemmes().random_tirage();
                 while (gemme_volee == Or)
                 {
-                    gemme_volee = partie.get_joueur(partie.joueur_adverse()).getGemmes().random_tirage();
+                    gemme_volee = getPartie().get_joueur(getPartie().joueur_adverse()).getGemmes().random_tirage();
                 }
-                getPartie().voler(joueur, partie.get_joueur(partie.joueur_adverse()), gemme_volee);
+                getPartie().capacite_voler(joueur, getPartie().get_joueur(getPartie().joueur_adverse()), gemme_volee);
             }
             break;
         }
@@ -472,7 +472,7 @@ void IA1::gestion_effets(CarteJoaillerie& carte)
 
 void IA1::gestion_effets(CarteRoyale& carte)
 {
-    Joueur& joueur = getPartie().get_joueur(num_joueur);
+    Joueur& joueur = getPartie().get_joueur(getNumJoueur());
 
     switch (carte.getCapacite())
     {
@@ -483,17 +483,17 @@ void IA1::gestion_effets(CarteRoyale& carte)
         break;
 
     case privilege:
-        partie.prend_privilege(joueur);
+        getPartie().prend_privilege(joueur);
         break;
 
     case voler:
         {
-            Jeton gemme_volee = partie.get_joueur(partie.joueur_adverse()).getGemmes().random_tirage();
+            Jeton gemme_volee = getPartie().get_joueur(getPartie().joueur_adverse()).getGemmes().random_tirage();
             while (gemme_volee == Or)
             {
-                gemme_volee = partie.get_joueur(partie.joueur_adverse()).getGemmes().random_tirage();
+                gemme_volee = getPartie().get_joueur(getPartie().joueur_adverse()).getGemmes().random_tirage();
             }
-            getPartie().voler(joueur, partie.get_joueur(partie.joueur_adverse()), gemme_volee);
+            getPartie().capacite_voler(joueur, getPartie().get_joueur(getPartie().joueur_adverse()), gemme_volee);
         }
         break;
     }

@@ -11,7 +11,7 @@
     #include <cstdlib>  // Pour system("cls")
 #endif
 
-InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
+InterfaceConsole::InterfaceConsole() : IA(IA1())
 {
     std::cout << "\e[8;75;159t";
     titre();
@@ -34,17 +34,68 @@ InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
             partie = Partie::get_partie("../data/sauvegarde");
         }
     }
-    //pour test
-    statut_joueur2 = true;
-    //partie.get_joueur(1).setGemmes(StockGemmesOr(0,2,0,3,1,1,0));
-    //partie.get_joueur(2).setGemmes(StockGemmesOr(1,1,1,1,1,1,0));
+    reponse = "";
+    std::string nomj1,nomj2;
+    std::cout << "Souhaitez-vous remplacer le joueur 1 par une Intelligence Artificielle ? (oui/non)" << std::endl;
+    while(reponse!="oui" && reponse != "non"){
+        std::cin >> reponse;
+        if(reponse == "non"){
+            partie->set_statut_joueur(1, false);
+            std::cout<<"\nEntrez le nom du joueur 1 : ";
+            std::cin>>nomj1;
+            partie->get_joueur(1).setNom(nomj1);
+        }
+        else if(reponse != "oui")
+        {
+            std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+        }
+        else
+        {
+            partie->set_statut_joueur(1, true);
+            std::cout<<"\nNommez l'IA : ";
+            std::cin>>nomj1;
+            partie->get_joueur(1).setNom(nomj1);
+        }
+    }
+    reponse = "";
+    std::cout << "Souhaitez-vous remplacer le joueur 2 par une Intelligence Artificielle ? (oui/non)" << std::endl;
+    while(reponse!="oui" && reponse != "non"){
+        std::cin >> reponse;
+        if(reponse == "non"){
+            partie->set_statut_joueur(2, false);
+            std::cout<<"\nEntrez le nom du joueur 2 : ";
+            std::cin>>nomj2;
+            partie->get_joueur(2).setNom(nomj2);
+        }
+        else if(reponse != "oui")
+        {
+            std::cout << "Saisie invalide, merci de rentrer oui ou non et d'appuyer sur la touche Entree de votre clavier" << std::endl;
+        }
+        else
+        {
+            partie->set_statut_joueur(2, true);
+            std::cout<<"\nNommez l'IA : ";
+            std::cin>>nomj2;
+            partie->get_joueur(2).setNom(nomj2);
+        }
+    }
     bool continuer = true;
     while(continuer && fin_partie == 0)
     {
-        if(get_statut_joueur_actif())
+        if(partie->get_statut_joueur_actif())
         {
-            std::cout << "test1" << std::endl;
-            continuer = get_IA_joueur_actif().deroulement_tour();
+            std::cout<<"L'IA joue ...\n";
+            sleep(1);
+            try{
+                continuer = IA.deroulement_tour();
+                afficherConsole();
+                std::cout<<"L'IA joue ...\n";
+            }
+            catch (const SplendorException& e)
+            {
+                std::cout << "L'IA a du mal a trouver une action a jouer, elle passe son tour" << std::endl;
+            }
+            sleep(1);
         }
         else
         {
@@ -56,25 +107,23 @@ InterfaceConsole::InterfaceConsole() : IA_joueur1(1), IA_joueur2(2)
     if(fin_partie == 1)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 20 points de prestige en tout et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else if(fin_partie == 2)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 couronnes et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else if(fin_partie == 3)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else{partie->sauvegarder("../data/sauvegarde");}
 }
 
 bool InterfaceConsole::deroulement_tour()
 {
-    //Affichage de l'etat de la partie
-    //afficherJoueur(partie->joueur_adverse());
-    //afficherPyramide();
-    //afficherPlateau();
-    //afficherJoueur(partie->joueur_actif());
     afficherConsole();
 
     Joueur& joueur = partie->get_joueur(partie->joueur_actif());
@@ -96,7 +145,6 @@ bool InterfaceConsole::deroulement_tour()
         }
         else
         {
-            //afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
             unsigned int colonne = 0, ligne = 0;
             std::cout << "Quelle est la colonne du jeton a retirer ?";
             std::cin >> colonne;
@@ -106,7 +154,6 @@ bool InterfaceConsole::deroulement_tour()
             {
                 partie->utilise_privilege(joueur, colonne, ligne);
                 afficherConsole();
-                //afficherJetonsPossedes(partie->joueur_actif());
             }
             catch (const SplendorException& except) //Si une erreur liee aux regles du jeu (et non au programme directement) est intercept�e, on l'affiche et on propose � nouveau au joueur d'utiliser un privilege
             {
@@ -139,7 +186,6 @@ bool InterfaceConsole::deroulement_tour()
             {
                 std::cout << except.what() << std::endl;
             }
-            //afficherPlateau(); //Affichage du plateau pour visualiser les changements apport�s par le remplissage
         }
     }
 
@@ -147,7 +193,7 @@ bool InterfaceConsole::deroulement_tour()
     bool fin_actions_obligatoires = false;
     while(!fin_actions_obligatoires)
     {
-        std::cout << "Quelle action obligatoire souhaitez-vous effectuer ?\n1 - Prendre jusqu'a 3 jetons Gemme et/ou Perle\n2 - Prendre 1 jeton Or pour reserver 1 carte Joaillerie\n3 - Acheter 1 carte Joaillerie\n4 - Quitter la partie" << std::endl;
+        std::cout << "Quelle action obligatoire souhaitez-vous effectuer ?\n1 - Prendre jusqu'a 3 jetons Gemme et/ou Perle\n2 - Prendre 1 jeton Or pour reserver 1 carte Joaillerie\n3 - Acheter 1 carte Joaillerie\n4 - Quitter la partie\n5 - Consulter le tableau des gagnants" << std::endl;
         std::string reponse;
         std::cin >> reponse;
         try
@@ -167,6 +213,9 @@ bool InterfaceConsole::deroulement_tour()
             else if(reponse == "4")
             {
                 return false;
+            }
+            else if(reponse == "5"){
+                afficherGagnants(partie->recupererGagnants());
             }
             else
             {
@@ -297,13 +346,18 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
         return false;
     }
 
+    std::string reponse;
+
     //Saisie des coordonnees du jeton 1
-    //afficherPlateau(); //Nouvel affichage du plateau � chaque privilege utilise, pour voir les changements
     unsigned int colonne1 = 0, ligne1 = 0;
     std::cout << "Entrez la colonne du premier jeton a retirer : ";
-    std::cin >> colonne1;
+    std::cin >> reponse;
+    try {colonne1 = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("La colonne doit etre un entier et etre compris entre 0 a 4");}
     std::cout << "Entrez la ligne du premier jeton a retirer : ";
-    std::cin >> ligne1;
+    std::cin >> reponse;
+    try {ligne1 = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("La ligne doit etre un entier et etre compris entre 0 a 4");}
 
     if(nb_jetons == "1")
     {
@@ -315,9 +369,13 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
         //Saisie des coordonnees du jeton 2
         unsigned int colonne2 = 0, ligne2 = 0;
         std::cout << "Entrez la colonne du deuxieme jeton a retirer : ";
-        std::cin >> colonne2;
+        std::cin >> reponse;
+        try {colonne2 = std::stoi(reponse);}
+        catch (std::invalid_argument){throw SplendorException("La colonne doit etre un entier et etre compris entre 0 a 4");}
         std::cout << "Entrez la ligne du deuxieme jeton a retirer : ";
-        std::cin >> ligne2;
+        std::cin >> reponse;
+        try {ligne2 = std::stoi(reponse);}
+        catch (std::invalid_argument){throw SplendorException("La ligne doit etre un entier et etre compris entre 0 a 4");}
 
         if(nb_jetons == "2")
         {
@@ -329,9 +387,13 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
             //Saisie des coordonnees du jeton 3
             unsigned int colonne3 = 0, ligne3 = 0;
             std::cout << "Entrez la colonne du troisieme jeton a retirer : ";
-            std::cin >> colonne3;
+            std::cin >> reponse;
+            try {colonne3 = std::stoi(reponse);}
+            catch (std::invalid_argument){throw SplendorException("La colonne doit etre un entier et etre compris entre 0 a 4");}
             std::cout << "Entrez la ligne du troisieme jeton a retirer : ";
-            std::cin >> ligne3;
+            std::cin >> reponse;
+            try {ligne3 = std::stoi(reponse);}
+            catch (std::invalid_argument){throw SplendorException("La ligne doit etre un entier et etre compris entre 0 a 4");}
 
             partie->retirer_jetons({colonne1, ligne1}, {colonne2, ligne2}, {colonne3, ligne3});
             return true;
@@ -342,13 +404,18 @@ bool InterfaceConsole::action_prendre_jetons(Joueur& joueur)
 bool InterfaceConsole::action_reserver(Joueur& joueur)
 {
     unsigned int colonne_jeton = 0, ligne_jeton = 0, niveau_carte = 0, num_carte = 0;
+    std::string reponse;
 
     //Saisie des coordonnees du jeton Or a retirer
     //afficherPlateau(); //Nouvel affichage du plateau pour permettre au joueur de plus facilement choisir son jeton Or
     std::cout << "Entrez la colonne du jeton Or a retirer : ";
-    std::cin >> colonne_jeton;
+    std::cin >> reponse;
+    try {colonne_jeton = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("La colonne doit etre un entier et etre compris entre 0 a 4");}
     std::cout << "Entrez la ligne du jeton Or a retirer (ou un nombre qui ne correspond à aucune ligne pour retourner au choix des actions) : ";
-    std::cin >> ligne_jeton;
+    std::cin >> reponse;
+    try {ligne_jeton = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("La ligne doit etre un entier et etre compris entre 0 a 4");}
     if(ligne_jeton<0 || colonne_jeton<0 ||ligne_jeton>4 ||colonne_jeton>4){
         std::cout<< "\nCes coordonnees ne sont pas valides. Retour au menu.\n\n";
         return false;
@@ -357,9 +424,13 @@ bool InterfaceConsole::action_reserver(Joueur& joueur)
     //Saisie des coordonnees de la carte a reserver
     //afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
     std::cout << "Entrez le niveau de la carte que vous souhaitez reserver : ";
-    std::cin >> niveau_carte;
+    std::cin >> reponse;
+    try {niveau_carte = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("Le niveau doit etre un entier et etre compris entre 1 a 3");}
     std::cout << "Entrez le numero de la carte que vous souhaitez reserver (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3) ou bien 0 si vous souhaitez reserver la carte non visible sur le dessus de la pioche du niveau choisi : ";
-    std::cin >> num_carte;
+    std::cin >> reponse;
+    try {num_carte = std::stoi(reponse);}
+    catch (std::invalid_argument){throw SplendorException("Le numero de carte doit etre un entier et etre compris entre 1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3");}
 
     //partie->reserver({colonne_jeton, ligne_jeton}, niveau_carte, num_carte);
     partie->retirer_jetons_or({colonne_jeton,ligne_jeton});
@@ -388,13 +459,17 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
         //afficherPyramide(); //Nouvel affichage de la pyramide pour permettre au joueur de plus facilement choisir sa carte
         //Saisie des coordonnees de la carte a reserver
         std::cout << "Entrez le niveau de la carte que vous souhaitez acheter (ou un nombre superieur a 3 pour retourner au choix des actions): ";
-        std::cin >> niveau_carte;
+        std::cin >> reponse;
+        try {niveau_carte = std::stoi(reponse);}
+        catch (std::invalid_argument){throw SplendorException("Le niveau doit etre un entier et etre compris entre 1 et 3");}
         if(niveau_carte<=0 || niveau_carte>3){
             std::cout<< "\nLe niveau est compris entre 1 et 3. Retour au menu.\n\n";
             return false;
         }
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3)  : ";
-        std::cin >> num_carte;
+        std::cin >> reponse;
+        try {num_carte = std::stoi(reponse);}
+        catch (std::invalid_argument){throw SplendorException("Le numero de carte doit etre un entier et etre compris entre 1 a 5 pour le niveau 1, 1 a 4 pour le niveau 2 et 1 a 3 pour le niveau 3");}
         //Ajouter une vérification que le joueur n'achète pas une carte avec un bonus Couleur (<=> type de bonus nul) alors qu'il n'a pas encore d'autre cartes
         gestion_effets(partie->acheter_carte(joueur, niveau_carte, num_carte));
         return true;
@@ -445,6 +520,7 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                             StockGemmes nouveau_bonus = StockGemmes(carte.get_nbBonus());
                             carte.setTypeBonus(nouveau_bonus);
                             joueur.setBonus(joueur.getBonus()+nouveau_bonus);
+                            joueur.addPointsPrestiges(carte.get_pointsPrestige());
                             continuer = false;
                         }
                     }
@@ -574,32 +650,32 @@ void InterfaceConsole::gestion_effets(CarteJoaillerie& carte)
                 try{
                     if(jeton_retire == "B" || jeton_retire == "b")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
                         continuer = false;
                     }
                     else if(jeton_retire == "V" || jeton_retire == "v")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
                         continuer = false;
                     }
                     else if(jeton_retire == "W" || jeton_retire == "w")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
                         continuer = false;
                     }
                     else if(jeton_retire == "R" || jeton_retire == "r")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
                         continuer = false;
                     }
                     else if(jeton_retire == "N" || jeton_retire == "n")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
                         continuer = false;
                     }
                     else if(jeton_retire == "P" || jeton_retire == "p")
                     {
-                        partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
+                        partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
                         continuer = false;
                     }
                     else
@@ -643,32 +719,32 @@ void InterfaceConsole::gestion_effets(CarteRoyale& carte)
             try{
                 if(jeton_retire == "B" || jeton_retire == "b")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Bleu);
                     continuer = false;
                 }
                 else if(jeton_retire == "V" || jeton_retire == "v")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Vert);
                     continuer = false;
                 }
                 else if(jeton_retire == "W" || jeton_retire == "w")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Blanc);
                     continuer = false;
                 }
                 else if(jeton_retire == "R" || jeton_retire == "r")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Rouge);
                     continuer = false;
                 }
                 else if(jeton_retire == "N" || jeton_retire == "n")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Noir);
                     continuer = false;
                 }
                 else if(jeton_retire == "P" || jeton_retire == "p")
                 {
-                    partie->voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
+                    partie->capacite_voler(joueur, partie->get_joueur(partie->joueur_adverse()), Perle);
                     continuer = false;
                 }
                 else
@@ -713,7 +789,7 @@ void InterfaceConsole::afficherPyramide() const{
     for(int j=3;j>=1;j--){//niveau
         for(int l=1;l<8;l++){//ligne de la carte
             for(int p=0;p<j*4;p++)std::cout<<" ";
-            for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
+            for (unsigned int i = 1; i <= partie->get_pyramide().getCartesRestantes(j); i++)
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(j,i),l,std::cout);
                 std::cout<<' ';
@@ -741,7 +817,7 @@ void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream
     }
     if (ligne>8 && ligne<=15){
         os<<"                     ";
-        for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(2); i++)
+        for (unsigned int i = 1; i <= partie->get_pyramide().getCartesRestantes(2); i++)
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(2,i),(ligne-8),os);
             }
@@ -749,7 +825,7 @@ void InterfaceConsole::afficherPyramideparLigne(unsigned int ligne, std::ostream
     }
     if (ligne>15 && ligne<=22){
         os<<"                 ";
-        for (int i = 1; i <= partie->get_pyramide().getCartesRestantes(1); i++)
+        for (unsigned int i = 1; i <= partie->get_pyramide().getCartesRestantes(1); i++)
             {
                 afficherCarteparligne(partie->get_pyramide().recupererCarteJoaillerie(1,i),(ligne-15),os);
             }
@@ -767,7 +843,7 @@ void InterfaceConsole::afficherCarteparligne(const CarteJoaillerie& c,unsigned i
             os <<"|  +"<< c.get_nbBonus() << "  |";
             return;
         case 3:
-            os << "| PP:"<<c.get_pointsPrestige()<<" |" ;
+            os << "|P:"<<c.get_pointsPrestige()<<"C:"<<c.get_couronnes()<<"|" ;
             return;
         case 4:
             if (c.get_capacite().size()>=2){
@@ -889,10 +965,10 @@ void InterfaceConsole::afficherCarteRoyaleparLigne(unsigned int ligne, unsigned 
                 return;
 
             case 2:
-                os<<"|8(°û )|";
+                os<<"|8( û )|";
                 return;
             case 3:
-                os<<"| /°I°\\|";
+                os<<"| /'I'\\|";
                 return;
             case 4:
                 os<<"|(;_-;)|";
@@ -953,10 +1029,10 @@ void InterfaceConsole::afficherPlateauparLigne(unsigned int ligne,std::ostream& 
         return;
         break;
         case 3:
-        os << "          .-------------------.          " ;
+        os << "          o-------------------o          " ;
         return;
         case 13 :
-        os << "          °-------------------°          " ;
+        os << "          o-------------------o          " ;
         return;
 
     }
@@ -1027,24 +1103,43 @@ void InterfaceConsole::afficherJoueur(unsigned int joueur) const{
     std::cout<<"------Joueur "<<joueur<<"-----------------------------------------------------------------------------------------------------------------------------------------------\n";
     if(joueur==partie->joueur_actif()){
         std::cout<<"    Cartes Reservees \n";
-        for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
-            for(int l=1;l<8;l++){
+        for(int l=1;l<8;l++){
+            for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesReservees()){
                     afficherCarteparligne(carte,l,std::cout);
                     std::cout<<' ';
             }
+            std::cout<<'\n';
         }
         std::cout<<'\n';
     }
     std::cout<<"    Cartes Possedees \n";
-    for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
-        for(int l=1;l<8;l++){
-            afficherCarteparligne(carte,l,std::cout);
-            std::cout<<' ';
-            std::cout<<'\n';
+        std::vector<CarteJoaillerie> ligne;
+        for(CarteJoaillerie carte : partie->get_joueur(joueur).getCartesJoailleriesPossedees()){
+            ligne.push_back(carte);
+            if (ligne.size()==16 ) {
+                for(int l=1;l<8;l++){
+                    for(CarteJoaillerie carte : ligne){
+                        afficherCarteparligne(carte,l,std::cout);
+                        std::cout<<' ';
+                    }
+                    std::cout<<'\n';
+                }
+                ligne.clear();
+            }
         }
-    }
+        if(!ligne.empty()){
+            for(int l=1;l<8;l++){
+                    for(CarteJoaillerie carte : ligne){
+                        afficherCarteparligne(carte,l,std::cout);
+                        std::cout<<' ';
+                    }
+                    std::cout<<'\n';
+                }
+                ligne.clear();
+        }
+    
     std::cout<<"\n    Jetons Possedes                                                                  Points Prestige                                  Couronnes           \n";
-    std::cout<<' ';afficherJetonsPossedes(joueur);std::cout<<"                 "; afficherPrestige(joueur);std::cout<<"               ";partie->get_joueur(joueur).getNbCouronnes();std::cout<<"                         \n\n";
+    std::cout<<' ';afficherJetonsPossedes(joueur);std::cout<<"                 "; afficherPrestige(joueur);std::cout<<"                        Cx"<<partie->get_joueur(joueur).getNbCouronnes()<<"                         \n\n";
     std::cout<<'+';afficherBonus(joueur);std::cout<<"                                    Total Points Prestige :"<<partie->get_joueur(joueur).getNbPointsPrestige()<<'\n';
 }
 
@@ -1058,6 +1153,36 @@ void InterfaceConsole::afficherBonus(unsigned int num_joueur) const
 {
     Joueur& joueur = partie->get_joueur(num_joueur);
     std::cout << "    " << "B x " << joueur.getBonus().get_Bleu() << ", V x " << joueur.getBonus().get_Vert() << ", W x " << joueur.getBonus().get_Blanc() << ", R x " << joueur.getBonus().get_Rouge() << ", N x " << joueur.getBonus().get_Noir() << ", P x " << joueur.getBonus().get_Perle();
+}
+
+void InterfaceConsole::afficherGagnants(std::map<std::string,unsigned int> gagnants)const{//appeler partie->recupererGagnants()
+    #ifdef _WIN32
+        system("cls");
+    #else
+       system("clear");
+    #endif
+    //trie gagnants par score
+    std::map<unsigned int,std::vector<std::string>> danslordre;//vector pcq on peut avoir plsrs joueurs avec le mm score 
+
+    for(std::pair<std::string,unsigned int> joueur : gagnants){
+        danslordre[joueur.second].push_back(joueur.first);
+    }
+    //affichage
+    std::cout<<"--------------------------------------------------------------------------GAGNANTS--------------------------------------------------------------------------\n";
+    for(std::pair<unsigned int,std::vector<std::string>> joueur : danslordre){
+        for(std::string nom : joueur.second){
+            for(int i=0;i<(150-nom.size())/2;i++) std::cout<<" ";
+            std::cout<<nom<<" : "<<joueur.first;
+            std::cout<<"\n";
+        }
+    }
+    std::cout<<"------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    std::string  reponse ="";
+    std::cout << "Entrez q pour quitter " << std::endl;
+        while(reponse!="q" && reponse != "Q"){
+            std::cin >> reponse;
+        }
+    afficherConsole();
 }
 
 void InterfaceConsole::titre()const{
@@ -1135,19 +1260,12 @@ void InterfaceConsole::titre()const{
     std::cout<<"                                                                         ## \n\n\n"<<std::endl;
     sleep(2);
     std::cout<<"Adaptation par Simon Biffe, Ahmed Bouzidi, Ismail Essagar et Marie Herminie Blondy.\n\n";
-    sleep(3);
+    sleep(1);
 }
 
-bool InterfaceConsole::get_statut_joueur_actif()
-{
-    if(partie->joueur_actif() == 1)
-        return statut_joueur1;
-    return statut_joueur2;
-}
-
-IA1& InterfaceConsole::get_IA_joueur_actif()
+/*IA1& InterfaceConsole::get_IA_joueur_actif()
 {
     if(partie->joueur_actif() == 1)
         return IA_joueur1;
     return IA_joueur2;
-}
+}*/
