@@ -90,14 +90,17 @@ InterfaceConsole::InterfaceConsole()
     if(fin_partie == 1)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 20 points de prestige en tout et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else if(fin_partie == 2)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 couronnes et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else if(fin_partie == 3)
     {
         std::cout << "Le joueur " << partie->joueur_actif() << " a plus de 10 points de prestige dans un type de gemme et remporte la partie ! Felicitations !" << std::endl;
+        partie->inscrireGagnant(partie->joueur_actif());
     }
     else{partie->sauvegarder();}
 }

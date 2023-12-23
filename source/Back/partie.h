@@ -48,6 +48,8 @@ public :
     int sauvegarder()const;
     std::string getTime()const;
     void chargerPartie(const std::string chemin);
+    void inscrireGagnant(unsigned int joueur);
+    std::map<std::string,unsigned int> recupererGagnants();
 
     //Getters
     Plateau& get_plateau() const {return *plateau;};

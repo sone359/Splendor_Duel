@@ -13,6 +13,7 @@
 class Joueur
 {
 private:
+    std::string nom;
     int nbPrivileges;
     std::vector<CarteJoaillerie> cartesJoailleriesPossedees;
     std::deque<CarteJoaillerie> cartesJoailleriesReservees;
@@ -53,6 +54,7 @@ public:
     unsigned int getNbPointsPrestigeRouge() const;
     unsigned int getNbPointsPrestigeNoir() const;
     StockGemmes getPointsPrestigeCouleur()const{return PointsPrestigeCouleurs;}
+    std::string getNom() const {return nom;}
 
     // Setters
     void setNbPrivileges(int nbPrivileges);
