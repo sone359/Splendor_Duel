@@ -403,7 +403,7 @@ bool InterfaceConsole::action_acheter(Joueur& joueur)
     {
         std::cout << "Entrez le numero de la carte que vous souhaitez acheter (à partir de 1)  : ";
         std::cin >> num_carte;
-        gestion_effets(joueur.acheterCarteReservee(num_carte));
+        gestion_effets(partie->acheterCarteReservee(num_carte));
         //gestion_effets(partie->acheter_carte(joueur, niveau_carte, num_carte));
         return true;
     }

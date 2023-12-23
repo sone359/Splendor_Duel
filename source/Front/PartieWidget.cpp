@@ -244,6 +244,8 @@ PartieWidget *PartieWidget::getInstance() {
     return instance;
 }
 
+
+
 void PartieWidget::displayRoyalImages(const QStringList &imagePaths) {
     QHBoxLayout *imageRowLayout = new QHBoxLayout;
 
@@ -251,10 +253,10 @@ void PartieWidget::displayRoyalImages(const QStringList &imagePaths) {
         // Create a QPushButton with the image as its background
         QPushButton *button = new QPushButton;
         QPixmap pixmap(imagePaths[i]);
-        pixmap = pixmap.scaled(100, 100, Qt::KeepAspectRatio);
+        pixmap = pixmap.scaled(70,70, Qt::KeepAspectRatio);
         button->setIcon(QIcon(pixmap));
         button->setIconSize(pixmap.size());
-        button->setFixedSize(69, 100); // Set the size of the button
+        button->setFixedSize(40, 70); // Set the size of the button
 
         // Add a spacing of 3 pixels after each button
         if (i > 0) {
@@ -286,6 +288,128 @@ void PartieWidget::removeRoyalButton(int buttonIndex) {
     }
 }
 
+void PartieWidget::afficherCarteReserve() {
+
+    Partie *partie = Partie::get_partie();
+    if (carteReserverPlayer) {
+        // Supprimez tous les widgets contenus dans le layout
+        QLayoutItem *item;
+        while ((item = carteReserverPlayer->takeAt(0)) != nullptr) {
+            // Retirez le widget de la disposition, mais ne le supprimez pas encore
+            QWidget *widget = item->widget();
+            if (widget) {
+                widget->setParent(nullptr);
+                // delete widget; // Supprimez le widget
+            }
+            //delete item; // Supprimez l'élément de la disposition
+        }
+
+        // Supprimez le layout lui-même
+        delete carteReserverPlayer;
+        carteReserverPlayer = nullptr; // Assurez-vous de définir le pointeur sur nullptr après la suppression
+    }
+
+carteReserverPlayer = new QHBoxLayout(this);
+QLabel *labelCartesReservees = new QLabel("Cartes Réservées");
+     labelCartesReservees->setStyleSheet("QLabel {"
+                                    "   font-size: 16px;"
+                                    "   font-weight: bold;"
+                                    "   color: #333333;"  // Couleur du texte
+                                    "   padding: 5px;"  // Espacement intérieur
+                                    "}");
+carteReserverPlayer->addWidget(labelCartesReservees);
+    for (CarteJoaillerie carte : partie->get_joueur(partie->joueur_actif()).getCartesJoailleriesReservees()) {
+
+
+        std::string cheminBase;
+        if (carte.get_niveau() == 3) {
+            cheminBase = "../../data/cartesplendor(niveau_3)/";
+        } else if (carte.get_niveau() == 2) {
+            cheminBase = "../../data/cartesplendor(niveau_2)/";
+        } else {
+            cheminBase = "../../data/cartesplendor(niveau_1)/";
+            qDebug()<< "carte réservé recupérer";
+        }
+
+        std::string cheminImage = cheminBase + carte.getChemin() + ".jpg";
+
+        // Convertion std::string en QString
+        QString cheminImageQString = QString::fromStdString(cheminImage);
+
+        // Charger l'image
+        QPixmap image = QPixmap::fromImage(QImage(cheminImageQString));
+
+        // Redimensionner l'image en utilisant une échelle
+        int nouvelleLargeur = image.width() / 14;
+        int nouvelleHauteur = image.height() / 14;
+
+        image = image.scaled(nouvelleLargeur, nouvelleHauteur, Qt::KeepAspectRatio);
+
+        QLabel *label = new QLabel;
+        label->setPixmap(image);
+        carteReserverPlayer->addWidget(label);
+    }
+    mainLayout->addLayout(carteReserverPlayer);
+}
+
+//comme la fonction précédente
+void PartieWidget::afficherCartePosseder() {
+
+    Partie *partie = Partie::get_partie();
+    if (cartePosseederPlayer) {
+        // Supprimez tous les widgets contenus dans le layout
+        QLayoutItem *item;
+        while ((item = cartePosseederPlayer->takeAt(0)) != nullptr) {
+            // Retirez le widget de la disposition, mais ne le supprimez pas encore
+            QWidget *widget = item->widget();
+            if (widget) {
+                widget->setParent(nullptr);
+                // delete widget; // Supprimez le widget
+            }
+            //delete item; // Supprimez l'élément de la disposition
+        }
+
+        // Supprimez le layout lui-même
+        delete cartePosseederPlayer;
+        cartePosseederPlayer = nullptr; // Assurez-vous de définir le pointeur sur nullptr après la suppression
+    }
+    cartePosseederPlayer = new QHBoxLayout(this);
+QLabel *labelCartesAchetées = new QLabel("Cartes Achetées");
+labelCartesAchetées->setStyleSheet("QLabel {"
+                                   "   font-size: 16px;"
+                                   "   font-weight: bold;"
+                                   "   color: #333333;"  // Couleur du texte
+                                   "   padding: 5px;"  // Espacement intérieur
+                                   "}");
+cartePosseederPlayer->addWidget(labelCartesAchetées);
+    for (CarteJoaillerie carte : partie->get_joueur(partie->joueur_actif()).getCartesJoailleriesPossedees()) {
+        std::string cheminBase;
+        if (carte.get_niveau() == 3) {
+            cheminBase = "../../data/cartesplendor(niveau_3)/";
+        } else if (carte.get_niveau() == 2) {
+            cheminBase = "../../data/cartesplendor(niveau_2)/";
+        } else {
+            cheminBase = "../../data/cartesplendor(niveau_1)/";
+        }
+
+        std::string cheminImage = cheminBase + carte.getChemin() + ".jpg";
+
+        QString cheminImageQString = QString::fromStdString(cheminImage);
+
+        QPixmap image = QPixmap::fromImage(QImage(cheminImageQString));
+
+        int nouvelleLargeur = image.width() / 14;
+        int nouvelleHauteur = image.height() / 14;
+
+        image = image.scaled(nouvelleLargeur, nouvelleHauteur, Qt::KeepAspectRatio);
+
+        QLabel *label = new QLabel;
+        label->setPixmap(image);
+        cartePosseederPlayer->addWidget(label);
+    }
+    mainLayout->addLayout(cartePosseederPlayer);
+}
+
 
 
 
@@ -302,7 +426,7 @@ void PartieWidget::handleRoyalButtonClick(const QString &imagePath) {
 
             Joueur & joueur = game->get_joueur(game->joueur_actif());
 
-            if (game->get_cartes_royales().size() > 0 && (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) && (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
+            if ( (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) || (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
 
             {
             joueur.addCartesRoyalesPossedees(clickedCarte);
@@ -356,12 +480,39 @@ mainLayout->addWidget(pl);
 
 }
 
+
 void PartieWidget::displayPyramide(pyramidefront* pyramide){
 mainLayout->addWidget(pyramide);
 }
 
+void PartieWidget::afficherPlateauetPyramide(PlateauWidget *pl,pyramidefront* pyramide) {
+// Utiliser un QHBoxLayout au lieu d'un QVBoxLayout
+QHBoxLayout *layout = new QHBoxLayout;
+
+// Ajouter le plateau et la pyramide au layout
+layout->addWidget(pl);
+layout->addWidget(pyramide);  // Assurez-vous que 'pyramide' est une variable membre de la classe
+
+// Ajuster le layout principal du widget
+mainLayout->addLayout(layout);
+}
 
 
+void PartieWidget::removePlateauetPyramide(PlateauWidget *pl, pyramidefront *py) {
+// Retirer le parent commun
+QWidget *commonParent = nullptr;
+
+// Vérifier si pl et py ont le même parent
+if (pl && py && pl->parentWidget() == py->parentWidget()) {
+        commonParent = pl->parentWidget();
+        mainLayout->removeWidget(pl);
+        mainLayout->removeWidget(py);
+        pl->setParent(nullptr);
+        py->setParent(nullptr);
+}
+
+
+}
 
 
 void PartieWidget::updatePlayerPrivilege(const QString& playerName,int privilegeValue){
@@ -401,4 +552,22 @@ void PartieWidget::removePlateau(PlateauWidget * pl)
     // Delete the widget
 
    }
+}
+
+void PartieWidget::removePyramide(pyramidefront * py)
+{
+   if(py)
+   {
+    mainLayout->removeWidget(py);
+    std::cout<<"Pyramide_Trouve";
+
+    // Remove the widget from the layout, but don't delete it yet
+    py->setParent(nullptr);
+
+    // Delete the widget
+
+
+   }
+   else std::cout<<"Pyramide_non_Trouve";
+
 }

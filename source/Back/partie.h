@@ -48,6 +48,7 @@ public :
     int sauvegarder(const std::string fichier)const;
     std::string getTime()const;
     void chargerPartie(const std::string chemin);
+    CarteJoaillerie& acheterCarteReservee(unsigned int num);
 
     //Getters
     Plateau& get_plateau() const {return *plateau;};

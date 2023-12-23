@@ -113,8 +113,12 @@ void MenuWindow::onButton1Clicked() {
         game = Partie::get_partie();
     } else  {
         // Action si "Continuer Partie" est cliqué
-       game = Partie::get_partie("D:\\LO21\\lo21_splendor-main\\data\\sauvegarde");
+       game = Partie::get_partie("../../data/sauvegarde");
     }
+
+    game->get_joueur(1).setNbCouronnes(3);
+
+
 
 
     // Create and add the PlateauWidget to the layout
@@ -122,6 +126,7 @@ void MenuWindow::onButton1Clicked() {
 
     plateauWidget = PlateauWidget::creerPlateau();
     PartieWidget * partie = PartieWidget::getInstance();
+    partie->setWindowTitle("Splender Duel");
     //pyramidefront *pyramide;
     //partie->displayRoyalImages(imagePaths);
     QString  playerName1  =     QInputDialog::getText(nullptr, "Nom du joueur 1", "Le premier joueur  est:");
@@ -142,12 +147,18 @@ void MenuWindow::onButton1Clicked() {
 
     // Appliquer l'image de fond à PartieWidget
     partie->setStyleSheet("background-color: #fffaca");
-
     pyramidefront * pyramide=pyramidefront::getInstance();
 
-    //partie->afficherPyr_Plat(plateauWidget,pyramide->creerPyramide());
-    partie->afficherPlateau(plateauWidget);
-    //partie->displayPyramide(pyramide->creerPyramide());
+    pyramide = pyramidefront::creerPyramide();
+
+
+//    partie->afficherPlateau(plateauWidget);
+//    partie->displayPyramide(pyramide);
+    partie->afficherCarteReserve();
+    partie->afficherCartePosseder();
+    partie->afficherPlateauetPyramide(plateauWidget,pyramide);
+
+
     if(game->joueur_actif()==1)    {
 
 
@@ -160,12 +171,15 @@ void MenuWindow::onButton1Clicked() {
     }
 
     partie->setPlateauWidget(plateauWidget);
+    partie->setPyramideWidget(pyramide);
 
     // Show the widget
     partie->show();
     close();
 
 }
+
+
 
 void MenuWindow::onButton2Clicked() {
     Partie * game = Partie::get_partie();

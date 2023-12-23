@@ -134,15 +134,71 @@ void update_info()
     partie->updatePlayerCoronne(partie->getPlayer2(),game->get_joueur(2).getNbCouronnes());
 
 }
-void update_plateau()
+//void update_plateau()
+//{
+//    PartieWidget * partie = PartieWidget::getInstance();
+
+//    partie->removePlateau(partie->getPlateauWidget());
+//    PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
+//    partie->afficherPlateau(plateauWidgetInstance);
+//    partie->setPlateauWidget(plateauWidgetInstance);
+
+//}
+
+//void update_pyramide()
+//{
+//    PartieWidget * partie = PartieWidget::getInstance();
+
+//    partie->removePyramide(partie->getPyramideWidget());
+//    pyramidefront * pyramide=pyramidefront::creerPyramide();
+//    partie->displayPyramide(pyramide);
+//    partie->setPyramideWidget(pyramide);
+
+//}
+
+void update_plateau_pyramide()
 {
     PartieWidget * partie = PartieWidget::getInstance();
-
-    partie->removePlateau(partie->getPlateauWidget());
+    partie->removePlateauetPyramide(partie->getPlateauWidget(),partie->getPyramideWidget());
     PlateauWidget *plateauWidgetInstance = PlateauWidget::creerPlateau();
-    partie->afficherPlateau(plateauWidgetInstance);
+    pyramidefront * pyramide=pyramidefront::creerPyramide();
+    partie->afficherPlateauetPyramide(plateauWidgetInstance,pyramide);
+    partie->setPyramideWidget(pyramide);
     partie->setPlateauWidget(plateauWidgetInstance);
 
+
+
+}
+
+
+void verifier_partie()
+{
+    Partie * partie = Partie::get_partie();
+    PartieWidget * partieWidget = PartieWidget::getInstance();
+    if(partie->get_joueur(partie->joueur_actif()).getNbCouronnes()==10
+        || partie->get_joueur(partie->joueur_actif()).getNbPointsPrestige() == 20
+        || partie->get_joueur(partie->joueur_actif()).getNbPointsPrestigeBleu() == 10
+        || partie->get_joueur(partie->joueur_actif()).getNbPointsPrestigeVert() == 10
+        || partie->get_joueur(partie->joueur_actif()).getNbPointsPrestigeBlanc() == 10
+        || partie->get_joueur(partie->joueur_actif()).getNbPointsPrestigeRouge() == 10
+        || partie->get_joueur(partie->joueur_actif()).getNbPointsPrestigeNoir() == 10)
+    {
+
+
+
+        partie->sauvegarder("../../data/sauvegarde");
+        QString victoire;
+        if(partie->joueur_actif() == 1)
+            victoire=partieWidget->getPlayer1()+" a gagné";
+        else
+            victoire=partieWidget->getPlayer1()+" a gagné";
+                       QMessageBox::information(partieWidget,"Victoire",victoire);
+        MenuWindow mainWindow;
+
+        mainWindow.show();
+        partieWidget->close();
+
+    }
 }
 
 void fin_tour(){
@@ -162,7 +218,12 @@ void fin_tour(){
         partieWidget->joueurActif(partieWidget->getPlayer2());
     }
     update_info();
-    update_plateau();
+//    update_plateau();
+//    update_pyramide();
+    partieWidget->afficherCarteReserve();
+    partieWidget->afficherCartePosseder();
+    update_plateau_pyramide();
+
 
 
 }
@@ -523,7 +584,7 @@ void BoutonManager::gestionEffetRoyale(CarteRoyale & carte)
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Rejouer de la carte !");
                 partie->ajouter_rejouer();
                 update_info();
-                update_plateau();
+                update_plateau_pyramide();
                 partie->fin_tour();
                 return ;
 
@@ -535,7 +596,7 @@ void BoutonManager::gestionEffetRoyale(CarteRoyale & carte)
                 QMessageBox::information(partieWidget, "Capacite", "Activation de l'effet Privilege de la carte !");
                 partie->prend_privilege(joueur);
                 update_info();
-                update_plateau();
+                update_plateau_pyramide();
                 return;
                 break;
 
@@ -679,7 +740,7 @@ void BoutonManager::onAcheterCarteClicked() {
 
     int numeroCarte = QInputDialog::getInt(nullptr, "Numéro de la carte","Entrez le numero de la carte que vous souhaitez acheter (à partir de 1):",1,1,joueur.getCartesJoailleriesReservees().size(),1,&ok );
 
-        gestionEffet(joueur.acheterCarteReservee(numeroCarte));
+        gestionEffet(partie->acheterCarteReservee(numeroCarte));
 
 
                    } else  {
@@ -705,7 +766,7 @@ void BoutonManager::onAcheterCarteClicked() {
 
 
 
-
+                  verifier_partie();
                   fin_tour();
 
                    }      catch (const SplendorException& ex) {
@@ -769,6 +830,7 @@ void BoutonManager::onReserverCarteClicked() {
     }
 
     partie->reserver_carte(partie->get_joueur(partie->joueur_actif()), niveauCarte, numeroCarte);
+    verifier_partie();
     fin_tour();
     }
     catch (const SplendorException& ex) {
@@ -825,9 +887,11 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
                 }
 
 
+        PartieWidget * partieWidget = PartieWidget::getInstance();
+        partieWidget->afficherCarteReserve();
+        partieWidget->afficherCartePosseder();
 
-
-     update_plateau();
+    update_plateau_pyramide();
 
     update_info();
 
@@ -837,17 +901,17 @@ void BoutonManager::onUtiliserPrivilegeClicked() {
 
 }
 
-void verifierCarteRoyale(Joueur & joueur)
-{
-    PartieWidget * partieWidget = PartieWidget::getInstance();
-    Partie * partie = Partie::get_partie();
-    if (partie->get_cartes_royales().size() > 0 && (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) && (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
-    {
-          QMessageBox::information(partieWidget, "Information", "Vous avez rempli les conditions pour obtenir une carte Royale ! Cliquer sur la carte Royale à prendre");
-    }
+//void verifierCarteRoyale(Joueur & joueur)
+//{
+//    PartieWidget * partieWidget = PartieWidget::getInstance();
+//    Partie * partie = Partie::get_partie();
+//    if ( (joueur.getNbCouronnes() >= 3 && joueur.getCartesRoyalesPossedees().size() == 0) || (joueur.getNbCouronnes() >= 6 && joueur.getCartesRoyalesPossedees().size() <= 1))
+//    {
+//          QMessageBox::information(partieWidget, "Information", "Vous avez rempli les conditions pour obtenir une carte Royale ! Cliquer sur la carte Royale à prendre");
+//    }
 
 
-}
+//}
 
 
 
@@ -938,19 +1002,19 @@ void BoutonManager::onPrendreJetonsClicked() {
 
 void BoutonManager::onRemplirPlateauClicked() {
     Partie* game = Partie::get_partie();
-
+    PartieWidget * partieWidget = PartieWidget::getInstance();
    // PartieWidget * partie = PartieWidget::getInstance();
-    if(joueur1 == 1)
-    {
-            game->remplir_plateau(game->get_joueur(1));
 
-    }
-    else  {
-            game->remplir_plateau(game->get_joueur(2));
+    game->remplir_plateau(game->get_joueur(game->joueur_actif()));
 
-    }
+
+
+
+
+    partieWidget->afficherCarteReserve();
+    partieWidget->afficherCartePosseder();
     update_info();
-    update_plateau();
+    update_plateau_pyramide();
 
 
 }

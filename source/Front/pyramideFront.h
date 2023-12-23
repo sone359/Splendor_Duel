@@ -8,12 +8,13 @@ class pyramidefront : public QWidget
 {
 public:
     static pyramidefront* getInstance();
-    pyramidefront* creerPyramide();
+    static pyramidefront* creerPyramide();
     static pyramidefront * instance;
-    QVBoxLayout* get_mainLayout();
+
+    //QVBoxLayout* get_mainLayout();
 private:
     pyramidefront(QWidget *parent = nullptr);
-    QVBoxLayout *mainLayout;
+
 };
 
 #endif // PYRAMIDEFRONT_H

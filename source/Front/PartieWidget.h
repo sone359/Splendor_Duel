@@ -17,8 +17,13 @@ public:
     static PartieWidget *getInstance();
     void displayRoyalImages(const QStringList &imagePaths);
     void removePlateau(PlateauWidget * pl);
+    void removePyramide(pyramidefront * py);
+    void removePlateauetPyramide(PlateauWidget *pl, pyramidefront *py);
     void afficherPlateau(PlateauWidget * pl);
     void displayPyramide(pyramidefront* pyramide);
+    void afficherCarteReserve();
+    void afficherCartePosseder();
+    void afficherPlateauetPyramide(PlateauWidget *pl,pyramidefront* pyramide);
     void setupPlayerWidgets(QLabel*& label, QLineEdit*& redLineEdit, QLineEdit*& greenLineEdit,
                                           QLineEdit*& blueLineEdit, QLineEdit*& whiteLineEdit,
                                           QLineEdit*& pearlLineEdit, QLineEdit*& blackLineEdit,
@@ -32,9 +37,17 @@ public:
         return pl;
     }
 
+    pyramidefront * getPyramideWidget() const {
+        return py;
+    }
+
     // Setter for PlateauWidget
     void setPlateauWidget(PlateauWidget * plateauWidget) {
         pl = plateauWidget;
+    }
+
+    void setPyramideWidget(pyramidefront * pyramideWidget) {
+        py = pyramideWidget;
     }
 
     void removeRoyalButton(int buttonIndex);
@@ -80,7 +93,7 @@ protected:
     {
         Partie * partie = Partie::get_partie();
 
-        partie->sauvegarder("D:\\LO21\\lo21_splendor-main\\data\\sauvegarde");
+        partie->sauvegarder("../../data/sauvegarde");
 
         // Call the base class implementation to ensure the widget is properly closed
         QWidget::closeEvent(event);
@@ -90,6 +103,7 @@ private:
     explicit PartieWidget(QWidget *parent = nullptr);
     static PartieWidget *instance;
     PlateauWidget * pl;
+    pyramidefront * py;
     BoutonManager boutonManager;
     QVBoxLayout *mainLayout;
     // Player 1 Labels and LineEdits
@@ -122,6 +136,8 @@ private:
     QString Player1;
     QString Player2;
 
+    QHBoxLayout * carteReserverPlayer=nullptr;
+    QHBoxLayout * cartePosseederPlayer=nullptr;
 
     std::vector<CarteRoyale> cartesRoyales;
     QVector<QPushButton*> royalButtons;
