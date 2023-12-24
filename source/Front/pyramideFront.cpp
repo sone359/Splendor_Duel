@@ -9,15 +9,28 @@
 
 pyramidefront* pyramidefront::instance = nullptr;
 
+
+
 pyramidefront::pyramidefront(QWidget *parent) : QWidget(parent){
-    mainLayout = new QVBoxLayout(this);
-    mainLayout->setSpacing(2);
-    setLayout(mainLayout);
+
 };
 
-QVBoxLayout* pyramidefront::get_mainLayout(){return mainLayout;}
+pyramidefront * pyramidefront::getInstance() {
+    if (!instance) {
+        // Create the instance if it doesn't exist
+        instance = new pyramidefront;
+    }
+    return instance;
+}
+
+//QVBoxLayout* pyramidefront::get_mainLayout(){return mainLayout;}
 
 pyramidefront* pyramidefront::creerPyramide(){
+    instance=nullptr;
+    pyramidefront *pyr = pyramidefront::getInstance();
+    QVBoxLayout * mainLayout = new QVBoxLayout(instance);
+
+     mainLayout->setSpacing(2);
     Partie * partie = Partie::get_partie();
 
     const int espaceEntreCases = 2;
@@ -26,11 +39,12 @@ pyramidefront* pyramidefront::creerPyramide(){
 
     // Niveau 1
     QHBoxLayout *gridLayoutniv1 = new QHBoxLayout;
-    pyramidefront *pyr = pyramidefront::getInstance();
+
+
 
     for (int row = 1; row <= 3; row++) {
         CarteJoaillerie cartejoaillerie3 = partie->get_pyramide().recupererCarteJoaillerie(3, row);
-        std::string cheminBase3 = "D:\\LO21\\lo21_splendor-main\\data\\cartesplendor(niveau_3)\\";
+        std::string cheminBase3 = "../../data/cartesplendor(niveau_3)/";
         std::string cheminImage3 = cheminBase3 + cartejoaillerie3.getChemin() +".jpg";
         // Convertir la std::string en QString
         QString cheminImageQString = QString::fromStdString(cheminImage3);
@@ -56,7 +70,7 @@ pyramidefront* pyramidefront::creerPyramide(){
     QHBoxLayout *gridLayoutniv2 = new QHBoxLayout;
     for (int row2 = 1; row2 <= 4; row2++) {
         CarteJoaillerie cartejoaillerie2 = partie->get_pyramide().recupererCarteJoaillerie(2, row2);
-        std::string cheminBase2 = "D:\\LO21\\lo21_splendor-main\\data\\cartesplendor(niveau_2)\\";
+        std::string cheminBase2 = "../../data/cartesplendor(niveau_2)/";
         std::string cheminImage2 = cheminBase2 + cartejoaillerie2.getChemin() +".jpg";
         // Convertir la std::string en QString
         QString cheminImageQString = QString::fromStdString(cheminImage2);
@@ -81,7 +95,7 @@ pyramidefront* pyramidefront::creerPyramide(){
 
     for (int row1 = 1; row1 < 6; row1++){
         CarteJoaillerie cartejoaillerie1 = partie->get_pyramide().recupererCarteJoaillerie(1, row1);
-        std::string cheminBase1 = "D:\\LO21\\lo21_splendor-main\\data\\cartesplendor(niveau_1)\\";
+        std::string cheminBase1 = "../../data/cartesplendor(niveau_1)/";
         std::string cheminImage1 = cheminBase1 + cartejoaillerie1.getChemin() +".jpg";
         qDebug() << "Chemin de l'image : " << QString::fromStdString(cheminImage1);
 
@@ -114,10 +128,4 @@ pyramidefront* pyramidefront::creerPyramide(){
 }
 
 
-pyramidefront* pyramidefront::getInstance() {
-    if (!instance) {
-        // Create the instance if it doesn't exist
-        instance = new pyramidefront;
-    }
-    return instance;
-}
+

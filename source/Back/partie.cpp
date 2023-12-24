@@ -67,13 +67,13 @@ Partie::Partie()
 //
 //
 try {
-        lire_fichier("../data/info_cartejoaillerie");
+        lire_fichier("../data/info_cartejoaillerie_1");
         //std::cout<<"../data/info_cartejoaillerie";
     } catch (const std::exception& e) {
 
     try{
             // Chemin de Ismail
-  lire_fichier("D:\\LO21\\lo21_splendor-main\\data\\info_cartejoaillerie_1");
+  lire_fichier("../../data/info_cartejoaillerie_1");
             //std::cout<<"D:\\LO21\\lo21_splendor-main\\source\\Front\\info_cartejoaillerie";
         } catch (const std::exception& e) {
             const char* cheminSubstitut2="";
@@ -134,6 +134,15 @@ void Partie::initCartes(){
 
 }
 
+CarteJoaillerie& Partie::acheterCarteReservee(unsigned int num){
+    Joueur& joueur=get_joueur(joueur_actif());
+    StockGemmesOr avant_achat = joueur.getGemmes();//retiens le nombre de gemmes avant l'achat
+    CarteJoaillerie & res=joueur.acheterCarteReservee(num);
+    sac.ajouter_stock(joueur.getGemmes()/avant_achat);
+    return res;
+}
+
+
 Joueur& Partie::get_joueur(unsigned int num_joueur)
 {
     if(num_joueur == 1) {return joueur1;}
@@ -145,10 +154,10 @@ void Partie::prend_privilege(Joueur& joueur)
 {
     if(joueur.getNbPrivileges() < 3)
     {
-        if (privileges_disponibles > 0) {privileges_disponibles -= 1;}
+        if (privileges_disponibles > 0  ) {privileges_disponibles -= 1;}
         else
         {
-            if (&joueur == &joueur1) {joueur2.setNbPrivileges(joueur2.getNbPrivileges() - 1);}
+            if (&joueur == &joueur1 && joueur2.getNbPrivileges()) {joueur2.setNbPrivileges(joueur2.getNbPrivileges() - 1);}
             else {joueur1.setNbPrivileges(joueur1.getNbPrivileges() - 1);}
         }
         joueur.setNbPrivileges(joueur.getNbPrivileges()+1);
@@ -302,13 +311,7 @@ CarteJoaillerie& Partie::acheter_carte(Joueur& joueur, int niv, int colonne){
     //}
 }
 
-CarteJoaillerie& Partie::acheterCarteReservee(unsigned int num){
-    Joueur& joueur=get_joueur(joueur_actif());
-    StockGemmesOr avant_achat = joueur.getGemmes();//retiens le nombre de gemmes avant l'achat
-    CarteJoaillerie & res=joueur.acheterCarteReservee(num);
-    sac.ajouter_stock(joueur.getGemmes()/avant_achat);
-    return res;
-}
+
 
 void Partie::reserver_carte(Joueur& joueur, int niv, int colonne){
     if(joueur.getCartesJoailleriesReservees().size()==3) throw SplendorException("Impossible de reserver plus de 3 cartes.\n");

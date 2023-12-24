@@ -73,6 +73,7 @@ DISTFILES += \
     ../../data/cartesplendor(niveau_1)/niveau1(9).jpg \
     ../../data/info_cartejoaillerie \
     ../../data/info_cartejoaillerie_1 \
+    ../../data/sauvegarde \
     C:/Users/ISMAIL/Downloads/Jeton_noir.png \
     C:/Users/ISMAIL/Downloads/jeton_blanc.png \
     C:/Users/ISMAIL/Downloads/splender_background.jpg \

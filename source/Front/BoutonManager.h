@@ -13,6 +13,8 @@
 #include "QInputDialog"
 //#include "../Console/interfaceConsole.h"
 
+#include "MenuWindow.h"
+
 class BoutonManager : public QObject {
 
 public:
@@ -39,7 +41,7 @@ private:
     QGridLayout *buttonsLayout ;
     QMenu *menu;
     QPushButton *acheterCarteButton = new QPushButton("Acheter une carte", parentWidget);
-    QPushButton *reserverCarteButton = new QPushButton("Réserver une carte", parentWidget);
+    QPushButton *reserverCarteButton = new QPushButton("Prendre un jeton Or", parentWidget);
     QPushButton *utiliserPrivilegeButton = new QPushButton("Utiliser un privilège", parentWidget);
     QPushButton *annulerJetonsButton = new QPushButton("Annuler prise jetons", parentWidget);
     QPushButton *prendreJetonsButton = new QPushButton("Prendre des Jetons", parentWidget);
