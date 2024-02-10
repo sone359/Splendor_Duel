@@ -2,7 +2,7 @@
 An adaptation of the famous boardgame. An user can play with an AI or two players can play together through the graphic interface or the console interface (more clean).
 This is a student project, made in a limited period and stopped.
 
-![Game logo designed with AI tools](.\data\fond_menu_splendor.jpg "Game logo designed with AI tools")
+![Game logo designed with AI tools](./data/fond_menu_splendor.jpg "Game logo designed with AI tools")
 
 ## Creation
 27/09/2023
